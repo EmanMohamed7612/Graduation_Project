@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:project_craftoria/feautures/login/presentation/view/loginview.dart';
-import 'package:project_craftoria/feautures/signup/presentation/view/widgets/button.dart';
+import 'package:project_craftoria/feautures/auth/presentation/view/sign_up_view.dart';
+import 'package:project_craftoria/feautures/signup/presentation/view/widgets/custom_button.dart';
 import 'package:project_craftoria/feautures/signup/presentation/view/widgets/custom_image.dart';
 import 'package:project_craftoria/feautures/signup/presentation/view/widgets/custom_text.dart';
 import 'package:project_craftoria/feautures/signup/presentation/view/widgets/custom_text_field.dart';
 
-class SignUpView extends StatelessWidget {
-  const SignUpView({super.key});
-
+class LoginView extends StatelessWidget {
+  LoginView({super.key});
+  final emailController = TextEditingController();
+  final passwordController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     double widthScreen = MediaQuery.of(context).size.width;
@@ -21,8 +22,8 @@ class SignUpView extends StatelessWidget {
           child: Column(
             children: [
               CustomImageAuth(
-                image: 'assets/images/Container-4.png',
-                height: MediaQuery.of(context).size.height * .2,
+                image: 'assets/images/Container-3.png',
+                height: MediaQuery.of(context).size.height * .25,
               ),
               Padding(
                 padding: EdgeInsets.symmetric(
@@ -33,7 +34,7 @@ class SignUpView extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      'Create Account',
+                      'Welcome Back',
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         color: const Color(0xFF3E2723),
@@ -45,7 +46,7 @@ class SignUpView extends StatelessWidget {
                     ),
                     SizedBox(height: heightScreen * .01),
                     Text(
-                      'Join the handmade community',
+                      'Sign in to continue crafting',
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         color: const Color(0xFF8D6E63),
@@ -55,39 +56,85 @@ class SignUpView extends StatelessWidget {
                       ),
                     ),
                     SizedBox(height: heightScreen * .03),
-                    CustomText(text: 'Full Name'),
-                    CustomFormTextField(hintText: 'Enter your full name'),
+
                     CustomText(text: 'Email Address'),
-                    CustomFormTextField(hintText: 'Enter your email'),
+                    CustomFormTextField(
+                      hintText: 'Enter your email',
+                      controller: emailController,
+                      icon: Icons.email_outlined,
+                    ),
                     CustomText(text: 'Password'),
                     CustomFormTextField(
                       hintText: 'Enrer your password',
                       obscureText: true,
+                      controller: passwordController,
+                      icon: Icons.lock_outline,
                     ),
-                    CustomText(text: 'Confirm Password'),
-                    CustomFormTextField(hintText: 'Enrer your password'),
-                    SizedBox(height: heightScreen * .06),
-                    Button(
-                      buttonText: 'Sign Up',
+                    Align(
+                      alignment: AlignmentGeometry.topRight,
+                      child: Text(
+                        'Forgot Password?',
+                        textAlign: TextAlign.right,
+                        style: TextStyle(
+                          color: const Color(0xFFC9A875),
+                          fontSize: 14,
+                          fontFamily: 'Arimo',
+                          fontWeight: FontWeight.w400,
+                          height: 1.43,
+                        ),
+                      ),
+                    ),
+
+                    SizedBox(height: heightScreen * .08),
+                    CustomButton(
+                      buttonText: 'Login',
                       onTap: () {
                         if (_formKey.currentState!.validate()) {
-                          
                           print("Form is valid");
                         } else {
-                      
                           print("Form not valid");
                         }
                       },
                     ),
+                    SizedBox(height: 16),
+                    GestureDetector(
+                      onTap: () {},
+                      child: Container(
+                        decoration: ShapeDecoration(
+                          shape: RoundedRectangleBorder(
+                            side: BorderSide(
+                              width: 1.5,
+                              color: const Color(0xFFD7CCC8),
+                            ),
+                            borderRadius: BorderRadius.circular(18),
+                          ),
+                        ),
+                        width: MediaQuery.of(context).size.width,
+                        height: MediaQuery.of(context).size.height * .05,
+                        child: Center(
+                          child: Text(
+                            'Continue Guest',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              color: Color(0xFF6D4C41),
+                              fontSize: 18,
+                              fontFamily: 'Arimo',
+                              fontWeight: FontWeight.w700,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                    SizedBox(height: 14),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
-                          'Already have an account? ',
+                          "Don't have an account? ",
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             color: const Color(0xFF8D6E63),
-                            fontSize: 12.25,
+                            fontSize: 13,
                             fontFamily: 'Arimo',
                             fontWeight: FontWeight.w400,
                           ),
@@ -98,13 +145,13 @@ class SignUpView extends StatelessWidget {
                               context,
                               MaterialPageRoute(
                                 builder: (context) {
-                                  return LoginView();
+                                  return SignUpView();
                                 },
                               ),
                             );
                           },
                           child: Text(
-                            'Login',
+                            'Sign Up',
                             style: TextStyle(
                               color: const Color(0xFF6D4C41),
                               fontSize: 12.25,

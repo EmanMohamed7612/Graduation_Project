@@ -19,7 +19,7 @@ class CustomImageAuth extends StatelessWidget {
            
             Container(
               width: MediaQuery.of(context).size.width,
-              height: MediaQuery.of(context).size.height * .2,
+              height: height,
               decoration: BoxDecoration(
                 gradient: LinearGradient(
                   begin: Alignment(0.50, 0.00),

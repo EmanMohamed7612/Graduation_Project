@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:project_craftoria/feautures/role_selection/presentation/view/widgets/role_card.dart';
-import 'package:project_craftoria/feautures/signup/presentation/view/sign_up_view.dart';
+import 'package:project_craftoria/feautures/auth/presentation/view/sign_up_view.dart';
 
 class RoleSelectionView extends StatelessWidget {
   const RoleSelectionView({super.key});

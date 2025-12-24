@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:project_craftoria/feautures/signup/presentation/view/sign_up_view.dart';
+import 'package:project_craftoria/feautures/auth/presentation/view/sign_up_view.dart';
 
 class RoleCard extends StatelessWidget {
   // final IconData icon;
