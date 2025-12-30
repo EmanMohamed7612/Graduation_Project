@@ -5,8 +5,6 @@ import 'package:project_craftoria/feautures/Expert1/view/uploade_exepertdata.dar
 
 import '../../auth/presentation/view/sign_up_view.dart';
 
-
-
 class ExpertVerificationScreen extends StatefulWidget {
   @override
   _ExpertVerificationScreenState createState() =>
@@ -110,166 +108,169 @@ class _ExpertVerificationScreenState
         ),
       ),
 
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16),
-        child: Column(
-          children: [
-            const SizedBox(height: 5),
+      // ✅ هنا التعديل الوحيد (SingleChildScrollView)
+      body: SingleChildScrollView(
+        physics: BouncingScrollPhysics(),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16),
+          child: Column(
+            children: [
+              const SizedBox(height: 5),
 
-            // ----- STEPPER -----
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                _buildStepCircle("1", isActive: true),
+              // ----- STEPPER -----
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  _buildStepCircle("1", isActive: true),
 
-                // الخط بين 1 و 2
-                Container(
-                  width: 50,
-                  height: 3,
-                  margin: EdgeInsets.symmetric(horizontal: 8),
-                  color: Color(0xFFBBA78C),
-                ),
+                  Container(
+                    width: 50,
+                    height: 3,
+                    margin: EdgeInsets.symmetric(horizontal: 8),
+                    color: Color(0xFFBBA78C),
+                  ),
 
-                _buildStepCircle("2", isActive: false),
+                  _buildStepCircle("2", isActive: false),
 
-                // الخط بين 2 و 3
-                Container(
-                  width: 50,
-                  height: 3,
-                  margin: EdgeInsets.symmetric(horizontal: 8),
-                  color: Color(0xFFBBA78C),
-                ),
+                  Container(
+                    width: 50,
+                    height: 3,
+                    margin: EdgeInsets.symmetric(horizontal: 8),
+                    color: Color(0xFFBBA78C),
+                  ),
 
-                _buildStepCircle("3", isActive: false),
-              ],
-            ),
+                  _buildStepCircle("3", isActive: false),
+                ],
+              ),
 
-            SizedBox(height: 7),
-            Container(
-              height: 1,
-              color: Color(0xFFECE7E4),
-            ),
+              SizedBox(height: 7),
+              Container(
+                height: 1,
+                color: Color(0xFFECE7E4),
+              ),
 
+              const SizedBox(height: 5),
 
-            const SizedBox(height: 5),
+              const Text(
+                "Upload Verification",
+                style: TextStyle(fontSize: 19, fontWeight: FontWeight.w600),
+              ),
+              const SizedBox(height: 3),
+              const Text(
+                "Upload 2 verification documents",
+                style: TextStyle(fontSize: 14, color: Colors.grey),
+              ),
+              const SizedBox(height: 10),
 
-            const Text(
-              "Upload Verification",
-              style: TextStyle(fontSize: 19, fontWeight: FontWeight.w600),
-            ),
-            const SizedBox(height: 3),
-            const Text(
-              "Upload 2 verification documents",
-              style: TextStyle(fontSize: 14, color: Colors.grey),
-            ),
-            const SizedBox(height: 10),
-
-            // ----- UPLOAD BOX -----
-            GestureDetector(
-              onTap: pickFileOrImage,
-              child: Container(
-                padding: EdgeInsets.symmetric(vertical: 25),
-                width: double.infinity,
-                decoration: BoxDecoration(
-                  color: Colors.grey.shade100,
-                  borderRadius: BorderRadius.circular(14),
-                  border: Border.all(
-                    color: Colors.grey.shade300,
-                    width: 1.2,
+              // ----- UPLOAD BOX -----
+              GestureDetector(
+                onTap: pickFileOrImage,
+                child: Container(
+                  padding: EdgeInsets.symmetric(vertical: 25),
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                    color: Colors.grey.shade100,
+                    borderRadius: BorderRadius.circular(14),
+                    border: Border.all(
+                      color: Colors.grey.shade300,
+                      width: 1.2,
+                    ),
+                  ),
+                  child: Column(
+                    children: [
+                      Icon(Icons.upload, size: 40, color: Colors.grey),
+                      SizedBox(height: 10),
+                      Text(
+                        "${uploadedFiles.length}/2 uploaded",
+                        style: TextStyle(
+                          fontSize: 15,
+                          color: Colors.grey.shade600,
+                        ),
+                      ),
+                    ],
                   ),
                 ),
-                child: Column(
-                  children: [
-                    Icon(Icons.upload, size: 40, color: Colors.grey),
-                    SizedBox(height: 10),
-                    Text(
-                      "${uploadedFiles.length}/2 uploaded",
+              ),
+
+              const SizedBox(height: 20),
+
+              // ----- UPLOADED FILES LIST -----
+              Column(
+                children: [
+                  for (int i = 0; i < uploadedFiles.length; i++)
+                    fileTile(
+                      uploadedFiles[i]["name"]!,
+                      uploadedFiles[i]["type"]!,
+                      i,
+                    ),
+                ],
+              ),
+
+              if (uploadedFiles.length == 2) ...[
+                SizedBox(height: 15),
+                Container(
+                  padding: EdgeInsets.all(12),
+                  decoration: BoxDecoration(
+                    color: Color(0xFFF8EED9),
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: Row(
+                    children: const [
+                      Icon(Icons.check, color: Colors.brown),
+                      SizedBox(width: 10),
+                      Text(
+                        "All files uploaded successfully",
+                        style: TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w600,
+                            color: Colors.brown),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+
+              // بدل Spacer
+              SizedBox(height: 40),
+
+              // ----- COMPLETE BUTTON -----
+              GestureDetector(
+                onTap: () {
+                  if (uploadedFiles.length == 2) {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => ExpertExperienceScreen(),
+                      ),
+                    );
+                  }
+                },
+                child: Container(
+                  margin: EdgeInsets.only(bottom: 25),
+                  width: double.infinity,
+                  height: 55,
+                  decoration: BoxDecoration(
+                    color: uploadedFiles.length == 2
+                        ? Color(0xFF6E4E41)
+                        : Colors.grey.shade300,
+                    borderRadius: BorderRadius.circular(14),
+                  ),
+                  child: Center(
+                    child: Text(
+                      "Complete Verification",
                       style: TextStyle(
-                        fontSize: 15,
-                        color: Colors.grey.shade600,
+                        color: uploadedFiles.length == 2
+                            ? Colors.white
+                            : Colors.grey.shade700,
+                        fontSize: 16,
+                        fontWeight: FontWeight.w600,
                       ),
                     ),
-                  ],
-                ),
-              ),
-            ),
-
-            const SizedBox(height: 20),
-
-            // ----- UPLOADED FILES LIST -----
-            Column(
-              children: [
-                for (int i = 0; i < uploadedFiles.length; i++)
-                  fileTile(uploadedFiles[i]["name"]!, uploadedFiles[i]["type"]!,
-                      i),
-              ],
-            ),
-
-            // ----- SUCCESS BOX -----
-            if (uploadedFiles.length == 2) ...[
-              SizedBox(height: 15),
-              Container(
-                padding: EdgeInsets.all(12),
-                decoration: BoxDecoration(
-                  color: Color(0xFFF8EED9),
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                child: Row(
-                  children: const [
-                    Icon(Icons.check, color: Colors.brown),
-                    SizedBox(width: 10),
-                    Text(
-                      "All files uploaded successfully",
-                      style: TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w600,
-                          color: Colors.brown),
-                    ),
-                  ],
+                  ),
                 ),
               ),
             ],
-
-            Spacer(),
-
-            // ----- COMPLETE BUTTON -----
-            GestureDetector(
-              onTap: () {
-                if (uploadedFiles.length == 2) {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => ExpertExperienceScreen(), // ← الصفحة اللي عملتهالك
-                    ),
-                  );
-                }
-              },
-              child: Container(
-                margin: EdgeInsets.only(bottom: 25),
-                width: double.infinity,
-                height: 55,
-                decoration: BoxDecoration(
-                  color: uploadedFiles.length == 2
-                      ? Color(0xFF6E4E41)
-                      : Colors.grey.shade300,
-                  borderRadius: BorderRadius.circular(14),
-                ),
-                child: Center(
-                  child: Text(
-                    "Complete Verification",
-                    style: TextStyle(
-                      color: uploadedFiles.length == 2
-                          ? Colors.white
-                          : Colors.grey.shade700,
-                      fontSize: 16,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                ),
-              ),
-            )
-
-          ],
+          ),
         ),
       ),
     );
@@ -287,7 +288,6 @@ class _ExpertVerificationScreenState
       ),
       child: Row(
         children: [
-          // File name + type
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -304,10 +304,7 @@ class _ExpertVerificationScreenState
               ),
             ],
           ),
-
           Spacer(),
-
-          // Delete icon
           GestureDetector(
             onTap: () => removeFile(index),
             child: Container(
@@ -317,36 +314,17 @@ class _ExpertVerificationScreenState
                 shape: BoxShape.circle,
                 border: Border.all(color: Colors.grey.shade400),
               ),
-              child: Icon(Icons.close, size: 18, color: Colors.grey.shade600),
+              child:
+              Icon(Icons.close, size: 18, color: Colors.grey.shade600),
             ),
           )
         ],
       ),
     );
   }
-
-  Widget stepCircle(String number, {bool isActive = false}) {
-    return Container(
-      width: 22,
-      height: 22,
-      decoration: BoxDecoration(
-        color: isActive ? Color(0xFF6E4E41) : Colors.grey.shade200,
-        shape: BoxShape.circle,
-      ),
-      child: Center(
-        child: Text(
-          number,
-          style: TextStyle(
-            color: isActive ? Colors.white : Colors.black54,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-      ),
-    );
-  }
 }
-Widget _buildStepCircle(String number,
-    {bool isActive = false}) {
+
+Widget _buildStepCircle(String number, {bool isActive = false}) {
   return Container(
     width: 34,
     height: 34,
