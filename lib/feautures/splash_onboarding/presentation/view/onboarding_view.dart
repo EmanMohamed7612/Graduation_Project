@@ -1,0 +1,196 @@
+import 'package:flutter/material.dart';
+import 'package:project_craftoria/feautures/role_selection/presentation/view/role_selection_view.dart';
+import 'package:project_craftoria/feautures/splash_onboarding/data/models/onboarding_model.dart';
+import 'package:project_craftoria/feautures/splash_onboarding/presentation/view/widgets/list_onboarding_view.dart';
+
+import '../../../descripe_persone/view/descripe_persone.dart';
+
+class OnBoardingView extends StatefulWidget {
+  const OnBoardingView({super.key});
+
+  @override
+  State<OnBoardingView> createState() => _OnBoardingViewState();
+}
+
+class _OnBoardingViewState extends State<OnBoardingView> {
+  PageController _controller = PageController();
+  int index = 0;
+
+  List<OnBoardingModel> onBoardingModel = [
+    OnBoardingModel(
+      image: 'assets/images/onboarding1.png',
+      title: 'Discover Unique Crafts',
+      description:
+          'Explore handmade treasures from talented artisans worldwide',
+    ),
+    OnBoardingModel(
+      image: 'assets/images/onboarding2.png',
+      title: 'Connect with Sellers',
+      description: 'Build relationships with passionate creators and suppliers',
+    ),
+    OnBoardingModel(
+      image: 'assets/images/onboarding3.png',
+      title: 'Share Your Creativity',
+      description: 'Join our community and showcase your handmade masterpieces',
+    ),
+  ];
+  @override
+  Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
+    return Scaffold(
+      backgroundColor: Color(0xffFAF8F5),
+      appBar: AppBar(
+        backgroundColor: Color(0xffFAF8F5),
+        title: Align(
+          alignment: Alignment.topRight,
+          child: GestureDetector(
+            child: TextButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) {
+                      return  RoleSelectionScreen();
+                    },
+                  ),
+                );
+              },
+              child: Text(
+                'Skip',
+                style: TextStyle(
+                  fontSize: 22,
+                  fontWeight: FontWeight.w400,
+                  fontFamily: 'Arimo',
+                  color: Color(0xFF8D6E63),
+                ),
+              ),
+            ),
+          ),
+        ),
+      ),
+      body: SafeArea(
+        child: Padding(
+          padding: EdgeInsets.symmetric(horizontal: size.width * 0.08),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              SizedBox(height: size.height * 0.02),
+              Expanded(
+                child: PageView.builder(
+                  onPageChanged: (value) {
+                    setState(() {
+                      index = value;
+                    });
+                  },
+                  controller: _controller,
+                  itemBuilder: (context, index) {
+                    return Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        ListOnBoardingView(
+                          onBoardingModel: onBoardingModel[index],
+                        ),
+                      ],
+                    );
+                  },
+                ),
+              ),
+              SizedBox(height: size.height * .001),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  CustomIndicator(active: index == 0),
+                  SizedBox(width: 5),
+                  CustomIndicator(active: index == 1),
+                  SizedBox(width: 5),
+                  CustomIndicator(active: index == 2),
+                ],
+              ),
+
+              SizedBox(height: size.height * 0.07),
+              InkWell(
+                onTap: () {
+                  if (index == 2) {
+                  } else {
+                    _controller.animateToPage(
+                      index + 1,
+                      duration: Duration(milliseconds: 250),
+                      curve: Curves.linear,
+                    );
+                  }
+                },
+                child: Container(
+                  padding: EdgeInsets.all(15),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(18),
+                    gradient: const LinearGradient(
+                      begin: Alignment(0.50, 0.00),
+                      end: Alignment(0.50, 1.00),
+                      colors: [Color(0xFF6D4C41), Color(0xFF8D6E63)],
+                    ),
+                  ),
+                  width: size.width,
+                  height: size.height * .05,
+                  child: Center(
+                    child: index == 2
+                        ? GestureDetector(
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) {
+                                    return RoleSelectionView();
+                                  },
+                                ),
+                              );
+                            },
+                            child: Text(
+                              'Get Started',
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 14,
+                                fontFamily: 'Arimo',
+                                fontWeight: FontWeight.w700,
+                              ),
+                            ),
+                          )
+                        : Text(
+                            'Next',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 14,
+                              fontFamily: 'Arimo',
+                              fontWeight: FontWeight.w700,
+                            ),
+                          ),
+                  ),
+                ),
+              ),
+              SizedBox(height: size.height * .01),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class CustomIndicator extends StatelessWidget {
+  final bool active;
+  const CustomIndicator({super.key, required this.active});
+
+  @override
+  Widget build(BuildContext context) {
+    return AnimatedContainer(
+      duration: Duration(milliseconds: 250),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(100),
+        color: active ? Color(0xFF6D4C41) : Colors.grey,
+      ),
+      width: active ? 30 : 10,
+      height: 10,
+    );
+  }
+}
