@@ -77,7 +77,8 @@ class _SignUpViewState extends State<SignUpView> {
 
           if (role == UserRole.sellerBeginner ||
               role == UserRole.customer ||
-              role == UserRole.supplier) {
+              role == UserRole.suppliergit branch
+          ) {
             Navigator.pushReplacement(
               context,
               MaterialPageRoute(builder: (_) => const ExpertSuccessScreen()),
