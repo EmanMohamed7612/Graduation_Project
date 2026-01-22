@@ -77,7 +77,7 @@ class _SignUpViewState extends State<SignUpView> {
 
           if (role == UserRole.sellerBeginner ||
               role == UserRole.customer ||
-              role == UserRole.suppliergit branch
+              role == UserRole.supplier
           ) {
             Navigator.pushReplacement(
               context,
