@@ -12,6 +12,7 @@ class ExpertVerificationScreen extends StatefulWidget {
   final String firstName;
   final String lastName;
   final String email;
+  final String gender;
   final String password;
   final String confirmPassword;
   final File? profileImage;
@@ -24,6 +25,7 @@ class ExpertVerificationScreen extends StatefulWidget {
     required this.password,
     required this.confirmPassword,
     this.profileImage,
+    required this.gender,
   }) : super(key: key);
 
   @override
@@ -170,36 +172,48 @@ class _ExpertVerificationScreenState extends State<ExpertVerificationScreen> {
                       ),
                       const SizedBox(height: 24),
 
+
                       GestureDetector(
                         onTap: _showFilePickerDialog,
-                        child: Container(
-                          padding: const EdgeInsets.all(32),
-                          decoration: BoxDecoration(
-                            color: const Color(0xFFFFF9F0),
-                            border: Border.all(
-                                color: const Color(0xFFD4A574), width: 2),
-                            borderRadius: BorderRadius.circular(16),
-                          ),
-                          child: Column(
-                            children: [
-                              Icon(Icons.upload_file_outlined,
-                                  size: 48, color: Colors.brown.shade700),
-                              const SizedBox(height: 12),
-                              Text(
-                                'Tap to upload files',
-                                style: TextStyle(
+                        child: Center(
+                          child: Container(
+                            width: MediaQuery.of(context).size.width * 0.85, // 👈 ده المهم
+                            padding: const EdgeInsets.symmetric(vertical: 28, horizontal: 16),
+                            decoration: BoxDecoration(
+                              color: const Color(0xFFFFF9F0),
+                              border: Border.all(
+                                color: const Color(0xFFD4A574),
+                                width: 2,
+                              ),
+                              borderRadius: BorderRadius.circular(16),
+                            ),
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Icon(
+                                  Icons.upload_file_outlined,
+                                  size: 44,
+                                  color: Colors.brown.shade700,
+                                ),
+                                const SizedBox(height: 12),
+                                Text(
+                                  'Tap to upload files',
+                                  style: TextStyle(
                                     fontSize: 16,
                                     fontWeight: FontWeight.w500,
-                                    color: Colors.brown.shade700),
-                              ),
-                              const SizedBox(height: 8),
-                              Text(
-                                '$filesNeeded more needed',
-                                style: TextStyle(
-                                    fontSize: 14,
-                                    color: Colors.brown.shade400),
-                              ),
-                            ],
+                                    color: Colors.brown.shade700,
+                                  ),
+                                ),
+                                const SizedBox(height: 6),
+                                Text(
+                                  '$filesNeeded more needed',
+                                  style: TextStyle(
+                                    fontSize: 13,
+                                    color: Colors.brown.shade400,
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
                         ),
                       ),
@@ -212,30 +226,6 @@ class _ExpertVerificationScreenState extends State<ExpertVerificationScreen> {
                       if (pdfFile != null)
                         _buildFileCard(
                             'PDF', pdfFile!.path.split('/').last, 'pdf'),
-
-                      const SizedBox(height: 24),
-
-                      const Text('Gender *'),
-                      const SizedBox(height: 8),
-                      DropdownButtonFormField<String>(
-                        value: selectedGender,
-                        decoration: const InputDecoration(
-                          filled: true,
-                          border: OutlineInputBorder(),
-                          hintText: 'Select gender',
-                        ),
-                        items: const [
-                          DropdownMenuItem(value: 'male', child: Text('Male')),
-                          DropdownMenuItem(
-                              value: 'female', child: Text('Female')),
-                          DropdownMenuItem(value: 'other', child: Text('Other')),
-                        ],
-                        onChanged: (value) {
-                          setState(() {
-                            selectedGender = value;
-                          });
-                        },
-                      ),
 
                       const SizedBox(height: 20),
 
@@ -258,8 +248,8 @@ class _ExpertVerificationScreenState extends State<ExpertVerificationScreen> {
                         child: ElevatedButton(
                           onPressed: () async {
                             if (imageFile == null ||
-                                pdfFile == null ||
-                                selectedGender == null) {
+                                pdfFile == null
+                                ) {
                               ScaffoldMessenger.of(context).showSnackBar(
                                 const SnackBar(
                                     content:
@@ -302,7 +292,9 @@ class _ExpertVerificationScreenState extends State<ExpertVerificationScreen> {
                               password: widget.password,
                               confirmPassword: widget.confirmPassword,
                               role: 'Expert',
-                              gender: selectedGender!,
+                              gender: widget.gender,
+
+
                               yearsOfExperience: years,
                               profileImages: profileImages,
                               portfolioFiles: portfolioFiles,
