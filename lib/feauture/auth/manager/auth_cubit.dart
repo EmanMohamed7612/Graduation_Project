@@ -288,4 +288,71 @@ class AuthCubit extends Cubit<AuthState> {
   void resetState() {
     emit(AuthInitialState());
   }
+
+
+  //otp
+  Future<void> verifyEmail({required String email}) async {
+  emit(AuthLoadingState());
+
+  try {
+    final response = await apiService.post(
+      ApiEndpoint.verifyEmail,
+      {'email': email},
+    );
+
+    if (response is ApiError) {
+      emit(AuthFailureState(response.message));
+      return;
+    }
+
+    final jsonData = _parseResponse(response);
+    final errorMessage = _extractErrorMessage(jsonData!);
+
+    if (errorMessage != null) {
+      emit(AuthFailureState(errorMessage));
+      return;
+    }
+
+    emit(VerifyEmailSuccessState(email));
+  } catch (e) {
+    emit(AuthFailureState('Unexpected error: $e'));
+  }
+}
+
+
+/// verify otp  
+Future<void> checkEmailOtp({
+  required String email,
+  required String otp,
+}) async {
+  emit(AuthLoadingState());
+
+  try {
+    final response = await apiService.post(
+      ApiEndpoint.checkEmailOtp,
+      {
+        'email': email,
+        'otpCode': otp,
+      },
+    );
+
+    if (response is ApiError) {
+      emit(AuthFailureState(response.message));
+      return;
+    }
+
+    final jsonData = _parseResponse(response);
+    final errorMessage = _extractErrorMessage(jsonData!);
+
+    if (errorMessage != null) {
+      emit(AuthFailureState(errorMessage));
+      return;
+    }
+
+    emit(CheckOtpSuccessState());
+  } catch (e) {
+    emit(AuthFailureState('Unexpected error: $e'));
+  }
+}
+
 }

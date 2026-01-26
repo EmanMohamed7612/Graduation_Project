@@ -3,8 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:graduation2/core/services/api_services.dart';
 import 'package:graduation2/feauture/auth/manager/auth_cubit.dart';
-import 'package:graduation2/feauture/auth/views/check_email.dart';
-import 'package:graduation2/feauture/auth/views/login_screen.dart';
+import 'package:graduation2/feauture/auth/views/enter_email.dart';
 import 'package:graduation2/feauture/splash_screen/presentation/view/splash.dart';
 
 void main() {

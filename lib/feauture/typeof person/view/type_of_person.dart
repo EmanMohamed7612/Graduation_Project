@@ -1,8 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:graduation2/feauture/auth/views/enter_code_screen.dart';
+import 'package:graduation2/feauture/auth/views/enter_email.dart';
 import 'package:graduation2/feauture/auth/views/register_screen.dart';
 
+import '../../../core/const/role_const.dart';
 import 'Beginner_Expert.dart';
 
 class RoleSelectionScreen extends StatelessWidget {
@@ -114,6 +117,12 @@ class RoleSelectionScreen extends StatelessWidget {
                   height: 22,
                   color: Colors.white, // تقدر تشيله لو الصورة ملونة
                 ),
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (_) =>   CheckEmailScreen(role: UserRole.customer),),
+                  );
+                },
               ),
               buildRoleCard(
                 context,
@@ -142,6 +151,12 @@ class RoleSelectionScreen extends StatelessWidget {
                   height: 22,
                   color: Colors.white,
                 ),
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (_) =>  CheckEmailScreen(role: UserRole.supplier)),
+                  );
+                },
               ),
             ],
           ),

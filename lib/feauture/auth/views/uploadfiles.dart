@@ -3,13 +3,16 @@ import 'package:flutter/material.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:dio/dio.dart';
+import 'package:graduation2/feauture/auth/views/success_screen.dart';
 
 import '../manager/auth_cubit.dart';
+import '../manager/auth_state.dart';
 
 class ExpertVerificationScreen extends StatefulWidget {
   final String firstName;
   final String lastName;
   final String email;
+  final String gender;
   final String password;
   final String confirmPassword;
   final File? profileImage;
@@ -22,6 +25,7 @@ class ExpertVerificationScreen extends StatefulWidget {
     required this.password,
     required this.confirmPassword,
     this.profileImage,
+    required this.gender,
   }) : super(key: key);
 
   @override
@@ -84,219 +88,227 @@ class _ExpertVerificationScreenState extends State<ExpertVerificationScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: const Color(0xFFFAF8F5),
-      body: SafeArea(
-        child: Column(
-          children: [
-            // ================= Header =================
-            Container(
-              padding: const EdgeInsets.all(16),
-              color: Colors.white,
-              child: Row(
-                children: [
-                  IconButton(
-                    icon: const Icon(Icons.arrow_back_ios, size: 20),
-                    onPressed: () => Navigator.pop(context),
-                  ),
-                  const Expanded(
-                    child: Text(
-                      'Expert Verification',
-                      textAlign: TextAlign.center,
-                      style:
-                      TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
-                    ),
-                  ),
-                  const SizedBox(width: 40),
-                ],
-              ),
-            ),
+    return BlocListener<AuthCubit, AuthState>(
+        listener: (context, state) {
+      if (state is AuthSuccessState) {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: (_) => const ExpertSuccessScreen(),
+          ),
+        );
+      }
 
-            // ================= Steps =================
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 24),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  _buildStepIndicator(1, true),
-                  const SizedBox(width: 16),
-                  _buildStepIndicator(2, false),
-                ],
-              ),
-            ),
-
-            // ================= Content =================
-            Expanded(
-              child: SingleChildScrollView(
-                padding: const EdgeInsets.all(24),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+      if (state is AuthFailureState) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(state.errorMessage)),
+        );
+      }
+    },
+      child: Scaffold(
+        backgroundColor: const Color(0xFFFAF8F5),
+        body: SafeArea(
+          child: Column(
+            children: [
+              // ================= Header =================
+              Container(
+                padding: const EdgeInsets.all(16),
+                color: Colors.white,
+                child: Row(
                   children: [
-                    const Center(
-                      child: Column(
-                        children: [
-                          Text(
-                            'Work Samples & Details',
-                            style: TextStyle(
-                                fontSize: 20, fontWeight: FontWeight.bold),
-                          ),
-                          SizedBox(height: 8),
-                          Text(
-                            'Upload 2 work samples and complete your profile',
-                            style:
-                            TextStyle(fontSize: 14, color: Colors.grey),
-                          ),
-                        ],
+                    IconButton(
+                      icon: const Icon(Icons.arrow_back_ios, size: 20),
+                      onPressed: () => Navigator.pop(context),
+                    ),
+                    const Expanded(
+                      child: Text(
+                        'Expert Verification',
+                        textAlign: TextAlign.center,
+                        style:
+                        TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
                       ),
                     ),
-                    const SizedBox(height: 24),
+                    const SizedBox(width: 40),
+                  ],
+                ),
+              ),
 
-                    GestureDetector(
-                      onTap: _showFilePickerDialog,
-                      child: Container(
-                        padding: const EdgeInsets.all(32),
-                        decoration: BoxDecoration(
-                          color: const Color(0xFFFFF9F0),
-                          border: Border.all(
-                              color: const Color(0xFFD4A574), width: 2),
-                          borderRadius: BorderRadius.circular(16),
-                        ),
+              // ================= Steps =================
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 24),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    _buildStepIndicator(1, true),
+                    const SizedBox(width: 16),
+                    _buildStepIndicator(2, false),
+                  ],
+                ),
+              ),
+
+              // ================= Content =================
+              Expanded(
+                child: SingleChildScrollView(
+                  padding: const EdgeInsets.all(24),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Center(
                         child: Column(
                           children: [
-                            Icon(Icons.upload_file_outlined,
-                                size: 48, color: Colors.brown.shade700),
-                            const SizedBox(height: 12),
                             Text(
-                              'Tap to upload files',
+                              'Work Samples & Details',
                               style: TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w500,
-                                  color: Colors.brown.shade700),
+                                  fontSize: 20, fontWeight: FontWeight.bold),
                             ),
-                            const SizedBox(height: 8),
+                            SizedBox(height: 8),
                             Text(
-                              '$filesNeeded more needed',
-                              style: TextStyle(
-                                  fontSize: 14,
-                                  color: Colors.brown.shade400),
+                              'Upload 2 work samples and complete your profile',
+                              style:
+                              TextStyle(fontSize: 14, color: Colors.grey),
                             ),
                           ],
                         ),
                       ),
-                    ),
+                      const SizedBox(height: 24),
 
-                    const SizedBox(height: 16),
 
-                    if (imageFile != null)
-                      _buildFileCard(
-                          'Image', imageFile!.path.split('/').last, 'image'),
-                    if (pdfFile != null)
-                      _buildFileCard(
-                          'PDF', pdfFile!.path.split('/').last, 'pdf'),
-
-                    const SizedBox(height: 24),
-
-                    const Text('Gender *'),
-                    const SizedBox(height: 8),
-                    DropdownButtonFormField<String>(
-                      value: selectedGender,
-                      decoration: const InputDecoration(
-                        filled: true,
-                        border: OutlineInputBorder(),
-                        hintText: 'Select gender',
+                      GestureDetector(
+                        onTap: _showFilePickerDialog,
+                        child: Center(
+                          child: Container(
+                            width: MediaQuery.of(context).size.width * 0.85, // 👈 ده المهم
+                            padding: const EdgeInsets.symmetric(vertical: 28, horizontal: 16),
+                            decoration: BoxDecoration(
+                              color: const Color(0xFFFFF9F0),
+                              border: Border.all(
+                                color: const Color(0xFFD4A574),
+                                width: 2,
+                              ),
+                              borderRadius: BorderRadius.circular(16),
+                            ),
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Icon(
+                                  Icons.upload_file_outlined,
+                                  size: 44,
+                                  color: Colors.brown.shade700,
+                                ),
+                                const SizedBox(height: 12),
+                                Text(
+                                  'Tap to upload files',
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w500,
+                                    color: Colors.brown.shade700,
+                                  ),
+                                ),
+                                const SizedBox(height: 6),
+                                Text(
+                                  '$filesNeeded more needed',
+                                  style: TextStyle(
+                                    fontSize: 13,
+                                    color: Colors.brown.shade400,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
                       ),
-                      items: const [
-                        DropdownMenuItem(value: 'male', child: Text('Male')),
-                        DropdownMenuItem(
-                            value: 'female', child: Text('Female')),
-                        DropdownMenuItem(value: 'other', child: Text('Other')),
-                      ],
-                      onChanged: (value) {
-                        setState(() {
-                          selectedGender = value;
-                        });
-                      },
-                    ),
 
-                    const SizedBox(height: 20),
+                      const SizedBox(height: 16),
 
-                    const Text('Years of Experience *'),
-                    const SizedBox(height: 8),
-                    TextField(
-                      controller: yearsController,
-                      keyboardType: TextInputType.number,
-                      decoration: const InputDecoration(
-                        filled: true,
-                        border: OutlineInputBorder(),
-                        hintText: 'e.g. 5',
+                      if (imageFile != null)
+                        _buildFileCard(
+                            'Image', imageFile!.path.split('/').last, 'image'),
+                      if (pdfFile != null)
+                        _buildFileCard(
+                            'PDF', pdfFile!.path.split('/').last, 'pdf'),
+
+                      const SizedBox(height: 20),
+
+                      const Text('Years of Experience *'),
+                      const SizedBox(height: 8),
+                      TextField(
+                        controller: yearsController,
+                        keyboardType: TextInputType.number,
+                        decoration: const InputDecoration(
+                          filled: true,
+                          border: OutlineInputBorder(),
+                          hintText: 'e.g. 5',
+                        ),
                       ),
-                    ),
 
-                    const SizedBox(height: 32),
+                      const SizedBox(height: 32),
 
-                    SizedBox(
-                      width: double.infinity,
-                      child: ElevatedButton(
-                        onPressed: () async {
-                          if (imageFile == null ||
-                              pdfFile == null ||
-                              selectedGender == null) {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(
-                                  content:
-                                  Text('Please complete all fields')),
+                      SizedBox(
+                        width: double.infinity,
+                        child: ElevatedButton(
+                          onPressed: () async {
+                            if (imageFile == null ||
+                                pdfFile == null
+                                ) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                    content:
+                                    Text('Please complete all fields')),
+                              );
+                              return;
+                            }
+
+                            final years =
+                            int.tryParse(yearsController.text);
+                            if (years == null) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                    content: Text('Invalid years')),
+                              );
+                              return;
+                            }
+
+                            List<MultipartFile> profileImages = [];
+                            List<MultipartFile> portfolioFiles = [];
+
+                            if (widget.profileImage != null) {
+                              profileImages.add(
+                                await MultipartFile.fromFile(
+                                    widget.profileImage!.path),
+                              );
+                            }
+
+                            portfolioFiles.add(
+                              await MultipartFile.fromFile(imageFile!.path),
                             );
-                            return;
-                          }
-
-                          final years =
-                          int.tryParse(yearsController.text);
-                          if (years == null) {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(
-                                  content: Text('Invalid years')),
+                            portfolioFiles.add(
+                              await MultipartFile.fromFile(pdfFile!.path),
                             );
-                            return;
-                          }
 
-                          List<MultipartFile> profileImages = [];
-                          List<MultipartFile> portfolioFiles = [];
+                            context.read<AuthCubit>().registerWithFiles(
+                              firstName: widget.firstName,
+                              lastName: widget.lastName,
+                              email: widget.email,
+                              password: widget.password,
+                              confirmPassword: widget.confirmPassword,
+                              role: 'Expert',
+                              gender: widget.gender,
 
-                          if (widget.profileImage != null) {
-                            profileImages.add(
-                              await MultipartFile.fromFile(
-                                  widget.profileImage!.path),
+
+                              yearsOfExperience: years,
+                              profileImages: profileImages,
+                              portfolioFiles: portfolioFiles,
                             );
-                          }
-
-                          portfolioFiles.add(
-                            await MultipartFile.fromFile(imageFile!.path),
-                          );
-                          portfolioFiles.add(
-                            await MultipartFile.fromFile(pdfFile!.path),
-                          );
-
-                          context.read<AuthCubit>().registerWithFiles(
-                            firstName: widget.firstName,
-                            lastName: widget.lastName,
-                            email: widget.email,
-                            password: widget.password,
-                            confirmPassword: widget.confirmPassword,
-                            role: 'Expert',
-                            gender: selectedGender!,
-                            yearsOfExperience: years,
-                            profileImages: profileImages,
-                            portfolioFiles: portfolioFiles,
-                          );
-                        },
-                        child: const Text('Review & Continue'),
+                          },
+                          child: const Text('Review & Continue'),
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

@@ -16,3 +16,12 @@ final class AuthFailureState extends AuthState {
   final String errorMessage;
   AuthFailureState(this.errorMessage);
 }
+
+// OTP
+class VerifyEmailSuccessState extends AuthState {
+  final String email;
+  VerifyEmailSuccessState(this.email);
+}
+
+class CheckOtpSuccessState extends AuthState {}
+

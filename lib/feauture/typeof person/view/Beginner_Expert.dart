@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:graduation2/feauture/auth/views/enter_email.dart';
 
+import '../../../core/const/role_const.dart';
 import '../../auth/views/register_screen.dart';
 
 
@@ -63,7 +65,6 @@ class SellerTypeScreen extends StatelessWidget {
             ),
             const SizedBox(height: 6),
 
-            // ✅ desc يبدأ من نفس النقطة بتاعة العنوان
             Padding(
               padding: const EdgeInsets.only(left: 44), // (32 icon + 12 margin)
               child: Text(
@@ -165,7 +166,7 @@ class SellerTypeScreen extends StatelessWidget {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (_) => const SignUpView(role: 'Beginner'),
+                          builder: (_) =>  CheckEmailScreen(role: UserRole.sellerBeginner),
                         ),
                       );
                     },
@@ -194,7 +195,7 @@ class SellerTypeScreen extends StatelessWidget {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (_) => const SignUpView(role: 'Expert'),
+                          builder: (_) => const SignUpView(role: UserRole.sellerExpert),
                         ),
                       );
                     },
