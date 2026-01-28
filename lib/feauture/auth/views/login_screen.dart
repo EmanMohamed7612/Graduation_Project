@@ -488,7 +488,6 @@ class LoginView extends StatelessWidget {
         ),
       ),
     );
-    
   }
 
   Widget _buildLabel(String text) {
@@ -508,15 +507,68 @@ class LoginView extends StatelessWidget {
     bool obscureText = false,
     String? Function(String?)? validator,
   }) {
-    return TextFormField(
-      controller: controller,
-      obscureText: obscureText,
-      validator: validator,
-      decoration: InputDecoration(
-        hintText: hintText,
-        prefixIcon: Icon(icon),
-        border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 14),
+      child: TextFormField(
+        controller: controller,
+        obscureText: obscureText,
+        validator: validator,
+        decoration: _inputDecoration(hintText, icon),
       ),
     );
   }
+
+  InputDecoration _inputDecoration(String hint, IconData icon) {
+    return InputDecoration(
+      hintText: hint,
+      hintStyle: TextStyle(color: Colors.grey),
+      prefixIcon: Icon(icon, color: Colors.grey),
+      filled: true,
+      fillColor: Colors.white,
+      border: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(24),
+        borderSide: BorderSide.none,
+      ),
+    );
+  }
+}
+
+InputDecoration _dropdownDecoration(String hint) {
+  return InputDecoration(
+    hintText: hint,
+    filled: true,
+    fillColor: Colors.white,
+    contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+    border: OutlineInputBorder(
+      borderRadius: BorderRadius.circular(24),
+      borderSide: BorderSide.none,
+    ),
+    enabledBorder: OutlineInputBorder(
+      borderRadius: BorderRadius.circular(24),
+      borderSide: BorderSide.none,
+    ),
+    focusedBorder: OutlineInputBorder(
+      borderRadius: BorderRadius.circular(24),
+      borderSide: BorderSide.none,
+    ),
+    suffixIcon: const Icon(Icons.keyboard_arrow_down, color: Colors.grey),
+  );
+  // Widget _buildTextField({
+  //   required String hintText,
+  //   required TextEditingController controller,
+  //   required IconData icon,
+  //   bool obscureText = false,
+  //   String? Function(String?)? validator,
+  // }) {
+  //   return TextFormField(
+  //     controller: controller,
+  //     obscureText: obscureText,
+  //     validator: validator,
+  //     decoration: InputDecoration(
+  //       hintText: hintText,
+  //       prefixIcon: Icon(icon),
+  //       border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
+  //     ),
+  //   );
+  // }
 }

@@ -22,7 +22,7 @@ class EnterCodeScreen extends StatelessWidget {
         if (state is CheckOtpSuccessState) {
           Navigator.pushReplacement(
             context,
-            MaterialPageRoute(builder: (_) => SignUpView(role: role)),
+            MaterialPageRoute(builder: (_) => SignUpView(role: role,email:email)),
           );
         }
 

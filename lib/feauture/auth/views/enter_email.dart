@@ -5,6 +5,7 @@ import 'package:graduation2/feauture/auth/manager/auth_cubit.dart';
 import 'package:graduation2/feauture/auth/manager/auth_state.dart';
 import 'package:graduation2/feauture/auth/views/email_verified_screen.dart';
 import 'package:graduation2/feauture/auth/views/enter_code_screen.dart';
+import 'package:graduation2/feauture/auth/views/login_screen.dart';
 import 'package:graduation2/feauture/auth/views/widgets/custom_button.dart';
 
 class CheckEmailScreen extends StatelessWidget {
@@ -20,7 +21,9 @@ class CheckEmailScreen extends StatelessWidget {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (_) => EnterCodeScreen(email: state.email,role: role,),
+              //eman
+              builder: (_) =>
+                  EmailVerifiedScreen(email: state.email, role: role),
             ),
           );
         }
@@ -92,9 +95,24 @@ class CheckEmailScreen extends StatelessWidget {
 
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
-                children: const [
+                children: [
                   Text("Already have an account? "),
-                  Text("Login", style: TextStyle(fontWeight: FontWeight.bold)),
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) {
+                            return LoginView();
+                          },
+                        ),
+                      );
+                    },
+                    child: Text(
+                      "Login",
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                  ),
                 ],
               ),
             ],

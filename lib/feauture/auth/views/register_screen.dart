@@ -13,8 +13,8 @@ import '../../../core/const/role_const.dart';
 
 class SignUpView extends StatefulWidget {
   final String role;
-
-  const SignUpView({super.key, required this.role});
+  final String? email;
+  const SignUpView({super.key, required this.role, this.email});
 
   @override
   State<SignUpView> createState() => _SignUpViewState();
@@ -200,7 +200,7 @@ class _SignUpViewState extends State<SignUpView> {
 
                         _buildLabel('Email'),
                         _buildTextField(
-                          hintText: 'Enter your email',
+                          hintText:'Enter your email',
                           controller: emailController,
                           icon: Icons.email_outlined,
                           validator: (v) =>

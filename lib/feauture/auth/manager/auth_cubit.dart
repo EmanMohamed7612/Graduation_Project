@@ -354,5 +354,69 @@ Future<void> checkEmailOtp({
     emit(AuthFailureState('Unexpected error: $e'));
   }
 }
+//// forger password 
+Future<void> forgetPassword({required String email}) async {
+  emit(AuthLoadingState());
+
+  try {
+    final response = await apiService.post(
+      ApiEndpoint.forgetPassword,
+      {'email': email},
+    );
+
+    if (response is ApiError) {
+      emit(AuthFailureState(response.message));
+      return;
+    }
+
+    final jsonData = _parseResponse(response);
+    final errorMessage = _extractErrorMessage(jsonData!);
+
+    if (errorMessage != null) {
+      emit(AuthFailureState(errorMessage));
+      return;
+    }
+
+    emit(VerifyEmailSuccessState(email));
+  } catch (e) {
+    emit(AuthFailureState('Unexpected error: $e'));
+  }
+}
+///// reset password
+Future<void> resetPassword({
+  required String email,
+  required String otp,
+  required String newPassword,
+}) async {
+  emit(AuthLoadingState());
+
+  try {
+    final response = await apiService.post(
+      ApiEndpoint.resetPassword,
+      {
+        'email': email,
+        'otpCode': otp,
+        'newPassword': newPassword,
+      },
+    );
+
+    if (response is ApiError) {
+      emit(AuthFailureState(response.message));
+      return;
+    }
+
+    final jsonData = _parseResponse(response);
+    final errorMessage = _extractErrorMessage(jsonData!);
+
+    if (errorMessage != null) {
+      emit(AuthFailureState(errorMessage));
+      return;
+    }
+
+    emit(AuthInitialState()); // أو State خاصة بالنجاح
+  } catch (e) {
+    emit(AuthFailureState('Unexpected error: $e'));
+  }
+}
 
 }
