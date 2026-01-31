@@ -195,7 +195,7 @@ class SellerTypeScreen extends StatelessWidget {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (_) => const SignUpView(role: UserRole.sellerExpert),
+                          builder: (_) =>  CheckEmailScreen(role: UserRole.sellerExpert)
                         ),
                       );
                     },

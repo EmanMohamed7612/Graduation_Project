@@ -1,6 +1,8 @@
 import 'dart:convert';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:dio/dio.dart';
+
 import '../../../core/const/api_endpoint.dart';
 import '../../../core/services/api_error.dart';
 import '../../../core/services/api_services.dart';
@@ -10,9 +12,18 @@ import 'auth_state.dart';
 class AuthCubit extends Cubit<AuthState> {
   final ApiService apiService;
 
+  static const String webClientId =
+      '1052119802675-a4v4qpl2k3e51q2a6rckdg3ghvsbte1e.apps.googleusercontent.com';
+
+  final GoogleSignIn _googleSignIn = GoogleSignIn(
+    scopes: ['email', 'profile'],
+    serverClientId: webClientId,
+  );
+
   AuthCubit(this.apiService) : super(AuthInitialState());
 
-  // Helper method to parse response
+  // ================= Helpers =================
+
   Map<String, dynamic>? _parseResponse(dynamic response) {
     if (response == null) return null;
 
@@ -21,60 +32,47 @@ class AuthCubit extends Cubit<AuthState> {
     } else if (response is String) {
       try {
         return jsonDecode(response) as Map<String, dynamic>;
-      } catch (e) {
+      } catch (_) {
         return null;
       }
     }
     return null;
   }
 
-  // Check if response contains an error
   String? _extractErrorMessage(Map<String, dynamic> jsonData) {
-    // Check if success is explicitly false
     if (jsonData['success'] == false) {
-      // First check errors object
       if (jsonData['errors'] != null) {
         final errors = jsonData['errors'];
         if (errors is Map<String, dynamic>) {
-          // Try to get errorMessage
           if (errors['errorMessage'] != null) {
             return errors['errorMessage'].toString();
           }
-          // Try to get message
           if (errors['message'] != null) {
             return errors['message'].toString();
           }
         }
-        // If errors is a string
-        if (errors is String) {
-          return errors;
-        }
+        if (errors is String) return errors;
       }
-      // Then check message field
+
       if (jsonData['message'] != null &&
           jsonData['message'] != 'Internal Server Error') {
         return jsonData['message'].toString();
       }
-
       return 'An error occurred';
     }
     return null;
   }
 
-  // Extract user data from API response structure
   Map<String, dynamic>? _extractUserData(Map<String, dynamic> jsonData) {
-    // Check if response has the standard API structure with 'data' field
     if (jsonData.containsKey('data') && jsonData['data'] != null) {
       final data = jsonData['data'];
-      if (data is Map<String, dynamic>) {
-        return data;
-      }
+      if (data is Map<String, dynamic>) return data;
     }
-    // Otherwise return the jsonData itself
     return jsonData;
   }
 
-  // Register Function
+  // ================= Register =================
+
   Future<void> register({
     required String firstName,
     required String lastName,
@@ -83,7 +81,7 @@ class AuthCubit extends Cubit<AuthState> {
     required String confirmPassword,
     required String role,
     required String gender,
-     int? yearsOfExperience,
+    int? yearsOfExperience,
     List<String>? profileImage,
     List<String>? portfolio,
   }) async {
@@ -103,47 +101,33 @@ class AuthCubit extends Cubit<AuthState> {
         portfolio: portfolio,
       );
 
-      final response = await apiService.post(
-        ApiEndpoint.Register,
-        userData.toJson(),
-      );
+      final response =
+      await apiService.post(ApiEndpoint.Register, userData.toJson());
 
-      // Check if response is ApiError
       if (response is ApiError) {
         emit(AuthFailureState(response.message));
         return;
       }
 
-      // Parse response
       final jsonData = _parseResponse(response);
+      final errorMessage =
+      jsonData != null ? _extractErrorMessage(jsonData) : null;
 
-      if (jsonData == null) {
-        emit(AuthSuccessState(userData));
-        return;
-      }
-
-      // Check for API errors
-      final errorMessage = _extractErrorMessage(jsonData);
       if (errorMessage != null) {
         emit(AuthFailureState(errorMessage));
         return;
       }
 
-      // Extract user data from response
-      final userDataMap = _extractUserData(jsonData);
+      final userMap =
+      jsonData != null ? _extractUserData(jsonData) : null;
 
-      if (userDataMap != null) {
-        final user = UserModel.fromJson(userDataMap);
-        emit(AuthSuccessState(user));
-      } else {
-        emit(AuthSuccessState(userData));
-      }
+      emit(AuthSuccessState(
+          userMap != null ? UserModel.fromJson(userMap) : userData));
     } catch (e) {
       emit(AuthFailureState('Unexpected error: $e'));
     }
   }
 
-  // Register with FormData (for file uploads)
   Future<void> registerWithFiles({
     required String firstName,
     required String lastName,
@@ -167,75 +151,41 @@ class AuthCubit extends Cubit<AuthState> {
         'ConfirmPassword': confirmPassword,
         'Role': role,
         'Gender': gender,
-        if (role == 'Expert' && yearsOfExperience != null)
-          'YearsOfExperience': yearsOfExperience,
+        'YearsOfExperience': yearsOfExperience,
         if (profileImages != null) 'ProfileImage': profileImages,
         if (portfolioFiles != null) 'Portfolio': portfolioFiles,
       });
-      if (role == 'Expert' && yearsOfExperience != null) {
-        formData.fields.add(
-          MapEntry('YearsOfExperience', yearsOfExperience.toString()),
-        );
-      }
-      final response = await apiService.post(ApiEndpoint.Register, formData);
 
-      // Check if response is ApiError
+      final response =
+      await apiService.post(ApiEndpoint.Register, formData);
+
       if (response is ApiError) {
         emit(AuthFailureState(response.message));
         return;
       }
 
-      // Parse response
       final jsonData = _parseResponse(response);
+      final errorMessage =
+      jsonData != null ? _extractErrorMessage(jsonData) : null;
 
-      if (jsonData == null) {
-        final user = UserModel(
-          firstName: firstName,
-          lastName: lastName,
-          email: email,
-          password: password,
-          confirmPassword: confirmPassword,
-          role: role,
-          gender: gender,
-          yearsOfExperience: yearsOfExperience,
-        );
-        emit(AuthSuccessState(user));
-        return;
-      }
-
-      // Check for API errors
-      final errorMessage = _extractErrorMessage(jsonData);
       if (errorMessage != null) {
         emit(AuthFailureState(errorMessage));
         return;
       }
 
-      // Extract user data from response
-      final userDataMap = _extractUserData(jsonData);
-
-      if (userDataMap != null) {
-        final user = UserModel.fromJson(userDataMap);
-        emit(AuthSuccessState(user));
-      } else {
-        final user = UserModel(
-          firstName: firstName,
-          lastName: lastName,
-          email: email,
-          password: password,
-          confirmPassword: confirmPassword,
-          role: role,
-          gender: gender,
-          yearsOfExperience: yearsOfExperience,
-        );
-        emit(AuthSuccessState(user));
-      }
+      emit(AuthSuccessState(UserModel.fromJson(
+          _extractUserData(jsonData!)!)));
     } catch (e) {
       emit(AuthFailureState('Unexpected error: $e'));
     }
   }
 
-  // Login Function
-  Future<void> login({required String email, required String password}) async {
+  // ================= Login =================
+
+  Future<void> login({
+    required String email,
+    required String password,
+  }) async {
     emit(AuthLoadingState());
 
     try {
@@ -244,179 +194,168 @@ class AuthCubit extends Cubit<AuthState> {
         'Password': password,
       });
 
-      // Check if response is ApiError
       if (response is ApiError) {
         emit(AuthFailureState(response.message));
         return;
       }
 
-      // Parse response
       final jsonData = _parseResponse(response);
+      final errorMessage =
+      jsonData != null ? _extractErrorMessage(jsonData) : null;
 
-      if (jsonData == null) {
-        emit(AuthFailureState('Invalid response from server'));
-        return;
-      }
-
-      // Check for API errors
-      final errorMessage = _extractErrorMessage(jsonData);
       if (errorMessage != null) {
         emit(AuthFailureState(errorMessage));
         return;
       }
 
-      // Extract user data from response
-      final userDataMap = _extractUserData(jsonData);
-
-      if (userDataMap != null) {
-        final user = UserModel.fromJson(userDataMap);
-        emit(AuthSuccessState(user));
-      } else {
-        emit(AuthFailureState('Invalid user data from server'));
-      }
+      emit(AuthSuccessState(
+          UserModel.fromJson(_extractUserData(jsonData!)!)));
     } catch (e) {
       emit(AuthFailureState('Unexpected error: $e'));
     }
   }
 
-  // Logout Function
-  void logout() {
-    emit(AuthInitialState());
+  // ================= Google Login =================
+
+  Future<void> signInWithGoogle({required String role}) async {
+    emit(AuthLoadingState());
+
+    try {
+      await _googleSignIn.signOut();
+      final googleUser = await _googleSignIn.signIn();
+
+      if (googleUser == null) {
+        emit(AuthInitialState());
+        return;
+      }
+
+      final googleAuth = await googleUser.authentication;
+      final idToken = googleAuth.idToken;
+
+      if (idToken == null) {
+        emit(AuthFailureState('Failed to get Google ID Token'));
+        return;
+      }
+
+      final response = await apiService.post(
+        ApiEndpoint.googleLogin,
+        {
+          'idToken': idToken,
+          'role': role,
+        },
+      );
+
+      final jsonData = _parseResponse(response);
+      final errorMessage =
+      jsonData != null ? _extractErrorMessage(jsonData) : null;
+
+      if (errorMessage != null) {
+        emit(AuthFailureState(errorMessage));
+        return;
+      }
+
+      emit(AuthSuccessState(
+          UserModel.fromJson(_extractUserData(jsonData!)!)));
+    } catch (e) {
+      emit(AuthFailureState(e.toString()));
+    }
   }
 
-  // Reset State
-  void resetState() {
-    emit(AuthInitialState());
-  }
+  // ================= OTP & Password =================
 
-
-  //otp
   Future<void> verifyEmail({required String email}) async {
-  emit(AuthLoadingState());
+    emit(AuthLoadingState());
 
-  try {
-    final response = await apiService.post(
-      ApiEndpoint.verifyEmail,
-      {'email': email},
-    );
+    try {
+      final response = await apiService.post(
+        ApiEndpoint.verifyEmail,
+        {'email': email},
+      );
 
-    if (response is ApiError) {
-      emit(AuthFailureState(response.message));
-      return;
+      if (response is ApiError) {
+        emit(AuthFailureState(response.message));
+        return;
+      }
+
+      emit(VerifyEmailSuccessState(email));
+    } catch (e) {
+      emit(AuthFailureState('Unexpected error: $e'));
     }
-
-    final jsonData = _parseResponse(response);
-    final errorMessage = _extractErrorMessage(jsonData!);
-
-    if (errorMessage != null) {
-      emit(AuthFailureState(errorMessage));
-      return;
-    }
-
-    emit(VerifyEmailSuccessState(email));
-  } catch (e) {
-    emit(AuthFailureState('Unexpected error: $e'));
   }
-}
 
+  Future<void> checkEmailOtp({
+    required String email,
+    required String otp,
+  }) async {
+    emit(AuthLoadingState());
 
-/// verify otp  
-Future<void> checkEmailOtp({
-  required String email,
-  required String otp,
-}) async {
-  emit(AuthLoadingState());
+    try {
+      final response = await apiService.post(
+        ApiEndpoint.verifyotp,
+        {'email': email, 'otpCode': otp},
+      );
 
-  try {
-    final response = await apiService.post(
-      ApiEndpoint.checkEmailOtp,
-      {
-        'email': email,
-        'otpCode': otp,
-      },
-    );
+      if (response is ApiError) {
+        emit(AuthFailureState(response.message));
+        return;
+      }
 
-    if (response is ApiError) {
-      emit(AuthFailureState(response.message));
-      return;
+      emit(CheckOtpSuccessState());
+    } catch (e) {
+      emit(AuthFailureState('Unexpected error: $e'));
     }
-
-    final jsonData = _parseResponse(response);
-    final errorMessage = _extractErrorMessage(jsonData!);
-
-    if (errorMessage != null) {
-      emit(AuthFailureState(errorMessage));
-      return;
-    }
-
-    emit(CheckOtpSuccessState());
-  } catch (e) {
-    emit(AuthFailureState('Unexpected error: $e'));
   }
-}
-//// forger password 
-Future<void> forgetPassword({required String email}) async {
-  emit(AuthLoadingState());
 
-  try {
-    final response = await apiService.post(
-      ApiEndpoint.forgetPassword,
-      {'email': email},
-    );
+  Future<void> forgetPassword({required String email}) async {
+    emit(AuthLoadingState());
 
-    if (response is ApiError) {
-      emit(AuthFailureState(response.message));
-      return;
+    try {
+      final response = await apiService.post(
+        ApiEndpoint.forgetPassword,
+        {'email': email},
+      );
+
+      if (response is ApiError) {
+        emit(AuthFailureState(response.message));
+        return;
+      }
+
+      emit(VerifyEmailSuccessState(email));
+    } catch (e) {
+      emit(AuthFailureState('Unexpected error: $e'));
     }
-
-    final jsonData = _parseResponse(response);
-    final errorMessage = _extractErrorMessage(jsonData!);
-
-    if (errorMessage != null) {
-      emit(AuthFailureState(errorMessage));
-      return;
-    }
-
-    emit(VerifyEmailSuccessState(email));
-  } catch (e) {
-    emit(AuthFailureState('Unexpected error: $e'));
   }
-}
-///// reset password
-Future<void> resetPassword({
-  required String email,
-  required String otp,
-  required String newPassword,
-}) async {
-  emit(AuthLoadingState());
 
-  try {
-    final response = await apiService.post(
-      ApiEndpoint.resetPassword,
-      {
-        'email': email,
-        'otpCode': otp,
-        'newPassword': newPassword,
-      },
-    );
+  Future<void> resetPassword({
+    required String email,
+    required String otp,
+    required String newPassword,
+  }) async {
+    emit(AuthLoadingState());
 
-    if (response is ApiError) {
-      emit(AuthFailureState(response.message));
-      return;
+    try {
+      final response = await apiService.post(
+        ApiEndpoint.resetPassword,
+        {
+          'email': email,
+          'otpCode': otp,
+          'newPassword': newPassword,
+        },
+      );
+
+      if (response is ApiError) {
+        emit(AuthFailureState(response.message));
+        return;
+      }
+
+      emit(AuthInitialState());
+    } catch (e) {
+      emit(AuthFailureState('Unexpected error: $e'));
     }
-
-    final jsonData = _parseResponse(response);
-    final errorMessage = _extractErrorMessage(jsonData!);
-
-    if (errorMessage != null) {
-      emit(AuthFailureState(errorMessage));
-      return;
-    }
-
-    emit(AuthInitialState()); // أو State خاصة بالنجاح
-  } catch (e) {
-    emit(AuthFailureState('Unexpected error: $e'));
   }
-}
 
+  // ================= Utils =================
+
+  void logout() => emit(AuthInitialState());
+  void resetState() => emit(AuthInitialState());
 }

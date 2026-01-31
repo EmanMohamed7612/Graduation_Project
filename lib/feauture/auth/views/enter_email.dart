@@ -15,6 +15,7 @@ class CheckEmailScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    double heightScreen = MediaQuery.of(context).size.height;
     return BlocListener<AuthCubit, AuthState>(
       listener: (context, state) {
         if (state is VerifyEmailSuccessState) {
@@ -38,84 +39,155 @@ class CheckEmailScreen extends StatelessWidget {
         backgroundColor: const Color(0xffFAF8F5),
         body: Padding(
           padding: const EdgeInsets.all(24),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const CircleAvatar(
-                radius: 45,
-                backgroundColor: Color(0xffBBDEFB),
-                child: Icon(
-                  Icons.email_outlined,
-                  color: Color(0xff1976D2),
-                  size: 40,
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const CircleAvatar(
+                  radius: 45,
+                  backgroundColor: Color(0xffBBDEFB),
+                  child: Icon(
+                    Icons.email_outlined,
+                    color: Color(0xff1976D2),
+                    size: 40,
+                  ),
                 ),
-              ),
-              const SizedBox(height: 24),
-
-              const Text(
-                'Welcome !',
-                style: TextStyle(
-                  color: Color(0xFF3E2723),
-                  fontSize: 22,
-                  fontWeight: FontWeight.w700,
+                const SizedBox(height: 24),
+            
+                const Text(
+                  'Welcome !',
+                  style: TextStyle(
+                    color: Color(0xFF3E2723),
+                    fontSize: 22,
+                    fontWeight: FontWeight.w700,
+                  ),
                 ),
-              ),
-              const SizedBox(height: 8),
-              Text(
-                "Enter your email to get started",
-                style: TextStyle(
-                  color: const Color(0xFF8D6E63),
-                  fontSize: 16,
-                  fontFamily: 'Arimo',
-                  fontWeight: FontWeight.w400,
-                  height: 1.43,
+                const SizedBox(height: 8),
+                Text(
+                  "Enter your email to get started",
+                  style: TextStyle(
+                    color: const Color(0xFF8D6E63),
+                    fontSize: 16,
+                    fontFamily: 'Arimo',
+                    fontWeight: FontWeight.w400,
+                    height: 1.43,
+                  ),
                 ),
-              ),
-              const SizedBox(height: 32),
-
-              _buildLabel("Email Address"),
-              const SizedBox(height: 8),
-
-              _buildTextField(
-                hintText: 'Enter your email',
-                controller: emailController,
-                icon: Icons.email_outlined,
-              ),
-              const SizedBox(height: 24),
-              CustomButton(
-                buttonText: 'Continue',
-                onTap: () {
-                  context.read<AuthCubit>().verifyEmail(
-                    email: emailController.text.trim(),
-                  );
-                },
-              ),
-
-              const SizedBox(height: 16),
-
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text("Already have an account? "),
-                  GestureDetector(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) {
-                            return LoginView();
-                          },
+                const SizedBox(height: 32),
+            
+                _buildLabel("Email Address"),
+                const SizedBox(height: 8),
+            
+                _buildTextField(
+                  hintText: 'Enter your email',
+                  controller: emailController,
+                  icon: Icons.email_outlined,
+                ),
+                const SizedBox(height: 24),
+                CustomButton(
+                  buttonText: 'Continue',
+                  onTap: () {
+                    context.read<AuthCubit>().verifyEmail(
+                      email: emailController.text.trim(),
+                    );
+                  },
+                ),
+                const SizedBox(height: 16),
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 12),
+                  child: Row(
+                    children: const [
+                      Expanded(
+                        child: Divider(
+                          color: Color(0xFFD7CCC8),
+                          thickness: 1,
                         ),
-                      );
-                    },
-                    child: Text(
-                      "Login",
-                      style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 8),
+                        child: Text(
+                          'Or',
+                          style: TextStyle(
+                            color: Color(0xFF6C4D41),
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      ),
+                      Expanded(
+                        child: Divider(
+                          color: Color(0xFFD7CCC8),
+                          thickness: 1,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+            
+                const SizedBox(height: 16),
+                GestureDetector(
+                  onTap: () {
+                    // TODO: Google Login Logic
+                  },
+                  child: Container(
+                    width: double.infinity,
+                    height: heightScreen * .05,
+                    decoration: ShapeDecoration(
+                      shape: RoundedRectangleBorder(
+                        side: const BorderSide(
+                          width: 1.5,
+                          color: Color(0xFFD7CCC8),
+                        ),
+                        borderRadius: BorderRadius.circular(18),
+                      ),
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Image.asset(
+                          'assets/images/LoginScreen.png', // حطي لوجو جوجل
+                          height: 22,
+                        ),
+                        const SizedBox(width: 10),
+                        const Text(
+                          'Login with Google',
+                          style: TextStyle(
+                            color: Color(0xFF6D4C41),
+                            fontSize: 18,
+                            fontFamily: 'Arimo',
+                            fontWeight: FontWeight.w700,
+                          ),
+                        ),
+                      ],
                     ),
                   ),
-                ],
-              ),
-            ],
+                ),
+            
+                const SizedBox(height: 12),
+            
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text("Already have an account? "),
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) {
+                              return LoginView();
+                            },
+                          ),
+                        );
+                      },
+                      child: Text(
+                        "Login",
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
           ),
         ),
       ),

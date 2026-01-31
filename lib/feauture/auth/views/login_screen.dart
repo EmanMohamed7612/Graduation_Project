@@ -350,16 +350,24 @@ class LoginView extends StatelessWidget {
                                 // هنا ممكن تحط نافيغيت لصفحة نسيت كلمة المرور
                               },
                               child: GestureDetector(
-                                onTap: () {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) {
-                                        return ForgetPasswordView();
-                                      },
-                                    ),
-                                  );
-                                },
+            onTap: () {
+            // 1. نجيب نسخة الـ Cubit الحالية
+            final authCubit = context.read<AuthCubit>();
+
+            Navigator.push(
+            context,
+            MaterialPageRoute(
+            builder: (context) {
+            // 2. نمرر نفس النسخة للصفحة الجديدة
+            return BlocProvider.value(
+            value: authCubit,
+            child: ForgetPasswordView(),
+            );
+            },
+            ),
+            );
+            },
+
                                 child: const Text(
                                   'Forgot Password?',
                                   style: TextStyle(
@@ -373,7 +381,7 @@ class LoginView extends StatelessWidget {
                               ),
                             ),
                           ),
-                          SizedBox(height: heightScreen * .05),
+                          SizedBox(height: heightScreen * .025),
                           state is AuthLoadingState
                               ? const CircularProgressIndicator()
                               : GestureDetector(
@@ -387,11 +395,13 @@ class LoginView extends StatelessWidget {
                                     }
                                   },
                                   child: Container(
+
                                     decoration: ShapeDecoration(
+                                      color: const Color(0xFF6C4D41),
                                       shape: RoundedRectangleBorder(
                                         side: const BorderSide(
                                           width: 1.5,
-                                          color: Color(0xFFD7CCC8),
+                                          color: Color(0xFF6C4D41),
                                         ),
                                         borderRadius: BorderRadius.circular(18),
                                       ),
@@ -403,7 +413,7 @@ class LoginView extends StatelessWidget {
                                         'Login',
                                         textAlign: TextAlign.center,
                                         style: TextStyle(
-                                          color: Color(0xFF6D4C41),
+                                          color: Color(0xFFFFFFFF),
                                           fontSize: 18,
                                           fontFamily: 'Arimo',
                                           fontWeight: FontWeight.w700,
@@ -412,7 +422,87 @@ class LoginView extends StatelessWidget {
                                     ),
                                   ),
                                 ),
+                          SizedBox(height: 12),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 14),
+                            child: Row(
+                              children: const [
+                                Expanded(
+                                  child: Divider(
+                                    color: Color(0xFFE0E0E0), // لون الخط الفاتح زي الصورة
+                                    thickness: 1,
+                                  ),
+                                ),
+                                Padding(
+                                  padding: EdgeInsets.symmetric(horizontal: 12),
+                                  child: Text(
+                                    'or',
+                                    style: TextStyle(
+                                      color: Color(0xFF9E9E9E),
+                                      fontSize: 14,
+                                      fontFamily: 'Arimo',
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                                  ),
+                                ),
+                                Expanded(
+                                  child: Divider(
+                                    color: Color(0xFFE0E0E0),
+                                    thickness: 1,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+
                           SizedBox(height: 16),
+                          GestureDetector(
+                             onTap: () {
+                    context.read<AuthCubit>().signInWithGoogle(
+                    role: 'Customer',
+                    );
+                    },
+
+
+
+                      // أو Expert
+
+                            child: Container(
+                              width: double.infinity,
+                              height: heightScreen * .05,
+                              decoration: ShapeDecoration(
+                                shape: RoundedRectangleBorder(
+                                  side: const BorderSide(
+                                    width: 1.5,
+                                    color: Color(0xFFD7CCC8),
+                                  ),
+                                  borderRadius: BorderRadius.circular(18),
+                                ),
+                              ),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Image.asset(
+                                    'assets/images/LoginScreen.png', // حطي لوجو جوجل
+                                    height: 22,
+                                  ),
+                                  const SizedBox(width: 10),
+                                  const Text(
+                                    'Login with Google',
+                                    style: TextStyle(
+                                      color: Color(0xFF6D4C41),
+                                      fontSize: 18,
+                                      fontFamily: 'Arimo',
+                                      fontWeight: FontWeight.w700,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+
+                          SizedBox(height: 16),
+
                           GestureDetector(
                             onTap: () {
                               // Continue as guest

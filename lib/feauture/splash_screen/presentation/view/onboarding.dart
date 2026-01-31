@@ -4,6 +4,8 @@ import 'package:graduation2/feauture/splash_screen/data/models/onboarding_model.
 import 'package:graduation2/feauture/splash_screen/presentation/view/widget/onboarding_view.dart';
 import 'package:graduation2/feauture/typeof%20person/view/type_of_person.dart';
 
+import '../../../auth/views/login_screen.dart';
+
 class OnBoardingView extends StatefulWidget {
   const OnBoardingView({super.key});
 
@@ -49,7 +51,7 @@ class _OnBoardingViewState extends State<OnBoardingView> {
                   context,
                   MaterialPageRoute(
                     builder: (context) {
-                      return RoleSelectionScreen();
+                      return LoginView();
                     },
                   ),
                 );
@@ -138,7 +140,7 @@ class _OnBoardingViewState extends State<OnBoardingView> {
                                 context,
                                 MaterialPageRoute(
                                   builder: (context) {
-                                    return RoleSelectionScreen();
+                                    return LoginView();
                                   },
                                 ),
                               );
