@@ -9,6 +9,11 @@ class ApiEndpoint {
  static const String resetPassword = '/api/Authentication/reset-password';
   static const String googleLogin =
       '/api/Authentication/google-login';
+  static const String createProduct = '/api/Products/CreateProduct';
+  static const String updateProduct = '/api/Products/UpdateProduct';
+  static const String DeleteProdect = '/api/Products/UpdateProduct';
+
 
 
 }
+

@@ -6,6 +6,8 @@ import 'package:graduation2/feauture/auth/manager/auth_cubit.dart';
 import 'package:graduation2/feauture/auth/views/enter_email.dart';
 import 'package:graduation2/feauture/splash_screen/presentation/view/splash.dart';
 
+import 'feauture/product_screens/presentation/view/addprodect_screen/creatprodect.dart';
+
 void main() {
   runApp(const CratoriaApp());
 }
@@ -27,7 +29,7 @@ class CratoriaApp extends StatelessWidget {
             secondary: Color(0xFF8D6E63),
           ),
         ),
-        home: SplashView(),
+        home:SplashView(),
       ),
     );
   }
