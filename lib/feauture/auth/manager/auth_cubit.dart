@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:dio/dio.dart';
+import 'package:graduation2/core/utils/pref_helpers.dart';
 
 import '../../../core/const/api_endpoint.dart';
 import '../../../core/services/api_error.dart';
@@ -180,7 +181,7 @@ class AuthCubit extends Cubit<AuthState> {
     }
   }
 
-  // ================= Login =================
+  // ================= Login (FIXED) =================
 
   Future<void> login({
     required String email,
@@ -201,11 +202,19 @@ class AuthCubit extends Cubit<AuthState> {
 
       final jsonData = _parseResponse(response);
       final errorMessage =
-      jsonData != null ? _extractErrorMessage(jsonData) : null;
+          jsonData != null ? _extractErrorMessage(jsonData) : null;
 
       if (errorMessage != null) {
         emit(AuthFailureState(errorMessage));
         return;
+      }
+
+      // ⚠️ FIX: Use jsonData instead of response, and add null check
+      if (jsonData != null && 
+          jsonData['data'] != null && 
+          jsonData['data']['token'] != null) {
+        final token = jsonData['data']['token'];
+        await PrefHelpers.saveToken(token);
       }
 
       emit(AuthSuccessState(
@@ -214,6 +223,43 @@ class AuthCubit extends Cubit<AuthState> {
       emit(AuthFailureState('Unexpected error: $e'));
     }
   }
+
+  // // ================= Login =================
+
+  // Future<void> login({
+  //   required String email,
+  //   required String password,
+  // }) async {
+  //   emit(AuthLoadingState());
+
+  //   try {
+  //     final response = await apiService.post(ApiEndpoint.login, {
+  //       'Email': email,
+  //       'Password': password,
+  //     });
+
+  //     if (response is ApiError) {
+  //       emit(AuthFailureState(response.message));
+  //       return;
+  //     }
+
+  //     final jsonData = _parseResponse(response);
+  //     final errorMessage =
+  //     jsonData != null ? _extractErrorMessage(jsonData) : null;
+
+  //     if (errorMessage != null) {
+  //       emit(AuthFailureState(errorMessage));
+  //       return;
+  //     }
+  //     /////
+  //     final token = response['data']['token'];
+  // await PrefHelpers.saveToken(token);
+  //     emit(AuthSuccessState(
+  //         UserModel.fromJson(_extractUserData(jsonData!)!)));
+  //   } catch (e) {
+  //     emit(AuthFailureState('Unexpected error: $e'));
+  //   }
+  // }
 
   // ================= Google Login =================
 

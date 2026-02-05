@@ -1,4 +1,6 @@
 import 'package:dio/dio.dart';
+import 'package:graduation2/core/services/api_error.dart';
+import 'package:graduation2/feauture/expert_profile/data/user_profile_model.dart';
 
 import 'api_exceptions.dart';
 import 'dio_client.dart';
@@ -60,5 +62,74 @@ class ApiService {
     } on DioException catch (e) {
       return ApiExceptions.handleError(e);
     }
+  }
+}
+
+
+class UserProfileRepo {
+  final ApiService _apiService = ApiService();
+
+  Future<UserProfileModel> getCurrentUser() async {
+    final response = await _apiService.get(
+      '/api/UserProfile',
+      null,
+    );
+
+    if (response is ApiError) {
+      throw response;
+    }
+
+    // ⚠️ FIX: Handle the nested "data" structure properly
+    if (response is Map<String, dynamic>) {
+      // Check if response has success = false
+      if (response['success'] == false) {
+        final errorMsg = response['errors']?['errorMessage'] ?? 
+                        response['message'] ?? 
+                        'Failed to fetch profile';
+        throw ApiError;
+      }
+      
+      // Extract the actual data from response['data']
+      final data = response['data'];
+      if (data != null) {
+        return UserProfileModel.fromJson(data);
+      }
+    }
+
+    throw ApiError;
+  }
+}
+
+class ProductOwnerProfileRepo {
+  final ApiService _apiService = ApiService();
+
+  Future<UserProfileModel> getCurrentUser() async {
+    final response = await _apiService.get(
+      '/api/UserProfile',
+      null,
+    );
+
+    if (response is ApiError) {
+      throw response;
+    }
+
+    // ⚠️ FIX: Handle the nested "data" structure properly
+    if (response is Map<String, dynamic>) {
+      // Check if response has success = false
+      if (response['success'] == false) {
+        final errorMsg = response['errors']?['errorMessage'] ?? 
+                        response['message'] ?? 
+                        'Failed to fetch profile';
+        throw ApiError;
+      }
+      
+      // Extract the actual data from response['data']
+      final data = response['data'];
+      if (data != null) {
+        return UserProfileModel.fromJson(data);
+      }
+    }
+
+    throw ApiError;
   }
 }

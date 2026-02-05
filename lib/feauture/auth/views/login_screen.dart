@@ -225,10 +225,13 @@
 //   }
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:graduation2/core/services/profile_repo.dart';
 import 'package:graduation2/feauture/auth/manager/auth_cubit.dart';
 import 'package:graduation2/feauture/auth/manager/auth_state.dart';
 import 'package:graduation2/feauture/auth/views/forget_password.dart';
 import 'package:graduation2/feauture/auth/views/register_screen.dart';
+import 'package:graduation2/feauture/expert_profile/manager/profile_cubit.dart';
+import 'package:graduation2/feauture/expert_profile/views/expet_profile.dart';
 import 'package:graduation2/feauture/splash_screen/presentation/view/splash.dart';
 import 'package:graduation2/feauture/typeof%20person/view/type_of_person.dart';
 import '../../../core/services/api_services.dart';
@@ -259,6 +262,16 @@ class LoginView extends StatelessWidget {
                 SnackBar(
                   content: Text(
                     'Login Successful! Welcome ${state.user.userName ?? ''}',
+                  ),
+                ),
+              );
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (_) => BlocProvider(
+                    create: (_) =>
+                        UserProfileCubit(UserProfileRepo())..fetchProfile(),
+                    child: const ExpetProfile(),
                   ),
                 ),
               );
@@ -350,23 +363,23 @@ class LoginView extends StatelessWidget {
                                 // هنا ممكن تحط نافيغيت لصفحة نسيت كلمة المرور
                               },
                               child: GestureDetector(
-            onTap: () {
-            // 1. نجيب نسخة الـ Cubit الحالية
-            final authCubit = context.read<AuthCubit>();
+                                onTap: () {
+                                  // 1. نجيب نسخة الـ Cubit الحالية
+                                  final authCubit = context.read<AuthCubit>();
 
-            Navigator.push(
-            context,
-            MaterialPageRoute(
-            builder: (context) {
-            // 2. نمرر نفس النسخة للصفحة الجديدة
-            return BlocProvider.value(
-            value: authCubit,
-            child: ForgetPasswordView(),
-            );
-            },
-            ),
-            );
-            },
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) {
+                                        // 2. نمرر نفس النسخة للصفحة الجديدة
+                                        return BlocProvider.value(
+                                          value: authCubit,
+                                          child: ForgetPasswordView(),
+                                        );
+                                      },
+                                    ),
+                                  );
+                                },
 
                                 child: const Text(
                                   'Forgot Password?',
@@ -395,7 +408,6 @@ class LoginView extends StatelessWidget {
                                     }
                                   },
                                   child: Container(
-
                                     decoration: ShapeDecoration(
                                       color: const Color(0xFF6C4D41),
                                       shape: RoundedRectangleBorder(
@@ -429,7 +441,9 @@ class LoginView extends StatelessWidget {
                               children: const [
                                 Expanded(
                                   child: Divider(
-                                    color: Color(0xFFE0E0E0), // لون الخط الفاتح زي الصورة
+                                    color: Color(
+                                      0xFFE0E0E0,
+                                    ), // لون الخط الفاتح زي الصورة
                                     thickness: 1,
                                   ),
                                 ),
@@ -457,16 +471,13 @@ class LoginView extends StatelessWidget {
 
                           SizedBox(height: 16),
                           GestureDetector(
-                             onTap: () {
-                    context.read<AuthCubit>().signInWithGoogle(
-                    role: 'Customer',
-                    );
-                    },
+                            onTap: () {
+                              context.read<AuthCubit>().signInWithGoogle(
+                                role: 'Customer',
+                              );
+                            },
 
-
-
-                      // أو Expert
-
+                            // أو Expert
                             child: Container(
                               width: double.infinity,
                               height: heightScreen * .05,
