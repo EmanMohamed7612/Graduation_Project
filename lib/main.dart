@@ -9,6 +9,8 @@ import 'package:graduation2/feauture/expert_profile/views/seller_profile.dart';
 import 'package:graduation2/feauture/product/view/product_datails.dart';
 import 'package:graduation2/feauture/splash_screen/presentation/view/splash.dart';
 
+import 'feauture/product_screens/presentation/view/addprodect_screen/creatprodect.dart';
+
 void main() {
   runApp(const CratoriaApp());
 }

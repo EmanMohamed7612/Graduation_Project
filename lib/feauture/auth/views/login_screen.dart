@@ -223,7 +223,7 @@
 //       ),
 //     );
 //   }
-import 'package:flutter/material.dart';
+/*import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:graduation2/core/services/profile_repo.dart';
 import 'package:graduation2/feauture/auth/manager/auth_cubit.dart';
@@ -235,6 +235,7 @@ import 'package:graduation2/feauture/expert_profile/views/expet_profile.dart';
 import 'package:graduation2/feauture/splash_screen/presentation/view/splash.dart';
 import 'package:graduation2/feauture/typeof%20person/view/type_of_person.dart';
 import '../../../core/services/api_services.dart';
+import '../../product_screens/presentation/view/creatprodect.dart';
 
 class LoginView extends StatelessWidget {
   LoginView({super.key});
@@ -654,22 +655,249 @@ InputDecoration _dropdownDecoration(String hint) {
     ),
     suffixIcon: const Icon(Icons.keyboard_arrow_down, color: Colors.grey),
   );
-  // Widget _buildTextField({
-  //   required String hintText,
-  //   required TextEditingController controller,
-  //   required IconData icon,
-  //   bool obscureText = false,
-  //   String? Function(String?)? validator,
-  // }) {
-  //   return TextFormField(
-  //     controller: controller,
-  //     obscureText: obscureText,
-  //     validator: validator,
-  //     decoration: InputDecoration(
-  //       hintText: hintText,
-  //       prefixIcon: Icon(icon),
-  //       border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
-  //     ),
-  //   );
-  // }
+}
+*/
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:graduation2/feauture/auth/manager/auth_cubit.dart';
+import 'package:graduation2/feauture/auth/manager/auth_state.dart';
+import 'package:graduation2/feauture/auth/views/forget_password.dart';
+import 'package:graduation2/feauture/typeof%20person/view/type_of_person.dart';
+import '../../product_screens/presentation/view/addprodect_screen/creatprodect.dart';
+
+class LoginView extends StatelessWidget {
+  LoginView({super.key});
+
+  final emailController = TextEditingController();
+  final passwordController = TextEditingController();
+  final _formKey = GlobalKey<FormState>();
+
+  @override
+  Widget build(BuildContext context) {
+    double heightScreen = MediaQuery.of(context).size.height;
+
+    return Scaffold(
+      backgroundColor: const Color(0xffFAF8F5),
+      body: BlocConsumer<AuthCubit, AuthState>(
+        listener: (context, state) {
+          if (state is AuthFailureState) {
+            ScaffoldMessenger.of(context)
+                .showSnackBar(SnackBar(content: Text(state.errorMessage)));
+          }
+          else if (state is AuthSuccessState) {
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                builder: (_) => AddProductScreen(),
+              ),
+            );
+          }
+        },
+        builder: (context, state) {
+          final cubit = context.read<AuthCubit>();
+
+          return SingleChildScrollView(
+            child: Form(
+              key: _formKey,
+              child: Column(
+                children: [
+                  Container(
+                    height: heightScreen * .2,
+                    width: double.infinity,
+                    decoration: const BoxDecoration(
+                      image: DecorationImage(
+                        image: AssetImage('assets/images/Container-4.png'),
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                  ),
+
+                  Padding(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 24, vertical: 24),
+                    child: Column(
+                      children: [
+                        const Text(
+                          'Welcome Back',
+                          style: TextStyle(
+                            color: Color(0xFF3E2723),
+                            fontSize: 22,
+                            fontWeight: FontWeight.w700,
+                          ),
+                        ),
+                        const SizedBox(height: 8),
+                        const Text(
+                          'Sign in to continue crafting',
+                          style: TextStyle(
+                            color: Color(0xFF8D6E63),
+                            fontSize: 14,
+                          ),
+                        ),
+                        const SizedBox(height: 24),
+
+                        _buildLabel('Email Address'),
+                        _buildTextField(
+                          hintText: 'Enter your email',
+                          controller: emailController,
+                          icon: Icons.email_outlined,
+                        ),
+
+                        _buildLabel('Password'),
+                        _buildTextField(
+                          hintText: 'Enter your password',
+                          controller: passwordController,
+                          icon: Icons.lock_outline,
+                          obscureText: true,
+                        ),
+
+                        Align(
+                          alignment: Alignment.centerRight,
+                          child: TextButton(
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (_) => ForgetPasswordView(),
+                                ),
+                              );
+                            },
+                            child: const Text(
+                              'Forgot Password?',
+                              style: TextStyle(color: Color(0xFFC9A875)),
+                            ),
+                          ),
+                        ),
+
+                        const SizedBox(height: 20),
+
+                        state is AuthLoadingState
+                            ? const CircularProgressIndicator()
+                            : GestureDetector(
+                          onTap: () {
+                            if (_formKey.currentState!.validate()) {
+                              cubit.login(
+                                email: emailController.text.trim(),
+                                password:
+                                passwordController.text.trim(),
+                              );
+                            }
+                          },
+                          child: _mainButton(
+                            text: 'Login',
+                            filled: true,
+                          ),
+                        ),
+
+                        const SizedBox(height: 16),
+
+                        GestureDetector(
+                          onTap: () {
+                            context.read<AuthCubit>().signInWithGoogle(
+                              role: 'Customer',
+                            );
+                          },
+                          child: _mainButton(
+                            text: 'Login with Google',
+                            filled: false,
+                          ),
+                        ),
+
+                        const SizedBox(height: 16),
+
+                        GestureDetector(
+                          onTap: () {},
+                          child: _mainButton(
+                            text: 'Continue Guest',
+                            filled: false,
+                          ),
+                        ),
+
+                        const SizedBox(height: 14),
+
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            const Text("Don't have an account? "),
+                            TextButton(
+                              onPressed: () {
+                                Navigator.pushReplacement(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (_) => RoleSelectionScreen(),
+                                  ),
+                                );
+                              },
+                              child: const Text('Sign Up'),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          );
+        },
+      ),
+    );
+  }
+
+  Widget _buildLabel(String text) {
+    return Align(
+      alignment: Alignment.centerLeft,
+      child: Padding(
+        padding: const EdgeInsets.only(bottom: 6),
+        child: Text(text,
+            style: const TextStyle(fontWeight: FontWeight.w600)),
+      ),
+    );
+  }
+
+  Widget _buildTextField({
+    required String hintText,
+    required TextEditingController controller,
+    required IconData icon,
+    bool obscureText = false,
+  }) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 14),
+      child: TextFormField(
+        controller: controller,
+        obscureText: obscureText,
+        decoration: InputDecoration(
+          hintText: hintText,
+          prefixIcon: Icon(icon),
+          filled: true,
+          fillColor: Colors.white,
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(24),
+            borderSide: BorderSide.none,
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _mainButton({required String text, required bool filled}) {
+    return Container(
+      width: double.infinity,
+      height: 48,
+      decoration: BoxDecoration(
+        color: filled ? const Color(0xFF6C4D41) : Colors.transparent,
+        borderRadius: BorderRadius.circular(18),
+        border: Border.all(color: const Color(0xFFD7CCC8), width: 1.5),
+      ),
+      child: Center(
+        child: Text(
+          text,
+          style: TextStyle(
+            color: filled ? Colors.white : const Color(0xFF6D4C41),
+            fontSize: 18,
+            fontWeight: FontWeight.w700,
+          ),
+        ),
+      ),
+    );
+  }
 }
