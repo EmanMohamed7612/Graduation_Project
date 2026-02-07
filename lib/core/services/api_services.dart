@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:graduation2/core/services/api_error.dart';
-import 'package:graduation2/feauture/expert_profile/data/user_profile_model.dart';
+import 'package:graduation2/feauture/profile/data/user_profile_model.dart';
+import 'package:graduation2/feauture/product_screens/data/model/creatprodect_model.dart';
 
 import 'api_exceptions.dart';
 import 'dio_client.dart';
@@ -100,36 +101,26 @@ class UserProfileRepo {
   }
 }
 
+
 class ProductOwnerProfileRepo {
   final ApiService _apiService = ApiService();
 
-  Future<UserProfileModel> getCurrentUser() async {
+  Future<List<ProductModel>> getProductsOfUser(String userId) async {
     final response = await _apiService.get(
-      '/api/UserProfile',
-      null,
+      '/api/Products/GetProductsOfSpecificUser',
+      {'userId': userId},
     );
 
     if (response is ApiError) {
       throw response;
     }
 
-    // ⚠️ FIX: Handle the nested "data" structure properly
-    if (response is Map<String, dynamic>) {
-      // Check if response has success = false
-      if (response['success'] == false) {
-        final errorMsg = response['errors']?['errorMessage'] ?? 
-                        response['message'] ?? 
-                        'Failed to fetch profile';
-        throw ApiError;
-      }
-      
-      // Extract the actual data from response['data']
-      final data = response['data'];
-      if (data != null) {
-        return UserProfileModel.fromJson(data);
-      }
+    if (response is List) {
+      return response
+          .map((e) => ProductModel.fromJson(e))
+          .toList();
     }
 
-    throw ApiError;
+    throw ApiError(message: 'Unexpected response');
   }
 }

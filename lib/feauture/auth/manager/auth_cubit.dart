@@ -469,8 +469,10 @@ class AuthCubit extends Cubit<AuthState> {
         portfolio: portfolio,
       );
 
-      final response =
-      await apiService.post(ApiEndpoint.Register, userData.toJson());
+      final response = await apiService.post(
+        ApiEndpoint.Register,
+        userData.toJson(),
+      );
 
       if (response is ApiError) {
         emit(AuthFailureState(response.message));
@@ -478,19 +480,22 @@ class AuthCubit extends Cubit<AuthState> {
       }
 
       final jsonData = _parseResponse(response);
-      final errorMessage =
-      jsonData != null ? _extractErrorMessage(jsonData) : null;
+      final errorMessage = jsonData != null
+          ? _extractErrorMessage(jsonData)
+          : null;
 
       if (errorMessage != null) {
         emit(AuthFailureState(errorMessage));
         return;
       }
 
-      final userMap =
-      jsonData != null ? _extractUserData(jsonData) : null;
+      final userMap = jsonData != null ? _extractUserData(jsonData) : null;
 
-      emit(AuthSuccessState(
-          userMap != null ? UserModel.fromJson(userMap) : userData));
+      emit(
+        AuthSuccessState(
+          userMap != null ? UserModel.fromJson(userMap) : userData,
+        ),
+      );
     } catch (e) {
       emit(AuthFailureState('Unexpected error: $e'));
     }
@@ -504,7 +509,7 @@ class AuthCubit extends Cubit<AuthState> {
     required String confirmPassword,
     required String role,
     required String gender,
-    required int yearsOfExperience,
+     int? yearsOfExperience,
     List<MultipartFile>? profileImages,
     List<MultipartFile>? portfolioFiles,
   }) async {
@@ -524,8 +529,7 @@ class AuthCubit extends Cubit<AuthState> {
         if (portfolioFiles != null) 'Portfolio': portfolioFiles,
       });
 
-      final response =
-      await apiService.post(ApiEndpoint.Register, formData);
+      final response = await apiService.post(ApiEndpoint.Register, formData);
 
       if (response is ApiError) {
         emit(AuthFailureState(response.message));
@@ -533,16 +537,16 @@ class AuthCubit extends Cubit<AuthState> {
       }
 
       final jsonData = _parseResponse(response);
-      final errorMessage =
-      jsonData != null ? _extractErrorMessage(jsonData) : null;
+      final errorMessage = jsonData != null
+          ? _extractErrorMessage(jsonData)
+          : null;
 
       if (errorMessage != null) {
         emit(AuthFailureState(errorMessage));
         return;
       }
 
-      emit(AuthSuccessState(UserModel.fromJson(
-          _extractUserData(jsonData!)!)));
+      emit(AuthSuccessState(UserModel.fromJson(_extractUserData(jsonData!)!)));
     } catch (e) {
       emit(AuthFailureState('Unexpected error: $e'));
     }
@@ -550,10 +554,7 @@ class AuthCubit extends Cubit<AuthState> {
 
   // ================= Login (FIXED) =================
 
-  Future<void> login({
-    required String email,
-    required String password,
-  }) async {
+  Future<void> login({required String email, required String password}) async {
     emit(AuthLoadingState());
 
     try {
@@ -568,8 +569,9 @@ class AuthCubit extends Cubit<AuthState> {
       }
 
       final jsonData = _parseResponse(response);
-      final errorMessage =
-          jsonData != null ? _extractErrorMessage(jsonData) : null;
+      final errorMessage = jsonData != null
+          ? _extractErrorMessage(jsonData)
+          : null;
 
       if (errorMessage != null) {
         emit(AuthFailureState(errorMessage));
@@ -583,8 +585,7 @@ class AuthCubit extends Cubit<AuthState> {
       }
       // ----------------------------
 
-      emit(AuthSuccessState(
-          UserModel.fromJson(userDataMap!)));
+      emit(AuthSuccessState(UserModel.fromJson(userDataMap!),));
     } catch (e) {
       emit(AuthFailureState('Unexpected error: $e'));
     }
@@ -649,17 +650,15 @@ class AuthCubit extends Cubit<AuthState> {
         return;
       }
 
-      final response = await apiService.post(
-        ApiEndpoint.googleLogin,
-        {
-          'idToken': idToken,
-          'role': role,
-        },
-      );
+      final response = await apiService.post(ApiEndpoint.googleLogin, {
+        'idToken': idToken,
+        'role': role,
+      });
 
       final jsonData = _parseResponse(response);
-      final errorMessage =
-      jsonData != null ? _extractErrorMessage(jsonData) : null;
+      final errorMessage = jsonData != null
+          ? _extractErrorMessage(jsonData)
+          : null;
 
       if (errorMessage != null) {
         emit(AuthFailureState(errorMessage));
@@ -673,8 +672,7 @@ class AuthCubit extends Cubit<AuthState> {
       }
       // ----------------------------
 
-      emit(AuthSuccessState(
-          UserModel.fromJson(userDataMap!)));
+      emit(AuthSuccessState(UserModel.fromJson(userDataMap!)));
     } catch (e) {
       emit(AuthFailureState(e.toString()));
     }
@@ -686,10 +684,9 @@ class AuthCubit extends Cubit<AuthState> {
     emit(AuthLoadingState());
 
     try {
-      final response = await apiService.post(
-        ApiEndpoint.verifyEmail,
-        {'email': email},
-      );
+      final response = await apiService.post(ApiEndpoint.verifyEmail, {
+        'email': email,
+      });
 
       if (response is ApiError) {
         emit(AuthFailureState(response.message));
@@ -709,10 +706,10 @@ class AuthCubit extends Cubit<AuthState> {
     emit(AuthLoadingState());
 
     try {
-      final response = await apiService.post(
-        ApiEndpoint.verifyotp,
-        {'email': email, 'otpCode': otp},
-      );
+      final response = await apiService.post(ApiEndpoint.checkEmailOtp, {
+        'email': email.trim(),
+        'otpCode': otp.trim(),
+      });
 
       if (response is ApiError) {
         emit(AuthFailureState(response.message));
@@ -729,10 +726,9 @@ class AuthCubit extends Cubit<AuthState> {
     emit(AuthLoadingState());
 
     try {
-      final response = await apiService.post(
-        ApiEndpoint.forgetPassword,
-        {'email': email},
-      );
+      final response = await apiService.post(ApiEndpoint.forgetPassword, {
+        'email': email,
+      });
 
       if (response is ApiError) {
         emit(AuthFailureState(response.message));
@@ -753,14 +749,11 @@ class AuthCubit extends Cubit<AuthState> {
     emit(AuthLoadingState());
 
     try {
-      final response = await apiService.post(
-        ApiEndpoint.resetPassword,
-        {
-          'email': email,
-          'otpCode': otp,
-          'newPassword': newPassword,
-        },
-      );
+      final response = await apiService.post(ApiEndpoint.resetPassword, {
+        'email': email,
+        'otpCode': otp,
+        'newPassword': newPassword,
+      });
 
       if (response is ApiError) {
         emit(AuthFailureState(response.message));

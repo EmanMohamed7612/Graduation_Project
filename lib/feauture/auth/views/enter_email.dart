@@ -24,7 +24,11 @@ class CheckEmailScreen extends StatelessWidget {
             MaterialPageRoute(
               //eman
               builder: (_) =>
-                  EmailVerifiedScreen(email: state.email, role: role),
+                  //EmailVerifiedScreen(email: state.email, role: role),
+                  EnterCodeScreen(
+                    email: emailController.text.trim(),
+                    role: role,
+                  ),
             ),
           );
         }
@@ -53,7 +57,7 @@ class CheckEmailScreen extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: 24),
-            
+
                 const Text(
                   'Welcome !',
                   style: TextStyle(
@@ -74,10 +78,10 @@ class CheckEmailScreen extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: 32),
-            
+
                 _buildLabel("Email Address"),
                 const SizedBox(height: 8),
-            
+
                 _buildTextField(
                   hintText: 'Enter your email',
                   controller: emailController,
@@ -98,10 +102,7 @@ class CheckEmailScreen extends StatelessWidget {
                   child: Row(
                     children: const [
                       Expanded(
-                        child: Divider(
-                          color: Color(0xFFD7CCC8),
-                          thickness: 1,
-                        ),
+                        child: Divider(color: Color(0xFFD7CCC8), thickness: 1),
                       ),
                       Padding(
                         padding: EdgeInsets.symmetric(horizontal: 8),
@@ -114,15 +115,12 @@ class CheckEmailScreen extends StatelessWidget {
                         ),
                       ),
                       Expanded(
-                        child: Divider(
-                          color: Color(0xFFD7CCC8),
-                          thickness: 1,
-                        ),
+                        child: Divider(color: Color(0xFFD7CCC8), thickness: 1),
                       ),
                     ],
                   ),
                 ),
-            
+
                 const SizedBox(height: 16),
                 GestureDetector(
                   onTap: () {
@@ -161,9 +159,9 @@ class CheckEmailScreen extends StatelessWidget {
                     ),
                   ),
                 ),
-            
+
                 const SizedBox(height: 12),
-            
+
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [

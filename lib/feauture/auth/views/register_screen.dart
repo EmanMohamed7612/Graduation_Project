@@ -268,7 +268,7 @@ class _SignUpViewState extends State<SignUpView> {
                                     role: role,
                                     gender: selectedGender ?? 'female',
 
-                                    yearsOfExperience: 1,
+                                    yearsOfExperience: null,
                                     profileImages: profileImages,
                                   );
                                 } else if (role == UserRole.sellerExpert) {

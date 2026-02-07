@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:dio/dio.dart';
+import 'package:graduation2/core/services/api_services.dart';
 import 'dart:developer';
 import '../../../core/const/api_endpoint.dart';
 import '../../../core/services/api_error.dart';
@@ -10,7 +11,7 @@ import '../data/model/creatprodect_model.dart';
 
 class ProductApiService {
   final DioClient _dioClient = DioClient();
-
+ final ApiService _apiService = ApiService();
   // 1️⃣ Create Product
   Future<ProductModel?> createProduct(ProductModel product) async {
     try {
@@ -144,4 +145,27 @@ class ProductApiService {
       return '';
     }
   }
+ /// Get number of products for the current user 
+Future<int> getMyProductsCount() async {
+  final token = await PrefHelpers.getToken();
+  if (token == null || token.isEmpty) {
+    throw ApiError(message: 'User not authenticated');
+  }
+
+  final response = await _dioClient.dio.get(
+    '/api/Products/my-products-count',
+    options: Options(
+      headers: {
+        'Authorization': 'Bearer $token',
+      },
+    ),
+  );
+
+  if (response.statusCode == 200 && response.data is Map<String, dynamic>) {
+    return response.data['totalProducts'] ?? 0;
+  }
+
+  throw ApiError(message: 'Failed to load product count');
+}
+
 }

@@ -1,4 +1,4 @@
-import 'package:graduation2/feauture/expert_profile/data/user_profile_model.dart';
+import 'package:graduation2/feauture/profile/data/user_profile_model.dart';
 
 abstract class UserProfileState {}
 

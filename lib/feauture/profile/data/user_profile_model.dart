@@ -7,6 +7,7 @@ class UserProfileModel {
   final String? profileImage;
   final String bio;
   final String? specialization;
+  final String ?roleType;
 
   UserProfileModel({
     required this.id,
@@ -17,6 +18,7 @@ class UserProfileModel {
     this.profileImage,
     required this.bio,
     this.specialization,
+    required this.roleType,
   });
 
   // Computed property للاسم الكامل
@@ -31,6 +33,7 @@ class UserProfileModel {
       email: json['email'] ?? '',
       profileImage: json['profileImage'],
       bio: json['bio'] ?? '',
+      roleType: json['roleType'] ?? '',
       specialization: json['specialization'],
     );
   }
@@ -45,6 +48,7 @@ class UserProfileModel {
       'profileImage': profileImage,
       'bio': bio,
       'specialization': specialization,
+      'roleType': roleType,
     };
   }
 }

@@ -8,6 +8,7 @@ final class AuthLoadingState extends AuthState {}
 
 final class AuthSuccessState extends AuthState {
   final UserModel user;
+  
 
   AuthSuccessState(this.user);
 }

@@ -4,8 +4,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:graduation2/core/services/api_services.dart';
 import 'package:graduation2/feauture/auth/manager/auth_cubit.dart';
 import 'package:graduation2/feauture/auth/views/login_screen.dart';
-import 'package:graduation2/feauture/expert_profile/views/expet_profile.dart';
-import 'package:graduation2/feauture/expert_profile/views/seller_profile.dart';
+import 'package:graduation2/feauture/profile/views/profile.dart';
+import 'package:graduation2/feauture/profile/views/seller_profile.dart';
 import 'package:graduation2/feauture/product/view/product_datails.dart';
 import 'package:graduation2/feauture/splash_screen/presentation/view/splash.dart';
 
@@ -32,7 +32,7 @@ class CratoriaApp extends StatelessWidget {
             secondary: Color(0xFF8D6E63),
           ),
         ),
-        home: ProductDetails(),
+        home: LoginView(),
       ),
     );
   }
