@@ -657,8 +657,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:graduation2/feauture/auth/manager/auth_cubit.dart';
 import 'package:graduation2/feauture/auth/manager/auth_state.dart';
 import 'package:graduation2/feauture/auth/views/forget_password.dart';
+import 'package:graduation2/feauture/home/presentation/view/home_screen.dart';
+import 'package:graduation2/feauture/product_screens/presentation/view/explore_prodect/explore_screen.dart';
 import 'package:graduation2/feauture/typeof%20person/view/type_of_person.dart';
 import '../../product_screens/presentation/view/addprodect_screen/creatprodect.dart';
+import '../../product_screens/presentation/view/explore_prodect/widget/custom_navigationbar.dart';
+import '../../product_screens/presentation/view/explore_prodect/widget/custom_navigationbar.dart';
 
 class LoginView extends StatelessWidget {
   LoginView({super.key});
@@ -683,7 +687,7 @@ class LoginView extends StatelessWidget {
             Navigator.pushReplacement(
               context,
               MaterialPageRoute(
-                builder: (_) => AddProductScreen(),
+                builder: (_) => MainWrapper(),
               ),
             );
           }
