@@ -225,24 +225,29 @@
 //   }
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:graduation2/core/services/profile_repo.dart';
-import 'package:graduation2/feauture/auth/data/user_model.dart';
 import 'package:graduation2/feauture/auth/manager/auth_cubit.dart';
 import 'package:graduation2/feauture/auth/manager/auth_state.dart';
 import 'package:graduation2/feauture/auth/views/forget_password.dart';
-import 'package:graduation2/feauture/auth/views/register_screen.dart';
-import 'package:graduation2/feauture/profile/data/user_profile_model.dart';
 import 'package:graduation2/feauture/profile/manager/profile_cubit.dart';
 import 'package:graduation2/feauture/profile/views/profile.dart';
-import 'package:graduation2/feauture/splash_screen/presentation/view/splash.dart';
 import 'package:graduation2/feauture/typeof%20person/view/type_of_person.dart';
 import '../../../core/services/api_services.dart';
 
-class LoginView extends StatelessWidget {
+class LoginView extends StatefulWidget {
   LoginView({super.key});
+
+  @override
+  State<LoginView> createState() => _LoginViewState();
+}
+
+class _LoginViewState extends State<LoginView> {
   final emailController = TextEditingController();
+
   final passwordController = TextEditingController();
+
   final _formKey = GlobalKey<FormState>();
+
+   bool _isPasswordHidden = true;
 
   @override
   Widget build(BuildContext context) {
@@ -348,9 +353,16 @@ class LoginView extends StatelessWidget {
                           _buildLabel('Password'),
                           _buildTextField(
                             hintText: 'Enter your password',
-                            obscureText: true,
+                           // obscureText: true,
                             controller: passwordController,
                             icon: Icons.lock_outline,
+                              obscureText: _isPasswordHidden,
+                          isHidden: _isPasswordHidden,
+                          onToggleVisibility: () {
+                            setState(() {
+                              _isPasswordHidden = !_isPasswordHidden;
+                            });
+                          },
                             validator: (value) {
                               if (value == null || value.isEmpty) {
                                 return 'Password is required';
@@ -612,23 +624,46 @@ class LoginView extends StatelessWidget {
     required IconData icon,
     bool obscureText = false,
     String? Function(String?)? validator,
+    VoidCallback? onToggleVisibility,
+    bool? isHidden,
+    bool enabled = true,
   }) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 14),
       child: TextFormField(
         controller: controller,
         obscureText: obscureText,
+        enabled: enabled,
         validator: validator,
-        decoration: _inputDecoration(hintText, icon),
+        decoration: _inputDecoration(
+          hintText,
+          icon,
+          isHidden,
+          onToggleVisibility,
+        ),
       ),
     );
   }
 
-  InputDecoration _inputDecoration(String hint, IconData icon) {
+  InputDecoration _inputDecoration(
+    String hint,
+    IconData icon,
+    bool? isHidden,
+    VoidCallback? onToggleVisibility,
+  ) {
     return InputDecoration(
       hintText: hint,
       hintStyle: TextStyle(color: Colors.grey),
       prefixIcon: Icon(icon, color: Colors.grey),
+      suffixIcon: isHidden != null
+          ? IconButton(
+              icon: Icon(
+                isHidden ? Icons.visibility_off : Icons.visibility,
+                color: Colors.grey,
+              ),
+              onPressed: onToggleVisibility,
+            )
+          : null,
       filled: true,
       fillColor: Colors.white,
       border: OutlineInputBorder(
@@ -638,43 +673,58 @@ class LoginView extends StatelessWidget {
     );
   }
 }
+//   Widget _buildTextField({
+//     required String hintText,
+//     required TextEditingController controller,
+//     required IconData icon,
+//     bool obscureText = false,
+//     String? Function(String?)? validator,
+//   }) {
+//     return Padding(
+//       padding: const EdgeInsets.only(bottom: 14),
+//       child: TextFormField(
+//         controller: controller,
+//         obscureText: obscureText,
+//         validator: validator,
+//         decoration: _inputDecoration(hintText, icon),
+//       ),
+//     );
+//   }
 
-InputDecoration _dropdownDecoration(String hint) {
-  return InputDecoration(
-    hintText: hint,
-    filled: true,
-    fillColor: Colors.white,
-    contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
-    border: OutlineInputBorder(
-      borderRadius: BorderRadius.circular(24),
-      borderSide: BorderSide.none,
-    ),
-    enabledBorder: OutlineInputBorder(
-      borderRadius: BorderRadius.circular(24),
-      borderSide: BorderSide.none,
-    ),
-    focusedBorder: OutlineInputBorder(
-      borderRadius: BorderRadius.circular(24),
-      borderSide: BorderSide.none,
-    ),
-    suffixIcon: const Icon(Icons.keyboard_arrow_down, color: Colors.grey),
-  );
-  // Widget _buildTextField({
-  //   required String hintText,
-  //   required TextEditingController controller,
-  //   required IconData icon,
-  //   bool obscureText = false,
-  //   String? Function(String?)? validator,
-  // }) {
-  //   return TextFormField(
-  //     controller: controller,
-  //     obscureText: obscureText,
-  //     validator: validator,
-  //     decoration: InputDecoration(
-  //       hintText: hintText,
-  //       prefixIcon: Icon(icon),
-  //       border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
-  //     ),
-  //   );
-  // }
-}
+//   InputDecoration _inputDecoration(String hint, IconData icon) {
+//     return InputDecoration(
+//       hintText: hint,
+//       hintStyle: TextStyle(color: Colors.grey),
+//       prefixIcon: Icon(icon, color: Colors.grey),
+//       filled: true,
+//       fillColor: Colors.white,
+//       border: OutlineInputBorder(
+//         borderRadius: BorderRadius.circular(24),
+//         borderSide: BorderSide.none,
+//       ),
+//     );
+//   }
+// }
+
+// InputDecoration _dropdownDecoration(String hint) {
+//   return InputDecoration(
+//     hintText: hint,
+//     filled: true,
+//     fillColor: Colors.white,
+//     contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+//     border: OutlineInputBorder(
+//       borderRadius: BorderRadius.circular(24),
+//       borderSide: BorderSide.none,
+//     ),
+//     enabledBorder: OutlineInputBorder(
+//       borderRadius: BorderRadius.circular(24),
+//       borderSide: BorderSide.none,
+//     ),
+//     focusedBorder: OutlineInputBorder(
+//       borderRadius: BorderRadius.circular(24),
+//       borderSide: BorderSide.none,
+//     ),
+//     suffixIcon: const Icon(Icons.keyboard_arrow_down, color: Colors.grey),
+//   );
+ 
+// }
