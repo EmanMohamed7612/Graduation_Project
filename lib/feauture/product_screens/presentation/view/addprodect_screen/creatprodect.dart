@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
+
+import 'package:graduation2/feauture/home/data/model/categories_model_forhome.dart'
+as home;
+
+
 import '../../../data/model/creatprodect_model.dart';
 import '../../../manager/prodect_apiservice.dart';
 import '../Editprodect_screen/editprodect.dart';
@@ -15,6 +20,11 @@ class AddProductScreen extends StatefulWidget {
 
 class _AddProductScreenState extends State<AddProductScreen> {
   // Controllers
+  List<home.CategoriesModel> _categories = [];
+  home.CategoriesModel? _selectedCategory;
+
+
+  bool _isLoadingCategories = true;
   final nameController = TextEditingController();
   final priceController = TextEditingController();
   final stockController = TextEditingController();
@@ -39,14 +49,33 @@ class _AddProductScreenState extends State<AddProductScreen> {
       });
     }
   }
+  @override
+  void initState() {
+    super.initState();
+    _loadCategories();
+  }
+
+  Future<void> _loadCategories() async {
+    try {
+      // افترضي أن هذه الدالة موجودة في ApiService وتجلب قائمة الأقسام
+      final categories = await _apiService.fetchCategories();
+      setState(() {
+        _categories = categories;
+        _isLoadingCategories = false;
+      });
+    } catch (e) {
+      setState(() => _isLoadingCategories = false);
+      // handle error
+    }
+  }
 
   Future<void> _addProduct() async {
     // 1. التحقق من الحقول الأساسية
     if (nameController.text.isEmpty ||
         priceController.text.isEmpty ||
-        stockController.text.isEmpty) {
+        _selectedCategory == null) { // التحقق من اختيار قسم
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Please fill all required fields')),
+        const SnackBar(content: Text('Please select a category and fill all fields')),
       );
       return;
     }
@@ -60,7 +89,8 @@ class _AddProductScreenState extends State<AddProductScreen> {
         name: nameController.text,
         price: priceController.text,
         stock: stockController.text,
-        category: categoryController.text,
+        category: _selectedCategory!.id.toString(),
+
         description: descriptionController.text,
       );
 
@@ -140,7 +170,29 @@ class _AddProductScreenState extends State<AddProductScreen> {
               ),
               const SizedBox(height: 12),
               _buildLabel('Category'),
-              CustomTextField(controller: categoryController, hint: ''),
+              const SizedBox(height: 6),
+              _isLoadingCategories
+                  ? const CircularProgressIndicator() // مؤشر تحميل لحين جلب البيانات
+                  : DropdownButtonFormField<home.CategoriesModel>(
+                value: _selectedCategory,
+                decoration: InputDecoration(
+                  filled: true,
+                  fillColor: Colors.white,
+                  border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
+                ),
+                hint: const Text("Select Category"),
+                items: _categories.map((category) {
+                  return DropdownMenuItem<home.CategoriesModel>(
+                    value: category,
+                    child: Text(category.name), // يعرض الاسم للمستخدم
+                  );
+                }).toList(),
+                onChanged: (value) {
+                  setState(() {
+                    _selectedCategory = value; // تخزين الكائن المختار كاملاً
+                  });
+                },
+              ),
               const SizedBox(height: 12),
               _buildLabel('Description'),
               CustomTextField(hint: 'Describe your product...', maxLines: 4, controller: descriptionController),
