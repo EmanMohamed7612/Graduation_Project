@@ -5,7 +5,7 @@ import 'package:graduation2/feauture/auth/views/widgets/custom_button.dart';
 class EmailVerifiedScreen extends StatelessWidget {
   final String email;
   final String role;
-  EmailVerifiedScreen({super.key, required this.email,required this.role});
+  EmailVerifiedScreen({super.key, required this.email, required this.role});
 
   @override
   Widget build(BuildContext context) {
@@ -55,7 +55,7 @@ class EmailVerifiedScreen extends StatelessWidget {
                   context,
                   MaterialPageRoute(
                     builder: (context) {
-                      return EnterCodeScreen(email: email,role: role,);
+                      return EnterCodeScreen(email: email, role: role);
                     },
                   ),
                 );

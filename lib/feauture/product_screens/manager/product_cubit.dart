@@ -1,79 +1,19 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'product_state.dart';
-import '../data/model/prodect_model_explore.dart';
-import 'prodect_apiservice.dart';
-
-class ProductCubit extends Cubit<ProductState> {
-  final ProductApiService apiService;
-
-  ProductCubit(this.apiService) : super(ProductInitial());
-
-  // 🔹 All Products (Explore)
-  Future<void> fetchAllProducts() async {
-    emit(ProductLoading());
-    try {
-      final List<ProductsModel> products =
-      await apiService.fetchAllProducts();
-
-      products.isNotEmpty
-          ? emit(ProductSuccess(products))
-          : emit(ProductFailure("No products found"));
-    } catch (e) {
-      emit(ProductFailure(e.toString()));
-    }
-  }
-
-  // 🔹 Top Products (Best Sellers)
-  Future<void> fetchTopProducts() async {
-    emit(ProductLoading());
-    try {
-      final List<ProductsModel> products =
-      await apiService.fetchTopProductsFromApi();
-
-      products.isNotEmpty
-          ? emit(ProductSuccess(products))
-          : emit(ProductFailure("No top products found"));
-    } catch (e) {
-      emit(ProductFailure(e.toString()));
-    }
-  }
-
-}
-
-
-
-/*import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:graduation2/core/services/api_services.dart';
 import 'package:graduation2/feauture/product_screens/manager/product_state.dart';
 
-import '../../../core/const/api_endpoint.dart';
-import '../../../core/services/api_services.dart';
-import '../data/model/creatprodect_model.dart';
+class ProductsCubit extends Cubit<ProductsState> {
+  final ProductOwnerProfileRepo repo;
 
-import '../data/model/prodect_model_explore.dart';
+  ProductsCubit(this.repo) : super(ProductsInitial());
 
-class ProductCubit extends Cubit<ProductState> {
-  final ApiService apiService;
-  ProductCubit(this.apiService) : super(ProductInitial());
-
-  Future<void> fetchAllProducts() async {
-    emit(ProductLoading());
+  Future<void> getProducts(String userId) async {
+    emit(ProductsLoading());
     try {
-      final response = await apiService.get(ApiEndpoint.GetAllProdets, null);
-
-      if (response is List) {
-        final products = response.map((e) => ProductsModel.fromJson(e)).toList();
-        emit(ProductSuccess(products));
-      } else if (response is Map<String, dynamic> && response['data'] != null) {
-        // لو الداتا راجعة جوه كائن اسمه data
-        final List data = response['data'];
-        final products = data.map((e) => ProductsModel.fromJson(e)).toList();
-        emit(ProductSuccess(products));
-      } else {
-        emit(ProductFailure("Failed to load products"));
-      }
+      final products = await repo.getProductsOfUser(userId);
+      emit(ProductsSuccess(products));
     } catch (e) {
-      emit(ProductFailure(e.toString()));
+      emit(ProductsError(e.toString()));
     }
   }
-
-}*/
+}

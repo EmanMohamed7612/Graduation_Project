@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:graduation2/feauture/auth/views/login_screen.dart';
 import 'package:graduation2/feauture/auth/views/verifyresendcode_screen.dart';
 
 import '../manager/auth_cubit.dart';
@@ -34,7 +35,10 @@ class ForgetPasswordView extends StatelessWidget {
             );
           } else if (state is AuthFailureState) {
             ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text(state.errorMessage), backgroundColor: Colors.red),
+              SnackBar(
+                content: Text(state.errorMessage),
+                backgroundColor: Colors.red,
+              ),
             );
           }
         },
@@ -115,7 +119,8 @@ class ForgetPasswordView extends StatelessWidget {
                           controller: emailController,
                           icon: Icons.email_outlined,
                           validator: (val) {
-                            if (val == null || val.isEmpty) return "Email is required";
+                            if (val == null || val.isEmpty)
+                              return "Email is required";
                             return null;
                           },
                         ),
@@ -125,40 +130,81 @@ class ForgetPasswordView extends StatelessWidget {
                         state is AuthLoadingState
                             ? const Center(child: CircularProgressIndicator())
                             : GestureDetector(
-                          onTap: () {
-                            if (_formKey.currentState!.validate()) {
-                              context.read<AuthCubit>().forgetPassword(
-                                email: emailController.text.trim(),
-                              );
-                            }
-                          },
-                          child: Opacity(
-                            opacity: .9,
-                            child: Container(
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(18),
-                                gradient: const LinearGradient(
-                                  begin: Alignment(0.50, 0.00),
-                                  end: Alignment(0.50, 1.00),
-                                  colors: [Color(0xFF6D4C41), Color(0xFF8D6E63)],
-                                ),
-                              ),
-                              width: widthScreen,
-                              height: heightScreen * .05,
-                              child: const Center(
-                                child: Text(
-                                  'Send Code',
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 18,
-                                    fontFamily: 'Arimo',
-                                    fontWeight: FontWeight.w700,
+                                onTap: () {
+                                  if (_formKey.currentState!.validate()) {
+                                    context.read<AuthCubit>().forgetPassword(
+                                      email: emailController.text.trim(),
+                                    );
+                                  }
+                                },
+                                child: Opacity(
+                                  opacity: .5,
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(18),
+                                      gradient: const LinearGradient(
+                                        begin: Alignment(0.50, 0.00),
+                                        end: Alignment(0.50, 1.00),
+                                        colors: [
+                                          Color(0xFF6D4C41),
+                                          Color(0xFF8D6E63),
+                                        ],
+                                      ),
+                                    ),
+                                    width: widthScreen,
+                                    height: heightScreen * .05,
+                                    child: const Center(
+                                      child: Text(
+                                        'Send Code',
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 18,
+                                          fontFamily: 'Arimo',
+                                          fontWeight: FontWeight.w700,
+                                        ),
+                                      ),
+                                    ),
                                   ),
                                 ),
                               ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              'Remember your password?',
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                color: const Color(0xFF8D6E63),
+                                fontSize: 13.5,
+                                fontFamily: 'Arimo',
+                                fontWeight: FontWeight.w400,
+                                height: 1.43,
+                              ),
                             ),
-                          ),
+                            SizedBox(width: widthScreen * .03),
+                            TextButton(
+                              onPressed: () {
+                                Navigator.pushReplacement(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) {
+                                      return LoginView();
+                                    },
+                                  ),
+                                );
+                              },
+                              child: Text(
+                                'Back to Login',
+                                style: TextStyle(
+                                  color: const Color(0xFF6D4C41),
+                                  fontSize: 13.5,
+                                  fontFamily: 'Arimo',
+                                  fontWeight: FontWeight.w700,
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
                       ],
                     ),
@@ -177,27 +223,56 @@ class ForgetPasswordView extends StatelessWidget {
       alignment: Alignment.centerLeft,
       child: Padding(
         padding: const EdgeInsets.only(bottom: 8, top: 12),
-        child: Text(
-          text,
-          style: const TextStyle(fontWeight: FontWeight.w600),
-        ),
+        child: Text(text, style: const TextStyle(fontWeight: FontWeight.w600)),
       ),
     );
   }
 
+  //   Widget _buildTextField({
+  //     required String hintText,
+  //     required TextEditingController controller,
+  //     required IconData icon,
+  //     String? Function(String?)? validator,
+  //   }) {
+  //     return TextFormField(
+  //       controller: controller,
+  //       validator: validator,
+  //       decoration: InputDecoration(
+  //         hintText: hintText,
+  //         prefixIcon: Icon(icon),
+  //         border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
+  //       ),
+  //     );
+  //   }
+  // }
   Widget _buildTextField({
     required String hintText,
     required TextEditingController controller,
     required IconData icon,
+    bool obscureText = false,
     String? Function(String?)? validator,
   }) {
-    return TextFormField(
-      controller: controller,
-      validator: validator,
-      decoration: InputDecoration(
-        hintText: hintText,
-        prefixIcon: Icon(icon),
-        border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 14),
+      child: TextFormField(
+        controller: controller,
+        obscureText: obscureText,
+        validator: validator,
+        decoration: _inputDecoration(hintText, icon),
+      ),
+    );
+  }
+
+  InputDecoration _inputDecoration(String hint, IconData icon) {
+    return InputDecoration(
+      hintText: hint,
+      hintStyle: TextStyle(color: Colors.grey),
+      prefixIcon: Icon(icon, color: Color(0xff8D6E63)),
+      filled: true,
+      fillColor: Colors.white,
+      border: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(24),
+        borderSide: BorderSide.none,
       ),
     );
   }

@@ -124,6 +124,7 @@ class ExpertProfile extends StatelessWidget {
                   height: 1.43,
                 ),
               ),
+              SizedBox(width: width * .03),
               Container(
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(35),
@@ -135,7 +136,7 @@ class ExpertProfile extends StatelessWidget {
                   children: [
                     Icon(Icons.star, color: Colors.white, size: 20),
                     Text(
-                      ' ${user.roleType}',
+                      '  ${user.roleType}',
                       style: TextStyle(
                         color: Colors.white,
                         fontSize: 12.25,
@@ -292,12 +293,11 @@ class ExpertProfile extends StatelessWidget {
                   height: 400, // مهم ❗ عشان TabBarView
                   child: TabBarView(
                     children: [
-                      
                       BlocProvider(
                         create: (context) =>
                             ProductsCubit(ProductOwnerProfileRepo())
                               ..getProducts(user.id),
-                        child: ProductsGrid(),
+                        child: ProductsGrid(user: user),
                       ),
                       SessionsView(),
                       ReviewsView(),

@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:graduation2/feauture/product/view/product_datails.dart';
 import 'package:graduation2/feauture/product_screens/manager/product_cubit.dart';
 import 'package:graduation2/feauture/product_screens/manager/product_state.dart';
 import 'package:graduation2/feauture/profile/manager/number_product_cubit.dart';
 import 'package:graduation2/feauture/profile/manager/number_product_state.dart';
 
 class ProductsGrid extends StatelessWidget {
-  const ProductsGrid({super.key});
-
+  const ProductsGrid({super.key,required this.user});
+  final user;
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<ProductCountCubit, ProductCountState>(
@@ -32,6 +33,7 @@ class ProductsGrid extends StatelessWidget {
             }
 
             if (state is ProductsSuccess) {
+              final product = state.products;
               return GridView.builder(
                 padding: const EdgeInsets.all(8),
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
@@ -42,47 +44,59 @@ class ProductsGrid extends StatelessWidget {
                 ),
                 itemCount: state.products.length,
                 itemBuilder: (context, index) {
-                  return Container(
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Expanded(
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(20),
-                            child: Image.network(
-                              state.products[index].imagePath ??
-                                  'assets/images/onboarding3.png',
-                              fit: BoxFit.cover,
-                              width: double.infinity,
+                  return GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) {
+                            return ProductDetails(product: product[index],user:user);
+                          },
+                        ),
+                      );
+                    },
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Expanded(
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(20),
+                              child: Image.network(
+                                state.products[index].imagePath ??
+                                    'assets/images/onboarding3.png',
+                                fit: BoxFit.cover,
+                                width: double.infinity,
+                              ),
                             ),
                           ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.all(8),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                state.products[index].name,
-                                style: const TextStyle(
-                                  fontWeight: FontWeight.w600,
+                          Padding(
+                            padding: const EdgeInsets.all(8),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  state.products[index].name,
+                                  style: const TextStyle(
+                                    fontWeight: FontWeight.w600,
+                                  ),
                                 ),
-                              ),
-                              const SizedBox(height: 4),
-                              Text(
-                                state.products[index].price.toString(),
-                                style: const TextStyle(
-                                  color: Color(0xff7A4A32),
+                                const SizedBox(height: 4),
+                                Text(
+                                  state.products[index].price.toString(),
+                                  style: const TextStyle(
+                                    color: Color(0xff7A4A32),
+                                  ),
                                 ),
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   );
                 },

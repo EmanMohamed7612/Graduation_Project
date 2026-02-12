@@ -16,9 +16,7 @@ class ReviewsView extends StatelessWidget {
             color: Colors.white,
             borderRadius: BorderRadius.circular(16),
           ),
-          child: const Text(
-            '⭐⭐⭐⭐⭐  Amazing quality and experience!',
-          ),
+          child: const Text('⭐⭐⭐⭐⭐  Amazing quality and experience!'),
         );
       },
     );

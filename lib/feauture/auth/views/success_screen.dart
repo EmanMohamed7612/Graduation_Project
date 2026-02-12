@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:graduation2/feauture/profile/views/profile.dart';
 
 class ExpertSuccessScreen extends StatelessWidget {
   const ExpertSuccessScreen({super.key});
@@ -28,19 +29,13 @@ class ExpertSuccessScreen extends StatelessWidget {
               const SizedBox(height: 24),
               const Text(
                 'Data Submitted Successfully',
-                style: TextStyle(
-                  fontSize: 22,
-                  fontWeight: FontWeight.bold,
-                ),
+                style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
                 textAlign: TextAlign.center,
               ),
               const SizedBox(height: 12),
               const Text(
                 'Your information has been sent successfully.\nWe will review your data shortly.',
-                style: TextStyle(
-                  fontSize: 14,
-                  color: Colors.grey,
-                ),
+                style: TextStyle(fontSize: 14, color: Colors.grey),
                 textAlign: TextAlign.center,
               ),
               const SizedBox(height: 32),
@@ -48,8 +43,15 @@ class ExpertSuccessScreen extends StatelessWidget {
                 width: double.infinity,
                 child: ElevatedButton(
                   onPressed: () {
-                     Navigator.popUntil(context, (route) => route.isFirst);
-                    
+                    // Navigator.popUntil(context, (route) => route.isFirst);
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) {
+                          return Profile();
+                        },
+                      ),
+                    );
                   },
                   child: const Text('Done'),
                 ),

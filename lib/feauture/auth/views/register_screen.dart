@@ -29,12 +29,17 @@ class _SignUpViewState extends State<SignUpView> {
   final confirmPassController = TextEditingController();
   File? profileImage;
   String? selectedGender;
+  bool _isPasswordHidden = true;
+  bool _isConfirmPasswordHidden = true;
   late final String role;
 
   @override
   void initState() {
     super.initState();
     role = widget.role;
+    if (widget.email != null) {
+      emailController.text = widget.email!;
+    }
   }
 
   @override
@@ -129,7 +134,7 @@ class _SignUpViewState extends State<SignUpView> {
                     child: Column(
                       children: [
                         const Text(
-                          'Create Account',
+                          'Complete Account',
                           style: TextStyle(
                             color: Color(0xFF3E2723),
                             fontSize: 22,
@@ -200,9 +205,10 @@ class _SignUpViewState extends State<SignUpView> {
 
                         _buildLabel('Email'),
                         _buildTextField(
-                          hintText:'Enter your email',
+                          hintText: 'Enter your email',
                           controller: emailController,
                           icon: Icons.email_outlined,
+                          enabled: widget.email == null,
                           validator: (v) =>
                               v!.contains('@') ? null : 'Invalid email',
                         ),
@@ -212,9 +218,16 @@ class _SignUpViewState extends State<SignUpView> {
                           hintText: 'Enter your password',
                           controller: passwordController,
                           icon: Icons.lock_outline,
-                          obscureText: true,
+                          //  obscureText: true,
                           validator: (v) =>
                               v!.length < 6 ? 'Weak password' : null,
+                          obscureText: _isPasswordHidden,
+                          isHidden: _isPasswordHidden,
+                          onToggleVisibility: () {
+                            setState(() {
+                              _isPasswordHidden = !_isPasswordHidden;
+                            });
+                          },
                         ),
 
                         _buildLabel('Confirm Password'),
@@ -223,10 +236,18 @@ class _SignUpViewState extends State<SignUpView> {
 
                           controller: confirmPassController,
                           icon: Icons.lock_outline,
-                          obscureText: true,
 
+                          //  obscureText: true,
                           validator: (v) =>
                               v != passwordController.text ? 'Not match' : null,
+                          obscureText: _isConfirmPasswordHidden,
+                          isHidden: _isConfirmPasswordHidden,
+                          onToggleVisibility: () {
+                            setState(() {
+                              _isConfirmPasswordHidden =
+                                  !_isConfirmPasswordHidden;
+                            });
+                          },
                         ),
 
                         SizedBox(height: heightScreen * .04),
@@ -357,23 +378,46 @@ class _SignUpViewState extends State<SignUpView> {
     required IconData icon,
     bool obscureText = false,
     String? Function(String?)? validator,
+    VoidCallback? onToggleVisibility,
+    bool? isHidden,
+    bool enabled = true,
   }) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 14),
       child: TextFormField(
         controller: controller,
         obscureText: obscureText,
+        enabled: enabled,
         validator: validator,
-        decoration: _inputDecoration(hintText, icon),
+        decoration: _inputDecoration(
+          hintText,
+          icon,
+          isHidden,
+          onToggleVisibility,
+        ),
       ),
     );
   }
 
-  InputDecoration _inputDecoration(String hint, IconData icon) {
+  InputDecoration _inputDecoration(
+    String hint,
+    IconData icon,
+    bool? isHidden,
+    VoidCallback? onToggleVisibility,
+  ) {
     return InputDecoration(
       hintText: hint,
       hintStyle: TextStyle(color: Colors.grey),
       prefixIcon: Icon(icon, color: Colors.grey),
+      suffixIcon: isHidden != null
+          ? IconButton(
+              icon: Icon(
+                isHidden ? Icons.visibility_off : Icons.visibility,
+                color: Colors.grey,
+              ),
+              onPressed: onToggleVisibility,
+            )
+          : null,
       filled: true,
       fillColor: Colors.white,
       border: OutlineInputBorder(

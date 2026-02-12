@@ -124,6 +124,7 @@ class SellerProfile extends StatelessWidget {
                   height: 1.43,
                 ),
               ),
+              SizedBox(width: width * .03),
               Container(
                 width: width * .12,
                 decoration: BoxDecoration(
@@ -294,7 +295,7 @@ class SellerProfile extends StatelessWidget {
                         create: (context) =>
                             ProductsCubit(ProductOwnerProfileRepo())
                               ..getProducts(user.id),
-                        child: ProductsGrid(),
+                        child: ProductsGrid(user: user),
                       ),
                       ReviewsView(),
                     ],
