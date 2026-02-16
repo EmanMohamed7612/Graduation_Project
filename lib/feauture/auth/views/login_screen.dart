@@ -232,6 +232,7 @@ import 'package:graduation2/feauture/profile/manager/profile_cubit.dart';
 import 'package:graduation2/feauture/profile/views/profile.dart';
 import 'package:graduation2/feauture/typeof%20person/view/type_of_person.dart';
 import '../../../core/services/api_services.dart';
+import '../../product_screens/presentation/view/addprodect_screen/creatprodect.dart';
 import '../../product_screens/presentation/view/explore_prodect/widget/custom_navigationbar.dart';
 
 class LoginView extends StatefulWidget {
@@ -273,7 +274,8 @@ class _LoginViewState extends State<LoginView> {
                   ),
                 ),
               );
-              Navigator.pushReplacement(
+
+             Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(
                   builder: (_) => MainWrapper(),

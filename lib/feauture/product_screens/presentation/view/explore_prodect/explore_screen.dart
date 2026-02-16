@@ -4,6 +4,7 @@ import 'package:graduation2/feauture/product_screens/presentation/view/explore_p
 import 'package:graduation2/feauture/product_screens/presentation/view/explore_prodect/widget/search_filter_bar.dart';
 
 import '../../../../../core/services/api_services.dart';
+import '../../../../product/view/product_datails.dart';
 import '../../../manager/prodect_apiservice.dart';
 import '../../../manager/product_cubit.dart';
 import '../../../manager/product_state.dart';
@@ -60,6 +61,18 @@ class ExploreAllScreen extends StatelessWidget {
                           price: product.price.toString(),
                           rating: product.rating.toString(),
                           imageUrl: product.imageUrl ,
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (_) => ProductDetails(
+                                  product: product,
+                                  user: user, // لو عندك user
+                                ),
+                              ),
+                            );
+
+                          },
 
                         );
                       },

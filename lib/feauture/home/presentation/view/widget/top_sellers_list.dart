@@ -22,7 +22,7 @@ class TopSellersList extends StatelessWidget {
         }
 
         if (state is BestSellerSuccess) {
-          if (state.products.isEmpty) {
+          if (state.sellers.isEmpty) {
             return const Center(
               child: Text(
                 'No Sellers',
@@ -37,10 +37,10 @@ class TopSellersList extends StatelessWidget {
             height: 220,
             child: ListView.separated(
               scrollDirection: Axis.horizontal,
-              itemCount: state.products.length,
+              itemCount: state.sellers.length,
               separatorBuilder: (_, __) => const SizedBox(width: 12),
               itemBuilder: (context, index) {
-                final product = state.products[index];
+                final product = state.sellers[index];
 
                 return Container(
                   width: 150,

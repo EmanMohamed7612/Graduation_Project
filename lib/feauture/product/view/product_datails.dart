@@ -4,6 +4,8 @@ import 'package:graduation2/feauture/product/view/widgets/custom_icon.dart';
 import 'package:graduation2/feauture/product_screens/data/model/creatprodect_model.dart';
 import 'package:graduation2/feauture/profile/data/user_profile_model.dart';
 
+import '../../product_screens/data/model/prodect_model_explore.dart';
+
 class ProductDetails extends StatelessWidget {
   ProductDetails({super.key, required this.product, required this.user});
   final ProductModel product;
@@ -75,7 +77,8 @@ class ProductDetails extends StatelessWidget {
                     borderRadius: BorderRadius.circular(25),
                   ),
                   child: Image.network(
-                    product.imagePath ?? 'assets/images/person.png',
+                    product.imagePath
+                        ?? 'assets/images/person.png',
                   ),
                 ),
                 SizedBox(height: size.height * 0.03),
@@ -138,8 +141,9 @@ class ProductDetails extends StatelessWidget {
                       Container(
                         alignment: Alignment.topLeft,
                         child: Text(
-                          product.price,
-                          style: TextStyle(
+                            product.price,
+
+                            style: TextStyle(
                             color: const Color(0xFF6D4C41),
                             fontSize: 26,
                             fontFamily: 'Arimo',

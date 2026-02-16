@@ -42,9 +42,9 @@ class _HomeScreenState extends State<HomeScreen> {
           ProductCubit(ProductApiService())..fetchTopProducts(),
         ),
         BlocProvider(
-          create: (_) => BestSellerCubit(ProductApiService())
-            ..fetchBestSeller(),
-        ),
+          create: (context) =>
+          BestSellerCubit(ProductApiService())..fetchBestSellers(),
+        )
 
       ],
 
@@ -89,7 +89,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 const SizedBox(height: 12),
                 const HomeTopProductsSection(),
                 const SizedBox(height: 24),
-                const ExploreButton(),
+
               ],
             ),
           ),

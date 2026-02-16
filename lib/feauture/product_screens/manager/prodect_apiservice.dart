@@ -12,6 +12,7 @@ import '../../../core/utils/pref_helpers.dart';
 import '../../home/data/model/categories_model_forhome.dart';
 import '../data/model/prodect_model_explore.dart';
 import '../data/model/creatprodect_model.dart';
+import '../data/model/top_seller_model.dart';
 
 class ProductApiService {
   final DioClient _dioClient = DioClient();
@@ -189,30 +190,25 @@ class ProductApiService {
 
     return [];
   }
-  Future<List<ProductsModel>> getBestSellerProducts() async {
+  Future<List<TopSellerModel>> getTopSellers() async {
     try {
       final response = await _dioClient.dio.get(
-        ApiEndpoint.get_top_sellers, // أو endpoint الصح
+        ApiEndpoint.get_top_sellers,
       );
-
-      if (response.data is Map && response.data['data'] != null) {
-        return (response.data['data'] as List)
-            .map((e) => ProductsModel.fromJson(e))
-            .toList();
-      }
 
       if (response.data is List) {
         return (response.data as List)
-            .map((e) => ProductsModel.fromJson(e))
+            .map((e) => TopSellerModel.fromJson(e))
             .toList();
       }
 
       return [];
     } catch (e) {
-      log('❌ Best Seller Error: $e');
+      log('❌ Top Sellers Error: $e');
       return [];
     }
   }
+
   /// Get number of products for the current user
   Future<int> getMyProductsCount() async {
     final token = await PrefHelpers.getToken();
