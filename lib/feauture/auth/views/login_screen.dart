@@ -232,6 +232,7 @@ import 'package:graduation2/feauture/profile/manager/profile_cubit.dart';
 import 'package:graduation2/feauture/profile/views/profile.dart';
 import 'package:graduation2/feauture/typeof%20person/view/type_of_person.dart';
 import '../../../core/services/api_services.dart';
+import '../../language_screens/presentation/view/language_view.dart';
 import '../../product_screens/presentation/view/addprodect_screen/creatprodect.dart';
 import '../../product_screens/presentation/view/explore_prodect/widget/custom_navigationbar.dart';
 
@@ -278,7 +279,7 @@ class _LoginViewState extends State<LoginView> {
              Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(
-                  builder: (_) => MainWrapper(),
+                  builder: (_) => LanguageView(),
                 ),
               );
               //  UserProfileModel user=   context.read<UserProfileRepo>().getCurrentUser(

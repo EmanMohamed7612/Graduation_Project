@@ -62,15 +62,7 @@ class ExploreAllScreen extends StatelessWidget {
                           rating: product.rating.toString(),
                           imageUrl: product.imageUrl ,
                           onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (_) => ProductDetails(
-                                  product: product,
-                                  user: user, // لو عندك user
-                                ),
-                              ),
-                            );
+
 
                           },
 
