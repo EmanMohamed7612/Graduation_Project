@@ -1,6 +1,6 @@
 class ProductModel {
   final String? sellerId;
-  final String? id;
+  final int? id;
   final String? imagePath;
   final String name;
   final String price;
@@ -22,7 +22,9 @@ class ProductModel {
   factory ProductModel.fromJson(Map<String, dynamic> json) {
     return ProductModel(
       // السيرفر قد يرسلها Id أو id، هذا السطر يعالج الحالتين
-      id: (json['Id'] ?? json['id'])?.toString(),
+      ///////////
+      ///id: (json['Id'] ?? json['id'])?.toString(),
+      id: (json['Id'] ?? json['id']),
       name: json['Name'] ?? json['name'] ?? '',
       price: (json['Price'] ?? json['price'])?.toString() ?? '',
       stock: (json['Quantity'] ?? json['quantity'] ?? json['stock'])?.toString() ?? '',

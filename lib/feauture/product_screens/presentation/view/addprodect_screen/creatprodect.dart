@@ -90,7 +90,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
         price: priceController.text,
         stock: stockController.text,
         category: _selectedCategory!.id.toString(),
-
+        
         description: descriptionController.text,
       );
 

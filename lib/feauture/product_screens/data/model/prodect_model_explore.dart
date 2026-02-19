@@ -12,7 +12,7 @@ class ProductsModel {
     required this.description,
     required this.price,
     this.imageUrl,
-    this.rating = 4.5,
+    this.rating = 0,
   });
 
   factory ProductsModel.fromJson(Map<String, dynamic> json) {
