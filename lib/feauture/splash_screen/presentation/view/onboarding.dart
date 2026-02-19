@@ -36,6 +36,12 @@ class _OnBoardingViewState extends State<OnBoardingView> {
     ),
   ];
   @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     return Scaffold(
@@ -109,63 +115,99 @@ class _OnBoardingViewState extends State<OnBoardingView> {
               ),
 
               SizedBox(height: size.height * 0.07),
+              // InkWell(
+              //   onTap: () {
+              //     if (index == 2) {
+              //     } else {
+              //       _controller.animateToPage(
+              //         index + 1,
+              //         duration: Duration(milliseconds: 250),
+              //         curve: Curves.linear,
+              //       );
+              //     }
+              //   },
+              //   child: Container(
+              //     padding: EdgeInsets.all(15),
+              //     decoration: BoxDecoration(
+              //       borderRadius: BorderRadius.circular(18),
+              //       gradient: const LinearGradient(
+              //         begin: Alignment(0.50, 0.00),
+              //         end: Alignment(0.50, 1.00),
+              //         colors: [Color(0xFF6D4C41), Color(0xFF8D6E63)],
+              //       ),
+              //     ),
+              //     width: size.width,
+              //     height: 50,
+              //     child: Center(
+              //       child: index == 2
+              //           ? GestureDetector(
+              //               onTap: () {
+              //                 Navigator.push(
+              //                   context,
+              //                   MaterialPageRoute(
+              //                     builder: (context) {
+              //                       return LoginView();
+              //                     },
+              //                   ),
+              //                 );
+              //               },
+              //               child: Text(
+              //                 'Get Started',
+              //                 textAlign: TextAlign.center,
+              //                 style: TextStyle(
+              //                   color: Colors.white,
+              //                   fontSize: 14,
+              //                   fontFamily: 'Arimo',
+              //                   fontWeight: FontWeight.w700,
+              //                 ),
+              //               ),
+              //             )
+              //           : Text(
+              //               'Next',
+              //               textAlign: TextAlign.center,
+              //               style: TextStyle(
+              //                 color: Colors.white,
+              //                 fontSize: 14,
+              //                 fontFamily: 'Arimo',
+              //                 fontWeight: FontWeight.w700,
+              //               ),
+              //             ),
+              //     ),
+              //   ),
+              // ),
               InkWell(
                 onTap: () {
                   if (index == 2) {
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(builder: (_) => LoginView()),
+                    );
                   } else {
                     _controller.animateToPage(
                       index + 1,
-                      duration: Duration(milliseconds: 250),
-                      curve: Curves.linear,
+                      duration: const Duration(milliseconds: 250),
+                      curve: Curves.easeInOut,
                     );
                   }
                 },
                 child: Container(
-                  padding: EdgeInsets.all(15),
+                  width: size.width,
+                  height: 56,
+                  alignment: Alignment.center,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(18),
                     gradient: const LinearGradient(
-                      begin: Alignment(0.50, 0.00),
-                      end: Alignment(0.50, 1.00),
                       colors: [Color(0xFF6D4C41), Color(0xFF8D6E63)],
                     ),
                   ),
-                  width: size.width,
-                  height: size.height * .05,
-                  child: Center(
-                    child: index == 2
-                        ? GestureDetector(
-                            onTap: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) {
-                                    return LoginView();
-                                  },
-                                ),
-                              );
-                            },
-                            child: Text(
-                              'Get Started',
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 14,
-                                fontFamily: 'Arimo',
-                                fontWeight: FontWeight.w700,
-                              ),
-                            ),
-                          )
-                        : Text(
-                            'Next',
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 14,
-                              fontFamily: 'Arimo',
-                              fontWeight: FontWeight.w700,
-                            ),
-                          ),
+                  child: Text(
+                    index == 2 ? 'Get Started' : 'Next',
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 16,
+                      fontFamily: 'Arimo',
+                      fontWeight: FontWeight.w700,
+                    ),
                   ),
                 ),
               ),

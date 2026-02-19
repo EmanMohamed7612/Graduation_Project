@@ -126,6 +126,7 @@
 // }
 import 'package:dio/dio.dart';
 import 'package:graduation2/core/services/api_error.dart';
+import 'package:graduation2/feauture/product_screens/data/model/prodect_model_explore.dart';
 import 'package:graduation2/feauture/profile/data/user_profile_model.dart';
 import 'package:graduation2/feauture/product_screens/data/model/creatprodect_model.dart';
 
@@ -231,7 +232,7 @@ class UserProfileRepo {
 class ProductOwnerProfileRepo {
   final ApiService _apiService = ApiService();
 
-  Future<List<ProductModel>> getProductsOfUser(String userId) async {
+  Future<List<ProductsModel>> getProductsOfUser(String userId) async {
     final response = await _apiService.get(
       '/api/Products/GetProductsOfSpecificUser',
       {'userId': userId},
@@ -243,7 +244,7 @@ class ProductOwnerProfileRepo {
 
     if (response is List) {
       return response
-          .map((e) => ProductModel.fromJson(e))
+          .map((e) => ProductsModel.fromJson(e))
           .toList();
     }
 

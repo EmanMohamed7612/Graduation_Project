@@ -5,9 +5,11 @@ import 'package:graduation2/core/services/api_services.dart';
 import 'package:graduation2/feauture/auth/manager/auth_cubit.dart';
 import 'package:graduation2/feauture/auth/views/check_email.dart';
 import 'package:graduation2/feauture/auth/views/login_screen.dart';
+import 'package:graduation2/feauture/profile/manager/profile_cubit.dart';
 import 'package:graduation2/feauture/profile/views/profile.dart';
 import 'package:graduation2/feauture/profile/views/seller_profile.dart';
 import 'package:graduation2/feauture/product/view/product_datails.dart';
+import 'package:graduation2/feauture/review/view/write_review.dart';
 import 'package:graduation2/feauture/splash_screen/presentation/view/splash.dart';
 
 void main() {
@@ -19,8 +21,14 @@ class CratoriaApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (_) => AuthCubit(ApiService()),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(create: (_) => AuthCubit(ApiService())),
+        BlocProvider(
+          create: (context) =>
+              UserProfileCubit(UserProfileRepo())..fetchProfile(),
+        ),
+      ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         theme: ThemeData(

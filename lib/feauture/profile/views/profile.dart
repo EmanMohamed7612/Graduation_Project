@@ -10,38 +10,38 @@ import 'package:graduation2/feauture/profile/views/expert_profile.dart';
 import 'package:graduation2/feauture/profile/views/seller_profile.dart';
 
 class Profile extends StatelessWidget {
-  const Profile({super.key});
-
+  const Profile({super.key, this.onGoHome});
+  final VoidCallback? onGoHome;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-     bottomNavigationBar: BottomNavigationBar(
-        type: BottomNavigationBarType.fixed,
-        selectedItemColor: Color(0xff7A4A32),
-        unselectedItemColor: Colors.grey,
-        items: [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home_outlined),
-            label: 'Home',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.explore_outlined),
-            label: 'Explore',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.people_outline),
-            label: 'Community',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.auto_awesome_outlined),
-            label: 'AI',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.person_outline),
-            label: 'Profile',
-          ),
-        ],
-      ),
+      //  bottomNavigationBar: BottomNavigationBar(
+      //     type: BottomNavigationBarType.fixed,
+      //     selectedItemColor: Color(0xff7A4A32),
+      //     unselectedItemColor: Colors.grey,
+      //     items: [
+      //       BottomNavigationBarItem(
+      //         icon: Icon(Icons.home_outlined),
+      //         label: 'Home',
+      //       ),
+      //       BottomNavigationBarItem(
+      //         icon: Icon(Icons.explore_outlined),
+      //         label: 'Explore',
+      //       ),
+      //       BottomNavigationBarItem(
+      //         icon: Icon(Icons.people_outline),
+      //         label: 'Community',
+      //       ),
+      //       BottomNavigationBarItem(
+      //         icon: Icon(Icons.auto_awesome_outlined),
+      //         label: 'AI',
+      //       ),
+      //       BottomNavigationBarItem(
+      //         icon: Icon(Icons.person_outline),
+      //         label: 'Profile',
+      //       ),
+      //     ],
+      //   ),
       body: SafeArea(
         child: BlocBuilder<UserProfileCubit, UserProfileState>(
           builder: (context, state) {
@@ -60,14 +60,15 @@ class Profile extends StatelessWidget {
                   create: (_) =>
                       ProductCountCubit(ProductApiService())
                         ..fetchMyProductsCount(),
-                  child: ExpertProfile(user: user),
+                  child: ExpertProfile(user: user, onGoHome: onGoHome),
                 );
-              } else if (user.roleType == 'Beginner' ||user.roleType=='Customer') {
+              } else if (user.roleType == 'Beginner' ||
+                  user.roleType == 'Customer') {
                 return BlocProvider(
                   create: (_) =>
                       ProductCountCubit(ProductApiService())
                         ..fetchMyProductsCount(),
-                  child: SellerProfile(user: user),
+                  child: SellerProfile(user: user,onGoHome:onGoHome),
                 );
               }
             }

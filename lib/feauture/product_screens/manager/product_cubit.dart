@@ -5,17 +5,15 @@ import '../data/model/prodect_model_explore.dart';
 import 'prodect_apiservice.dart';
 
 class ProductCubit extends Cubit<ProductState> {
-
   final ProductApiService apiService;
 
-  ProductCubit(this.apiService,) : super(ProductInitial());
+  ProductCubit(this.apiService) : super(ProductInitial());
 
   // 🔹 All Products (Explore)
   Future<void> fetchAllProducts() async {
     emit(ProductLoading());
     try {
-      final List<ProductsModel> products =
-      await apiService.fetchAllProducts();
+      final List<ProductsModel> products = await apiService.fetchAllProducts();
 
       products.isNotEmpty
           ? emit(ProductSuccess(products))
@@ -29,8 +27,8 @@ class ProductCubit extends Cubit<ProductState> {
   Future<void> fetchTopProducts() async {
     emit(ProductLoading());
     try {
-      final List<ProductsModel> products =
-      await apiService.fetchTopProductsFromApi();
+      final List<ProductsModel> products = await apiService
+          .fetchTopProductsFromApi();
 
       products.isNotEmpty
           ? emit(ProductSuccess(products))
@@ -39,21 +37,20 @@ class ProductCubit extends Cubit<ProductState> {
       emit(ProductFailure(e.toString()));
     }
   }
-
-
 }
-class ProductsCubit extends Cubit<ProductsState> {
+
+class ProductsCubit extends Cubit<ProductState> {
   final ProductOwnerProfileRepo repo;
 
-  ProductsCubit(this.repo) : super(ProductsInitial());
+  ProductsCubit(this.repo) : super(ProductInitial());
 
   Future<void> getProducts(String userId) async {
-    emit(ProductsLoading());
+    emit(ProductLoading());
     try {
       final products = await repo.getProductsOfUser(userId);
-      emit(ProductsSuccess(products));
+      emit(ProductSuccess(products));
     } catch (e) {
-      emit(ProductsError(e.toString()));
+      emit(ProductFailure(e.toString()));
     }
   }
 }

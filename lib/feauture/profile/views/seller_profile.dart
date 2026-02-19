@@ -8,10 +8,43 @@ import 'package:graduation2/feauture/profile/views/products.dart';
 import 'package:graduation2/feauture/profile/views/reviews.dart';
 import 'package:graduation2/feauture/profile/views/widgets/numberandtype.dart';
 import 'package:graduation2/feauture/product_screens/manager/product_cubit.dart';
+import 'package:graduation2/feauture/review/data/review_service.dart';
+import 'package:graduation2/feauture/review/view/widgets/custom_star.dart';
 
-class SellerProfile extends StatelessWidget {
-  const SellerProfile({super.key, required this.user});
+class SellerProfile extends StatefulWidget {
+  const SellerProfile({super.key, required this.user, this.onGoHome});
   final user;
+
+  final VoidCallback? onGoHome;
+  @override
+  State<SellerProfile> createState() => _SellerProfileState();
+}
+
+class _SellerProfileState extends State<SellerProfile> {
+  bool isLoading = true;
+  final ReviewApiService _reviewApiService = ReviewApiService();
+  @override
+  void initState() {
+    super.initState();
+    userstate();
+  }
+
+  double averageRating = 0.0;
+  int totalReviews = 0;
+  bool isLoadingRating = true;
+
+  Future<void> userstate() async {
+    final stats = await _reviewApiService.getUserState(widget.user.id);
+
+    if (stats != null) {
+      setState(() {
+        averageRating = stats.averageRating;
+        totalReviews = stats.totalReviews;
+        isLoadingRating = false;
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
@@ -31,7 +64,7 @@ class SellerProfile extends StatelessWidget {
                 ),
                 child: IconButton(
                   onPressed: () {
-                    Navigator.pop(context);
+                    widget.onGoHome?.call();
                   },
                   icon: Icon(
                     Icons.arrow_back_ios_new_outlined,
@@ -74,9 +107,10 @@ class SellerProfile extends StatelessWidget {
                     backgroundColor: const Color.fromARGB(255, 222, 221, 221),
                     child: CircleAvatar(
                       radius: width * .1,
-                      backgroundImage: user.profileImage != null
+                      backgroundImage: widget.user.profileImage != null
                           ? NetworkImage(
-                              user.profileImage ?? 'assets/images/person.png',
+                              widget.user.profileImage ??
+                                  'assets/images/person.png',
                             )
                           : AssetImage('assets/images/person.png'),
                     ),
@@ -115,7 +149,7 @@ class SellerProfile extends StatelessWidget {
           Row(
             children: [
               Text(
-                '${user.firstName} ${user.secondName}',
+                '${widget.user.firstName} ${widget.user.secondName}',
                 style: TextStyle(
                   color: const Color(0xFF3E2723),
                   fontSize: 14.25,
@@ -165,19 +199,37 @@ class SellerProfile extends StatelessWidget {
           SizedBox(height: height * .01),
           Row(
             children: [
-              for (int i = 0; i < 4; i++)
-                Icon(Icons.star, color: Color(0xffC9A875), size: 15),
-              Icon(Icons.star_border_outlined, size: 15),
-              Text(
-                '4.9 (248 reviews)',
-                style: TextStyle(
-                  color: const Color(0xFF8D6E63),
-                  fontSize: 11,
-                  fontFamily: 'Arimo',
-                  fontWeight: FontWeight.w400,
-                  height: 1.50,
-                ),
-              ),
+              RatingStars(rating: averageRating),
+              // for (int i = 0; i < 4; i++)
+              //   Icon(Icons.star, color: Color(0xffC9A875), size: 15),
+              // Icon(Icons.star_border_outlined, size: 15),
+              isLoadingRating
+                  ? const SizedBox(
+                      width: 15,
+                      height: 15,
+                      child: CircularProgressIndicator(strokeWidth: 2),
+                    )
+                  : Text(
+                      ' ${averageRating.toStringAsFixed(1)}   (${totalReviews}) ',
+
+                      style: TextStyle(
+                        color: const Color(0xFF8D6E63),
+                        fontSize: 11,
+                        fontFamily: 'Arimo',
+                        fontWeight: FontWeight.w400,
+                        height: 1.50,
+                      ),
+                    ),
+              // Text(
+              //   '4.9 (248 reviews)',
+              //   style: TextStyle(
+              //     color: const Color(0xFF8D6E63),
+              //     fontSize: 11,
+              //     fontFamily: 'Arimo',
+              //     fontWeight: FontWeight.w400,
+              //     height: 1.50,
+              //   ),
+              // ),
             ],
           ),
           SizedBox(height: height * .01),
@@ -294,8 +346,8 @@ class SellerProfile extends StatelessWidget {
                       BlocProvider(
                         create: (context) =>
                             ProductsCubit(ProductOwnerProfileRepo())
-                              ..getProducts(user.id),
-                        child: ProductsGrid(user: user),
+                              ..getProducts(widget.user.id),
+                        child: ProductsGrid(user: widget.user),
                       ),
                       ReviewsView(),
                     ],

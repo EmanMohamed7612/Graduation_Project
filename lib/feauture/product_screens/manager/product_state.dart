@@ -21,18 +21,18 @@ final class ProductFailure extends ProductState {
 
 
 
-abstract class ProductsState {}
+// abstract class ProductsState {}
 
-class ProductsInitial extends ProductsState {}
+// class ProductsInitial extends ProductsState {}
 
-class ProductsLoading extends ProductsState {}
+// class ProductsLoading extends ProductsState {}
 
-class ProductsSuccess extends ProductsState {
-  final List<ProductModel> products;
-  ProductsSuccess(this.products);
-}
+// class ProductsSuccess extends ProductsState {
+//   final List<ProductsModel> products;
+//   ProductsSuccess(this.products);
+// }
 
-class ProductsError extends ProductsState {
-  final String message;
-  ProductsError(this.message);
-}
+// class ProductsError extends ProductsState {
+//   final String message;
+//   ProductsError(this.message);
+// }

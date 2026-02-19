@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
 
-class ReviewsView extends StatelessWidget {
+class ReviewsView extends StatefulWidget {
   const ReviewsView({super.key});
 
+  @override
+  State<ReviewsView> createState() => _ReviewsViewState();
+}
+
+class _ReviewsViewState extends State<ReviewsView> {
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
