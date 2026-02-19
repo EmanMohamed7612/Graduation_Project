@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:graduation2/core/services/api_services.dart';
 import 'package:graduation2/feauture/product/manager/product_details_cubit.dart';
 import 'package:graduation2/feauture/product/manager/product_details_state.dart';
 import 'package:graduation2/feauture/product/view/widgets/custom_icon.dart';
-import 'package:graduation2/feauture/product_screens/data/model/prodect_model_explore.dart';
-import 'package:graduation2/feauture/profile/data/user_profile_model.dart';
 import 'package:graduation2/feauture/review/data/review_service.dart';
 import 'package:graduation2/feauture/review/view/rating_screen.dart';
 
@@ -41,12 +38,6 @@ class _ProductDetailsState extends State<ProductDetails> {
     }
   }
 
-import '../../product_screens/data/model/prodect_model_explore.dart';
-
-class ProductDetails extends StatelessWidget {
-  ProductDetails({super.key, required this.product, required this.user});
-  final ProductModel product;
-  final UserProfileModel user;
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
@@ -70,29 +61,22 @@ class ProductDetails extends StatelessWidget {
           CustomIcon(icon: Icons.favorite_border_outlined),
         ],
       ),
-      body: SingleChildScrollView(
-        child: SafeArea(
-          child: Padding(
-            padding: EdgeInsets.symmetric(
-              horizontal: size.width * 0.04,
-              vertical: size.height * 0.02,
-            ),
-            child: Column(
-              children: [
-                Container(
-                  clipBehavior: Clip.antiAlias,
-                  width: double.infinity,
-                  height: size.height * .24,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(25),
-                  ),
-                  child: Image.network(
-                    product.imagePath
-                        ?? 'assets/images/person.png',
-                  ),
-                ),
-                SizedBox(height: size.height * 0.03),
-                Container(
+      body: BlocBuilder<ProductDetailsCubit, ProductDetailsState>(
+        builder: (context, state) {
+          if (state is ProductDetailsLoading) {
+            return const Center(child: CircularProgressIndicator());
+          }
+
+          if (state is ProductDetailsFailure) {
+            return Center(child: Text(state.message));
+          }
+
+          if (state is ProductDetailsSuccess) {
+            final product = state.product;
+
+            return SingleChildScrollView(
+              child: SafeArea(
+                child: Padding(
                   padding: EdgeInsets.symmetric(
                     horizontal: size.width * 0.04,
                     vertical: size.height * 0.02,
@@ -293,18 +277,42 @@ class ProductDetails extends StatelessWidget {
                           ),
                         ),
                       ),
-                      SizedBox(height: size.height * 0.01),
-                      Container(
-                        alignment: Alignment.topLeft,
-                        child: Text(
-                            product.price,
-
-                            style: TextStyle(
-                            color: const Color(0xFF6D4C41),
-                            fontSize: 26,
-                            fontFamily: 'Arimo',
-                            fontWeight: FontWeight.w400,
-                            height: 1.33,
+                      SizedBox(height: size.height * .015),
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (_) =>
+                                  RatingScreen(idProduct: product.id),
+                            ),
+                          );
+                        },
+                        child: Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(25),
+                            color: Color(0xffFAF8F5),
+                            border: Border.all(color: Color(0xff6D4C41)),
+                          ),
+                          width: size.width,
+                          height: size.height * .05,
+                          child: Center(
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Icon(Icons.star, color: Colors.yellow),
+                                Text(
+                                  '  View reviews  ',
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                    color: Color(0xff6D4C41),
+                                    fontSize: 18,
+                                    fontFamily: 'Arimo',
+                                    fontWeight: FontWeight.w700,
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
                         ),
                       ),
