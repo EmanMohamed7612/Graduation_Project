@@ -6,9 +6,10 @@ import 'package:graduation2/feauture/auth/manager/auth_cubit.dart';
 import 'package:graduation2/feauture/auth/views/check_email.dart';
 import 'package:graduation2/feauture/auth/views/login_screen.dart';
 import 'package:graduation2/feauture/profile/manager/profile_cubit.dart';
-import 'package:graduation2/feauture/profile/views/profile.dart';
-import 'package:graduation2/feauture/profile/views/seller_profile.dart';
+import 'package:graduation2/feauture/profile/views/myprofile/profile.dart';
+import 'package:graduation2/feauture/profile/views/myprofile/seller_profile.dart';
 import 'package:graduation2/feauture/product/view/product_datails.dart';
+import 'package:graduation2/feauture/review/view/cart/cart_screen.dart';
 import 'package:graduation2/feauture/review/view/write_review.dart';
 import 'package:graduation2/feauture/splash_screen/presentation/view/splash.dart';
 

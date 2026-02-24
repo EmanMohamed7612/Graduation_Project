@@ -148,9 +148,13 @@ class ApiService {
         endPoint,
         queryParameters: queryParameters,
       );
-      return response.data;
+    //   return response.data;
+    // } on DioException catch (e) {
+    //   return ApiExceptions.handleError(e);
+    // }
+     return _handleResponse(response.data);
     } on DioException catch (e) {
-      return ApiExceptions.handleError(e);
+      throw ApiExceptions.handleError(e);
     }
   }
 
@@ -158,9 +162,13 @@ class ApiService {
   Future<dynamic> post(String endPoint, dynamic body) async {
     try {
       final response = await _dioClient.dio.post(endPoint, data: body);
-      return response.data;
+     // return response.data;
+    // } on DioException catch (e) {
+    //   return ApiExceptions.handleError(e);
+    // }
+     return _handleResponse(response.data);
     } on DioException catch (e) {
-      return ApiExceptions.handleError(e);
+      throw ApiExceptions.handleError(e);
     }
   }
 
@@ -168,11 +176,37 @@ class ApiService {
   Future<dynamic> put(String endPoint, Map<String, dynamic> body) async {
     try {
       final response = await _dioClient.dio.put(endPoint, data: body);
-      return response.data;
+    //   return response.data;
+    // } on DioException catch (e) {
+    //   return ApiExceptions.handleError(e);
+    // }
+     return _handleResponse(response.data);
     } on DioException catch (e) {
-      return ApiExceptions.handleError(e);
+      throw ApiExceptions.handleError(e);
     }
+    
   }
+  
+  // dynamic _handleResponse(dynamic data) {
+  //   if (data is Map<String, dynamic> && data['success'] == false) {
+  //     throw ApiError(
+  //       message: data['message'] ?? 'Something went wrong',
+  //       statusCode: data['statusCode'],
+  //     );
+  //   }
+  //   return data;
+  // }
+  dynamic _handleResponse(dynamic data) {
+  if (data is Map<String, dynamic> && data['success'] == false) {
+    throw ApiError(
+      message: data['message'] ?? 'Something went wrong',
+      statusCode: data['statusCode'] is int
+          ? data['statusCode']
+          : int.tryParse(data['statusCode']?.toString() ?? ''),
+    );
+  }
+  return data;
+}
 
   /// DELETE
   Future<dynamic> delete(

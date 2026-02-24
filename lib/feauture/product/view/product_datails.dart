@@ -4,6 +4,7 @@ import 'package:graduation2/feauture/product/manager/product_details_cubit.dart'
 import 'package:graduation2/feauture/product/manager/product_details_state.dart';
 import 'package:graduation2/feauture/product/view/widgets/custom_icon.dart';
 import 'package:graduation2/feauture/review/data/review_service.dart';
+import 'package:graduation2/feauture/review/view/cart/cart_screen.dart';
 import 'package:graduation2/feauture/review/view/rating_screen.dart';
 
 class ProductDetails extends StatefulWidget {
@@ -375,7 +376,16 @@ class _ProductDetailsState extends State<ProductDetails> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           GestureDetector(
-                            onTap: () {},
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) {
+                                    return CartScreen();
+                                  },
+                                ),
+                              );
+                            },
                             child: Container(
                               decoration: BoxDecoration(
                                 border: Border.all(color: Color(0xff6D4C41)),

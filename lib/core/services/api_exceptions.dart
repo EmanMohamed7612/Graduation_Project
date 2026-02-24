@@ -8,11 +8,11 @@ class ApiExceptions {
     if (data is Map<String, dynamic> && data['message'] != null) {
       return ApiError(message: data['message'], statusCode: statusCode);
     }
-    if (statusCode == 302) {
-      return ApiError(
-        message: "The email Already exists in the system.",
-      );
-    }
+    // if (statusCode == 302) {
+    //   return ApiError(
+    //     message: "The email Already exists in the system.",
+    //   );
+    // }
     switch (error.type) {
       case DioExceptionType.connectionTimeout:
         return ApiError(

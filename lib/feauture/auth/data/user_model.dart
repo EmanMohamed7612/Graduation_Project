@@ -55,8 +55,12 @@ class UserModel {
       confirmPassword: json['ConfirmPassword'] ?? json['confirmPassword'],
       role: json['Role'] ?? json['role'],
       gender: json['Gender'] ?? json['gender'],
-      yearsOfExperience:
-          json['YearsOfExperience'] ?? json['yearsOfExperience'] ?? 0,
+      // yearsOfExperience:
+      //     json['YearsOfExperience'] ?? json['yearsOfExperience'] ?? 0,
+      yearsOfExperience: json['yearsOfExperience'] is int
+          ? json['yearsOfExperience']
+          : int.tryParse(json['yearsOfExperience']?.toString() ?? ''),
+
       profileImage: json['ProfileImage'] != null
           ? (json['ProfileImage'] is List
                 ? List<String>.from(json['ProfileImage'])

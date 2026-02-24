@@ -4,10 +4,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:graduation2/core/services/api_services.dart';
 import 'package:graduation2/feauture/profile/manager/number_product_cubit.dart';
 import 'package:graduation2/feauture/profile/manager/number_product_state.dart';
-import 'package:graduation2/feauture/profile/views/products.dart';
-import 'package:graduation2/feauture/profile/views/reviews.dart';
-import 'package:graduation2/feauture/profile/views/widgets/numberandtype.dart';
+import 'package:graduation2/feauture/profile/views/myprofile/widgets/numberandtype.dart';
+import 'package:graduation2/feauture/profile/views/myprofile/widgets/products.dart';
+import 'package:graduation2/feauture/profile/views/myprofile/widgets/reviews.dart';
 import 'package:graduation2/feauture/product_screens/manager/product_cubit.dart';
+
 import 'package:graduation2/feauture/review/data/review_service.dart';
 import 'package:graduation2/feauture/review/view/widgets/custom_star.dart';
 
@@ -55,47 +56,47 @@ class _SellerProfileState extends State<SellerProfile> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(25),
-                ),
-                child: IconButton(
-                  onPressed: () {
-                    widget.onGoHome?.call();
-                  },
-                  icon: Icon(
-                    Icons.arrow_back_ios_new_outlined,
-                    color: Color(0xff6D4C41),
-                  ),
-                ),
-              ),
-              Text(
-                'My Profile',
-                style: TextStyle(
-                  color: const Color(0xFF3E2723),
-                  fontSize: 16,
-                  fontFamily: 'Arimo',
-                  fontWeight: FontWeight.w400,
-                  height: 1.50,
-                ),
-              ),
-              Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(25),
-                ),
-                child: IconButton(
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                  icon: Icon(Icons.settings_outlined, color: Color(0xff6D4C41)),
-                ),
-              ),
-            ],
-          ),
-          SizedBox(height: height * .02),
+          // Row(
+          //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          //   children: [
+          //     Container(
+          //       decoration: BoxDecoration(
+          //         borderRadius: BorderRadius.circular(25),
+          //       ),
+          //       child: IconButton(
+          //         onPressed: () {
+          //           widget.onGoHome?.call();
+          //         },
+          //         icon: Icon(
+          //           Icons.arrow_back_ios_new_outlined,
+          //           color: Color(0xff6D4C41),
+          //         ),
+          //       ),
+          //     ),
+          //     Text(
+          //       'My Profile',
+          //       style: TextStyle(
+          //         color: const Color(0xFF3E2723),
+          //         fontSize: 16,
+          //         fontFamily: 'Arimo',
+          //         fontWeight: FontWeight.w400,
+          //         height: 1.50,
+          //       ),
+          //     ),
+          //     Container(
+          //       decoration: BoxDecoration(
+          //         borderRadius: BorderRadius.circular(25),
+          //       ),
+          //       child: IconButton(
+          //         onPressed: () {
+          //           Navigator.pop(context);
+          //         },
+          //         icon: Icon(Icons.settings_outlined, color: Color(0xff6D4C41)),
+          //       ),
+          //     ),
+          //   ],
+          // ),
+          // SizedBox(height: height * .02),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [

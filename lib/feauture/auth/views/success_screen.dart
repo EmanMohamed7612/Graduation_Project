@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:graduation2/feauture/profile/views/profile.dart';
+import 'package:graduation2/feauture/profile/views/myprofile/profile.dart';
 
 class ExpertSuccessScreen extends StatelessWidget {
   const ExpertSuccessScreen({super.key});

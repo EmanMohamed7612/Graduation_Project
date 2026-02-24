@@ -509,7 +509,7 @@ class AuthCubit extends Cubit<AuthState> {
     required String confirmPassword,
     required String role,
     required String gender,
-     int? yearsOfExperience,
+    int? yearsOfExperience,
     List<MultipartFile>? profileImages,
     List<MultipartFile>? portfolioFiles,
   }) async {
@@ -585,7 +585,7 @@ class AuthCubit extends Cubit<AuthState> {
       }
       // ----------------------------
 
-      emit(AuthSuccessState(UserModel.fromJson(userDataMap!),));
+      emit(AuthSuccessState(UserModel.fromJson(userDataMap!)));
     } catch (e) {
       emit(AuthFailureState('Unexpected error: $e'));
     }
@@ -680,24 +680,43 @@ class AuthCubit extends Cubit<AuthState> {
 
   // ================= OTP & Password =================
 
-  Future<void> verifyEmail({required String email}) async {
-    emit(AuthLoadingState());
+  // Future<void> verifyEmail({required String email}) async {
+  //   emit(AuthLoadingState());
 
-    try {
-      final response = await apiService.post(ApiEndpoint.verifyEmail, {
-        'email': email,
-      });
+  //   try {
+  //     final response = await apiService.post(ApiEndpoint.verifyEmail, {
+  //       'email': email,
+  //     });
 
-      if (response is ApiError) {
-        emit(AuthFailureState(response.message));
-        return;
-      }
+  //     // if (response is ApiError) {
+  //     //   emit(AuthFailureState(response.message));
+  //     //   return;
+  //     // }
 
-      emit(VerifyEmailSuccessState(email));
-    } catch (e) {
-      emit(AuthFailureState('Unexpected error: $e'));
-    }
+  //     emit(VerifyEmailSuccessState(email));
+  //   } on ApiError catch (e) {
+  //     emit(AuthFailureState(e.message)); // ✅ هياخد رسالة الباك إند الصح
+  //   } catch (e) {
+  //     emit(AuthFailureState('Unexpected error: $e'));
+  //   }
+  // }
+
+Future<void> verifyEmail({required String email}) async {
+  emit(AuthLoadingState());
+
+  try {
+    await apiService.post(
+      ApiEndpoint.verifyEmail,
+      {'email': email},
+    );
+
+    emit(VerifyEmailSuccessState(email));
+  } on ApiError catch (e) {
+    emit(AuthFailureState(e.message)); // ✅ هنا هتظهر رسالة الباك الصح
+  } catch (e) {
+    emit(AuthFailureState('Unexpected error: $e'));
   }
+}
 
   Future<void> checkEmailOtp({
     required String email,

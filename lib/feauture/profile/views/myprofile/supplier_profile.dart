@@ -1,27 +1,27 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:graduation2/core/services/api_services.dart';
-import 'package:graduation2/feauture/home/presentation/view/home_screen.dart';
 import 'package:graduation2/feauture/profile/manager/number_product_cubit.dart';
 import 'package:graduation2/feauture/profile/manager/number_product_state.dart';
-import 'package:graduation2/feauture/profile/views/products.dart';
-import 'package:graduation2/feauture/profile/views/reviews.dart';
-import 'package:graduation2/feauture/profile/views/sessions.dart';
-import 'package:graduation2/feauture/profile/views/widgets/numberandtype.dart';
+import 'package:graduation2/feauture/profile/views/myprofile/widgets/numberandtype.dart';
+import 'package:graduation2/feauture/profile/views/myprofile/widgets/products.dart';
+import 'package:graduation2/feauture/profile/views/myprofile/widgets/reviews.dart';
 import 'package:graduation2/feauture/product_screens/manager/product_cubit.dart';
+
 import 'package:graduation2/feauture/review/data/review_service.dart';
 import 'package:graduation2/feauture/review/view/widgets/custom_star.dart';
 
-class ExpertProfile extends StatefulWidget {
-  const ExpertProfile({super.key, required this.user, this.onGoHome});
+class Supplierprofile extends StatefulWidget {
+  const Supplierprofile({super.key, required this.user, this.onGoHome});
   final user;
 
   final VoidCallback? onGoHome;
   @override
-  State<ExpertProfile> createState() => _ExpertProfileState();
+  State<Supplierprofile> createState() => _SupplierprofileState();
 }
 
-class _ExpertProfileState extends State<ExpertProfile> {
+class _SupplierprofileState extends State<Supplierprofile> {
   bool isLoading = true;
   final ReviewApiService _reviewApiService = ReviewApiService();
   @override
@@ -50,53 +50,53 @@ class _ExpertProfileState extends State<ExpertProfile> {
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
-    dynamic count = 0;
+    int count = 0;
     return SingleChildScrollView(
       padding: const EdgeInsets.all(16),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(25),
-                ),
-                child: IconButton(
-                  onPressed: () {
-                    widget.onGoHome?.call();
-                  },
-                  icon: Icon(
-                    Icons.arrow_back_ios_new_outlined,
-                    color: Color(0xff6D4C41),
-                  ),
-                ),
-              ),
-              Text(
-                'My Profile',
-                style: TextStyle(
-                  color: const Color(0xFF3E2723),
-                  fontSize: 16,
-                  fontFamily: 'Arimo',
-                  fontWeight: FontWeight.w400,
-                  height: 1.50,
-                ),
-              ),
-              Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(25),
-                ),
-                child: IconButton(
-                  onPressed: () {
-                    // Navigator.pop(context);
-                  },
-                  icon: Icon(Icons.settings_outlined, color: Color(0xff6D4C41)),
-                ),
-              ),
-            ],
-          ),
-          SizedBox(height: height * .02),
+          // Row(
+          //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          //   children: [
+          //     Container(
+          //       decoration: BoxDecoration(
+          //         borderRadius: BorderRadius.circular(25),
+          //       ),
+          //       child: IconButton(
+          //         onPressed: () {
+          //           widget.onGoHome?.call();
+          //         },
+          //         icon: Icon(
+          //           Icons.arrow_back_ios_new_outlined,
+          //           color: Color(0xff6D4C41),
+          //         ),
+          //       ),
+          //     ),
+          //     Text(
+          //       'My Profile',
+          //       style: TextStyle(
+          //         color: const Color(0xFF3E2723),
+          //         fontSize: 16,
+          //         fontFamily: 'Arimo',
+          //         fontWeight: FontWeight.w400,
+          //         height: 1.50,
+          //       ),
+          //     ),
+          //     Container(
+          //       decoration: BoxDecoration(
+          //         borderRadius: BorderRadius.circular(25),
+          //       ),
+          //       child: IconButton(
+          //         onPressed: () {
+          //           Navigator.pop(context);
+          //         },
+          //         icon: Icon(Icons.settings_outlined, color: Color(0xff6D4C41)),
+          //       ),
+          //     ),
+          //   ],
+          // ),
+          // SizedBox(height: height * .02),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -127,6 +127,7 @@ class _ExpertProfileState extends State<ExpertProfile> {
                   ),
                 ],
               ),
+
               BlocBuilder<ProductCountCubit, ProductCountState>(
                 builder: (context, state) {
                   if (state is ProductCountLoading) {
@@ -135,14 +136,14 @@ class _ExpertProfileState extends State<ExpertProfile> {
 
                   if (state is ProductCountSuccess) {
                     count = state.count;
-                    return NumberOfType(number: state.count, type: 'Products');
+                    return NumberOfType(number: state.count, type: 'Matrials');
                   }
-                  return NumberOfType(number: 0, type: 'Products');
+                  return NumberOfType(number: 0, type: 'Matrials');
                 },
               ),
 
               NumberOfType(number: 45, type: 'Orders'),
-              NumberOfType(number: 45, type: 'Sessions'),
+              NumberOfType(number: 45, type: 'Reviews'),
             ],
           ),
           SizedBox(height: height * .01),
@@ -160,26 +161,24 @@ class _ExpertProfileState extends State<ExpertProfile> {
               ),
               SizedBox(width: width * .03),
               Container(
+                width: width * .12,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(35),
                   gradient: LinearGradient(
-                    colors: [Color(0xffFFD700), Color(0xffC9A875)],
+                    colors: [Color(0xff8D6E63), Color(0xffA1887F)],
                   ),
                 ),
-                child: Row(
-                  children: [
-                    Icon(Icons.star, color: Colors.white, size: 20),
-                    Text(
-                      '  ${widget.user.roleType}',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 12.25,
-                        fontFamily: 'Arimo',
-                        fontWeight: FontWeight.w400,
-                        height: 1.43,
-                      ),
+                child: Center(
+                  child: Text(
+                    'Seller',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 12.25,
+                      fontFamily: 'Arimo',
+                      fontWeight: FontWeight.bold,
+                      height: 1.43,
                     ),
-                  ],
+                  ),
                 ),
               ),
             ],
@@ -271,7 +270,7 @@ class _ExpertProfileState extends State<ExpertProfile> {
                           Icon(Icons.card_travel_rounded, color: Colors.white),
                           const SizedBox(width: 7),
                           Text(
-                            'My sessions',
+                            'Orders',
                             style: TextStyle(
                               color: Colors.white,
                               fontSize: 14,
@@ -315,7 +314,7 @@ class _ExpertProfileState extends State<ExpertProfile> {
           ),
           SizedBox(height: height * .01),
           DefaultTabController(
-            length: 3,
+            length: 2,
             child: Column(
               children: [
                 // Tabs
@@ -332,7 +331,7 @@ class _ExpertProfileState extends State<ExpertProfile> {
                     unselectedLabelColor: Colors.grey,
                     tabs: [
                       Tab(text: 'Products'),
-                      Tab(text: 'Sessions'),
+
                       Tab(text: 'Reviews'),
                     ],
                   ),
@@ -351,7 +350,6 @@ class _ExpertProfileState extends State<ExpertProfile> {
                               ..getProducts(widget.user.id),
                         child: ProductsGrid(user: widget.user),
                       ),
-                      SessionsView(),
                       ReviewsView(),
                     ],
                   ),

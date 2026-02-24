@@ -23,22 +23,22 @@ class CheckEmailScreen extends StatelessWidget {
             context,
             MaterialPageRoute(
               //eman
-              builder: (_) =>
-                  EmailVerifiedScreen(email: emailController.text.trim(), role: role),
-                
-                ///eman
-                  // EnterCodeScreen(
-                  //   email: emailController.text.trim(),
-                  //   role: role,
-                  // ),
+              builder: (_) => EmailVerifiedScreen(
+                email: emailController.text.trim(),
+                role: role,
+              ),
+
+              ///eman
+              // EnterCodeScreen(
+              //   email: emailController.text.trim(),
+              //   role: role,
+              // ),
             ),
           );
         }
 
         if (state is AuthFailureState) {
-          ScaffoldMessenger.of(
-            context,
-          ).showSnackBar(SnackBar(content: Text(state.errorMessage)));
+          showErrorDialog(context, state.errorMessage);
         }
       },
       child: Scaffold(
@@ -241,6 +241,54 @@ class CheckEmailScreen extends StatelessWidget {
         borderRadius: BorderRadius.circular(24),
         borderSide: BorderSide.none,
       ),
+    );
+  }
+
+  void showErrorDialog(BuildContext context, String message) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return Dialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.all(16),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Row(
+                  children: const [
+                    Expanded(
+                      child: Text(
+                        "Error",
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ),
+                    Icon(Icons.error_outline, color: Colors.red),
+                  ],
+                ),
+                const SizedBox(height: 8),
+                const Divider(),
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 12),
+                  child: Text(message, textAlign: TextAlign.center),
+                ),
+                Align(
+                  alignment: Alignment.centerRight,
+                  child: TextButton(
+                    onPressed: () => Navigator.pop(context),
+                    child: const Text("OK"),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        );
+      },
     );
   }
 }

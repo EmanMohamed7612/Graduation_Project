@@ -25,6 +25,9 @@ class ProductsGrid extends StatelessWidget {
             child: Text('No products found!', style: TextStyle(fontSize: 16)),
           );
         }
+        if (countState is ProductCountError) {
+          return Center(child: Text(countState.message));
+        }
         if (countState is ProductCountSuccess) {
           count = countState.count;
         }
