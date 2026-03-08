@@ -15,15 +15,15 @@ import 'package:graduation2/feauture/review/manager/review_cubit.dart';
 import 'package:graduation2/feauture/review/view/cart/cart_screen.dart';
 import 'package:graduation2/feauture/review/view/rating_screen.dart';
 
-class ProductDetails extends StatefulWidget {
-  ProductDetails({super.key, required this.productId});
+class RawMaterialDetails extends StatefulWidget {
+  RawMaterialDetails({super.key, required this.productId});
   int productId;
 
   @override
-  State<ProductDetails> createState() => _ProductDetailsState();
+  State<RawMaterialDetails> createState() => _RawMaterialDetailsState();
 }
 
-class _ProductDetailsState extends State<ProductDetails> {
+class _RawMaterialDetailsState extends State<RawMaterialDetails> {
   final ReviewApiService _reviewApiService = ReviewApiService();
 
   double averageRating = 0.0;
@@ -32,12 +32,12 @@ class _ProductDetailsState extends State<ProductDetails> {
   @override
   void initState() {
     super.initState();
-    context.read<ProductDetailsCubit>().fetchProductDetails(widget.productId);
+    context.read<ProductDetailsCubit>().fetchMaterialDetails(widget.productId);
     _loadProductStats();
   }
 
   Future<void> _loadProductStats() async {
-    final stats = await _reviewApiService.getProductStats(widget.productId);
+    final stats = await _reviewApiService.getRawMatrialState(widget.productId);
 
     if (stats != null) {
       setState(() {
@@ -101,7 +101,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                           borderRadius: BorderRadius.circular(25),
                         ),
                         child: Image.network(
-                          product.imageUrl ?? 'assets/images/person.png',
+                          product.imageUrl ?? 'assets/images/no_photo.png',
                         ),
                       ),
                       SizedBox(height: size.height * 0.03),

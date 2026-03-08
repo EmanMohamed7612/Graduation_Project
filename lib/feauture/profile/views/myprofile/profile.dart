@@ -6,6 +6,7 @@ import 'package:graduation2/feauture/profile/manager/number_product_cubit.dart';
 import 'package:graduation2/feauture/profile/manager/profile_cubit.dart';
 import 'package:graduation2/feauture/profile/manager/profile_state.dart';
 import 'package:graduation2/feauture/profile/views/myprofile/customer_profile.dart';
+import 'package:graduation2/feauture/profile/views/myprofile/expert_profile.dart';
 
 import 'package:graduation2/feauture/profile/views/myprofile/seller_profile.dart';
 import 'package:graduation2/feauture/profile/views/myprofile/supplier_profile.dart';
@@ -45,12 +46,12 @@ class Profile extends StatelessWidget {
           ),
         ],
       ),
-      backgroundColor: Colors.white,
-     
+
+      // backgroundColor: Colors.white,
       body: SafeArea(
         child: BlocBuilder<UserProfileCubit, UserProfileState>(
           builder: (context, state) {
-            if (state is UserProfileLoading) {
+            if (state is UserAccountLoading) {
               return const Center(child: CircularProgressIndicator());
             }
 
@@ -72,23 +73,30 @@ class Profile extends StatelessWidget {
                 return BlocProvider(
                   create: (_) =>
                       ProductCountCubit(ProductApiService())
-                        ..fetchMyProductsCount(),
+                        ..fetchMyProductsCount(user.id),
                   child: SellerProfile(user: user, onGoHome: onGoHome),
                 );
               } else if (user.roleType == 'Expert') {
                 return BlocProvider(
                   create: (_) =>
                       ProductCountCubit(ProductApiService())
-                        ..fetchMyProductsCount(),
-                  child: CustomerProfile(user: user, onGoHome: onGoHome),
+                        ..fetchMyProductsCount(user.id),
+                  child: ExpertProfile(user: user, onGoHome: onGoHome),
                 );
-              }
-              else if (user.roleType == 'Supplier') {
+              } else if (user.roleType == 'Supplier') {
                 return BlocProvider(
                   create: (_) =>
                       ProductCountCubit(ProductApiService())
-                        ..fetchMyProductsCount(),
+                        ..fetchMyRawMaterialsCount(user.id),
                   child: Supplierprofile(user: user, onGoHome: onGoHome),
+                );
+              } else if (user.roleType == 'Customer') {
+                print('user id  ${user.id}');
+                return BlocProvider(
+                  create: (_) =>
+                      ProductCountCubit(ProductApiService())
+                        ..fetchMyProductsCount(user.id),
+                  child: CustomerProfile(user: user, onGoHome: onGoHome),
                 );
               }
             }

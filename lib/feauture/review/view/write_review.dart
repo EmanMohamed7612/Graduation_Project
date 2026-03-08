@@ -9,9 +9,15 @@ import 'package:graduation2/feauture/review/view/widgets/custom_star.dart';
 import 'package:graduation2/feauture/review/view/widgets/rating_star.dart';
 
 class WriteReviewScreen extends StatefulWidget {
-  const WriteReviewScreen({super.key, required this.productId});
-  final int productId;
-
+  const WriteReviewScreen({
+    super.key,
+    this.productId,
+    this.targetUserId,
+    this.rawMaterialId,
+  });
+  final int? productId;
+  final String? targetUserId;
+  final int? rawMaterialId;
   @override
   State<WriteReviewScreen> createState() => _WriteReviewScreenState();
 }
@@ -21,12 +27,11 @@ class _WriteReviewScreenState extends State<WriteReviewScreen> {
   final ReviewApiService _reviewApiService = ReviewApiService();
   int selectedRating = 0;
   bool isLoading = false;
-
   Future<void> submitReview() async {
     if (selectedRating == 0) {
       ScaffoldMessenger.of(
         context,
-      ).showSnackBar(SnackBar(content: Text('Please select rating')));
+      ).showSnackBar(const SnackBar(content: Text('Please select rating')));
       return;
     }
 
@@ -36,24 +41,73 @@ class _WriteReviewScreenState extends State<WriteReviewScreen> {
       await _reviewApiService.addOrUpdateReview(
         AddReviewRequest(
           productId: widget.productId,
+          targetUserId: widget.targetUserId,
+          rawMaterialId: widget.rawMaterialId,
           rating: selectedRating,
           review: _reviewController.text,
         ),
       );
 
+      // 1. التأكد إن الشاشة لسه مفتوحة قبل ما نظهر السناك بار أو نقفلها
+      if (!mounted) return;
+
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('✅ Review submitted successfully')),
+        const SnackBar(content: Text('✅ Review submitted successfully')),
       );
 
-      Navigator.pop(context);
+      // 2. قفل الشاشة وإرجاع true
+      Navigator.pop(context, true);
     } on ApiError catch (e) {
+      if (!mounted) return; // حماية إضافية
       ScaffoldMessenger.of(
         context,
       ).showSnackBar(SnackBar(content: Text(e.message)));
+    } catch (e) {
+      if (!mounted) return; // لو حصل أي إيرور غير متوقع
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text(e.toString())));
     } finally {
-      setState(() => isLoading = false);
+      // 3. المشكلة الأساسية كانت هنا: لازم تتأكد إن الشاشة موجودة قبل الـ setState
+      if (mounted) {
+        setState(() => isLoading = false);
+      }
     }
   }
+  // Future<void> submitReview() async {
+  //   if (selectedRating == 0) {
+  //     ScaffoldMessenger.of(
+  //       context,
+  //     ).showSnackBar(SnackBar(content: Text('Please select rating')));
+  //     return;
+  //   }
+
+  //   setState(() => isLoading = true);
+
+  //   try {
+  //     await _reviewApiService.addOrUpdateReview(
+  //       AddReviewRequest(
+  //         productId: widget.productId,
+  //         targetUserId: widget.targetUserId,
+  //         rawMaterialId: widget.rawMaterialId,
+  //         rating: selectedRating,
+  //         review: _reviewController.text,
+  //       ),
+  //     );
+
+  //     ScaffoldMessenger.of(context).showSnackBar(
+  //       SnackBar(content: Text('✅ Review submitted successfully')),
+  //     );
+
+  //     Navigator.pop(context, true);
+  //   } on ApiError catch (e) {
+  //     ScaffoldMessenger.of(
+  //       context,
+  //     ).showSnackBar(SnackBar(content: Text(e.message)));
+  //   } finally {
+  //     setState(() => isLoading = false);
+  //   }
+  // }
 
   @override
   Widget build(BuildContext context) {

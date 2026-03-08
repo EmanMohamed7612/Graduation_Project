@@ -7,14 +7,36 @@ class ProductCountCubit extends Cubit<ProductCountState> {
 
   ProductCountCubit(this.repo) : super(ProductCountInitial());
 
-  Future<void> fetchMyProductsCount() async {
-    emit(ProductCountLoading());
+  // Future<void> fetchMyProductsCount() async {
+  //   emit(ProductCountLoading());
 
-    try {
-      final count = await repo.getMyProductsCount();
-      emit(ProductCountSuccess(count));
-    } catch (e) {
-      emit(ProductCountError('Failed to load product count'));
-    }
+  //   try {
+  //     final count = await repo.getMyProductsCount();
+  //     emit(ProductCountSuccess(count));
+  //   } catch (e) {
+  //     emit(ProductCountError('Failed to load product count'));
+  //   }
+  // }
+  Future<void> fetchMyProductsCount(String userId) async {
+  emit(ProductCountLoading());
+
+  try {
+    final count = await repo.getMyProductsCount(userId);
+    emit(ProductCountSuccess(count));
+  } catch (e) {
+    emit(ProductCountError('Failed to load product count'));
   }
+}
+
+
+  Future<void> fetchMyRawMaterialsCount(String userId) async {
+  emit(ProductCountLoading());
+
+  try {
+    final count = await repo.getMyRawMaterialsCount(userId);
+   emit(RawMaterialCountSuccess(count));
+  } catch (e) {
+    emit(ProductCountError('Failed to load raw materials count'));
+  }
+}
 }

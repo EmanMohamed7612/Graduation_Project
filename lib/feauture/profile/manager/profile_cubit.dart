@@ -2,9 +2,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:graduation2/core/services/api_services.dart';
 
-
 import 'profile_state.dart';
-
 
 class UserProfileCubit extends Cubit<UserProfileState> {
   final UserProfileRepo repo;
@@ -12,7 +10,7 @@ class UserProfileCubit extends Cubit<UserProfileState> {
   UserProfileCubit(this.repo) : super(UserProfileInitial());
 
   void fetchProfile() async {
-    emit(UserProfileLoading());
+    emit(UserAccountLoading());
     try {
       final profile = await repo.getCurrentUser();
       emit(UserProfileSuccess(profile));
@@ -20,4 +18,6 @@ class UserProfileCubit extends Cubit<UserProfileState> {
       emit(UserProfileFailure(e.toString()));
     }
   }
+
+
 }

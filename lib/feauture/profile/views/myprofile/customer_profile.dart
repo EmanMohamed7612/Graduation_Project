@@ -1,131 +1,166 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:graduation2/feauture/auth/views/widgets/custom_button.dart';
+import 'package:graduation2/feauture/profile/views/accounts/widgets/posts_account.dart';
 import 'package:graduation2/feauture/profile/views/myprofile/widgets/custom_button.dart';
 import 'package:graduation2/feauture/profile/views/myprofile/widgets/posts_profile.dart';
 import 'package:graduation2/feauture/profile/views/myprofile/widgets/reviews_customer.dart';
+import 'package:graduation2/feauture/review/data/review_service.dart';
+import 'package:graduation2/feauture/review/manager/review_cubit.dart';
 
-
-class CustomerProfile extends StatelessWidget {
+class CustomerProfile extends StatefulWidget {
   const CustomerProfile({super.key, required this.user, this.onGoHome});
   final user;
 
   final VoidCallback? onGoHome;
+
+  @override
+  State<CustomerProfile> createState() => _CustomerProfileState();
+}
+
+class _CustomerProfileState extends State<CustomerProfile> {
+  final ReviewApiService _reviewApiService = ReviewApiService();
+  double averageRating = 0.0;
+  int totalReviews = 0;
+  bool isLoadingRating = true;
+
+  Future<void> userstate() async {
+    final stats = await _reviewApiService.getUserState(widget.user.id);
+
+    if (stats != null) {
+      setState(() {
+        averageRating = stats.averageRating;
+        totalReviews = stats.totalReviews;
+        isLoadingRating = false;
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
     return SingleChildScrollView(
-      padding: const EdgeInsets.all(16),
+      //  padding: const EdgeInsets.all(16),
       child: Column(
         children: [
-          Row(
-            children: [
-              CircleAvatar(
-                radius: width * .08,
-                backgroundImage: user.profileImage != null
-                    ? NetworkImage(
-                        user.profileImage ?? 'assets/images/person.png',
-                      )
-                    : AssetImage('assets/images/person.png'),
-                // backgroundImage: AssetImage('assets/images/topseller.png'),
-              ),
-              const SizedBox(width: 16),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+          Container(
+            padding: const EdgeInsets.all(16),
+            color: Colors.white,
+            child: Column(
+              children: [
+                Row(
                   children: [
-                    Text(
-                      textAlign: TextAlign.start,
-                      '${user.firstName} ${user.secondName}',
-                      style: TextStyle(
-                        color: const Color(0xFF3E2723),
-                        fontSize: 16,
-                        fontFamily: 'Arimo',
-                        fontWeight: FontWeight.w400,
-                        height: 1.50,
-                      ),
+                    CircleAvatar(
+                      radius: width * .08,
+                      backgroundImage: widget.user.profileImage != null
+                          ? NetworkImage(
+                              widget.user.profileImage ??
+                                  'assets/images/person.png',
+                            )
+                          : AssetImage('assets/images/person.png'),
+                      // backgroundImage: AssetImage('assets/images/topseller.png'),
                     ),
-                    const SizedBox(height: 4),
-                    Text(
-                      softWrap: true,
-                      overflow: TextOverflow.visible,
-                      user.specialization ??
-                          'Handmade enthusiast | Love supporting local',
-                      style: TextStyle(
-                        color: const Color(0xFF8D6E63),
-                        fontSize: 12,
-                        fontFamily: 'Arimo',
-                        fontWeight: FontWeight.w400,
-                        height: 1.63,
+                    const SizedBox(width: 16),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            textAlign: TextAlign.start,
+                            '${widget.user.firstName} ${widget.user.secondName}',
+                            style: TextStyle(
+                              color: const Color(0xFF3E2723),
+                              fontSize: 16,
+                              fontFamily: 'Arimo',
+                              fontWeight: FontWeight.w400,
+                              height: 1.50,
+                            ),
+                          ),
+                          const SizedBox(height: 4),
+                          Text(
+                            softWrap: true,
+                            overflow: TextOverflow.visible,
+                            widget.user.specialization ??
+                                'Handmade enthusiast | Love supporting local',
+                            style: TextStyle(
+                              color: const Color(0xFF8D6E63),
+                              fontSize: 12,
+                              fontFamily: 'Arimo',
+                              fontWeight: FontWeight.w400,
+                              height: 1.63,
+                            ),
+                          ),
+                          const SizedBox(height: 2),
+                          Row(
+                            children: [
+                              Icon(
+                                Icons.description_outlined,
+                                color: const Color(0xFF8D6E63),
+                                size: 14,
+                              ),
+                              Text(
+                                '0 Posts  .',
+                                style: TextStyle(
+                                  color: const Color(0xFF8D6E63),
+                                  fontSize: 12,
+                                  fontFamily: 'Arimo',
+                                  fontWeight: FontWeight.w400,
+                                  height: 1.50,
+                                ),
+                              ),
+                              Icon(
+                                Icons.star_outline_outlined,
+                                color: const Color(0xFF8D6E63),
+                                size: 14,
+                              ),
+                              Text(
+                                '${totalReviews}  Reviews',
+                                style: TextStyle(
+                                  color: const Color(0xFF8D6E63),
+                                  fontSize: 12,
+                                  fontFamily: 'Arimo',
+                                  fontWeight: FontWeight.w400,
+                                  height: 1.50,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
                       ),
-                    ),
-                    const SizedBox(height: 2),
-                    Row(
-                      children: [
-                        Icon(
-                          Icons.description_outlined,
-                          color: const Color(0xFF8D6E63),
-                          size: 14,
-                        ),
-                        Text(
-                          '12 Posts  .',
-                          style: TextStyle(
-                            color: const Color(0xFF8D6E63),
-                            fontSize: 12,
-                            fontFamily: 'Arimo',
-                            fontWeight: FontWeight.w400,
-                            height: 1.50,
-                          ),
-                        ),
-                        Icon(
-                          Icons.star_outline_outlined,
-                          color: const Color(0xFF8D6E63),
-                          size: 14,
-                        ),
-                        Text(
-                          '12 Reviews ',
-                          style: TextStyle(
-                            color: const Color(0xFF8D6E63),
-                            fontSize: 12,
-                            fontFamily: 'Arimo',
-                            fontWeight: FontWeight.w400,
-                            height: 1.50,
-                          ),
-                        ),
-                      ],
                     ),
                   ],
                 ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 16),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              CustomButtonprofile(
-                text: 'Orders',
-                icon: Icons.shopping_bag_outlined,
-                color1: const Color(0xFF6D4C41),
-                color2: const Color(0xFF8D6E63),
-              ),
+                const SizedBox(height: 16),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    CustomButtonprofile(
+                      text: 'Orders',
+                      icon: Icons.shopping_bag_outlined,
+                      color1: const Color(0xFF6D4C41),
+                      color2: const Color(0xFF8D6E63),
+                    ),
 
-              CustomButtonprofile(
-                text: 'WishList',
-                icon: Icons.favorite_outline,
-                color1: const Color(0xFFC9A875),
-                color2: const Color(0xFFD4AF37),
-              ),
-              CustomButtonprofile(
-                text: 'Messages',
-                icon: Icons.message_outlined,
-                color1: const Color(0xFFC9A875),
-                color2: const Color(0xFFD4AF37),
-                message: true,
-              ),
-            ],
+                    CustomButtonprofile(
+                      text: 'WishList',
+                      icon: Icons.favorite_outline,
+                      color1: const Color(0xFFC9A875),
+                      color2: const Color(0xFFD4AF37),
+                    ),
+                    CustomButtonprofile(
+                      text: 'Messages',
+                      icon: Icons.message_outlined,
+                      color1: const Color(0xFFC9A875),
+                      color2: const Color(0xFFD4AF37),
+                      message: true,
+                    ),
+                  ],
+                ),
+              ],
+            ),
           ),
-          const SizedBox(height: 20),
+          // const SizedBox(height: 20),
           DefaultTabController(
             length: 2,
             child: Column(
@@ -136,6 +171,7 @@ class CustomerProfile extends StatelessWidget {
                     border: Border(
                       bottom: BorderSide(color: Colors.grey.shade300),
                     ),
+                    color: Colors.white,
                   ),
                   child: const TabBar(
                     indicatorColor: Color(0xff7A4A32),
@@ -161,8 +197,15 @@ class CustomerProfile extends StatelessWidget {
                   child: TabBarView(
                     children: [
                       //  PostsView(),
-                      PostsView(),
-                      ReviewCustomer(),
+                      //   MyPostsView(),
+                      PostsAccount(),
+                      // ReviewCustomer(userId:widget.user.id),
+                      BlocProvider(
+                        create: (context) =>
+                            ReviewCubit(ReviewApiService())
+                              ..getCreatedReviews(widget.user.id),
+                        child: ReviewCustomer(userId: widget.user.id),
+                      ),
                     ],
                   ),
                 ),

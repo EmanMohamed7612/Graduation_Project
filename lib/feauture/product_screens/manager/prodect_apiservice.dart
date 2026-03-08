@@ -8,7 +8,6 @@ import '../../../core/services/api_exceptions.dart';
 import '../../../core/services/dio_client.dart';
 import '../../../core/utils/pref_helpers.dart';
 
-
 import '../../home/data/model/categories_model_forhome.dart';
 import '../data/model/prodect_model_explore.dart';
 import '../data/model/creatprodect_model.dart';
@@ -54,9 +53,7 @@ class ProductApiService {
       final response = await _dioClient.dio.post(
         ApiEndpoint.createProduct,
         data: formData,
-        options: Options(
-          headers: {'Authorization': 'Bearer $token'},
-        ),
+        options: Options(headers: {'Authorization': 'Bearer $token'}),
       );
 
       if (response.statusCode == 200 || response.statusCode == 201) {
@@ -96,7 +93,10 @@ class ProductApiService {
         formData.files.add(
           MapEntry(
             'ImageFile',
-            await MultipartFile.fromFile(product.imagePath!, filename: fileName),
+            await MultipartFile.fromFile(
+              product.imagePath!,
+              filename: fileName,
+            ),
           ),
         );
       }
@@ -104,9 +104,7 @@ class ProductApiService {
       final response = await _dioClient.dio.put(
         "${ApiEndpoint.updateProduct}?id=${product.id}",
         data: formData,
-        options: Options(
-          headers: {'Authorization': 'Bearer $token'},
-        ),
+        options: Options(headers: {'Authorization': 'Bearer $token'}),
       );
 
       return response.statusCode == 200 || response.statusCode == 204;
@@ -123,8 +121,7 @@ class ProductApiService {
       final payload = json.decode(
         utf8.decode(base64Url.decode(base64Url.normalize(parts[1]))),
       );
-      return payload[
-      'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier']
+      return payload['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier']
           .toString();
     } catch (_) {
       return '';
@@ -133,8 +130,9 @@ class ProductApiService {
 
   // 4️⃣ Get Categories
   Future<List<CategoriesModel>> fetchCategories() async {
-    final response =
-    await _dioClient.dio.get(ApiEndpoint.GetAllProdecCategories);
+    final response = await _dioClient.dio.get(
+      ApiEndpoint.GetAllProdecCategories,
+    );
 
     if (response.data is Map && response.data['data'] != null) {
       return (response.data['data'] as List)
@@ -153,8 +151,7 @@ class ProductApiService {
 
   // 5️⃣ Get All Products (Explore)
   Future<List<ProductsModel>> fetchAllProducts() async {
-    final response =
-    await _dioClient.dio.get(ApiEndpoint.GetAllProdets);
+    final response = await _dioClient.dio.get(ApiEndpoint.GetAllProdets);
 
     if (response.data is Map && response.data['data'] != null) {
       return (response.data['data'] as List)
@@ -173,8 +170,7 @@ class ProductApiService {
 
   // 6️⃣ Get Top Products
   Future<List<ProductsModel>> fetchTopProductsFromApi() async {
-    final response =
-    await _dioClient.dio.get(ApiEndpoint.get_top_prodects);
+    final response = await _dioClient.dio.get(ApiEndpoint.get_top_prodects);
 
     if (response.data is Map && response.data['data'] != null) {
       return (response.data['data'] as List)
@@ -190,11 +186,10 @@ class ProductApiService {
 
     return [];
   }
+
   Future<List<TopSellerModel>> getTopSellers() async {
     try {
-      final response = await _dioClient.dio.get(
-        ApiEndpoint.get_top_sellers,
-      );
+      final response = await _dioClient.dio.get(ApiEndpoint.get_top_sellers);
 
       if (response.data is List) {
         return (response.data as List)
@@ -210,31 +205,67 @@ class ProductApiService {
   }
 
   /// Get number of products for the current user
-  Future<int> getMyProductsCount() async {
+  ///
+  Future<int> getMyProductsCount(String userId) async {
     final token = await PrefHelpers.getToken();
+
     if (token == null || token.isEmpty) {
       throw ApiError(message: 'User not authenticated');
     }
 
     final response = await _dioClient.dio.get(
       '/api/Products/my-products-count',
-      options: Options(
-        headers: {
-          'Authorization': 'Bearer $token',
-        },
-      ),
+      queryParameters: {'userId': userId},
+      options: Options(headers: {'Authorization': 'Bearer $token'}),
     );
 
-    if (response.statusCode == 200 && response.data is Map<String, dynamic>) {
+    if (response.statusCode == 200) {
       return response.data['totalProducts'] ?? 0;
     }
 
     throw ApiError(message: 'Failed to load product count');
   }
 
+  Future<int> getMyRawMaterialsCount(String userId) async {
+    final token = await PrefHelpers.getToken();
 
+    if (token == null || token.isEmpty) {
+      throw ApiError(message: 'User not authenticated');
+    }
 
+    final response = await _dioClient.dio.get(
+      '/api/RawMaterial/my-Material-count',
+      queryParameters: {'userId': userId},
+      options: Options(headers: {'Authorization': 'Bearer $token'}),
+    );
 
+    if (response.statusCode == 200) {
+      return response.data['totalRawMaterial'] ?? 0;
+    }
+
+    throw ApiError(message: 'Failed to load raw material count');
+  }
+  // Future<int> getMyProductsCount() async {
+  //   final token = await PrefHelpers.getToken();
+  //   if (token == null || token.isEmpty) {
+  //     throw ApiError(message: 'User not authenticated');
+  //   }
+
+  //   final response = await _dioClient.dio.get(
+  //     '/api/Products/my-products-count',
+  //     options: Options(
+  //       headers: {
+  //         'Authorization': 'Bearer $token',
+  //       },
+  //     ),
+  //   );
+
+  //   if (response.statusCode == 200 && response.data is Map<String, dynamic>) {
+  //     return response.data['totalProducts'] ?? 0;
+  //   }
+
+  //   throw ApiError(message: 'Failed to load product count');
+  // }
 }
 
 

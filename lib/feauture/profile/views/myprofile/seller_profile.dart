@@ -8,6 +8,7 @@ import 'package:graduation2/feauture/profile/views/myprofile/widgets/numberandty
 import 'package:graduation2/feauture/profile/views/myprofile/widgets/products.dart';
 import 'package:graduation2/feauture/profile/views/myprofile/widgets/reviews.dart';
 import 'package:graduation2/feauture/product_screens/manager/product_cubit.dart';
+import 'package:graduation2/feauture/profile/views/sessions.dart';
 
 import 'package:graduation2/feauture/review/data/review_service.dart';
 import 'package:graduation2/feauture/review/view/widgets/custom_star.dart';
@@ -350,7 +351,8 @@ class _SellerProfileState extends State<SellerProfile> {
                               ..getProducts(widget.user.id),
                         child: ProductsGrid(user: widget.user),
                       ),
-                      ReviewsView(),
+                       SessionsView(),
+                    //  ReviewsView(),
                     ],
                   ),
                 ),

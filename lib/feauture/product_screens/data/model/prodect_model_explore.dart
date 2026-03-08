@@ -18,15 +18,20 @@ class ProductsModel {
   factory ProductsModel.fromJson(Map<String, dynamic> json) {
     return ProductsModel(
       // تأكدي أن الأسماء (Keys) تطابق ما يرسله الـ API بالضبط
-      id: json['id'] ?? 0,
-      name: json['name'] ?? 'No Name',
-      description: json['description'] ?? '',
+      id: json['id'] ?? json['Id'] ?? 0,
+      name: json['name'] ?? json['Name'] ?? 'No Name',
+      description:
+          json['description'] ?? json['Description'] ?? 'No Description',
 
       // تحويل السعر بأمان سواء كان int أو double
-      price: (json['price'] ?? 0).toDouble(),
+      price: (json['price'] ?? 0).toDouble() ?? (json['Price'] ?? 0).toDouble(),
 
       // التأكد من اسم حقل الصورة (قد يكون imageUrl أو image_url)
-      imageUrl: json['imageUrl'] ?? json['image_url'],
+      imageUrl:
+          json['imageUrl'] ??
+          json['image_url'] ??
+          json['ImageUrl'] ??
+          json['Image_Url'],
 
       // معالجة التقييم بأمان ليتوافق مع الـ UI
       rating: json['rating'] != null ? (json['rating']).toDouble() : 4.5,

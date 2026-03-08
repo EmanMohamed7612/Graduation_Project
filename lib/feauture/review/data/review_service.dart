@@ -40,17 +40,151 @@ class ReviewApiService {
     try {
       final response = await _dioClient.dio.get(
         '/api/Reviews/GetProductReviews',
-        queryParameters: {'productId': productId},
+        queryParameters: {
+          'productId': productId,
+          't': DateTime.now().millisecondsSinceEpoch,
+        },
+        options: Options(headers: {'Cache-Control': 'no-cache'}),
       );
-
+      print("RESPONSE = ${response.data}");
       if (response.statusCode == 200 && response.data != null) {
-        final List list = response.data['data'];
-        return list.map((e) => ProductReviewModel.fromJson(e)).toList();
-      }
+        List responseList = [];
 
+        // بنشيك لو الداتا راجعة List مباشرة
+        if (response.data is List) {
+          responseList = response.data;
+        }
+        // ولو راجعة جوه Object اسمه data
+        else if (response.data is Map) {
+          responseList = response.data['data'] ?? response.data['Data'] ?? [];
+        }
+
+        return responseList.map((e) => ProductReviewModel.fromJson(e)).toList();
+      }
       return [];
     } on DioException catch (e) {
       throw ApiExceptions.handleError(e);
+    } catch (e) {
+      throw Exception(e.toString());
+    }
+    //   if (response.statusCode == 200 && response.data != null) {
+    //     //   final List list = response.data['data'];
+    //     //   return list.map((e) => ProductReviewModel.fromJson(e)).toList();
+    //     // }
+
+    //     // return [];
+    //     if (response.data['data'] == null) {
+    //       return [];
+    //     }
+
+    //     final List list = response.data['data'];
+
+    //     return list.map((e) => ProductReviewModel.fromJson(e)).toList();
+    //   }
+
+    //   return [];
+    // } on DioException catch (e) {
+    //   throw ApiExceptions.handleError(e);
+    // }
+  }
+
+  Future<List<ProductReviewModel>> getUserReviews(String targetUserId) async {
+    try {
+      final response = await _dioClient.dio.get(
+        '/api/Reviews/GetUserReviews',
+        queryParameters: {
+          'targetUserId': targetUserId,
+          't': DateTime.now().millisecondsSinceEpoch,
+        },
+        options: Options(headers: {'Cache-Control': 'no-cache'}),
+      );
+
+      log('📥 GetUserReviews Response: ${response.data}');
+
+      if (response.statusCode == 200 && response.data != null) {
+        List responseList = [];
+
+        // بنشيك لو الداتا راجعة List مباشرة
+        if (response.data is List) {
+          responseList = response.data;
+        }
+        // ولو راجعة جوه Object اسمه data
+        else if (response.data is Map) {
+          responseList = response.data['data'] ?? response.data['Data'] ?? [];
+        }
+
+        return responseList.map((e) => ProductReviewModel.fromJson(e)).toList();
+      }
+      return [];
+    } on DioException catch (e) {
+      throw ApiExceptions.handleError(e);
+    } catch (e) {
+      throw Exception(e.toString());
+    }
+  }
+  // Future<List<ProductReviewModel>> getUserReviews(String targetUserId) async {
+  //   try {
+  //     final response = await _dioClient.dio.get(
+  //       '/api/Reviews/GetUserReviews',
+  //       queryParameters: {'targetUserId': targetUserId},
+  //     );
+
+  //     if (response.statusCode == 200 && response.data != null) {
+
+  //       //     final List list = response.data['data'];
+  //       //     return list.map((e) => ProductReviewModel.fromJson(e)).toList();
+  //       //   }
+
+  //       //   return [];
+  //       // }
+  //       //// إضافة هذا الشرط لحل مشكلة الـ Null
+  //       if (response.data['data'] == null) {
+  //         return [];
+  //       }
+  //       final List list = response.data['data'];
+  //       return list.map((e) => ProductReviewModel.fromJson(e)).toList();
+  //     }
+
+  //     return [];
+  //   } on DioException catch (e) {
+  //     throw ApiExceptions.handleError(e);
+  //   }
+  // }
+
+  Future<List<ProductReviewModel>> getCreatedReviews(
+    String targetUserId,
+  ) async {
+    try {
+      final response = await _dioClient.dio.get(
+        '/api/UserProfile/GetAllReviewThatCreatedBySpecificUser',
+        queryParameters: {
+          'userId': targetUserId,
+          't': DateTime.now().millisecondsSinceEpoch,
+        },
+        options: Options(headers: {'Cache-Control': 'no-cache'}),
+      );
+
+      log('📥 GetUserReviews Response: ${response.data}');
+
+      if (response.statusCode == 200 && response.data != null) {
+        List responseList = [];
+
+        // بنشيك لو الداتا راجعة List مباشرة
+        if (response.data is List) {
+          responseList = response.data;
+        }
+        // ولو راجعة جوه Object اسمه data
+        else if (response.data is Map) {
+          responseList = response.data['data'] ?? response.data['Data'] ?? [];
+        }
+
+        return responseList.map((e) => ProductReviewModel.fromJson(e)).toList();
+      }
+      return [];
+    } on DioException catch (e) {
+      throw ApiExceptions.handleError(e);
+    } catch (e) {
+      throw Exception(e.toString());
     }
   }
 
@@ -75,6 +209,22 @@ class ReviewApiService {
       final response = await _dioClient.dio.get(
         '/api/Reviews/GetUserStats',
         queryParameters: {'targetUserId': productId},
+      );
+
+      if (response.statusCode == 200 && response.data != null) {
+        return UserStateModel.fromJson(response.data['data']);
+      }
+      return null;
+    } on DioException catch (e) {
+      throw ApiExceptions.handleError(e);
+    }
+  }
+
+  Future<UserStateModel?> getRawMatrialState(int productId) async {
+    try {
+      final response = await _dioClient.dio.get(
+        '/api/Reviews/GetRawMaterialStats',
+        queryParameters: {'materialId': productId},
       );
 
       if (response.statusCode == 200 && response.data != null) {

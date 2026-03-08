@@ -53,6 +53,16 @@ class ProductsCubit extends Cubit<ProductState> {
       emit(ProductFailure(e.toString()));
     }
   }
+
+  Future<void> getRawMatrial(String userId) async {
+    emit(ProductLoading());
+    try {
+      final products = await repo.getRawMatrialOfUser(userId);
+      emit(ProductSuccess(products));
+    } catch (e) {
+      emit(ProductFailure(e.toString()));
+    }
+  }
 }
 
 

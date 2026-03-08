@@ -53,4 +53,27 @@ class ProductDetailsRepo {
 
     throw ApiError(message: 'Product not found');
   }
+
+
+    Future<ProductDetailsModel> getMaterialDetails(int productId) async {
+    final ApiService _apiService = ApiService();
+    final response = await _apiService.get(
+      '/api/RawMaterial/GetRawMaterialDetails',
+      {'id': productId},
+    );
+
+    if (response is Map<String, dynamic>) {
+      // الحالة 1: response مباشر
+      if (response.containsKey('id')) {
+        return ProductDetailsModel.fromJson(response);
+      }
+
+      // الحالة 2: response جوا data
+      if (response.containsKey('data') && response['data'] != null) {
+        return ProductDetailsModel.fromJson(response['data']);
+      }
+    }
+
+    throw ApiError(message: 'Product not found');
+  }
 }

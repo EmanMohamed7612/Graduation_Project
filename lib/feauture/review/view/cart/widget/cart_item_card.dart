@@ -3,7 +3,9 @@ import 'package:graduation2/feauture/review/data/cart_model.dart';
 import 'package:http/http.dart';
 
 class CartItemCard extends StatelessWidget {
-  final CartItem item;
+  // final CartItem item;
+  final CartItemDto item;
+
   final VoidCallback onIncrease;
   final VoidCallback onDecrease;
   final VoidCallback onDelete;
@@ -32,12 +34,20 @@ class CartItemCard extends StatelessWidget {
         children: [
           ClipRRect(
             borderRadius: BorderRadius.circular(15),
-            child: Image.asset(
-              item.image,
-              width: 75,
-              height: height * .085,
-              fit: BoxFit.cover,
-            ),
+            child:
+            // Image.asset(
+            //   item.image,
+            //   width: 75,
+            //   height: height * .085,
+            //   fit: BoxFit.cover,
+            // ),
+            Image.network(
+  item.pictureURL ?? 'assets/images/no_phot.png',
+  width: 75,
+  height: height * .085,
+  fit: BoxFit.cover,
+)
+
           ),
 
           // const SizedBox(width: 12),
@@ -46,7 +56,7 @@ class CartItemCard extends StatelessWidget {
             children: [
               const SizedBox(height: 6),
               Text(
-                item.title,
+                item.itemName,
                 style: TextStyle(
                   color: const Color(0xFF3E2723),
                   fontSize: 14,
@@ -57,7 +67,7 @@ class CartItemCard extends StatelessWidget {
               ),
               const SizedBox(height: 4),
               Text(
-                item.subtitle,
+                item.category ??"no category",
                 style: TextStyle(
                   color: const Color(0xFF8D6E63),
                   fontSize: 12.50,
@@ -68,7 +78,8 @@ class CartItemCard extends StatelessWidget {
               ),
               const SizedBox(height: 12),
               Text(
-                "\$${item.price}",
+                "\$${item.price}"
+,
                 style: TextStyle(
                   color: const Color(0xFFC9A875),
                   fontSize: 14,

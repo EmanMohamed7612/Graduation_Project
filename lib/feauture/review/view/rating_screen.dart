@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:graduation2/feauture/product/view/widgets/custom_icon.dart';
 import 'package:graduation2/feauture/product_screens/data/model/prodect_model_explore.dart';
 import 'package:graduation2/feauture/review/data/product_review_model.dart';
 import 'package:graduation2/feauture/review/data/review_service.dart';
+import 'package:graduation2/feauture/review/manager/review_cubit.dart';
+import 'package:graduation2/feauture/review/manager/review_state.dart';
 import 'package:graduation2/feauture/review/view/widgets/custom_review_item.dart';
 import 'package:graduation2/feauture/review/view/widgets/custom_star.dart';
 import 'package:graduation2/feauture/review/view/write_review.dart';
@@ -22,8 +25,10 @@ class _RatingScreenState extends State<RatingScreen> {
   @override
   void initState() {
     super.initState();
+
     fetchReviews();
     _loadProductStats();
+    //context.read<ReviewCubit>().getProductReviews(widget.idProduct);
   }
 
   double averageRating = 0.0;
@@ -157,10 +162,18 @@ class _RatingScreenState extends State<RatingScreen> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (_) =>
-                                  WriteReviewScreen(productId: widget.idProduct),
+                              builder: (_) => WriteReviewScreen(
+                                productId: widget.idProduct,
+                              ),
                             ),
-                          ).then((_) => fetchReviews());
+                          )
+                          
+                          // ).then((_) {
+                          //   context.read<ReviewCubit>().getProductReviews(
+                          //     widget.idProduct,
+                          //   );
+                          // });
+                           .then((_) => fetchReviews());
                         },
                       ),
                     ),
@@ -168,6 +181,7 @@ class _RatingScreenState extends State<RatingScreen> {
                 ),
               ),
               SizedBox(height: height * .01),
+
               isLoading
                   ? Center(child: CircularProgressIndicator())
                   : reviews.isEmpty
@@ -179,13 +193,47 @@ class _RatingScreenState extends State<RatingScreen> {
                       itemBuilder: (context, index) {
                         final review = reviews[index];
                         return ReviewItem(
-                          name: review.reviewerName,
+                          name: review.reviewerName??'no name',
                           time: review.createdAt, // لو مش موجود من API
                           review: review.review,
-                          rating: review.rating.toDouble(),
+                          rating: review.rating?.toDouble() ?? 0.0,
                         );
                       },
                     ),
+              // BlocBuilder<ReviewCubit, ReviewState>(
+              //   builder: (context, state) {
+              //     if (state is ReviewLoading) {
+              //       return const Center(child: CircularProgressIndicator());
+              //     }
+
+              //     if (state is ReviewLoaded) {
+              //       final reviews = state.reviews;
+
+              //       if (reviews.isEmpty) {
+              //         return const Center(child: Text("No Reviews Yet"));
+              //       }
+              //       return ListView.builder(
+              //         shrinkWrap: true,
+              //         physics: NeverScrollableScrollPhysics(),
+              //         itemCount: reviews.length,
+              //         itemBuilder: (context, index) {
+              //           final review = reviews[index];
+              //           return ReviewItem(
+              //             name: review.reviewerName,
+              //             time: review.createdAt, // لو مش موجود من API
+              //             review: review.review,
+              //             rating: review.rating.toDouble(),
+              //           );
+              //         },
+              //       );
+              //     }
+              //     if (state is ReviewError) {
+              //       return Center(child: Text(state.message));
+              //     }
+
+              //     return const SizedBox();
+              //   },
+              // ),
 
               // ReviewItem(
               //   name: "Sarah Miller",

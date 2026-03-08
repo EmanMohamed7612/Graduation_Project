@@ -8,6 +8,7 @@ class CustomButtonprofile extends StatelessWidget {
     required this.color1,
     required this.color2,
     this.message = false,
+    
   });
   final String text;
   final IconData icon;

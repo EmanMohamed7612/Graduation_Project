@@ -13,3 +13,9 @@ class ProductCountError extends ProductCountState {
   final String message;
   ProductCountError(this.message);
 }
+
+class RawMaterialCountSuccess extends ProductCountState {
+  final int count;
+
+  RawMaterialCountSuccess(this.count);
+}

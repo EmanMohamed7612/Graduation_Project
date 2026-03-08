@@ -16,4 +16,14 @@ class ProductDetailsCubit extends Cubit<ProductDetailsState> {
       emit(ProductDetailsFailure(e.toString()));
     }
   }
+
+  Future<void> fetchMaterialDetails(int productId) async {
+    emit(ProductDetailsLoading());
+    try {
+      final product = await repo.getMaterialDetails(productId);
+      emit(ProductDetailsSuccess(product));
+    } catch (e) {
+      emit(ProductDetailsFailure(e.toString()));
+    }
+  }
 }
