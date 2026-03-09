@@ -1,7 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../core/services/api_services.dart';
 import '../../../../core/const/api_endpoint.dart';
-import '../data/model/creatprodect_model.dart';
+import '../data/model/create_product_model.dart';
 
 import '../data/model/prodect_model_explore.dart';
 
@@ -20,7 +20,61 @@ final class ProductFailure extends ProductState {
 }
 
 
+/// CreateProducts State
 
+abstract class CreateProductState {}
+
+class CreateInitialState  extends CreateProductState {}
+
+class CreateLoadingState  extends CreateProductState {}
+
+class CreateSuccessState  extends CreateProductState {
+  final CreateProductResponseModel product;
+
+  CreateSuccessState({required this.product});
+}
+
+class CreateErrorState  extends CreateProductState {
+  final String message;
+
+  CreateErrorState({required this.message});
+
+}
+
+/// UpdateProduct State
+
+abstract class UpdateProductState {}
+
+class UpdateInitialState extends UpdateProductState {}
+
+class UpdateLoadingState extends UpdateProductState {}
+
+class UpdateSuccessState extends UpdateProductState {
+  final CreateProductResponseModel product;
+
+  UpdateSuccessState({required this.product});
+}
+
+class UpdateErrorState extends UpdateProductState {
+  final String message;
+
+  UpdateErrorState({required this.message});
+}
+
+
+// Delete Product State
+abstract class DeleteProductState {}
+
+class DeleteInitialState extends DeleteProductState {}
+
+class DeleteLoadingState extends DeleteProductState {}
+
+class DeleteSuccessState extends DeleteProductState {}
+
+class DeleteErrorState extends DeleteProductState {
+  final String message;
+  DeleteErrorState({required this.message});
+}
 // abstract class ProductsState {}
 
 // class ProductsInitial extends ProductsState {}

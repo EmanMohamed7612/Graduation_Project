@@ -1,5 +1,8 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../core/services/api_services.dart';
+import '../data/model/create_product_model.dart';
+import '../data/model/update_product.dart';
+import '../data/repo/repo_product.dart';
 import 'product_state.dart';
 import '../data/model/prodect_model_explore.dart';
 import 'prodect_apiservice.dart';
@@ -27,8 +30,8 @@ class ProductCubit extends Cubit<ProductState> {
   Future<void> fetchTopProducts() async {
     emit(ProductLoading());
     try {
-      final List<ProductsModel> products = await apiService
-          .fetchTopProductsFromApi();
+      final List<ProductsModel> products =
+          await apiService.fetchTopProductsFromApi();
 
       products.isNotEmpty
           ? emit(ProductSuccess(products))
@@ -54,7 +57,7 @@ class ProductsCubit extends Cubit<ProductState> {
     }
   }
 
-  Future<void> getRawMatrial(String userId) async {
+    Future<void> getRawMatrial(String userId) async {
     emit(ProductLoading());
     try {
       final products = await repo.getRawMatrialOfUser(userId);
@@ -64,41 +67,53 @@ class ProductsCubit extends Cubit<ProductState> {
     }
   }
 }
+}
 
+/// CreateProducts Cubit
+class CreateProductCubit extends Cubit<CreateProductState> {
+  final RepoProduct repoProduct;
 
+  CreateProductCubit({required this.repoProduct}) : super(CreateInitialState());
 
-/*import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:graduation2/feauture/product_screens/manager/product_state.dart';
+  Future<void> addToCart(CreateProductRequestModel model) async {
+    emit(CreateInitialState());
+    final result = await repoProduct.createProduct(model);
+    result.fold(
+      (failure) => emit(CreateErrorState(message: failure.message)),
+      (value) => emit(CreateSuccessState(product: value)),
+    );
+  }
+}
 
-import '../../../core/const/api_endpoint.dart';
-import '../../../core/services/api_services.dart';
-import '../data/model/creatprodect_model.dart';
+/// UpdateProduct Cubit
+class UpdateProductCubit extends Cubit<UpdateProductState> {
+  final RepoProduct repoProduct;
 
-import '../data/model/prodect_model_explore.dart';
+  UpdateProductCubit({required this.repoProduct}) : super(UpdateInitialState());
 
-class ProductCubit extends Cubit<ProductState> {
-  final ApiService apiService;
-  ProductCubit(this.apiService) : super(ProductInitial());
-
-  Future<void> fetchAllProducts() async {
-    emit(ProductLoading());
-    try {
-      final response = await apiService.get(ApiEndpoint.GetAllProdets, null);
-
-      if (response is List) {
-        final products = response.map((e) => ProductsModel.fromJson(e)).toList();
-        emit(ProductSuccess(products));
-      } else if (response is Map<String, dynamic> && response['data'] != null) {
-        // لو الداتا راجعة جوه كائن اسمه data
-        final List data = response['data'];
-        final products = data.map((e) => ProductsModel.fromJson(e)).toList();
-        emit(ProductSuccess(products));
-      } else {
-        emit(ProductFailure("Failed to load products"));
-      }
-    } catch (e) {
-      emit(ProductFailure(e.toString()));
-    }
+  Future<void> updateProduct(UpdateProductRequestModel model) async {
+    emit(UpdateLoadingState());
+    final result = await repoProduct.updateProduct(model);
+    result.fold(
+      (failure) => emit(UpdateErrorState(message: failure.message)),
+      (value) => emit(UpdateSuccessState(product: value)),
+    );
   }
 
-}*/
+}
+
+// Delete Product Cubit
+class DeleteProductCubit extends Cubit<DeleteProductState> {
+  final RepoProduct repoProduct;
+
+  DeleteProductCubit({required this.repoProduct}) : super(DeleteInitialState());
+
+  Future<void> deleteProduct(int id) async {
+    emit(DeleteLoadingState());
+    final result = await repoProduct.deleteProduct(id);
+    result.fold(
+          (failure) => emit(DeleteErrorState(message: failure.message)),
+          (_) => emit(DeleteSuccessState()),
+    );
+  }
+}

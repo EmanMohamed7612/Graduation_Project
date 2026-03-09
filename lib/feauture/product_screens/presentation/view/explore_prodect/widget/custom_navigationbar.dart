@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:graduation2/feauture/profile/views/myprofile/profile.dart';
 
+import '../../../../../dashboard_screen/presentation/view/seller_dashboard.dart';
 import '../../../../../home/presentation/view/home_screen.dart';
 import '../../../../comming_soon_screen.dart';
 import '../explore_screen.dart';
@@ -126,7 +127,7 @@ void changeTab(int index) {
       case 0:
         return const HomeScreen();
       case 1:
-        return const ExploreAllScreen();
+        return const SellerDashboardScreen();
       case 2:
         return const ComingSoonScreen(title: 'Community');
       case 3:

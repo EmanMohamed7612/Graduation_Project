@@ -154,7 +154,6 @@ class SellerTypeScreen extends StatelessWidget {
                     desc: "Start your journey as a new seller",
                     features: [
                       "List and sell handmade products",
-                      ""
                     ],
                     mainColor: const Color(0xFF8D6E63),
                     leadingWidget: Image.asset(

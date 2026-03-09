@@ -181,7 +181,6 @@ class _RatingScreenState extends State<RatingScreen> {
                 ),
               ),
               SizedBox(height: height * .01),
-
               isLoading
                   ? Center(child: CircularProgressIndicator())
                   : reviews.isEmpty

@@ -11,9 +11,9 @@ class CategoriesModel {
 
   factory CategoriesModel.fromJson(Map<String, dynamic> json) {
     return CategoriesModel(
-      id: json['id'],
-      name: json['name'],
-      imageUrl: json['image'],
+      id: json['Id'] ?? json['id'],
+      name: json['Name'] ?? json['name'] ?? '',
+      imageUrl: json['image'] ?? json['Image'] ?? '',
     );
   }
 }

@@ -10,13 +10,14 @@ class ApiEndpoint {
   static const String googleLogin =
       '/api/Authentication/google-login';
   static const String createProduct = '/api/Products/CreateProduct';
-  static const String updateProduct = '/api/Products/UpdateProduct';
+  static String updateProduct = '/api/Products/UpdateProduct';
   static const String DeleteProdect = '/api/Products/UpdateProduct';
   static const String GetAllProdecCategories='/api/Products/GetAllProductCategories';
   static const String GetAllProdets='/api/Products/GetAllProducts';
   static const String GetAllCategoriesById='/api/Products/GetAllProductCategoriesById?id';
  static const String get_top_prodects='/api/Home/top-products';
   static const String get_top_sellers='/api/Home/top-sellers';
+  static const String delete='/api/Products/DeleteProduct';
 
 
 }

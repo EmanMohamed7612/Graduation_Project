@@ -18,7 +18,6 @@ import 'package:graduation2/feauture/review/view/rating_screen.dart';
 class ProductDetails extends StatefulWidget {
   ProductDetails({super.key, required this.productId});
   int productId;
-
   @override
   State<ProductDetails> createState() => _ProductDetailsState();
 }

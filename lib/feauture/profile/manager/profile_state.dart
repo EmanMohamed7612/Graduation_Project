@@ -10,7 +10,6 @@ class UserProfileSuccess extends UserProfileState {
   final UserProfileModel profile;
   UserProfileSuccess(this.profile);
 }
-
 class UserProfileFailure extends UserProfileState {
   final String message;
   UserProfileFailure(this.message);

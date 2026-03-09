@@ -13,8 +13,10 @@ class CategoryCubit extends Cubit<CategoryState> {
     emit(CategoryLoading());
     try {
       final data = await apiService.fetchCategories();
+      print('Categories: ${data.length}');
       emit(CategorySuccess(data));
     } catch (e) {
+      print(' Error: $e');
       emit(CategoryFailure(e.toString()));
     }
   }

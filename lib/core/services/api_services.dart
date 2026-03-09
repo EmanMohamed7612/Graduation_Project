@@ -350,3 +350,21 @@ class ProductOwnerProfileRepo {
 
   //throw ApiError(message: 'Unexpected response');
 }
+  class CartRepo {
+  final ApiService _apiService = ApiService();
+
+  Future<void> addItemToCart({
+    required String cartId,
+    required int itemId,
+  }) async {
+
+    final response = await _apiService.post(
+      '/api/Carts/AddItem?cartId=$cartId&itemId=$itemId',
+      null,
+    );
+
+    if (response is ApiError) {
+      throw response;
+    }
+  }
+}
