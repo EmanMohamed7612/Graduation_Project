@@ -520,31 +520,40 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../../material_screen/manager/material_api_services.dart';
+import '../../../material_screen/manager/material_api_services.dart';
+import '../../../material_screen/manager/material_cubit.dart' show CreatematerialCubit;
+import '../../../material_screen/manager/repo_material_imp.dart';
+import '../../../material_screen/presentation/views/addmaterial/add_materialscreen.dart';
 import '../../../product_screens/data/model/create_product_model.dart';
 import '../../../product_screens/manager/product_cubit.dart';
 import '../../../product_screens/presentation/view/Editprodect_screen/editprodect.dart';
 import '../../../product_screens/presentation/view/addprodect_screen/creatprodect.dart';
 import '../../data/repo/repo_dashboard_Imple.dart';
+import '../../data/repo/repo_supplierdashboard_imp.dart';
 import '../../manager/sellerdashboard_apiserves.dart';
 import '../../manager/sellerdashboard_cubit.dart';
 import '../../manager/sellerdashboard_state.dart';
+import '../../manager/supplierdashboard_apiserves.dart';
+import '../../manager/supplierdashboard_cubit.dart';
+import '../../manager/supplierdashboard_state.dart';
 
-class SellerDashboardScreen extends StatefulWidget {
-  const SellerDashboardScreen({super.key});
+class SupplierDashboardScreen extends StatefulWidget {
+  const SupplierDashboardScreen({super.key});
 
   @override
-  State<SellerDashboardScreen> createState() => _SellerDashboardScreenState();
+  State<SupplierDashboardScreen> createState() => _SupplierDashboardScreenState();
 }
 
-class _SellerDashboardScreenState extends State<SellerDashboardScreen> {
-  late ProductsellerCubit _cubit;
+class _SupplierDashboardScreenState extends State<SupplierDashboardScreen> {
+  late ProductsupplierCubit _cubit;
 
   @override
   void initState() {
     super.initState();
-    _cubit = ProductsellerCubit(
-      RepoDashboardImple(ProductsellerdashboardApiService()),
-    )..getProducts();
+    _cubit = ProductsupplierCubit(
+      ReposupplierDashboardImple(MaterialsupplierdashboardApiService()),
+    )..getmaterial();
   }
 
   @override
@@ -573,16 +582,16 @@ class _SellerDashboardScreenState extends State<SellerDashboardScreen> {
                     const SizedBox(height: 24),
                     _buildProductsHeader(context),
                     const SizedBox(height: 12),
-                    BlocBuilder<ProductsellerCubit, ProductsellerdashboardState>(
+                    BlocBuilder<ProductsupplierCubit, ProductsupplierdashboardState>(
                       builder: (context, state) {
                         if (state is ProductsellerdLoading) {
                           return const Center(child: CircularProgressIndicator());
                         }
 
-                        if (state is ProductsellerdSuccess) {
+                        if (state is ProductsupplierSuccess) {
                           if (state.products.isEmpty) {
                             return const Center(
-                              child: Text("No Products Yet",
+                              child: Text("No material Yet",
                                   style: TextStyle(color: Colors.grey)),
                             );
                           }
@@ -621,7 +630,7 @@ class _SellerDashboardScreenState extends State<SellerDashboardScreen> {
                                           children: [
                                             Icon(Icons.check_circle, color: Colors.white),
                                             SizedBox(width: 10),
-                                            Text('Product deleted successfully',
+                                            Text('material deleted successfully',
                                                 style: TextStyle(color: Colors.white)),
                                           ],
                                         ),
@@ -640,7 +649,7 @@ class _SellerDashboardScreenState extends State<SellerDashboardScreen> {
                           );
                         }
 
-                        if (state is ProductsellerdError) {
+                        if (state is ProductsupplierError) {
                           return Center(
                             child: Text(state.message,
                                 style: const TextStyle(color: Colors.red)),
@@ -692,19 +701,12 @@ class _SellerDashboardScreenState extends State<SellerDashboardScreen> {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Text('Seller Dashboard',
+                  const Text('Supplier Dashboard',
                       style: TextStyle(
                           color: Colors.white,
                           fontSize: 18,
                           fontWeight: FontWeight.bold)),
-                  Row(
-                    children: const [
-                      Icon(Icons.stars, color: Colors.amber, size: 16),
-                      SizedBox(width: 4),
-                      Text('Expert Seller',
-                          style: TextStyle(color: Colors.white70, fontSize: 12)),
-                    ],
-                  ),
+
                 ],
               ),
               const Spacer(),
@@ -723,7 +725,7 @@ class _SellerDashboardScreenState extends State<SellerDashboardScreen> {
                               builder: (_) => const AddProductScreen()),
                         );
                         if (result == true && mounted) {
-                          _cubit.getProducts();
+                          _cubit.getmaterial();
                         }
                       },
                     ),
@@ -858,17 +860,25 @@ class _SellerDashboardScreenState extends State<SellerDashboardScreen> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        const Text('My Products',
+        const Text('My material',
             style: TextStyle(
                 fontSize: 18, fontWeight: FontWeight.bold, color: Colors.brown)),
         ElevatedButton(
           onPressed: () async {
             final result = await Navigator.push(
               context,
-              MaterialPageRoute(builder: (_) => const AddProductScreen()),
+              MaterialPageRoute(
+                builder: (context) => BlocProvider(
+                  // تأكدي من استبدال اسم الكيوبت والريبوزيتوري بأسماء الماتيريال
+                  create: (context) => CreatematerialCubit(
+                    repomaterial: RepomaterialImple(materialApiService: MaterialApiService()),
+                  ),
+                  child: const AddmaterialScreen(),
+                ),
+              ),
             );
             if (result == true && mounted) {
-              _cubit.getProducts();
+              _cubit.getmaterial();
             }
           },
           style: ElevatedButton.styleFrom(
@@ -940,7 +950,7 @@ class _SellerDashboardScreenState extends State<SellerDashboardScreen> {
                     builder: (_) => EditProductScreen(product: product)),
               );
               if (result == true && mounted) {
-                _cubit.getProducts();
+                _cubit.getmaterial();
               }
             },
             style: OutlinedButton.styleFrom(
@@ -972,9 +982,9 @@ class _SellerDashboardScreenState extends State<SellerDashboardScreen> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text('Need Raw Materials?',
+          const Text('Need product?',
               style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
-          const Text('Browse supplies from verified suppliers',
+          const Text('Browse seller from verified seller',
               style: TextStyle(color: Colors.grey, fontSize: 13)),
           const SizedBox(height: 15),
           SizedBox(
@@ -987,7 +997,7 @@ class _SellerDashboardScreenState extends State<SellerDashboardScreen> {
                     borderRadius: BorderRadius.circular(15)),
                 padding: const EdgeInsets.symmetric(vertical: 12),
               ),
-              child: const Text('Browse Materials',
+              child: const Text('Browse product',
                   style: TextStyle(color: Colors.white)),
             ),
           ),

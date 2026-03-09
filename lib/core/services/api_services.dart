@@ -128,7 +128,10 @@ import 'package:graduation2/feauture/product_screens/data/model/prodect_model_ex
 import 'package:graduation2/feauture/profile/data/user_account_model.dart';
 import 'package:graduation2/feauture/profile/data/user_profile_model.dart';
 import 'package:graduation2/feauture/product_screens/data/model/creatprodect_model.dart';
-
+import '../../feauture/material_screen/data/model/materialmodel.dart';
+import '../const/api_endpoint.dart';
+import '../../feauture/material_screen/data/model/materialmodel.dart';
+import '../const/api_endpoint.dart';
 import 'api_exceptions.dart';
 import 'dio_client.dart';
 
@@ -350,14 +353,35 @@ class ProductOwnerProfileRepo {
 
   //throw ApiError(message: 'Unexpected response');
 }
-  class CartRepo {
+
+class materialOwnerProfileRepo {
+  final ApiService _apiService = ApiService();
+
+  Future<List<materialModel>> getmaterialsOfUser(String userId) async {
+    final response = await _apiService.get(
+      ApiEndpoint.GetAllMaterialOfSpecificUser,
+      {'userId': userId},
+    );
+
+    if (response is ApiError) {
+      throw response;
+    }
+
+    if (response is List) {
+      return response.map((e) => materialModel.fromJson(e)).toList();
+    }
+
+    throw ApiError(message: 'Unexpected response');
+  }
+}
+
+class CartRepo {
   final ApiService _apiService = ApiService();
 
   Future<void> addItemToCart({
     required String cartId,
     required int itemId,
   }) async {
-
     final response = await _apiService.post(
       '/api/Carts/AddItem?cartId=$cartId&itemId=$itemId',
       null,

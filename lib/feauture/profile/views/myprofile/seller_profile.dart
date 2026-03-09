@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:graduation2/core/services/api_services.dart';
+import 'package:graduation2/feauture/dashboard_screen/presentation/view/seller_dashboard.dart';
 import 'package:graduation2/feauture/profile/manager/number_product_cubit.dart';
 import 'package:graduation2/feauture/profile/manager/number_product_state.dart';
 import 'package:graduation2/feauture/profile/views/myprofile/widgets/numberandtype.dart';
@@ -11,6 +12,7 @@ import 'package:graduation2/feauture/product_screens/manager/product_cubit.dart'
 import 'package:graduation2/feauture/profile/views/sessions.dart';
 
 import 'package:graduation2/feauture/review/data/review_service.dart';
+import 'package:graduation2/feauture/review/manager/review_cubit.dart';
 import 'package:graduation2/feauture/review/view/widgets/custom_star.dart';
 
 class SellerProfile extends StatefulWidget {
@@ -296,7 +298,16 @@ class _SellerProfileState extends State<SellerProfile> {
                   padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
 
                   child: GestureDetector(
-                    onTap: () {},
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) {
+                            return SellerDashboardScreen();
+                          },
+                        ),
+                      );
+                    },
                     child: Center(
                       child: Text(
                         'Dashboard',
@@ -351,8 +362,14 @@ class _SellerProfileState extends State<SellerProfile> {
                               ..getProducts(widget.user.id),
                         child: ProductsGrid(user: widget.user),
                       ),
-                       SessionsView(),
-                    //  ReviewsView(),
+                      // SessionsView(),
+                      BlocProvider(
+                        create: (context) =>
+                            ReviewCubit(ReviewApiService())
+                              ..getCreatedReviews(widget.user.id),
+                        child: ReviewsView(userId: widget.user.id),
+                      ),
+                      //  ReviewsView(),
                     ],
                   ),
                 ),

@@ -1,4 +1,3 @@
-
 /*import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -113,6 +112,7 @@ import 'package:graduation2/feauture/home/presentation/view/widget/section_title
 import 'package:graduation2/feauture/home/presentation/view/widget/top_sellers_list.dart';
 
 import '../../../../core/rescources/colors.dart';
+import '../../../../core/services/dio_client.dart';
 import '../../../product_screens/manager/prodect_apiservice.dart';
 import '../../../product_screens/manager/product_cubit.dart';
 import '../../../product_screens/presentation/view/getall_seller_screen.dart';
@@ -121,8 +121,8 @@ import '../../../product_screens/presentation/view/top_seller/manager/best_selle
 import '../../manager/card_apiserves.dart';
 import '../../manager/card_cubit.dart';
 import '../../manager/category_cubit.dart';
+import '../../manager/fav_apiserves.dart';
 import '../../manager/fav_cubit.dart';
-
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -136,30 +136,26 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-
         BlocProvider(
           create: (context) =>
-          CategoryCubit(ProductApiService())..fetchCategories(),
-        ),
-
-        BlocProvider(
-          create: (context) =>
-          ProductCubit(ProductApiService())..fetchTopProducts(),
+              CategoryCubit(ProductApiService())..fetchCategories(),
         ),
 
         BlocProvider(
           create: (context) =>
-          BestSellerCubit(ProductApiService())..fetchBestSellers(),
+              ProductCubit(ProductApiService())..fetchTopProducts(),
         ),
 
         BlocProvider(
-          create: (context) => FavoriteCubit(),
+          create: (context) =>
+              BestSellerCubit(ProductApiService())..fetchBestSellers(),
         ),
 
         BlocProvider(
-          create: (context) => CartCubit(CartApiService()),
+          create: (_) => FavoriteCubit(FavoriteApiService(DioClient())),
         ),
 
+        BlocProvider(create: (context) => CartCubit(CartApiService())),
       ],
       child: Scaffold(
         backgroundColor: AppColors.kBgColor,
@@ -169,7 +165,6 @@ class _HomeScreenState extends State<HomeScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-
                 const HomeAppBar(),
                 const SizedBox(height: 16),
 
@@ -190,7 +185,9 @@ class _HomeScreenState extends State<HomeScreen> {
                       context,
                       MaterialPageRoute(
                         builder: (_) => BlocProvider(
-                          create: (context) => BestSellerCubit(ProductApiService())..fetchBestSellers(),
+                          create: (context) =>
+                              BestSellerCubit(ProductApiService())
+                                ..fetchBestSellers(),
                           child: const AllSellersScreen(),
                         ),
                       ),

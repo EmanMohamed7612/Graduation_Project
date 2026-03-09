@@ -6,18 +6,23 @@ import 'dart:io';
 import '../../../../home/data/model/categories_model_forhome.dart';
 import '../../../../home/manager/category_cubit.dart';
 import '../../../../home/manager/category_state.dart';
-import '../../../data/model/create_product_model.dart';
-import '../../../manager/product_cubit.dart';
-import '../../../manager/product_state.dart';
+import '../../../data/model/addmaterialmodel.dart';
 
-class AddProductScreen extends StatefulWidget {
-  const AddProductScreen({super.key});
+import '../../../manager/cubit_materialcategory.dart';
+import '../../../manager/material_api_services.dart';
+import '../../../manager/material_cubit.dart';
+import '../../../manager/material_state.dart';
+
+import '../../../manager/state_materialcategory.dart';
+
+class AddmaterialScreen extends StatefulWidget {
+  const AddmaterialScreen({super.key});
 
   @override
-  State<AddProductScreen> createState() => _AddProductScreenState();
+  State<AddmaterialScreen> createState() => _AddProductScreenState();
 }
 
-class _AddProductScreenState extends State<AddProductScreen> {
+class _AddProductScreenState extends State<AddmaterialScreen> {
   final nameController = TextEditingController();
   final nameArController = TextEditingController();
   final priceController = TextEditingController();
@@ -70,7 +75,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
           onPressed: () => Navigator.pop(context),
         ),
         title: const Text(
-          'Add Product',
+          'Add material',
           style: TextStyle(color: Colors.brown, fontWeight: FontWeight.w600),
         ),
         centerTitle: true,
@@ -78,14 +83,14 @@ class _AddProductScreenState extends State<AddProductScreen> {
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16),
         child: SingleChildScrollView(
-          child: BlocConsumer<CreateProductCubit, CreateProductState>(
+          child: BlocConsumer<CreatematerialCubit, CreatematerialState>(
             listener: (context, state) {
-              if (state is CreateSuccessState) {
+              if (state is CreatesupplierSuccessState) {
                 ScaffoldMessenger.of(context).showSnackBar(
                   const SnackBar(content: Text('Product added successfully!')),
                 );
                 Navigator.pop(context, true);
-              } else if (state is CreateErrorState) {
+              } else if (state is CreatesupplierErrorState) {
                 ScaffoldMessenger.of(context).showSnackBar(
                   const SnackBar(content: Text('Failed to add product!')),
                 );
@@ -96,19 +101,19 @@ class _AddProductScreenState extends State<AddProductScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   const SizedBox(height: 10),
-                  _buildLabel('Product Image'),
+                  _buildLabel('material Image'),
                   const SizedBox(height: 8),
                   _buildImagePicker(),
                   const SizedBox(height: 16),
-                  _buildLabel('Product Name (English)'),
+                  _buildLabel('material Name (English)'),
                   CustomTextField(
-                    hint: 'e.g. Handmade Ceramic Bowl',
+                    hint: 'e.g. wood',
                     controller: nameController,
                   ),
                   const SizedBox(height: 16),
                   _buildLabel('اسم المنتج (عربي)'),
                   CustomTextField(
-                    hint: 'مثال: وعاء خزفي يدوي',
+                    hint: 'مثال: خشب',
                     controller: nameArController,
                   ),
                   const SizedBox(height: 12),
@@ -134,19 +139,19 @@ class _AddProductScreenState extends State<AddProductScreen> {
                   const SizedBox(height: 12),
                   _buildLabel('Category'),
                   const SizedBox(height: 6),
-                  BlocBuilder<CategoryCubit, CategoryState>(
+                  BlocBuilder<CategorymaterialCubit, CategorymaterialState>(
                     builder: (context, categoryState) {
                       print(' CategoryState: $categoryState');
                       if (categoryState is CategoryLoading) {
                         return const Center(child: CircularProgressIndicator());
                       }
 
-                      if (categoryState is CategoryFailure) {
+                      if (categoryState is CategorymaterialFailure) {
                         return Text('Error: ${categoryState.error}');
                       }
 
                       final categories =
-                      categoryState is CategorySuccess
+                      categoryState is CategorymaterialSuccess
                           ? categoryState.categories
                           : <CategoriesModel>[];
 
@@ -327,7 +332,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
     );
   }
 
-  Widget _buildActionButtons(CreateProductState state) {
+  Widget _buildActionButtons(CreatematerialState state) {
     return Row(
       children: [
         Expanded(
@@ -354,11 +359,11 @@ class _AddProductScreenState extends State<AddProductScreen> {
               padding: const EdgeInsets.symmetric(vertical: 14),
             ),
             onPressed:
-            state is CreateLoadingState
+            state is CreatesupplierLoadingState
                 ? null
                 : () {
-              context.read<CreateProductCubit>().addToCart(
-                CreateProductRequestModel(
+              context.read<CreatematerialCubit>().addTosupplierCart(
+                CreatematerialRequestModel(
                   nameEn: nameController.text,
                   nameAr: nameArController.text,
                   price: int.tryParse(priceController.text) ?? 0,
@@ -371,7 +376,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
               );
             },
             child:
-            state is CreateLoadingState
+            state is CreatesupplierLoadingState
                 ? const SizedBox(
               height: 20,
               width: 20,
@@ -381,7 +386,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
               ),
             )
                 : const Text(
-              'Add Product',
+              'Add material',
               style: TextStyle(color: Colors.white),
             ),
           ),

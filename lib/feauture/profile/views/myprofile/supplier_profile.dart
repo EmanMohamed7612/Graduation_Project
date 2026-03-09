@@ -3,6 +3,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:graduation2/core/services/api_services.dart';
 import 'package:graduation2/feauture/dashboard_screen/presentation/view/seller_dashboard.dart';
+import 'package:graduation2/feauture/dashboard_screen/presentation/view/supplier_dashboard.dart';
 import 'package:graduation2/feauture/profile/manager/number_product_cubit.dart';
 import 'package:graduation2/feauture/profile/manager/number_product_state.dart';
 import 'package:graduation2/feauture/profile/views/myprofile/widgets/materials.dart';
@@ -13,6 +14,7 @@ import 'package:graduation2/feauture/product_screens/manager/product_cubit.dart'
 import 'package:graduation2/feauture/profile/views/sessions.dart';
 
 import 'package:graduation2/feauture/review/data/review_service.dart';
+import 'package:graduation2/feauture/review/manager/review_cubit.dart';
 import 'package:graduation2/feauture/review/view/widgets/custom_star.dart';
 
 class Supplierprofile extends StatefulWidget {
@@ -296,7 +298,7 @@ class _SupplierprofileState extends State<Supplierprofile> {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => SellerDashboardScreen(),
+                                builder: (context) => SupplierDashboardScreen(),
                               ),
                             );
                           },
@@ -358,8 +360,15 @@ class _SupplierprofileState extends State<Supplierprofile> {
                               ..getRawMatrial(widget.user.id),
                         child: RawMatrialGrid(user: widget.user),
                       ),
-                      SessionsView(),
+                      // SessionsView(),
+                      BlocProvider(
+                        create: (context) =>
+                            ReviewCubit(ReviewApiService())
+                              ..getCreatedReviews(widget.user.id),
+                        child: ReviewsView(userId: widget.user.id),
+                      ),
                       // ReviewsView(),
+                      //  ReviewsView(userId: widget.user.id),
                     ],
                   ),
                 ),
