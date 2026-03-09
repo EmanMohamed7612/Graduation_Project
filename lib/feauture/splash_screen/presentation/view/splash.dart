@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:graduation2/core/rescources/colors.dart' show AppColors;
+import 'package:graduation2/feauture/language/lnguage_view.dart';
 import 'package:graduation2/feauture/splash_screen/presentation/view/onboarding.dart';
 
 class SplashView extends StatefulWidget {
@@ -22,7 +23,7 @@ class _SplashViewState extends State<SplashView> {
       context,
       MaterialPageRoute(
         builder: (context) {
-          return OnBoardingView();
+          return LanguageView();
         },
       ),
     );

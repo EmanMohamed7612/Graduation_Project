@@ -6,6 +6,7 @@ import 'package:graduation2/feauture/auth/manager/auth_state.dart';
 import 'package:graduation2/feauture/auth/views/login_screen.dart';
 import 'package:graduation2/feauture/auth/views/uploadfiles.dart';
 import 'package:graduation2/feauture/auth/views/success_screen.dart';
+import 'package:graduation2/feauture/product_screens/presentation/view/explore_prodect/widget/custom_navigationbar.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:dio/dio.dart';
 
@@ -83,9 +84,13 @@ class _SignUpViewState extends State<SignUpView> {
           if (role == UserRole.sellerBeginner ||
               role == UserRole.customer ||
               role == UserRole.supplier) {
+            // Navigator.pushReplacement(
+            //   context,
+            //   MaterialPageRoute(builder: (_) => const ExpertSuccessScreen()),
+            // );
             Navigator.pushReplacement(
               context,
-              MaterialPageRoute(builder: (_) => const ExpertSuccessScreen()),
+              MaterialPageRoute(builder: (_) => MainWrapper()),
             );
           } else if (role == 'Expert') {
             ScaffoldMessenger.of(context).showSnackBar(
@@ -93,6 +98,10 @@ class _SignUpViewState extends State<SignUpView> {
                 content: Text('Account created successfully!'),
                 backgroundColor: Colors.green,
               ),
+            );
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(builder: (_) => MainWrapper()),
             );
           }
         } else if (state is AuthFailureState) {

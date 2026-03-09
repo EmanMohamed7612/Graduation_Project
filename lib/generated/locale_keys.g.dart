@@ -7,6 +7,7 @@ abstract class  LocaleKeys {
   static const HANDMAD = 'HANDMAD';
   static const LOADING = 'LOADING';
   static const Where = 'Where';
+  static const continue_text = 'continue_text';
   static const skip = 'skip';
   static const next = 'next';
   static const getstarted = 'getstarted';
@@ -52,9 +53,14 @@ abstract class  LocaleKeys {
   static const portfolioverificationrequired = 'portfolioverificationrequired';
   static const welcome = 'welcome';
   static const enteryouremailtogetstarted = 'enteryouremailtogetstarted';
-  static const continues = 'continue';
+  static const enterEmailToStart = 'enterEmailToStart';
+  static const emailisrequired = 'emailisrequired';
+  static const enteravalidemail = 'enteravalidemail';
+  static const enteryourpassword = 'enteryourpassword';
+  static const passwordisrequired = 'passwordisrequired';
+  static const Passwordmustbeatleast6characters = 'Passwordmustbeatleast6characters';
   static const or = 'or';
-  static const alreadyhaveanaccountlogin = 'alreadyhaveanaccountlogin';
+  static const already_have_account = 'already_have_account';
   static const signupwithgoogle = 'signupwithgoogle';
   static const back = 'back';
   static const emailverified = 'emailverified';
@@ -151,6 +157,6 @@ abstract class  LocaleKeys {
   static const invalid_email = 'invalid_email';
   static const weak_password = 'weak_password';
   static const password_not_match = 'password_not_match';
-  static const google = 'google';
+  static const error = 'error';
 
 }

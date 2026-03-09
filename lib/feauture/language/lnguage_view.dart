@@ -5,6 +5,7 @@ import 'package:graduation2/feauture/auth/views/login_screen.dart';
 import 'package:graduation2/feauture/language/widget/continue_button.dart';
 import 'package:graduation2/feauture/language/widget/language_Icon.dart';
 import 'package:graduation2/feauture/language/widget/language_card.dart';
+import 'package:graduation2/feauture/splash_screen/presentation/view/onboarding.dart';
 
 // flutter pub run easy_localization:generate -S assets/translations -f keys -o locale_keys.g.dart
 class LanguageView extends StatefulWidget {
@@ -69,10 +70,7 @@ class _LanguageViewState extends State<LanguageView> {
 
                 const Text(
                   "Select your preferred language",
-                  style: TextStyle(
-                    fontSize: 13,
-                    color: Color(0XFF8D6E63),
-                  ),
+                  style: TextStyle(fontSize: 13, color: Color(0XFF8D6E63)),
                 ),
 
                 SizedBox(height: height * 0.05),
@@ -99,16 +97,13 @@ class _LanguageViewState extends State<LanguageView> {
 
                 ContinueButton(
                   onPressed: () async {
-                    final selectedLanguage =
-                    selectedIndex == 0 ? 'en' : 'ar';
+                    final selectedLanguage = selectedIndex == 0 ? 'en' : 'ar';
                     await _saveLanguage();
                     if (context.mounted) {
                       await context.setLocale(Locale(selectedLanguage));
                       Navigator.pushReplacement(
                         context,
-                        MaterialPageRoute(
-                          builder: (_) => LoginView(),
-                        ),
+                        MaterialPageRoute(builder: (_) => OnBoardingView()),
                       );
                     }
                   },

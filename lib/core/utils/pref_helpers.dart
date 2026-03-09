@@ -66,6 +66,7 @@ class PrefHelpers {
     final prefs = await SharedPreferences.getInstance();
     return prefs.getString(_langKey);
   }
+
   static Future<void> saveCartId(String cartId) async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setString(_cartIdKey, cartId);
@@ -74,5 +75,10 @@ class PrefHelpers {
   static Future<String?> getCartId() async {
     final prefs = await SharedPreferences.getInstance();
     return prefs.getString(_cartIdKey);
+  }
+
+  static Future<void> clearUserId() async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.remove("userId");
   }
 }

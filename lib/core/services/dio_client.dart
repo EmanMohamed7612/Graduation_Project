@@ -80,17 +80,19 @@ class DioClient {
         onRequest: (options, handler) async {
           // Get token FIRST, before logging
           final token = await PrefHelpers.getToken();
-          
+          final lang = await PrefHelpers.getLanguage() ?? 'en';
+
           // Add Authorization header if token exists
           if (token != null && token.isNotEmpty) {
             options.headers['Authorization'] = 'Bearer $token';
           }
-
+          options.headers['Accept-Language'] = lang;
           // Now log AFTER adding the header
           log('🔹 REQUEST: ${options.method} ${options.path}');
           log('🔹 Headers: ${options.headers}');
           log('🔹 Body: ${options.data}');
           log('🔹 Token: ${token != null ? "✅ Present" : "❌ Missing"}');
+          log('🔹 Language: $lang');
 
           return handler.next(options);
         },

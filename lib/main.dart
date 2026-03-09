@@ -55,29 +55,26 @@ class CratoriaApp extends StatelessWidget {
         ),
         BlocProvider(create: (_) => AuthCubit(ApiService())),
         BlocProvider(
-          create:
-              (context) => UserProfileCubit(UserProfileRepo())..fetchProfile(),
+          create: (context) =>
+              UserProfileCubit(UserProfileRepo())..fetchProfile(),
         ),
         BlocProvider(
-          create:
-              (context) => CreateProductCubit(
-                repoProduct: RepoProductImple(
-                  productApiService: ProductApiService(),
-                ),
-              ),
+          create: (context) => CreateProductCubit(
+            repoProduct: RepoProductImple(
+              productApiService: ProductApiService(),
+            ),
+          ),
         ),
         BlocProvider(
-          create:
-              (context) =>
-                  CategoryCubit(ProductApiService())..fetchCategories(),
+          create: (context) =>
+              CategoryCubit(ProductApiService())..fetchCategories(),
         ),
         BlocProvider(
-          create:
-              (context) => UpdateProductCubit(
-                repoProduct: RepoProductImple(
-                  productApiService: ProductApiService(),
-                ),
-              ),
+          create: (context) => UpdateProductCubit(
+            repoProduct: RepoProductImple(
+              productApiService: ProductApiService(),
+            ),
+          ),
         ),
       ],
       child: MaterialApp(
@@ -93,7 +90,7 @@ class CratoriaApp extends StatelessWidget {
             secondary: Color(0xFF8D6E63),
           ),
         ),
-        home: LanguageView(),
+        home: SplashView(),
       ),
     );
   }

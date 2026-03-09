@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:graduation2/core/services/api_services.dart';
+import 'package:graduation2/feauture/dashboard_screen/presentation/view/seller_dashboard.dart';
 import 'package:graduation2/feauture/profile/manager/number_product_cubit.dart';
 import 'package:graduation2/feauture/profile/manager/number_product_state.dart';
 import 'package:graduation2/feauture/profile/views/myprofile/widgets/materials.dart';
@@ -291,7 +292,14 @@ class _SupplierprofileState extends State<Supplierprofile> {
                         ),
 
                         child: GestureDetector(
-                          onTap: () {},
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => SellerDashboardScreen(),
+                              ),
+                            );
+                          },
                           child: Center(
                             child: Text(
                               'Dashboard',

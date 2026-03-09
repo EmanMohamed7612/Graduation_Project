@@ -252,7 +252,7 @@ class _LoginViewState extends State<LoginView> {
 
   final _formKey = GlobalKey<FormState>();
 
-   bool _isPasswordHidden = true;
+  bool _isPasswordHidden = true;
 
   @override
   Widget build(BuildContext context) {
@@ -278,25 +278,23 @@ class _LoginViewState extends State<LoginView> {
                 ),
               );
 
-             Navigator.pushReplacement(
+              Navigator.pushReplacement(
                 context,
-                MaterialPageRoute(
-                  builder: (_) => MainWrapper(),
-                ),
+                MaterialPageRoute(builder: (_) => MainWrapper()),
               );
               //  UserProfileModel user=   context.read<UserProfileRepo>().getCurrentUser(
 
               //         );
-             // Navigator.push(
-               // context,
-               // MaterialPageRoute(
-                 // builder: (_) => BlocProvider(
-                  //  create: (_) =>
-                      //  UserProfileCubit(UserProfileRepo())..fetchProfile(),
-                   // child: const Profile(),
-                //  ),
-               // ),
-             // );
+              // Navigator.push(
+              // context,
+              // MaterialPageRoute(
+              // builder: (_) => BlocProvider(
+              //  create: (_) =>
+              //  UserProfileCubit(UserProfileRepo())..fetchProfile(),
+              // child: const Profile(),
+              //  ),
+              // ),
+              // );
               // هنا ممكن تعمل Navigate للصفحة الرئيسية
             }
           },
@@ -325,7 +323,7 @@ class _LoginViewState extends State<LoginView> {
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                           Text(
+                          Text(
                             LocaleKeys.welcomback.tr(),
                             textAlign: TextAlign.center,
                             style: TextStyle(
@@ -336,8 +334,9 @@ class _LoginViewState extends State<LoginView> {
                             ),
                           ),
                           SizedBox(height: heightScreen * .01),
-                          const Text(
-                            'Sign in to continue crafting',
+                          Text(
+                            // 'Sign in to continue crafting',
+                            LocaleKeys.signincontinuetocraftoria.tr(),
                             textAlign: TextAlign.center,
                             style: TextStyle(
                               color: Color(0xFF8D6E63),
@@ -347,40 +346,42 @@ class _LoginViewState extends State<LoginView> {
                             ),
                           ),
                           SizedBox(height: heightScreen * .03),
-                          _buildLabel('Email Address'),
+                          _buildLabel(LocaleKeys.emailaddress.tr()),
                           _buildTextField(
-                            hintText: 'Enter your email',
+                            hintText: LocaleKeys.enteryouremailtogetstarted
+                                .tr(),
                             controller: emailController,
                             icon: Icons.email_outlined,
                             validator: (value) {
                               if (value == null || value.isEmpty) {
-                                return 'Email is required';
+                                return LocaleKeys.emailisrequired.tr();
                               }
                               if (!value.contains('@')) {
-                                return 'Enter a valid email';
+                                return LocaleKeys.enteravalidemail.tr();
                               }
                               return null;
                             },
                           ),
-                          _buildLabel('Password'),
+                          _buildLabel(LocaleKeys.password.tr()),
                           _buildTextField(
-                            hintText: 'Enter your password',
-                           // obscureText: true,
+                            hintText: LocaleKeys.enteryourpassword.tr(),
+                            // obscureText: true,
                             controller: passwordController,
                             icon: Icons.lock_outline,
-                              obscureText: _isPasswordHidden,
-                          isHidden: _isPasswordHidden,
-                          onToggleVisibility: () {
-                            setState(() {
-                              _isPasswordHidden = !_isPasswordHidden;
-                            });
-                          },
+                            obscureText: _isPasswordHidden,
+                            isHidden: _isPasswordHidden,
+                            onToggleVisibility: () {
+                              setState(() {
+                                _isPasswordHidden = !_isPasswordHidden;
+                              });
+                            },
                             validator: (value) {
                               if (value == null || value.isEmpty) {
-                                return 'Password is required';
+                                return LocaleKeys.passwordisrequired.tr();
                               }
                               if (value.length < 6) {
-                                return 'Password must be at least 6 characters';
+                                return LocaleKeys
+                                    .Passwordmustbeatleast6characters.tr();
                               }
                               return null;
                             },
@@ -410,8 +411,8 @@ class _LoginViewState extends State<LoginView> {
                                   );
                                 },
 
-                                child: const Text(
-                                  'Forgot Password?',
+                                child: Text(
+                                  LocaleKeys.forgetpassword.tr(),
                                   style: TextStyle(
                                     color: Color(0xFFC9A875),
                                     fontSize: 14,
@@ -449,9 +450,9 @@ class _LoginViewState extends State<LoginView> {
                                     ),
                                     width: double.infinity,
                                     height: heightScreen * .05,
-                                    child: const Center(
+                                    child: Center(
                                       child: Text(
-                                        'Login',
+                                        LocaleKeys.login.tr(),
                                         textAlign: TextAlign.center,
                                         style: TextStyle(
                                           color: Color(0xFFFFFFFF),
@@ -467,7 +468,7 @@ class _LoginViewState extends State<LoginView> {
                           Padding(
                             padding: const EdgeInsets.symmetric(vertical: 14),
                             child: Row(
-                              children: const [
+                              children: [
                                 Expanded(
                                   child: Divider(
                                     color: Color(
@@ -479,7 +480,7 @@ class _LoginViewState extends State<LoginView> {
                                 Padding(
                                   padding: EdgeInsets.symmetric(horizontal: 12),
                                   child: Text(
-                                    'or',
+                                    LocaleKeys.or.tr(),
                                     style: TextStyle(
                                       color: Color(0xFF9E9E9E),
                                       fontSize: 14,
@@ -527,8 +528,8 @@ class _LoginViewState extends State<LoginView> {
                                     height: 22,
                                   ),
                                   const SizedBox(width: 10),
-                                  const Text(
-                                    'Login with Google',
+                                  Text(
+                                    LocaleKeys.loginwithgoogle.tr(),
                                     style: TextStyle(
                                       color: Color(0xFF6D4C41),
                                       fontSize: 18,
@@ -559,9 +560,9 @@ class _LoginViewState extends State<LoginView> {
                               ),
                               width: double.infinity,
                               height: heightScreen * .05,
-                              child: const Center(
+                              child: Center(
                                 child: Text(
-                                  'Continue Guest',
+                                  LocaleKeys.continueasgust.tr(),
                                   textAlign: TextAlign.center,
                                   style: TextStyle(
                                     color: Color(0xFF6D4C41),
@@ -577,8 +578,8 @@ class _LoginViewState extends State<LoginView> {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              const Text(
-                                "Don't have an account? ",
+                              Text(
+                                LocaleKeys.donthaveanaccount.tr(),
                                 style: TextStyle(
                                   color: Color(0xFF8D6E63),
                                   fontSize: 13,
@@ -595,8 +596,8 @@ class _LoginViewState extends State<LoginView> {
                                     ),
                                   );
                                 },
-                                child: const Text(
-                                  'Sign Up',
+                                child: Text(
+                                  LocaleKeys.signup.tr(),
                                   style: TextStyle(
                                     color: Color(0xFF6D4C41),
                                     fontSize: 12.25,
@@ -738,5 +739,5 @@ class _LoginViewState extends State<LoginView> {
 //     ),
 //     suffixIcon: const Icon(Icons.keyboard_arrow_down, color: Colors.grey),
 //   );
- 
+
 // }

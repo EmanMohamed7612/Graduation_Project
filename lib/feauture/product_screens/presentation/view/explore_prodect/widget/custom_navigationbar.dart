@@ -61,11 +61,11 @@ class _MainWrapperState extends State<MainWrapper> {
     5,
     (_) => GlobalKey<NavigatorState>(),
   );
-void changeTab(int index) {
-  setState(() {
-    _selectedIndex = index;
-  });
-}
+  void changeTab(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -127,15 +127,13 @@ void changeTab(int index) {
       case 0:
         return const HomeScreen();
       case 1:
-        return const SellerDashboardScreen();
+        return const ExploreAllScreen();
       case 2:
         return const ComingSoonScreen(title: 'Community');
       case 3:
         return const ComingSoonScreen(title: 'AI');
       case 4:
-  return Profile(
-    onGoHome: () => changeTab(0),
-  );
+        return Profile(onGoHome: () => changeTab(0));
 
       default:
         return const HomeScreen();

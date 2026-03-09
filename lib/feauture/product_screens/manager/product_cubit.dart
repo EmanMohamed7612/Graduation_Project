@@ -67,7 +67,7 @@ class ProductsCubit extends Cubit<ProductState> {
     }
   }
 }
-}
+
 
 /// CreateProducts Cubit
 class CreateProductCubit extends Cubit<CreateProductState> {

@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:graduation2/core/const/role_const.dart';
@@ -7,6 +8,7 @@ import 'package:graduation2/feauture/auth/views/email_verified_screen.dart';
 import 'package:graduation2/feauture/auth/views/enter_code_screen.dart';
 import 'package:graduation2/feauture/auth/views/login_screen.dart';
 import 'package:graduation2/feauture/auth/views/widgets/custom_button.dart';
+import 'package:graduation2/generated/locale_keys.g.dart';
 
 class CheckEmailScreen extends StatelessWidget {
   CheckEmailScreen({super.key, required this.role});
@@ -61,8 +63,8 @@ class CheckEmailScreen extends StatelessWidget {
                   ),
                   const SizedBox(height: 24),
 
-                  const Text(
-                    'Welcome !',
+                  Text(
+                    LocaleKeys.welcome.tr(),
                     style: TextStyle(
                       color: Color(0xFF3E2723),
                       fontSize: 22,
@@ -71,7 +73,7 @@ class CheckEmailScreen extends StatelessWidget {
                   ),
                   const SizedBox(height: 8),
                   Text(
-                    "Enter your email to get started",
+                    LocaleKeys.enterEmailToStart.tr(),
                     style: TextStyle(
                       color: const Color(0xFF8D6E63),
                       fontSize: 16,
@@ -82,17 +84,17 @@ class CheckEmailScreen extends StatelessWidget {
                   ),
                   const SizedBox(height: 32),
 
-                  _buildLabel("Email Address"),
+                  _buildLabel(LocaleKeys.emailaddress.tr()),
                   const SizedBox(height: 8),
 
                   _buildTextField(
-                    hintText: 'Enter your email',
+                    hintText: LocaleKeys.enteryouremailtogetstarted.tr(),
                     controller: emailController,
                     icon: Icons.email_outlined,
                   ),
                   const SizedBox(height: 24),
                   CustomButton(
-                    buttonText: 'Continue',
+                    buttonText: LocaleKeys.continue_text.tr(),
                     onTap: () {
                       context.read<AuthCubit>().verifyEmail(
                         email: emailController.text.trim(),
@@ -103,7 +105,7 @@ class CheckEmailScreen extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.symmetric(vertical: 12),
                     child: Row(
-                      children: const [
+                      children: [
                         Expanded(
                           child: Divider(
                             color: Color(0xFFD7CCC8),
@@ -113,7 +115,7 @@ class CheckEmailScreen extends StatelessWidget {
                         Padding(
                           padding: EdgeInsets.symmetric(horizontal: 8),
                           child: Text(
-                            'Or',
+                            LocaleKeys.or.tr(),
                             style: TextStyle(
                               color: Color(0xFF6C4D41),
                               fontWeight: FontWeight.w600,
@@ -155,8 +157,8 @@ class CheckEmailScreen extends StatelessWidget {
                             height: 22,
                           ),
                           const SizedBox(width: 10),
-                          const Text(
-                            'Login with Google',
+                          Text(
+                            LocaleKeys.loginwithgoogle.tr(),
                             style: TextStyle(
                               color: Color(0xFF6D4C41),
                               fontSize: 18,
@@ -174,7 +176,7 @@ class CheckEmailScreen extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text("Already have an account? "),
+                      Text(LocaleKeys.already_have_account.tr()),
                       GestureDetector(
                         onTap: () {
                           Navigator.push(
@@ -187,7 +189,7 @@ class CheckEmailScreen extends StatelessWidget {
                           );
                         },
                         child: Text(
-                          "Login",
+                          LocaleKeys.login.tr(),
                           style: TextStyle(fontWeight: FontWeight.bold),
                         ),
                       ),
@@ -258,10 +260,10 @@ class CheckEmailScreen extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               children: [
                 Row(
-                  children: const [
+                  children:  [
                     Expanded(
                       child: Text(
-                        "Error",
+                        LocaleKeys.error.tr(),
                         style: TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.w600,

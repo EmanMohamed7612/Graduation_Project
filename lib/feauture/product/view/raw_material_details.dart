@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:graduation2/core/services/api_services.dart';
+import 'package:graduation2/core/services/api_services.dart' hide CartRepo;
 import 'package:graduation2/core/utils/pref_helpers.dart';
 import 'package:graduation2/feauture/product/manager/product_details_cubit.dart';
 import 'package:graduation2/feauture/product/manager/product_details_state.dart';
