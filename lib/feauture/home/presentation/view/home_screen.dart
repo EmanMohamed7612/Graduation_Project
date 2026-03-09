@@ -113,6 +113,7 @@ import 'package:graduation2/feauture/home/presentation/view/widget/section_title
 import 'package:graduation2/feauture/home/presentation/view/widget/top_sellers_list.dart';
 
 import '../../../../core/rescources/colors.dart';
+import '../../../../core/services/dio_client.dart';
 import '../../../product_screens/manager/prodect_apiservice.dart';
 import '../../../product_screens/manager/product_cubit.dart';
 import '../../../product_screens/presentation/view/getall_seller_screen.dart';
@@ -121,6 +122,7 @@ import '../../../product_screens/presentation/view/top_seller/manager/best_selle
 import '../../manager/card_apiserves.dart';
 import '../../manager/card_cubit.dart';
 import '../../manager/category_cubit.dart';
+import '../../manager/fav_apiserves.dart';
 import '../../manager/fav_cubit.dart';
 
 
@@ -153,7 +155,7 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
 
         BlocProvider(
-          create: (context) => FavoriteCubit(),
+          create: (_) => FavoriteCubit(FavoriteApiService(DioClient())),
         ),
 
         BlocProvider(

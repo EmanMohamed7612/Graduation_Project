@@ -18,7 +18,10 @@ class ApiEndpoint {
  static const String get_top_prodects='/api/Home/top-products';
   static const String get_top_sellers='/api/Home/top-sellers';
   static const String delete='/api/Products/DeleteProduct';
-
-
+ static const String CreateRawMaterial='/api/RawMaterial/CreateRawMaterial';
+ static const String UpdateRowMaterial='/api/RawMaterial/UpdateRawMaterial';
+ static const String GetAllRawMaterialCategories='/api/RawMaterial/GetAllRawMaterialCategories';
+ static const String DeleteRowMaterial='/api/RawMaterial/DeleteRawMaterial';
+ static const String GetAllMaterialOfSpecificUser='/api/RawMaterial/GetRawMaterialOfSpecificUser';
 }
 
