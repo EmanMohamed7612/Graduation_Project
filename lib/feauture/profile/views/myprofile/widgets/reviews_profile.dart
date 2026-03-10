@@ -6,17 +6,18 @@ import 'package:graduation2/feauture/review/view/widgets/custom_star.dart';
 import 'package:graduation2/feauture/review/view/write_review.dart';
 import 'package:intl/intl.dart';
 
-class ReviewsView extends StatefulWidget {
-  const ReviewsView({super.key, required this.userId});
+class ReviewsProfile extends StatefulWidget {
+  const ReviewsProfile({super.key, required this.userId});
   final String userId;
   @override
-  State<ReviewsView> createState() => _ReviewsViewState();
+  State<ReviewsProfile> createState() => _ReviewsProfileState();
 }
 
 // String formatDate(String time) {
 //   DateTime dateTime = DateTime.parse(time);
 //   return DateFormat('dd / MM / yyyy').format(dateTime);
 // }
+
 String formatDate(String? time) {
   if (time == null || time.isEmpty) return '';
 
@@ -28,7 +29,7 @@ String formatDate(String? time) {
   }
 }
 
-class _ReviewsViewState extends State<ReviewsView> {
+class _ReviewsProfileState extends State<ReviewsProfile> {
   @override
   void initState() {
     super.initState();
@@ -42,57 +43,6 @@ class _ReviewsViewState extends State<ReviewsView> {
     //  bool showWrieReview = false;
     return Column(
       children: [
-        Container(
-          height: height * 0.04,
-          width: width,
-          decoration: BoxDecoration(
-            color: const Color(0xFFE0E0E0),
-            borderRadius: BorderRadius.circular(18),
-            gradient: LinearGradient(
-              begin: Alignment(0.50, 0.00),
-              end: Alignment(0.50, 1.00),
-              colors: [const Color(0xFFC9A875), const Color(0xFFD4AF37)],
-            ),
-          ),
-          child: GestureDetector(
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) =>
-                      WriteReviewScreen(targetUserId: widget.userId),
-                ),
-              ).then((_) {
-                // الكود ده هيتنفذ دايماً لما ترجع من شاشة الإضافة
-                // خلينا الـ delay ثانية عشان ندي فرصة للـ Backend يسجل التقييم براحته
-                Future.delayed(const Duration(seconds: 1), () {
-                  if (context.mounted) {
-                    context.read<ReviewCubit>().getUserReviews(widget.userId);
-                  }
-                });
-              });
-
-              //               Navigator.push(
-              //                 context,
-              //                 MaterialPageRoute(
-              //                   builder: (context) =>
-              //                       WriteReviewScreen(targetUserId: widget.userId),
-              //                 ),
-              //               ).then((_) {
-              //   // الكود ده هيتنفذ أول ما ترجع من شاشة الـ Write Review
-              //   context.read<ReviewCubit>().getUserReviews(widget.userId);
-              // });
-            },
-            child: Center(
-              child: Text(
-                'Write Review',
-                style: TextStyle(color: Colors.white, fontFamily: 'Arimo'),
-              ),
-            ),
-          ),
-        ),
-
-        const SizedBox(height: 16),
         Expanded(
           // height: height * .4,
           child: BlocBuilder<ReviewCubit, ReviewState>(
@@ -109,7 +59,10 @@ class _ReviewsViewState extends State<ReviewsView> {
                 }
 
                 return ListView.builder(
-                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 12,
+                    vertical: 12,
+                  ),
                   itemCount: reviews.length,
 
                   //           final review = reviews[index];

@@ -41,6 +41,7 @@ class ProductReviewModel {
   final String? reviewerImage;
   final String? itemImage;
   final String? categoryName;
+  final String? itemName;
   ProductReviewModel({
     required this.reviewerName,
     required this.rating,
@@ -48,7 +49,8 @@ class ProductReviewModel {
     required this.createdAt,
     this.reviewerImage, // ده الوحيد اللي ممكن يفضل Null عادي
     this.itemImage,
-    this.categoryName, // ده الوحيد اللي ممكن يفضل Null عادي
+    this.categoryName,
+    this.itemName, // ده الوحيد اللي ممكن يفضل Null عادي
   });
 
   factory ProductReviewModel.fromJson(Map<String, dynamic> json) {
@@ -70,6 +72,11 @@ class ProductReviewModel {
           json['categoryName']?.toString() ??
           json['CategoryName']?.toString() ??
           '',
+
+      itemName:
+          json['itemName']?.toString() ??
+          json['itemName']?.toString() ??
+          'no name',
       createdAt:
           json['createdAt']?.toString() ?? json['CreatedAt']?.toString() ?? '',
 

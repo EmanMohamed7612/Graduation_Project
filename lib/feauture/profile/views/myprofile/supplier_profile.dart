@@ -11,6 +11,7 @@ import 'package:graduation2/feauture/profile/views/myprofile/widgets/numberandty
 import 'package:graduation2/feauture/profile/views/myprofile/widgets/products.dart';
 import 'package:graduation2/feauture/profile/views/myprofile/widgets/reviews.dart';
 import 'package:graduation2/feauture/product_screens/manager/product_cubit.dart';
+import 'package:graduation2/feauture/profile/views/myprofile/widgets/reviews_profile.dart';
 import 'package:graduation2/feauture/profile/views/sessions.dart';
 
 import 'package:graduation2/feauture/review/data/review_service.dart';
@@ -365,7 +366,7 @@ class _SupplierprofileState extends State<Supplierprofile> {
                         create: (context) =>
                             ReviewCubit(ReviewApiService())
                               ..getCreatedReviews(widget.user.id),
-                        child: ReviewsView(userId: widget.user.id),
+                        child: ReviewsProfile(userId: widget.user.id),
                       ),
                       // ReviewsView(),
                       //  ReviewsView(userId: widget.user.id),

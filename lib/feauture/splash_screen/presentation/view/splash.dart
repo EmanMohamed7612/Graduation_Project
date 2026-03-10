@@ -1,7 +1,9 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:graduation2/core/rescources/colors.dart' show AppColors;
 import 'package:graduation2/feauture/language/lnguage_view.dart';
 import 'package:graduation2/feauture/splash_screen/presentation/view/onboarding.dart';
+import 'package:graduation2/generated/locale_keys.g.dart';
 
 class SplashView extends StatefulWidget {
   const SplashView({super.key});
@@ -63,8 +65,8 @@ class _SplashViewState extends State<SplashView> {
 
               const SizedBox(height: 32),
 
-              const Text(
-                'Craftoria',
+              Text(
+                LocaleKeys.Craftoria.tr(),
                 style: TextStyle(
                   fontSize: 36,
                   fontWeight: FontWeight.bold,
@@ -120,8 +122,8 @@ class _SplashViewState extends State<SplashView> {
 
               const SizedBox(height: 8),
 
-              const Text(
-                'Where Craftsmanship Meets Community',
+              Text(
+                LocaleKeys.Where.tr(),
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: 16,
@@ -132,8 +134,8 @@ class _SplashViewState extends State<SplashView> {
 
               const SizedBox(height: 4),
 
-              const Text(
-                'HANDMADE WITH LOVE',
+              Text(
+                LocaleKeys.HANDMAD.tr(),
                 style: TextStyle(
                   fontSize: 13,
                   letterSpacing: 2,
@@ -165,8 +167,8 @@ class _SplashViewState extends State<SplashView> {
                     ),
                   ),
                   const SizedBox(height: 8),
-                  const Text(
-                    'LOADING',
+                  Text(
+                    LocaleKeys.LOADING.tr(),
                     style: TextStyle(
                       color: Color(0xffB49A84),
                       fontSize: 13,
@@ -196,21 +198,3 @@ class _SplashViewState extends State<SplashView> {
     );
   }
 }
-
-
-
-
-
-  //              SizedBox(height: MediaQuery.of(context).size.height * .2),
-
-              // ⚪ Page Indicators
-              // Row(
-              //   mainAxisAlignment: MainAxisAlignment.center,
-              //   children: [
-              //     _buildDot(true),
-              //     const SizedBox(width: 8),
-              //     _buildDot(false),
-              //     const SizedBox(width: 8),
-              //     _buildDot(false),
-              //   ],
-              // ),

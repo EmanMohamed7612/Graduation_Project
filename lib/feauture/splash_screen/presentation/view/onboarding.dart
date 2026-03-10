@@ -1,8 +1,10 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:graduation2/feauture/auth/views/register_screen.dart';
 import 'package:graduation2/feauture/splash_screen/data/models/onboarding_model.dart';
 import 'package:graduation2/feauture/splash_screen/presentation/view/widget/onboarding_view.dart';
 import 'package:graduation2/feauture/typeof%20person/view/type_of_person.dart';
+import 'package:graduation2/generated/locale_keys.g.dart';
 
 import '../../../auth/views/login_screen.dart';
 
@@ -20,19 +22,18 @@ class _OnBoardingViewState extends State<OnBoardingView> {
   List<OnBoardingModel> onBoardingModel = [
     OnBoardingModel(
       image: 'assets/images/onboarding1.png',
-      title: 'Discover Unique Crafts',
-      description:
-          'Explore handmade treasures from talented artisans worldwide',
+      title: LocaleKeys.discoveruniquecrafts.tr(),
+      description: LocaleKeys.explorehandmadetreasures.tr(),
     ),
     OnBoardingModel(
       image: 'assets/images/onboarding2.png',
-      title: 'Connect with Sellers',
-      description: 'Build relationships with passionate creators and suppliers',
+      title: LocaleKeys.connectwithsellers.tr(),
+      description: LocaleKeys.buildrelationships.tr(),
     ),
     OnBoardingModel(
       image: 'assets/images/onboarding3.png',
-      title: 'Share Your Creativity',
-      description: 'Join our community and showcase your handmade masterpieces',
+      title: LocaleKeys.shareyourcreativity.tr(),
+      description: LocaleKeys.joinourcommunity.tr(),
     ),
   ];
   @override
@@ -63,7 +64,7 @@ class _OnBoardingViewState extends State<OnBoardingView> {
                 );
               },
               child: Text(
-                'Skip',
+                LocaleKeys.skip.tr(),
                 style: TextStyle(
                   fontSize: 22,
                   fontWeight: FontWeight.w400,
@@ -201,7 +202,9 @@ class _OnBoardingViewState extends State<OnBoardingView> {
                     ),
                   ),
                   child: Text(
-                    index == 2 ? 'Get Started' : 'Next',
+                    index == 2
+                        ? LocaleKeys.getstarted.tr()
+                        : LocaleKeys.next.tr(),
                     style: const TextStyle(
                       color: Colors.white,
                       fontSize: 16,

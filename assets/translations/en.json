@@ -17,11 +17,18 @@
   "emailaddress": "Email Address",
   "password": "Password",
   "forgetpassword": "Forget password ?",
+  "rememberyourpassword":"Remember your password ?",
   "login": "login",
   "loginwithgoogle": "Login with google",
+  "loginSuccessfulWelcome":"Login Successful! Welcome",
+  "accountcreatedsuccessfully":"Account created successfully!",
   "continueasgust": "continue as Gust",
   "donthaveanaccount": "Don't have an account",
+  "backtoLogin":"Back to Login",
   "signup": "Sign up",
+  "completeAccount":"Complete Account",
+  "mmale":"Male",
+  "ffemale":"Female",
   "joincraftoria": "Join Craftoria",
   "selectyourroletocontinue": "select your role to continue",
   "customer": "Customer",
@@ -227,5 +234,9 @@
   "enterCode": "Enter code",
   "verifyCode": "Verify code",
   "resendCode": "Resend code",
-  "error": "Error"
+  "error": "Error",
+  "wevesentapasswordresetlinkto" :"We've sent a password reset link to",
+  "ok":"Ok",
+  "noworriesEnteryouremailaddressandwellsendyouacodetoresetyourpassword" :"No worries! Enter your email address and we'll send you a code to reset your password."
+
 }

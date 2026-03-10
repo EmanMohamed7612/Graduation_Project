@@ -8,6 +8,7 @@ import 'package:graduation2/feauture/profile/manager/number_product_state.dart';
 import 'package:graduation2/feauture/profile/views/myprofile/widgets/numberandtype.dart';
 import 'package:graduation2/feauture/profile/views/myprofile/widgets/products.dart';
 import 'package:graduation2/feauture/profile/views/myprofile/widgets/reviews.dart';
+import 'package:graduation2/feauture/profile/views/myprofile/widgets/reviews_profile.dart';
 import 'package:graduation2/feauture/profile/views/sessions.dart';
 
 import 'package:graduation2/feauture/product_screens/manager/product_cubit.dart';
@@ -359,7 +360,7 @@ class _ExpertProfileState extends State<ExpertProfile> {
                         create: (context) =>
                             ReviewCubit(ReviewApiService())
                               ..getCreatedReviews(widget.user.id),
-                        child: ReviewsView(userId: widget.user.id),
+                        child: ReviewsProfile(userId: widget.user.id),
                       ),
                       //  ReviewsView(),
                     ],

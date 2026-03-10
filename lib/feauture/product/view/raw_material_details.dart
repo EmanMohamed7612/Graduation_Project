@@ -112,7 +112,7 @@ class _RawMaterialDetailsState extends State<RawMaterialDetails> {
                         ),
                         clipBehavior: Clip.antiAlias,
                         width: double.infinity,
-                        height: size.height * .24,
+                        height: size.height * .26,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(25),
                           color: Colors.white,

@@ -1,6 +1,8 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:graduation2/feauture/auth/views/enter_code_screen.dart';
 import 'package:graduation2/feauture/auth/views/widgets/custom_button.dart';
+import 'package:graduation2/generated/locale_keys.g.dart';
 
 class EmailVerifiedScreen extends StatelessWidget {
   final String email;
@@ -27,8 +29,8 @@ class EmailVerifiedScreen extends StatelessWidget {
             ),
             const SizedBox(height: 24),
 
-            const Text(
-              'Email Verified!',
+             Text(
+              LocaleKeys.emailverified.tr(),
               style: TextStyle(
                 color: Color(0xFF3E2723),
                 fontSize: 22,
@@ -37,7 +39,7 @@ class EmailVerifiedScreen extends StatelessWidget {
             ),
             const SizedBox(height: 8),
             Text(
-              "We found your email: $email",
+              "${LocaleKeys.wefoundyouremail.tr()} : $email",
               style: TextStyle(
                 color: const Color(0xFF8D6E63),
                 fontSize: 16,
@@ -49,7 +51,7 @@ class EmailVerifiedScreen extends StatelessWidget {
             const SizedBox(height: 32),
 
             CustomButton(
-              buttonText: 'Send code',
+              buttonText: LocaleKeys.sendcode.tr(),
               onTap: () {
                 Navigator.push(
                   context,

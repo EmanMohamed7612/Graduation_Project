@@ -1,7 +1,9 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:graduation2/feauture/auth/views/login_screen.dart';
 import 'package:graduation2/feauture/auth/views/verifyresendcode_screen.dart';
+import 'package:graduation2/generated/locale_keys.g.dart';
 
 import '../manager/auth_cubit.dart';
 import '../manager/auth_state.dart';
@@ -88,10 +90,10 @@ class ForgetPasswordView extends StatelessWidget {
                     ),
                     child: Column(
                       children: [
-                        const Align(
+                         Align(
                           alignment: Alignment.topLeft,
                           child: Text(
-                            'Forget Password?',
+                            LocaleKeys.forgetpassword.tr(),
                             style: TextStyle(
                               color: Color(0xFF3E2723),
                               fontSize: 24,
@@ -102,8 +104,8 @@ class ForgetPasswordView extends StatelessWidget {
                           ),
                         ),
                         SizedBox(height: heightScreen * .01),
-                        const Text(
-                          "No worries! Enter your email address and we'll send you a code to reset your password.",
+                         Text(
+                          LocaleKeys.noworriesEnteryouremailaddressandwellsendyouacodetoresetyourpassword.tr(),
                           style: TextStyle(
                             color: Color(0xFF8D6E63),
                             fontSize: 16,
@@ -113,14 +115,14 @@ class ForgetPasswordView extends StatelessWidget {
                           ),
                         ),
                         SizedBox(height: heightScreen * .03),
-                        _buildLabel('Email Address'),
+                        _buildLabel(LocaleKeys.emailaddress),
                         _buildTextField(
-                          hintText: 'Enter your email address',
+                          hintText: LocaleKeys.enteryouremailtogetstarted.tr(),
                           controller: emailController,
                           icon: Icons.email_outlined,
                           validator: (val) {
                             if (val == null || val.isEmpty)
-                              return "Email is required";
+                              return LocaleKeys.emailisrequired.tr();
                             return null;
                           },
                         ),
@@ -153,9 +155,9 @@ class ForgetPasswordView extends StatelessWidget {
                                     ),
                                     width: widthScreen,
                                     height: heightScreen * .05,
-                                    child: const Center(
+                                    child:  Center(
                                       child: Text(
-                                        'Send Code',
+                                       LocaleKeys.sendcode.tr(),
                                         textAlign: TextAlign.center,
                                         style: TextStyle(
                                           color: Colors.white,
@@ -172,7 +174,7 @@ class ForgetPasswordView extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Text(
-                              'Remember your password?',
+                              LocaleKeys.rememberyourpassword.tr(),
                               textAlign: TextAlign.center,
                               style: TextStyle(
                                 color: const Color(0xFF8D6E63),
@@ -195,7 +197,7 @@ class ForgetPasswordView extends StatelessWidget {
                                 );
                               },
                               child: Text(
-                                'Back to Login',
+                                LocaleKeys.backtoLogin.tr(),
                                 style: TextStyle(
                                   color: const Color(0xFF6D4C41),
                                   fontSize: 13.5,

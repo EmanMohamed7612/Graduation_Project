@@ -27,6 +27,9 @@ abstract class  LocaleKeys {
   static const continueasgust = 'continueasgust';
   static const donthaveanaccount = 'donthaveanaccount';
   static const signup = 'signup';
+  static const completeAccount = 'completeAccount';
+  static const mmale = 'mmale';
+  static const ffemale = 'ffemale';
   static const joincraftoria = 'joincraftoria';
   static const selectyourroletocontinue = 'selectyourroletocontinue';
   static const customer = 'customer';
@@ -61,7 +64,11 @@ abstract class  LocaleKeys {
   static const Passwordmustbeatleast6characters = 'Passwordmustbeatleast6characters';
   static const or = 'or';
   static const already_have_account = 'already_have_account';
+  static const accountcreatedsuccessfully = 'accountcreatedsuccessfully';
   static const signupwithgoogle = 'signupwithgoogle';
+  static const rememberyourpassword = 'rememberyourpassword';
+  static const backtoLogin = 'backtoLogin';
+  static const loginSuccessfulWelcome = 'loginSuccessfulWelcome';
   static const back = 'back';
   static const emailverified = 'emailverified';
   static const wefoundyouremail = 'wefoundyouremail';
@@ -158,5 +165,9 @@ abstract class  LocaleKeys {
   static const weak_password = 'weak_password';
   static const password_not_match = 'password_not_match';
   static const error = 'error';
+  static const checkYourEmail = 'checkYourEmail';
+  static const wevesentapasswordresetlinkto = 'wevesentapasswordresetlinkto';
+  static const ok = 'ok';
+  static const noworriesEnteryouremailaddressandwellsendyouacodetoresetyourpassword = 'noworriesEnteryouremailaddressandwellsendyouacodetoresetyourpassword';
 
 }

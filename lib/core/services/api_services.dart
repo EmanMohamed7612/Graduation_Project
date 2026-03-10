@@ -214,7 +214,10 @@ class ApiService {
   dynamic _handleResponse(dynamic data) {
     if (data is Map<String, dynamic> && data['success'] == false) {
       throw ApiError(
-        message: data['message'] ?? 'Something went wrong',
+        message:
+            data['errors']['errorMessage'] ??
+            data['message'] ??
+            'Something went wrong',
         statusCode: data['statusCode'] is int
             ? data['statusCode']
             : int.tryParse(data['statusCode']?.toString() ?? ''),

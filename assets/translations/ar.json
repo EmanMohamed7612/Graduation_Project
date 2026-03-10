@@ -23,6 +23,9 @@
   "continueasgust": "المتابعة كضيف",
   "donthaveanaccount": "ليس لديك حساب؟",
   "signup": "إنشاء حساب",
+  "completeAccount":"حساب كامل",
+  "mmale":"ذكر",
+  "ffemale":"أنثى",
   "joincraftoria": "انضم إلى كرافتوريا",
   "selectyourroletocontinue": "اختر دورك للمتابعة",
   "customer": "عميل",
@@ -57,7 +60,11 @@
   "Passwordmustbeatleast6characters":"يجب أن تتكون كلمة المرور من 6 أحرف على الأقل",
   "or": "أو",
   "already_have_account": "هل لديك حساب ؟  ",
+  "accountcreatedsuccessfully":"تم إنشاء الحساب بنجاح!",
   "signupwithgoogle": "إنشاء حساب باستخدام جوجل",
+  "rememberyourpassword":"تذكر كلمة المرور الخاصة بك ؟",
+  "backtoLogin":"العودة إلى تسجيل الدخول",
+  "loginSuccessfulWelcome":"تم تسجيل الدخول بنجاح! أهلاً وسهلاً!",
   "back": "رجوع",
   "emailverified": "تم التحقق من البريد",
   "wefoundyouremail": "وجدنا بريدك الإلكتروني",
@@ -153,5 +160,9 @@
   "invalid_email": "بريد إلكتروني غير صحيح",
   "weak_password": "كلمة المرور ضعيفة",
   "password_not_match": "كلمتا المرور غير متطابقتين",
-  "error" : "خطأ"
+  "error" : "خطأ",
+  "checkYourEmail":"تحقق من بريدك الإلكتروني",
+  "wevesentapasswordresetlinkto":"لقد أرسلنا رابط إعادة تعيين كلمة المرور إلى",
+  "ok":"نعم",
+  "noworriesEnteryouremailaddressandwellsendyouacodetoresetyourpassword":"لا داعي للقلق! أدخل عنوان بريدك الإلكتروني وسنرسل لك رمزًا لإعادة تعيين كلمة مرورك."
 }

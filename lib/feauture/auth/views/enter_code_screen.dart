@@ -1,9 +1,11 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:graduation2/feauture/auth/manager/auth_cubit.dart';
 import 'package:graduation2/feauture/auth/manager/auth_state.dart';
 import 'package:graduation2/feauture/auth/views/register_screen.dart';
 import 'package:graduation2/feauture/auth/views/widgets/custom_button.dart';
+import 'package:graduation2/generated/locale_keys.g.dart';
 
 import '../manager/auth_cubit.dart';
 
@@ -61,8 +63,8 @@ class EnterCodeScreen extends StatelessWidget {
                   ),
                   const SizedBox(height: 24),
 
-                  const Text(
-                    'Enter code',
+                   Text(
+                    LocaleKeys.entercode.tr(),
                     style: TextStyle(
                       color: Color(0xFF3E2723),
                       fontSize: 22,
@@ -72,7 +74,7 @@ class EnterCodeScreen extends StatelessWidget {
                   const SizedBox(height: 8),
 
                   Text(
-                    "We sent a code to $email",
+                    "${LocaleKeys.we_sent_code_to.tr()} $email",
                     style: TextStyle(
                       color: const Color(0xFF8D6E63),
                       fontSize: 16,
@@ -116,7 +118,7 @@ class EnterCodeScreen extends StatelessWidget {
                   const SizedBox(height: 32),
 
                   CustomButton(
-                    buttonText: 'Verify code',
+                    buttonText: LocaleKeys.verifycode.tr(),
                     onTap: () {
                       final otp = controllers.map((c) => c.text).join();
 
@@ -130,7 +132,7 @@ class EnterCodeScreen extends StatelessWidget {
                   const SizedBox(height: 20),
 
                   CustomButton(
-                    buttonText: 'Resend code',
+                    buttonText: LocaleKeys.resendcode.tr(),
                     onTap: () {
                       context.read<AuthCubit>().verifyEmail(email: email);
                     },

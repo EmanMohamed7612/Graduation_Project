@@ -1,7 +1,9 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:graduation2/feauture/auth/views/login_screen.dart';
 
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:graduation2/generated/locale_keys.g.dart';
 
 class CheckEmail extends StatelessWidget {
   const CheckEmail({super.key});
@@ -87,7 +89,7 @@ class CheckEmail extends StatelessWidget {
                   Align(
                     //  alignment: Alignment.topLeft,
                     child: Text(
-                      'Check Your Email',
+                      LocaleKeys.checkYourEmail.tr(),
                       style: TextStyle(
                         color: const Color(0xFF3E2723),
                         fontSize: 24,
@@ -99,7 +101,7 @@ class CheckEmail extends StatelessWidget {
                   ),
                   SizedBox(height: heightScreen * .02),
                   Text(
-                    "We've sent a password reset link to",
+                    LocaleKeys.wevesentapasswordresetlinkto.tr(),
                     style: TextStyle(
                       color: const Color(0xFF8D6E63),
                       fontSize: 16,
@@ -110,7 +112,7 @@ class CheckEmail extends StatelessWidget {
                   ),
                   SizedBox(height: heightScreen * .01),
                   Text(
-                    "emanm0024@gmail.com",
+                    "",
                     style: TextStyle(
                       color: const Color(0xFF6D4C41),
                       fontSize: 16,

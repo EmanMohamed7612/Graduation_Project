@@ -46,7 +46,7 @@ class _ReviewCustomerState extends State<ReviewCustomer> {
               final review = reviews[index];
               return GestureDetector(
                 onTap: () {},
-          
+
                 child: Container(
                   decoration: BoxDecoration(
                     color: Colors.white,
@@ -54,12 +54,24 @@ class _ReviewCustomerState extends State<ReviewCustomer> {
                   ),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       ClipRRect(
                         borderRadius: const BorderRadius.vertical(
                           top: Radius.circular(15),
                         ),
                         child:
+                            //  review.itemImage != null
+                            //                                    ? Image.(
+                            //                                       review.itemImage ??
+                            //                                            'assets/images/person.png',
+                            //                                      )
+                            //                                    : AssetImage(
+                            //                                        'assets/images/person.png',
+                            //                                      ),
+                            //                             AssetImage(
+                            //                                        'assets/images/person.png',
+                            //                                      ),
                             // Image.asset(
                             //   'assets/images/topseller.png',
                             //   fit: BoxFit.cover,
@@ -67,16 +79,26 @@ class _ReviewCustomerState extends State<ReviewCustomer> {
                             // ),
                             //review.itemImage != null
                             //?
-                            Image.network(
-                              review.itemImage ??
-                                  'assets/images/no_photo.png',
-                            ),
+                            review.itemImage != null &&
+                                review.itemImage!.startsWith('http')
+                            ? Image.network(
+                                review.itemImage!,
+                                height: height * .15,
+                                width: double.infinity,
+                                fit: BoxFit.cover,
+                              )
+                            : Image.asset(
+                                'assets/images/no_photo.png',
+                                height: height * .15,
+                                width: double.infinity,
+                                fit: BoxFit.cover,
+                              ),
                         //: Image.asset('assets/images/no_photo.png'),
                         // backgroundImage: AssetImage(
                         //   'assets/images/topseller.png',
                         // ),
                       ),
-          
+
                       // backgroundImage:
                       //                                     review.reviewerImage != null
                       //                                     ? NetworkImage(
@@ -126,7 +148,7 @@ class _ReviewCustomerState extends State<ReviewCustomer> {
                             const SizedBox(height: 4),
                             Center(
                               child: Text(
-                                '${review.categoryName}',
+                                '${review.itemName}',
                                 style: const TextStyle(
                                   color: Color(0xff7A4A32),
                                 ),

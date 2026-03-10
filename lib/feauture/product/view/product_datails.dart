@@ -95,7 +95,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                       Container(
                         clipBehavior: Clip.antiAlias,
                         width: double.infinity,
-                        height: size.height * .24,
+                        height: size.height * .26,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(25),
                         ),
@@ -111,7 +111,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                         ),
                         clipBehavior: Clip.antiAlias,
                         width: double.infinity,
-                        height: size.height * .24,
+                        height: size.height * .3,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(25),
                           color: Colors.white,

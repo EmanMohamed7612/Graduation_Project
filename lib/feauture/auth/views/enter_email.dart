@@ -260,7 +260,7 @@ class CheckEmailScreen extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               children: [
                 Row(
-                  children:  [
+                  children: [
                     Expanded(
                       child: Text(
                         LocaleKeys.error.tr(),
@@ -283,7 +283,7 @@ class CheckEmailScreen extends StatelessWidget {
                   alignment: Alignment.centerRight,
                   child: TextButton(
                     onPressed: () => Navigator.pop(context),
-                    child: const Text("OK"),
+                    child: Text(LocaleKeys.ok.tr()),
                   ),
                 ),
               ],

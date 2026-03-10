@@ -229,16 +229,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:graduation2/feauture/auth/manager/auth_cubit.dart';
 import 'package:graduation2/feauture/auth/manager/auth_state.dart';
 import 'package:graduation2/feauture/auth/views/forget_password.dart';
-import 'package:graduation2/feauture/profile/manager/profile_cubit.dart';
-import 'package:graduation2/feauture/profile/views/myprofile/profile.dart';
 import 'package:graduation2/feauture/typeof%20person/view/type_of_person.dart';
 import '../../../core/services/api_services.dart';
 import '../../../generated/locale_keys.g.dart';
-import '../../dashboard_screen/presentation/view/supplier_dashboard.dart';
-import '../../material_screen/presentation/views/addmaterial/add_materialscreen.dart';
-import '../../product_screens/presentation/view/addprodect_screen/creatprodect.dart';
 import '../../product_screens/presentation/view/explore_prodect/widget/custom_navigationbar.dart';
-import '../../product_screens/presentation/view/getall_seller_screen.dart';
+
 
 class LoginView extends StatefulWidget {
   LoginView({super.key});
@@ -275,7 +270,7 @@ class _LoginViewState extends State<LoginView> {
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
                   content: Text(
-                    'Login Successful! Welcome ${state.user.userName ?? ''}',
+                    '${LocaleKeys.loginSuccessfulWelcome.tr()} ${state.user.userName ?? ''}',
                   ),
                 ),
               );

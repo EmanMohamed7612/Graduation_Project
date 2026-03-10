@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:graduation2/feauture/auth/manager/auth_cubit.dart';
@@ -7,6 +8,7 @@ import 'package:graduation2/feauture/auth/views/login_screen.dart';
 import 'package:graduation2/feauture/auth/views/uploadfiles.dart';
 import 'package:graduation2/feauture/auth/views/success_screen.dart';
 import 'package:graduation2/feauture/product_screens/presentation/view/explore_prodect/widget/custom_navigationbar.dart';
+import 'package:graduation2/generated/locale_keys.g.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:dio/dio.dart';
 
@@ -94,8 +96,8 @@ class _SignUpViewState extends State<SignUpView> {
             );
           } else if (role == 'Expert') {
             ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(
-                content: Text('Account created successfully!'),
+              SnackBar(
+                content: Text(LocaleKeys.accountcreatedsuccessfully.tr()),
                 backgroundColor: Colors.green,
               ),
             );
@@ -142,8 +144,8 @@ class _SignUpViewState extends State<SignUpView> {
                     ),
                     child: Column(
                       children: [
-                        const Text(
-                          'Complete Account',
+                        Text(
+                          LocaleKeys.completeAccount.tr(),
                           style: TextStyle(
                             color: Color(0xFF3E2723),
                             fontSize: 22,
@@ -153,83 +155,81 @@ class _SignUpViewState extends State<SignUpView> {
                         SizedBox(height: heightScreen * .005),
 
                         Text(
-                          'Join the handmade coumunity',
+                          LocaleKeys.jointhehandmadecommunity.tr(),
                           style: TextStyle(fontSize: 16, color: Colors.grey),
                         ),
                         SizedBox(height: heightScreen * .03),
 
-                        _buildLabel('First Name'),
+                        _buildLabel(LocaleKeys.firstname.tr()),
                         Row(
                           children: [
                             Expanded(
                               child: _buildTextField(
-                                hintText: 'First name',
+                                hintText: LocaleKeys.firstname.tr(),
                                 controller: firstNameController,
                                 icon: Icons.person_outline,
-                                validator: (v) =>
-                                    v!.isEmpty ? 'Required' : null,
+                                validator: (v) => v!.isEmpty
+                                    ? LocaleKeys.required.tr()
+                                    : null,
                               ),
                             ),
                             const SizedBox(width: 12),
                             Expanded(
                               child: _buildTextField(
-                                hintText: 'Last name',
+                                hintText: LocaleKeys.lastname,
                                 controller: lastNameController,
                                 icon: Icons.person_outline,
-                                validator: (v) =>
-                                    v!.isEmpty ? 'Required' : null,
+                                validator: (v) => v!.isEmpty
+                                    ? LocaleKeys.required.tr()
+                                    : null,
                               ),
                             ),
                           ],
                         ),
 
-                        _buildLabel('Gender'),
+                        _buildLabel(LocaleKeys.gender.tr()),
 
                         DropdownButtonFormField<String>(
                           value: selectedGender,
-                          hint: const Text(
-                            'Select your gender',
+                          hint: Text(
+                            LocaleKeys.selectyourgender.tr(),
                             style: TextStyle(color: Colors.grey),
                           ),
-                          decoration: _dropdownDecoration('Select your gender'),
+                          decoration: _dropdownDecoration(
+                            LocaleKeys.selectyourgender.tr(),
+                          ),
                           icon: const Icon(
                             Icons.keyboard_arrow_down,
                             color: Colors.grey,
                           ),
-                          items: const [
-                            DropdownMenuItem(
-                              value: 'male',
-                              child: Text('Male'),
-                            ),
-                            DropdownMenuItem(
-                              value: 'female',
-                              child: Text('Female'),
-                            ),
+                          items: [
+                              DropdownMenuItem(value: 'male', child: Text(LocaleKeys.mmale.tr())),
+                            DropdownMenuItem(value: 'female', child: Text(LocaleKeys.ffemale.tr())),
                           ],
                           onChanged: (value) {
                             setState(() => selectedGender = value);
                           },
-                          validator: (v) => v == null ? 'Required' : null,
+                          validator: (v) => v == null ? LocaleKeys.required.tr() : null,
                         ),
 
-                        _buildLabel('Email'),
+                        _buildLabel(LocaleKeys.emailaddress),
                         _buildTextField(
-                          hintText: 'Enter your email',
+                          hintText: LocaleKeys.enteryouremailtogetstarted.tr(),
                           controller: emailController,
                           icon: Icons.email_outlined,
                           enabled: widget.email == null,
                           validator: (v) =>
-                              v!.contains('@') ? null : 'Invalid email',
+                              v!.contains('@') ? null : LocaleKeys.invalid_email.tr(),
                         ),
 
-                        _buildLabel('Password'),
+                        _buildLabel(LocaleKeys.password.tr()),
                         _buildTextField(
-                          hintText: 'Enter your password',
+                          hintText:LocaleKeys.enteryourpassword.tr(),
                           controller: passwordController,
                           icon: Icons.lock_outline,
                           //  obscureText: true,
                           validator: (v) =>
-                              v!.length < 6 ? 'Weak password' : null,
+                              v!.length < 6 ? LocaleKeys.weak_password.tr() : null,
                           obscureText: _isPasswordHidden,
                           isHidden: _isPasswordHidden,
                           onToggleVisibility: () {
@@ -239,16 +239,16 @@ class _SignUpViewState extends State<SignUpView> {
                           },
                         ),
 
-                        _buildLabel('Confirm Password'),
+                        _buildLabel(LocaleKeys.confirmpassword.tr()),
                         _buildTextField(
-                          hintText: 'Confirm password',
+                          hintText: LocaleKeys.confirmpassword.tr(),
 
                           controller: confirmPassController,
                           icon: Icons.lock_outline,
 
                           //  obscureText: true,
                           validator: (v) =>
-                              v != passwordController.text ? 'Not match' : null,
+                              v != passwordController.text ? LocaleKeys.password_not_match.tr() : null,
                           obscureText: _isConfirmPasswordHidden,
                           isHidden: _isConfirmPasswordHidden,
                           onToggleVisibility: () {
@@ -296,7 +296,7 @@ class _SignUpViewState extends State<SignUpView> {
                                     password: passwordController.text,
                                     confirmPassword: confirmPassController.text,
                                     role: role,
-                                    gender: selectedGender ?? 'female',
+                                    gender: selectedGender ?? LocaleKeys.ffemale.tr(),
 
                                     yearsOfExperience: null,
                                     profileImages: profileImages,
@@ -308,7 +308,7 @@ class _SignUpViewState extends State<SignUpView> {
                                       builder: (_) => ExpertVerificationScreen(
                                         firstName: firstNameController.text,
                                         lastName: lastNameController.text,
-                                        gender: selectedGender ?? 'female',
+                                        gender: selectedGender ??  LocaleKeys.ffemale.tr(),
                                         email: emailController.text,
                                         password: passwordController.text,
                                         confirmPassword:
@@ -321,8 +321,8 @@ class _SignUpViewState extends State<SignUpView> {
                               }
                             },
 
-                            child: const Text(
-                              'Sign Up',
+                            child:  Text(
+                              LocaleKeys.signup.tr(),
                               style: TextStyle(
                                 color: Colors.white,
                                 fontSize: 16,
@@ -334,8 +334,8 @@ class _SignUpViewState extends State<SignUpView> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            const Text(
-                              'Already have an account? ',
+                             Text(
+                              LocaleKeys.already_have_account.tr(),
                               style: TextStyle(color: Colors.grey),
                             ),
                             GestureDetector(
@@ -349,8 +349,8 @@ class _SignUpViewState extends State<SignUpView> {
                                   ),
                                 );
                               },
-                              child: const Text(
-                                'Login',
+                              child:  Text(
+                              LocaleKeys.login.tr(),
                                 style: TextStyle(
                                   fontWeight: FontWeight.bold,
                                   color: Color(0xFF6D4C41),
