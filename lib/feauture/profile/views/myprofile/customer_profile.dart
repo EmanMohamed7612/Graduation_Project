@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:graduation2/core/services/dio_client.dart';
 import 'package:graduation2/feauture/auth/views/widgets/custom_button.dart';
+import 'package:graduation2/feauture/favourite/manager/favourite_cubit.dart';
+import 'package:graduation2/feauture/favourite/views/favourite_screen.dart';
+import 'package:graduation2/feauture/home/manager/fav_apiserves.dart';
+
 import 'package:graduation2/feauture/profile/views/accounts/widgets/posts_account.dart';
 import 'package:graduation2/feauture/profile/views/myprofile/widgets/custom_button.dart';
 import 'package:graduation2/feauture/profile/views/myprofile/widgets/posts_profile.dart';
@@ -147,6 +152,29 @@ class _CustomerProfileState extends State<CustomerProfile> {
                       icon: Icons.favorite_outline,
                       color1: const Color(0xFFC9A875),
                       color2: const Color(0xFFD4AF37),
+                      onTap: () {
+                        // Navigator.push(
+                        //   context,
+                        //   MaterialPageRoute(
+                        //     builder: (context) {
+                        //       return FavouriteScreen();
+                        //     },
+                        //   ),
+                        // );
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (_) {
+                              return BlocProvider(
+                                create: (context) => FavoriteCubit(
+                                  FavoriteApiService(DioClient()),
+                                )..getFavorites(),
+                                child: FavouriteScreen(),
+                              );
+                            },
+                          ),
+                        );
+                      },
                     ),
                     CustomButtonprofile(
                       text: 'Messages',

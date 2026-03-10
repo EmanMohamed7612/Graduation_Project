@@ -8,13 +8,14 @@ class CustomButtonprofile extends StatelessWidget {
     required this.color1,
     required this.color2,
     this.message = false,
-    
+    this.onTap,
   });
   final String text;
   final IconData icon;
   final Color color1;
   final Color color2;
   final bool message;
+  final VoidCallback? onTap;
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
@@ -35,7 +36,7 @@ class CustomButtonprofile extends StatelessWidget {
             ),
           ),
           child: GestureDetector(
-            onTap: () {},
+            onTap: onTap,
             child: Center(
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
