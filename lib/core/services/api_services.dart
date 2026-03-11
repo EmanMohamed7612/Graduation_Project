@@ -378,7 +378,7 @@ class materialOwnerProfileRepo {
   }
 }
 
-class CartRepo {
+/*class CartRepo {
   final ApiService _apiService = ApiService();
 
   Future<void> addItemToCart({
@@ -395,3 +395,4 @@ class CartRepo {
     }
   }
 }
+*/

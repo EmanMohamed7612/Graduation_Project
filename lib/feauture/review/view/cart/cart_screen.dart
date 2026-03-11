@@ -202,6 +202,36 @@ class _CartScreenState extends State<CartScreen> {
                                   shrinkWrap: true,
                                   physics: NeverScrollableScrollPhysics(),
                                   itemCount: items.length,
+                                  separatorBuilder: (_, __) => SizedBox(height: 16),
+                                  itemBuilder: (context, index) {
+                                    final item = items[index];
+
+                                    return CartItemCard(
+                                      item: item,
+                                      onIncrease: () async {
+                                        context.read<CartCubit>().updateQuantity(
+                                          cartId: widget.userId,
+                                          productId: item.id,
+                                          isIncrement: true,
+                                        );
+                                      },
+                                      onDecrease: () async {
+                                        context.read<CartCubit>().updateQuantity(
+                                          cartId: widget.userId,
+                                          productId: item.id,
+                                          isIncrement: false,
+                                        );
+                                      },
+                                      onDelete: () async {
+                                        context.read<CartCubit>().deleteItem(item.id);
+                                      },
+                                    );
+                                  },
+                                ),
+                               /* ListView.separated(
+                                  shrinkWrap: true,
+                                  physics: NeverScrollableScrollPhysics(),
+                                  itemCount: items.length,
                                   separatorBuilder: (_, __) =>
                                       SizedBox(height: 16),
                                   itemBuilder: (context, index) {
@@ -238,7 +268,7 @@ class _CartScreenState extends State<CartScreen> {
                                       },
                                     );
                                   },
-                                ),
+                                ),*/
                                 const SizedBox(height: 20),
 
                                 OrderSummaryCard(
