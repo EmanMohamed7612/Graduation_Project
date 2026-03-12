@@ -443,10 +443,12 @@ class TopSellersList extends StatelessWidget {
     );
   }
 }*/
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 
+import '../../../../../generated/locale_keys.g.dart';
 import '../../../../product_screens/presentation/view/top_seller/manager/best)seller_state.dart';
 import '../../../../product_screens/presentation/view/top_seller/manager/best_seller_cubit.dart';
 
@@ -531,14 +533,14 @@ class TopSellersList extends StatelessWidget {
                                   color: const Color(0xFFE4BC64), // لون ذهبي
                                   borderRadius: BorderRadius.circular(10),
                                 ),
-                                child: const Row(
+                                child: Row(
                                   mainAxisSize: MainAxisSize.min,
                                   children: [
-                                    Icon(Icons.star, size: 12, color: Colors.white),
-                                    SizedBox(width: 4),
+                                    const Icon(Icons.star, size: 12, color: Colors.white),
+                                    const SizedBox(width: 4),
                                     Text(
-                                      "Expert",
-                                      style: TextStyle(
+                                      LocaleKeys.expert.tr(),
+                                      style: const TextStyle(
                                         color: Colors.white,
                                         fontSize: 10,
                                         fontWeight: FontWeight.bold,

@@ -164,5 +164,29 @@
   "checkYourEmail":"تحقق من بريدك الإلكتروني",
   "wevesentapasswordresetlinkto":"لقد أرسلنا رابط إعادة تعيين كلمة المرور إلى",
   "ok":"نعم",
-  "noworriesEnteryouremailaddressandwellsendyouacodetoresetyourpassword":"لا داعي للقلق! أدخل عنوان بريدك الإلكتروني وسنرسل لك رمزًا لإعادة تعيين كلمة مرورك."
+  "noworriesEnteryouremailaddressandwellsendyouacodetoresetyourpassword":"لا داعي للقلق! أدخل عنوان بريدك الإلكتروني وسنرسل لك رمزًا لإعادة تعيين كلمة مرورك.",
+  "search_hint": "ابحث عن الحرف والمواد...",
+  "pottery": "فخار",
+  "jewelry": "مجوهرات",
+  "textiles": "منسوجات",
+  "materials": "مواد",
+  "explore_all_products": "استكشف كل المنتجات",
+  "ceramic_bowl": "وعاء سيراميك",
+  "pottery_set": "طقم فخار",
+  "nav_home": "الرئيسية",
+  "nav_explore": "استكشاف",
+  "nav_community": "المجتمع",
+  "nav_ai": "الذكاء الاصطناعي",
+  "nav_profile": "الملف الشخصي",
+
+  "all_sellers": "كل البائعين",
+  "discover_talented_artisans": "اكتشف الحرفيين الموهوبين",
+  "filter_all": "الكل",
+  "filter_expert": "خبير",
+  "filter_beginner": "مبتدئ",
+  "filter_supplier": "مورد",
+  "years_experience_text": "خبرة {} سنة",
+  "sales_count": "مبيعات",
+  "expert_badge": "خبير"
+
 }

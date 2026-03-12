@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class ProductCardWidget extends StatelessWidget {
+class ProductCardWidget extends StatefulWidget {
   final String title;
   final String price;
   final String rating;
@@ -17,9 +17,14 @@ class ProductCardWidget extends StatelessWidget {
   });
 
   @override
+  State<ProductCardWidget> createState() => _ProductCardWidgetState();
+}
+
+class _ProductCardWidgetState extends State<ProductCardWidget> {
+  @override
   Widget build(BuildContext context) {
-    return InkWell(
-      onTap: onTap,
+    return GestureDetector(
+      onTap: widget.onTap,
       child: Container(
         decoration: BoxDecoration(
           color: Colors.white,
@@ -37,9 +42,9 @@ class ProductCardWidget extends StatelessWidget {
                   ClipRRect(
                     borderRadius:
                     const BorderRadius.vertical(top: Radius.circular(15)),
-                    child: imageUrl != null && imageUrl!.isNotEmpty
+                    child: widget.imageUrl != null && widget.imageUrl!.isNotEmpty
                         ? Image.network(
-                      imageUrl!,
+                      widget.imageUrl!,
                       fit: BoxFit.cover,
                       width: double.infinity,
                     )
@@ -65,7 +70,7 @@ class ProductCardWidget extends StatelessWidget {
                               color: Colors.amber, size: 12),
                           const SizedBox(width: 2),
                           Text(
-                            rating,
+                            widget.rating,
                             style: const TextStyle(
                                 fontSize: 10, fontWeight: FontWeight.bold),
                           ),
@@ -82,7 +87,7 @@ class ProductCardWidget extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    title,
+                    widget.title,
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
                     style: const TextStyle(
@@ -90,7 +95,7 @@ class ProductCardWidget extends StatelessWidget {
                   ),
                   const SizedBox(height: 4),
                   Text(
-                    '\$$price',
+                    '\$${widget.price}',
                     style: const TextStyle(
                         color: Colors.brown, fontWeight: FontWeight.bold),
                   ),

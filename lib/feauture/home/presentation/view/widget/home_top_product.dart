@@ -312,13 +312,18 @@ class HomeTopProductsSection extends StatelessWidget {
     );
   }
 }*/
-import 'package:flutter/material.dart';
+/*import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../product/data/product_details_repo.dart';
+import '../../../../product/data/product_details_repo.dart';
+import '../../../../product/manager/product_details_cubit.dart';
+import '../../../../product/view/product_datails.dart';
 import '../../../../product_screens/manager/product_cubit.dart';
 import '../../../../product_screens/manager/product_state.dart';
 import '../../../../product_screens/presentation/view/top_prodect/view/widget/top_prodect_card.dart';
-import '../../../manager/card_cubit.dart';
+import '../../../../review/manager/cart_cubit.dart';
+
 import '../../../manager/fav_cubit.dart';
 
 class HomeTopProductsSection extends StatelessWidget {
@@ -369,7 +374,8 @@ class HomeTopProductsSection extends StatelessWidget {
                           GestureDetector(
                             behavior: HitTestBehavior.opaque,
                             onTap: () {
-                              context.read<CartCubit>().addToCart(product.id);
+                              context.read<CartCubit>().toggleCartItem(product.id);
+
                             },
                             child: TopProductCard(
                               rank: index + 1,
@@ -377,6 +383,12 @@ class HomeTopProductsSection extends StatelessWidget {
                               price: product.price.toString(),
                               rating: product.rating.toString(),
                               imageUrl: product.imageUrl,
+                              onTap: () {
+                                // داخل صفحة التفاصيل
+
+                                context.read<CartCubit>().toggleCartItem(product.id);
+
+                              },
                             ),
                           ),
 
@@ -410,6 +422,126 @@ class HomeTopProductsSection extends StatelessWidget {
                                     color: Colors.red,
                                     size: 18,
                                   ),
+                                ),
+                              ),
+                            ),
+                          )
+                        ],
+                      ),
+                    );
+                  },
+                );
+              },
+            ),
+          );
+        }
+
+        return const SizedBox();
+      },
+    );
+  }
+}*/
+
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../../../../product/data/product_details_repo.dart';
+import '../../../../product/manager/product_details_cubit.dart';
+import '../../../../product/view/product_datails.dart';
+import '../../../../product_screens/manager/product_cubit.dart';
+import '../../../../product_screens/manager/product_state.dart';
+import '../../../../product_screens/presentation/view/top_prodect/view/widget/top_prodect_card.dart';
+
+import '../../../manager/fav_cubit.dart';
+
+class HomeTopProductsSection extends StatelessWidget {
+  const HomeTopProductsSection({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<ProductCubit, ProductState>(
+      builder: (context, state) {
+
+        if (state is ProductLoading) {
+          return const SizedBox(
+            height: 200,
+            child: Center(
+              child: CircularProgressIndicator(color: Colors.brown),
+            ),
+          );
+        }
+
+        if (state is ProductFailure) {
+          return const SizedBox();
+        }
+
+        if (state is ProductSuccess) {
+          final products = state.products.take(4).toList();
+
+          return SizedBox(
+            height: 200,
+            child: ListView.separated(
+              scrollDirection: Axis.horizontal,
+              itemCount: products.length,
+              separatorBuilder: (_, __) => const SizedBox(width: 12),
+
+              itemBuilder: (context, index) {
+                final product = products[index];
+
+                return BlocBuilder<FavoriteCubit, List<int>>(
+                  builder: (context, favorites) {
+
+                    final isFav = favorites.contains(product.id);
+
+                    return SizedBox(
+                      width: 150,
+                      child: Stack(
+                        children: [
+
+                          /// الضغط على المنتج يفتح صفحة التفاصيل
+                          TopProductCard(
+                            rank: index + 1,
+                            name: product.name,
+                            price: product.price.toString(),
+                            rating: product.rating.toString(),
+                            imageUrl: product.imageUrl, onTap: () { print("pressed");
+
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (_) => ProductDetails(productId: product.id),
+                            ),
+                          ); },
+                          ),
+
+                          /// زر المفضلة
+                          Positioned(
+                            top: 8,
+                            right: 8,
+                            child: InkWell(
+                              onTap: () {
+                                context
+                                    .read<FavoriteCubit>()
+                                    .toggleFavorite(product.id);
+                              },
+                              child: Container(
+                                padding: const EdgeInsets.all(6),
+                                decoration: const BoxDecoration(
+                                  color: Colors.white,
+                                  shape: BoxShape.circle,
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.black12,
+                                      blurRadius: 4,
+                                    )
+                                  ],
+                                ),
+                                child: Icon(
+                                  isFav
+                                      ? Icons.favorite
+                                      : Icons.favorite_border,
+                                  color: Colors.red,
+                                  size: 18,
                                 ),
                               ),
                             ),

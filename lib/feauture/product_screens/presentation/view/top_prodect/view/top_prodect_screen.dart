@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 
+import '../../../../../product/data/product_details_repo.dart';
+import '../../../../../product/manager/product_details_cubit.dart';
+import '../../../../../product/view/product_datails.dart';
 import '../../../../manager/prodect_apiservice.dart';
 import '../../../../manager/product_cubit.dart';
 import '../../../../manager/product_state.dart';
@@ -92,6 +95,21 @@ class TopProductsScreen extends StatelessWidget {
                     price: product.price.toString(),
                     rating: product.rating.toString(),
                     imageUrl: product.imageUrl,
+                    onTap: () {
+                      print("Tapped product id: ${product.id}");
+                      // 👈 لما يدوس على المنتج
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) => BlocProvider(
+                            create: (_) =>
+                            ProductDetailsCubit(ProductDetailsRepo())
+                              ..fetchProductDetails(product.id),
+                            child: ProductDetails(productId: product.id),
+                          ),
+                        ),
+                      );
+                    },
                   );
                 },
               );

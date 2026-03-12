@@ -108,10 +108,12 @@ class AllSellersScreen extends StatelessWidget {
     );
   }
 }*/
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:graduation2/feauture/product_screens/presentation/view/top_seller/manager/best)seller_state.dart';
 import 'package:graduation2/feauture/product_screens/presentation/view/top_seller/manager/best_seller_cubit.dart';
+import 'package:graduation2/generated/locale_keys.g.dart';
 
 
 class AllSellersScreen extends StatelessWidget {
@@ -128,8 +130,8 @@ class AllSellersScreen extends StatelessWidget {
           icon: const Icon(Icons.arrow_back_ios, color: Colors.black),
           onPressed: () => Navigator.pop(context),
         ),
-        title: const Text(
-          "All Sellers",
+        title:  Text(
+          LocaleKeys.all_sellers.tr(),
           style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
         ),
       ),
@@ -137,8 +139,8 @@ class AllSellersScreen extends StatelessWidget {
         padding: const EdgeInsets.all(16.0),
         child: Column(
           children: [
-            const Text(
-              "Discover talented artisans",
+             Text(
+              LocaleKeys.discover_talented_artisans.tr(),
               style: TextStyle(color: Colors.grey),
             ),
             const SizedBox(height: 20),
@@ -202,9 +204,10 @@ class AllSellersScreen extends StatelessWidget {
                                         _expertBadge(),
                                       ],
                                     ),
-                                    const Text(
-                                      "Top Seller",
-                                      style: TextStyle(
+                                    Text(
+                                      LocaleKeys.top_sellers.tr()
+                                      ,
+                                      style: const TextStyle(
                                         color: Colors.grey,
                                         fontSize: 12,
                                       ),
@@ -240,9 +243,9 @@ class AllSellersScreen extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
           _filterChip("All", true),
-          _filterChip("Expert", false),
-          _filterChip("Beginner", false),
-          _filterChip("Supplier", false),
+          _filterChip(LocaleKeys.filter_expert.tr(), false),
+          _filterChip(LocaleKeys.filter_beginner.tr(), false),
+          _filterChip(LocaleKeys.filter_supplier.tr(), false),
         ],
       ),
     );
@@ -269,12 +272,12 @@ class AllSellersScreen extends StatelessWidget {
         color: Colors.amber.shade100,
         borderRadius: BorderRadius.circular(5),
       ),
-      child: const Row(
+      child: Row(
         children: [
-          Icon(Icons.star, size: 10, color: Colors.orange),
+          const Icon(Icons.star, size: 10, color: Colors.orange),
           Text(
-            " Expert",
-            style: TextStyle(fontSize: 10),
+              LocaleKeys.expert.tr(),
+            style: const TextStyle(fontSize: 10),
           ),
         ],
       ),

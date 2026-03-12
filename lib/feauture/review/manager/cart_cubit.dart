@@ -29,6 +29,7 @@ class CartCubit extends Cubit<CartState> {
         cartId: cartId,
         itemId: itemId,
       );
+      await loadCart();
       emit(CartLoaded(cart));
     } catch (e) {
       emit(CartError(e.toString()));
@@ -64,6 +65,26 @@ class CartCubit extends Cubit<CartState> {
       if (cart != null) {
         emit(CartLoaded(cart));
       }
+    } catch (e) {
+      emit(CartError(e.toString()));
+    }
+  }
+  bool isInCart(int productId) {
+    if (state is CartLoaded) {
+      final items = (state as CartLoaded).cart.cartItems;
+      return items.any((item) => item.id == productId);
+    }
+    return false;
+  }
+  Future<void> toggleCartItem(int productId) async {
+    try {
+
+      if (isInCart(productId)) {
+        await deleteItem(productId);
+      } else {
+        await addItem(productId);
+      }
+
     } catch (e) {
       emit(CartError(e.toString()));
     }

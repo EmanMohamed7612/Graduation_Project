@@ -1,6 +1,8 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../../core/rescources/colors.dart';
+import '../../../../../generated/locale_keys.g.dart';
 
 class ProductsList extends StatelessWidget {
   const ProductsList({super.key});
@@ -33,10 +35,10 @@ class ProductsList extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 8),
-              const Padding(
-                padding: EdgeInsets.symmetric(horizontal: 8),
-                child: Text("Ceramic Bowl",
-                    style: TextStyle(fontWeight: FontWeight.w600)),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 8),
+                child: Text( LocaleKeys.ceramic_bowl.tr(),
+                    style: const TextStyle(fontWeight: FontWeight.w600)),
               ),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 8),

@@ -1,8 +1,11 @@
+import 'package:dio/dio.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:graduation2/feauture/review/data/cart_repo.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:graduation2/core/services/api_services.dart';
+import 'package:graduation2/core/services/dio_client.dart';
 import 'package:graduation2/feauture/auth/manager/auth_cubit.dart';
 import 'package:graduation2/feauture/auth/views/check_email.dart';
 import 'package:graduation2/feauture/auth/views/login_screen.dart';
@@ -15,18 +18,24 @@ import 'package:graduation2/feauture/review/view/write_review.dart';
 import 'package:graduation2/feauture/splash_screen/presentation/view/splash.dart';
 
 import 'core/utils/pref_helpers.dart';
+
 import 'feauture/home/manager/category_cubit.dart';
+import 'feauture/home/manager/fav_apiserves.dart';
 import 'feauture/language/lnguage_view.dart';
+import 'feauture/product/data/product_details_repo.dart';
+import 'feauture/product/manager/product_details_cubit.dart';
 import 'feauture/product_screens/data/repo/repo_product.dart';
 import 'feauture/product_screens/data/repo/repo_product_imple.dart';
 import 'feauture/product_screens/manager/prodect_apiservice.dart';
 import 'feauture/product_screens/manager/product_cubit.dart';
 import 'feauture/product_screens/presentation/view/addprodect_screen/creatprodect.dart';
+import 'feauture/review/manager/cart_cubit.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await EasyLocalization.ensureInitialized();
   final savedLang = await PrefHelpers.getLanguage() ?? 'en';
+  final userId = await PrefHelpers.getUserId() ?? 'temp_cart_id';
 
   runApp(
     EasyLocalization(
@@ -34,18 +43,27 @@ void main() async {
       path: 'assets/translations',
       fallbackLocale: const Locale('en'),
       startLocale: Locale(savedLang),
-      child: const CratoriaApp(),
+      //child: const CratoriaApp(),
+      child: CratoriaApp(userId: userId),
+
     ),
   );
 }
 
 class CratoriaApp extends StatelessWidget {
-  const CratoriaApp({super.key});
+  const CratoriaApp({super.key, required this.userId});
+  final String userId;
 
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
+        BlocProvider(
+          create: (_) => CartCubit(
+            repo: CartRepo(),
+            cartId: userId, // ⚡ استخدام userId
+          )..loadCart(), // 🔹 نحمّل الكارت فورًا
+        ),
         BlocProvider(
           create: (context) => DeleteProductCubit(
             repoProduct: RepoProductImple(
@@ -76,6 +94,13 @@ class CratoriaApp extends StatelessWidget {
             ),
           ),
         ),
+        BlocProvider<ProductDetailsCubit>(create: (_) => ProductDetailsCubit(ProductDetailsRepo())),
+        BlocProvider(
+          create: (context) =>
+          CategoryCubit(ProductApiService())..fetchCategories(),
+        ),
+        // BlocProvider<CartCubit>(create: (_) => CartCubit(repo: CartRepo(), cartId: 0)),
+
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

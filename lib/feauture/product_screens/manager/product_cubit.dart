@@ -9,6 +9,7 @@ import 'prodect_apiservice.dart';
 
 class ProductCubit extends Cubit<ProductState> {
   final ProductApiService apiService;
+  List<ProductsModel> allProducts = [];
 
   ProductCubit(this.apiService) : super(ProductInitial());
 
@@ -27,11 +28,26 @@ class ProductCubit extends Cubit<ProductState> {
   }
 
   // 🔹 Top Products (Best Sellers)
+  //Future<void> fetchTopProducts() async {
+    //emit(ProductLoading());
+    //try {
+      //final List<ProductsModel> products =
+         // await apiService.fetchTopProductsFromApi();
+
+      //products.isNotEmpty
+        //  ? emit(ProductSuccess(products))
+        //  : emit(ProductFailure("No top products found"));
+   // } catch (e) {
+      //emit(ProductFailure(e.toString()));
+   // }
+ // }
   Future<void> fetchTopProducts() async {
     emit(ProductLoading());
     try {
       final List<ProductsModel> products =
-          await apiService.fetchTopProductsFromApi();
+      await apiService.fetchTopProductsFromApi();
+
+      allProducts = products; // حفظ المنتجات
 
       products.isNotEmpty
           ? emit(ProductSuccess(products))
@@ -40,6 +56,23 @@ class ProductCubit extends Cubit<ProductState> {
       emit(ProductFailure(e.toString()));
     }
   }
+  void searchProducts(String query) {
+
+    if (query.isEmpty) {
+      emit(ProductSuccess(allProducts));
+      return;
+    }
+
+    final filtered =
+    allProducts.where((product) {
+      return product.name
+          .toLowerCase()
+          .contains(query.toLowerCase());
+    }).toList();
+
+    emit(ProductSuccess(filtered));
+  }
+
 }
 
 class ProductsCubit extends Cubit<ProductState> {
@@ -116,4 +149,5 @@ class DeleteProductCubit extends Cubit<DeleteProductState> {
           (_) => emit(DeleteSuccessState()),
     );
   }
+  
 }

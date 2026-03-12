@@ -73,12 +73,12 @@ class ExploreAllScreen extends StatelessWidget {
                           rating: product.rating.toString(),
                           imageUrl: product.imageUrl,
                           onTap: () {
+                            print('Product tapped: ${product.id}');
                             Navigator.push(
                               context,
                               MaterialPageRoute(
                                 builder: (_) => BlocProvider(
-                                  create: (_) =>
-                                      ProductDetailsCubit(ProductDetailsRepo()),
+                                  create: (_) => ProductDetailsCubit(ProductDetailsRepo()),
                                   child: ProductDetails(productId: product.id),
                                 ),
                               ),

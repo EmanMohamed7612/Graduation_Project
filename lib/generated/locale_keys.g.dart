@@ -169,5 +169,27 @@ abstract class  LocaleKeys {
   static const wevesentapasswordresetlinkto = 'wevesentapasswordresetlinkto';
   static const ok = 'ok';
   static const noworriesEnteryouremailaddressandwellsendyouacodetoresetyourpassword = 'noworriesEnteryouremailaddressandwellsendyouacodetoresetyourpassword';
+  static const search_hint = 'search_hint';
+  static const pottery = 'pottery';
+  static const jewelry = 'jewelry';
+  static const textiles = 'textiles';
+  static const materials = 'materials';
+  static const explore_all_products = 'explore_all_products';
+  static const ceramic_bowl = 'ceramic_bowl';
+  static const pottery_set = 'pottery_set';
+  static const nav_home = 'nav_home';
+  static const nav_explore = 'nav_explore';
+  static const nav_community = 'nav_community';
+  static const nav_ai = 'nav_ai';
+  static const nav_profile = 'nav_profile';
+  static const all_sellers = 'all_sellers';
+  static const discover_talented_artisans = 'discover_talented_artisans';
+  static const filter_all = 'filter_all';
+  static const filter_expert = 'filter_expert';
+  static const filter_beginner = 'filter_beginner';
+  static const filter_supplier = 'filter_supplier';
+  static const years_experience_text = 'years_experience_text';
+  static const sales_count = 'sales_count';
+  static const expert_badge = 'expert_badge';
 
 }
