@@ -1,7 +1,9 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:graduation2/feauture/profile/views/myprofile/profile.dart';
 
+import '../../../../../../generated/locale_keys.g.dart';
 import '../../../../../dashboard_screen/presentation/view/seller_dashboard.dart';
 import '../../../../../home/presentation/view/home_screen.dart';
 import '../../../../comming_soon_screen.dart';
@@ -96,26 +98,26 @@ class _MainWrapperState extends State<MainWrapper> {
         },
         // selectedItemColor: Colors.brown,
         unselectedItemColor: Colors.grey,
-        items: const [
+        items: [
           BottomNavigationBarItem(
-            icon: Icon(Icons.home_outlined),
-            label: 'Home',
+            icon: const Icon(Icons.home_outlined),
+            label: LocaleKeys.naav_home.tr(),
           ),
-          BottomNavigationBarItem(
+           BottomNavigationBarItem(
             icon: Icon(Icons.explore_outlined),
-            label: 'Explore',
+            label: LocaleKeys.naav_explore.tr(),
           ),
-          BottomNavigationBarItem(
+           BottomNavigationBarItem(
             icon: Icon(Icons.groups_outlined),
-            label: 'Community',
+            label: LocaleKeys.naav_community.tr(),
           ),
-          BottomNavigationBarItem(
+           BottomNavigationBarItem(
             icon: Icon(Icons.auto_awesome_outlined),
-            label: 'AI',
+            label: LocaleKeys.naav_ai.tr(),
           ),
-          BottomNavigationBarItem(
+           BottomNavigationBarItem(
             icon: Icon(Icons.person_2_outlined),
-            label: 'Profile',
+            label: LocaleKeys.naav_profile.tr(),
           ),
         ],
       ),
@@ -129,9 +131,9 @@ class _MainWrapperState extends State<MainWrapper> {
       case 1:
         return const ExploreAllScreen();
       case 2:
-        return const ComingSoonScreen(title: 'Community');
+        return  ComingSoonScreen(title: LocaleKeys.community_title.tr());
       case 3:
-        return const ComingSoonScreen(title: 'AI');
+        return  ComingSoonScreen(title: LocaleKeys.ai_title.tr());
       case 4:
         return Profile(onGoHome: () => changeTab(0));
 

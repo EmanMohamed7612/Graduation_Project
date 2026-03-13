@@ -1,8 +1,10 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:graduation2/feauture/product_screens/presentation/view/addprodect_screen/widget/input_field.dart';
 import 'dart:io';
+import '../../../../../generated/locale_keys.g.dart';
 import '../../../../home/data/model/categories_model_forhome.dart';
 import '../../../../home/manager/category_cubit.dart';
 import '../../../../home/manager/category_state.dart';
@@ -69,8 +71,8 @@ class _AddProductScreenState extends State<AddProductScreen> {
           icon: const Icon(Icons.arrow_back_ios, color: Colors.brown),
           onPressed: () => Navigator.pop(context),
         ),
-        title: const Text(
-          'Add Product',
+        title: Text(LocaleKeys.add_product_title.tr()
+          ,
           style: TextStyle(color: Colors.brown, fontWeight: FontWeight.w600),
         ),
         centerTitle: true,
@@ -82,12 +84,12 @@ class _AddProductScreenState extends State<AddProductScreen> {
             listener: (context, state) {
               if (state is CreateSuccessState) {
                 ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text('Product added successfully!')),
+                   SnackBar(content: Text(LocaleKeys.Productaddedsuccessfull.tr())),
                 );
                 Navigator.pop(context, true);
               } else if (state is CreateErrorState) {
                 ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text('Failed to add product!')),
+                   SnackBar(content: Text(LocaleKeys.Failedtoaddproduct.tr())),
                 );
               }
             },
@@ -95,20 +97,20 @@ class _AddProductScreenState extends State<AddProductScreen> {
               return Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const SizedBox(height: 10),
-                  _buildLabel('Product Image'),
+                   SizedBox(height: 10),
+                  _buildLabel(LocaleKeys.productimage.tr()),
                   const SizedBox(height: 8),
                   _buildImagePicker(),
                   const SizedBox(height: 16),
-                  _buildLabel('Product Name (English)'),
+                  _buildLabel(LocaleKeys.product_name_en.tr()),
                   CustomTextField(
-                    hint: 'e.g. Handmade Ceramic Bowl',
+                    hint:LocaleKeys.HandmadeCeramicBowl.tr() ,
                     controller: nameController,
                   ),
                   const SizedBox(height: 16),
-                  _buildLabel('اسم المنتج (عربي)'),
+                  _buildLabel(LocaleKeys.product_name_ar.tr()),
                   CustomTextField(
-                    hint: 'مثال: وعاء خزفي يدوي',
+                    hint: LocaleKeys.HandmadeCeramicBowl.tr(),
                     controller: nameArController,
                   ),
                   const SizedBox(height: 12),
@@ -116,7 +118,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
                     children: [
                       Expanded(
                         child: _buildNumericField(
-                          'Price (EGP)',
+                          LocaleKeys.price_egp.tr(),
                           '0.00',
                           priceController,
                         ),
@@ -124,7 +126,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
                       const SizedBox(width: 12),
                       Expanded(
                         child: _buildNumericField(
-                          'Stock',
+                          LocaleKeys.stock.tr(),
                           '0',
                           stockController,
                         ),
@@ -132,7 +134,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
                     ],
                   ),
                   const SizedBox(height: 12),
-                  _buildLabel('Category'),
+                  _buildLabel(LocaleKeys.category.tr()),
                   const SizedBox(height: 6),
                   BlocBuilder<CategoryCubit, CategoryState>(
                     builder: (context, categoryState) {
@@ -159,7 +161,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
                             borderRadius: BorderRadius.circular(12),
                           ),
                         ),
-                        hint: const Text("Select Category"),
+                        hint:  Text(LocaleKeys.select_category.tr()),
                         items:
                         categories.map((category) {
                           return DropdownMenuItem<int>(
@@ -176,16 +178,16 @@ class _AddProductScreenState extends State<AddProductScreen> {
                     },
                   ),
                   const SizedBox(height: 12),
-                  _buildLabel('Description'),
+                  _buildLabel(LocaleKeys.description.tr()),
                   CustomTextField(
-                    hint: 'Describe your product...',
+                    hint: LocaleKeys.describeyourproduct.tr(),
                     maxLines: 4,
                     controller: descriptionController,
                   ),
                   const SizedBox(height: 12),
-                  _buildLabel('Tags'),
+                  _buildLabel(LocaleKeys.tags.tr()),
                   const SizedBox(height: 8),
-                  _buildLabel('Suggested:'),
+                  _buildLabel(LocaleKeys.suggested.tr()),
                   const SizedBox(height: 8),
                   Wrap(
                     spacing: 12,
@@ -219,7 +221,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
                     children: [
                       Expanded(
                         child: CustomTextField(
-                          hint: 'Add custom tag...',
+                          hint: LocaleKeys.addcustomtag.tr(),
                           controller: tagController,
                         ),
                       ),
@@ -244,8 +246,8 @@ class _AddProductScreenState extends State<AddProductScreen> {
                           backgroundColor: const Color(0xFFC4A06F),
                           elevation: 0,
                         ),
-                        child: const Text(
-                          "Add",
+                        child:  Text(
+                          LocaleKeys.add.tr(),
                           style: TextStyle(fontSize: 18, color: Colors.white),
                         ),
                       ),
@@ -305,7 +307,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
           _selectedImage == null
               ? Column(
             mainAxisAlignment: MainAxisAlignment.center,
-            children: const [
+            children:  [
               Icon(
                 Icons.upload_outlined,
                 size: 30,
@@ -313,7 +315,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
               ),
               SizedBox(height: 6),
               Text(
-                'Upload Photo',
+                LocaleKeys.uploadphoto.tr(),
                 style: TextStyle(color: Colors.brown),
               ),
             ],
@@ -340,7 +342,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
               padding: const EdgeInsets.symmetric(vertical: 14),
             ),
             onPressed: () => Navigator.pop(context),
-            child: const Text('Cancel', style: TextStyle(color: Colors.brown)),
+            child:  Text(LocaleKeys.cancel.tr(), style: TextStyle(color: Colors.brown)),
           ),
         ),
         const SizedBox(width: 12),
@@ -380,8 +382,8 @@ class _AddProductScreenState extends State<AddProductScreen> {
                 strokeWidth: 2,
               ),
             )
-                : const Text(
-              'Add Product',
+                : Text(
+              LocaleKeys.addproduct.tr(),
               style: TextStyle(color: Colors.white),
             ),
           ),

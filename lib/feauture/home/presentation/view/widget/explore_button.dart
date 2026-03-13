@@ -1,6 +1,8 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../../core/rescources/colors.dart';
+import '../../../../../generated/locale_keys.g.dart';
 
 class ExploreButton extends StatelessWidget {
   const ExploreButton({super.key});
@@ -18,9 +20,9 @@ class ExploreButton extends StatelessWidget {
           ),
         ),
         onPressed: () {},
-        child: const Text(
-          "Explore All products",
-          style: TextStyle(fontSize: 16),
+        child: Text(
+          LocaleKeys.explore_all_products.tr(),
+          style: const TextStyle(fontSize: 16),
         ),
       ),
     );

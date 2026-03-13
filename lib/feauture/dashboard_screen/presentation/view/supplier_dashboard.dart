@@ -518,8 +518,10 @@
 
 
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../../../generated/locale_keys.g.dart';
 import '../../../material_screen/manager/material_api_services.dart';
 import '../../../material_screen/manager/material_api_services.dart';
 import '../../../material_screen/manager/material_cubit.dart' show CreatematerialCubit;
@@ -590,9 +592,9 @@ class _SupplierDashboardScreenState extends State<SupplierDashboardScreen> {
 
                         if (state is ProductsupplierSuccess) {
                           if (state.products.isEmpty) {
-                            return const Center(
-                              child: Text("No material Yet",
-                                  style: TextStyle(color: Colors.grey)),
+                            return Center(
+                              child: Text(LocaleKeys.NomaterialYet.tr(),
+                                  style: const TextStyle(color: Colors.grey)),
                             );
                           }
 
@@ -626,11 +628,11 @@ class _SupplierDashboardScreenState extends State<SupplierDashboardScreen> {
                                     _cubit.removeProduct(product.id);
                                     ScaffoldMessenger.of(context).showSnackBar(
                                       SnackBar(
-                                        content: const Row(
+                                        content:  Row(
                                           children: [
                                             Icon(Icons.check_circle, color: Colors.white),
                                             SizedBox(width: 10),
-                                            Text('material deleted successfully',
+                                            Text(LocaleKeys.materialdeletedsuccessfully.tr(),
                                                 style: TextStyle(color: Colors.white)),
                                           ],
                                         ),
@@ -701,7 +703,7 @@ class _SupplierDashboardScreenState extends State<SupplierDashboardScreen> {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Text('Supplier Dashboard',
+                   Text(LocaleKeys.supplier_dashboard.tr(),
                       style: TextStyle(
                           color: Colors.white,
                           fontSize: 18,
@@ -742,10 +744,10 @@ class _SupplierDashboardScreenState extends State<SupplierDashboardScreen> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              _buildStatCard('Products', '24', Icons.inventory_2_outlined),
-              _buildStatCard('Sales', '156', Icons.trending_up),
-              _buildStatCard('Revenue', 'EGP 42k', Icons.attach_money),
-              _buildStatCard('Sessions', '12', Icons.calendar_today, isSelected: true),
+              _buildStatCard(LocaleKeys.products.tr(), '24', Icons.inventory_2_outlined),
+              _buildStatCard(LocaleKeys.sales.tr(), '156', Icons.trending_up),
+              _buildStatCard(LocaleKeys.revenue.tr(), 'EGP 42k', Icons.attach_money),
+              _buildStatCard(LocaleKeys.sessions.tr(), '12', Icons.calendar_today, isSelected: true),
             ],
           ),
         ],
@@ -797,10 +799,10 @@ class _SupplierDashboardScreenState extends State<SupplierDashboardScreen> {
                   const SizedBox(width: 8),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
-                    children: const [
-                      Text('My Consultations',
+                    children:  [
+                      Text(LocaleKeys.my_consultations.tr(),
                           style: TextStyle(fontWeight: FontWeight.bold)),
-                      Text('2 new requests',
+                      Text(LocaleKeys.new_requests.tr(args: ['2'],), // هتظهر: 2 new requests,
                           style: TextStyle(color: Colors.grey, fontSize: 12)),
                     ],
                   ),
@@ -808,7 +810,7 @@ class _SupplierDashboardScreenState extends State<SupplierDashboardScreen> {
               ),
               TextButton(
                 onPressed: () {},
-                child: const Text('View All',
+                child:  Text(LocaleKeys.view_all.tr(),
                     style: TextStyle(color: Colors.brown)),
               ),
             ],
@@ -828,10 +830,10 @@ class _SupplierDashboardScreenState extends State<SupplierDashboardScreen> {
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
-                    children: const [
-                      Text('Sarah Martinez',
+                    children:  [
+                      Text(LocaleKeys.SarahMartinez.tr(),
                           style: TextStyle(fontWeight: FontWeight.bold)),
-                      Text('Pottery Basics',
+                      Text(LocaleKeys.PotteryBasics.tr(),
                           style: TextStyle(color: Colors.grey, fontSize: 12)),
                     ],
                   ),
@@ -842,7 +844,7 @@ class _SupplierDashboardScreenState extends State<SupplierDashboardScreen> {
                     color: Colors.amber.shade100,
                     borderRadius: BorderRadius.circular(10),
                   ),
-                  child: const Text('New',
+                  child:  Text(LocaleKeys.new_text.tr(),
                       style: TextStyle(
                           color: Colors.orange,
                           fontSize: 10,
@@ -860,7 +862,7 @@ class _SupplierDashboardScreenState extends State<SupplierDashboardScreen> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        const Text('My material',
+         Text(LocaleKeys.need_raw_materials.tr(),
             style: TextStyle(
                 fontSize: 18, fontWeight: FontWeight.bold, color: Colors.brown)),
         ElevatedButton(
@@ -888,7 +890,7 @@ class _SupplierDashboardScreenState extends State<SupplierDashboardScreen> {
             side: const BorderSide(color: Colors.brown),
             shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
           ),
-          child: const Text('Add New'),
+          child:  Text(LocaleKeys.add_new.tr()),
         ),
       ],
     );
@@ -958,7 +960,7 @@ class _SupplierDashboardScreenState extends State<SupplierDashboardScreen> {
                   borderRadius: BorderRadius.circular(12)),
               side: const BorderSide(color: Colors.brown),
             ),
-            child: const Text('Edit',
+            child:  Text(LocaleKeys.edit.tr(),
                 style: TextStyle(color: Colors.brown, fontSize: 12)),
           ),
           const SizedBox(width: 8),
@@ -982,7 +984,7 @@ class _SupplierDashboardScreenState extends State<SupplierDashboardScreen> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text('Need product?',
+           Text(LocaleKeys.Needproduct.tr(),
               style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
           const Text('Browse seller from verified seller',
               style: TextStyle(color: Colors.grey, fontSize: 13)),
@@ -997,7 +999,7 @@ class _SupplierDashboardScreenState extends State<SupplierDashboardScreen> {
                     borderRadius: BorderRadius.circular(15)),
                 padding: const EdgeInsets.symmetric(vertical: 12),
               ),
-              child: const Text('Browse product',
+              child:  Text(LocaleKeys.Browseproduct.tr(),
                   style: TextStyle(color: Colors.white)),
             ),
           ),

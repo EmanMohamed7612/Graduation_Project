@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:graduation2/feauture/product_screens/presentation/view/Editprodect_screen/widget/custom_prodectimagebox.dart';
@@ -6,6 +7,7 @@ import 'package:graduation2/feauture/product_screens/presentation/view/Editprode
 import 'dart:io';
 import 'package:image_picker/image_picker.dart';
 
+import '../../../../../generated/locale_keys.g.dart';
 import '../../../../home/manager/category_cubit.dart';
 import '../../../../home/manager/category_state.dart';
 import '../../../../home/data/model/categories_model_forhome.dart';
@@ -84,8 +86,8 @@ class _EditProductScreenState extends State<EditProductScreen> {
           icon: const Icon(Icons.arrow_back, color: Colors.black),
           onPressed: () => Navigator.pop(context),
         ),
-        title: const Text(
-          'Edit Product',
+        title: Text(LocaleKeys.updatproduct.tr()
+          ,
           style: TextStyle(color: Colors.black, fontWeight: FontWeight.w600),
         ),
         actions: [
@@ -111,7 +113,7 @@ class _EditProductScreenState extends State<EditProductScreen> {
         listener: (context, state) {
           if (state is UpdateSuccessState) {
             ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(content: Text('Product updated successfully! ✅')),
+               SnackBar(content: Text(LocaleKeys.Productupdatedsuccessfully.tr())),
             );
             Navigator.pop(context, true);
           } else if (state is UpdateErrorState) {
@@ -126,7 +128,7 @@ class _EditProductScreenState extends State<EditProductScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const ProductLabel('Product Image'),
+                 ProductLabel(LocaleKeys.productimage.tr()),
                 const SizedBox(height: 8),
                 ProductImageBox(
                   imagePath: _selectedImage?.path ?? widget.product.imageUrl,
@@ -134,7 +136,7 @@ class _EditProductScreenState extends State<EditProductScreen> {
                   onDelete: _deleteImage,
                 ),
                 const SizedBox(height: 16),
-                const ProductLabel('Product Name (English)'),
+                 ProductLabel(LocaleKeys.product_name_en.tr()),
                 ProductTextField(controller: nameEnController),
                 const SizedBox(height: 16),
                 Row(
@@ -143,7 +145,7 @@ class _EditProductScreenState extends State<EditProductScreen> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const ProductLabel('Price (EGP)'),
+                           ProductLabel(LocaleKeys.price_egp),
                           ProductTextField(controller: priceController),
                         ],
                       ),
@@ -153,7 +155,7 @@ class _EditProductScreenState extends State<EditProductScreen> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const ProductLabel('Stock'),
+                           ProductLabel(LocaleKeys.stock.tr()),
                           ProductTextField(controller: stockController),
                         ],
                       ),
@@ -161,7 +163,7 @@ class _EditProductScreenState extends State<EditProductScreen> {
                   ],
                 ),
                 const SizedBox(height: 16),
-                const ProductLabel('Category'),
+                 ProductLabel(LocaleKeys.category.tr()),
                 const SizedBox(height: 6),
                 BlocBuilder<CategoryCubit, CategoryState>(
                   builder: (context, categoryState) {
@@ -198,7 +200,7 @@ class _EditProductScreenState extends State<EditProductScreen> {
                   },
                 ),
                 const SizedBox(height: 16),
-                const ProductLabel('Description'),
+                 ProductLabel(LocaleKeys.description.tr()),
                 ProductTextField(
                   controller: descriptionController,
                   maxLines: 4,
@@ -216,8 +218,8 @@ class _EditProductScreenState extends State<EditProductScreen> {
                           padding: const EdgeInsets.symmetric(vertical: 14),
                         ),
                         onPressed: () => Navigator.pop(context),
-                        child: const Text(
-                          'Cancel',
+                        child:  Text(
+                          LocaleKeys.cancel.tr(),
                           style: TextStyle(color: Colors.brown),
                         ),
                       ),
@@ -259,8 +261,8 @@ class _EditProductScreenState extends State<EditProductScreen> {
                             strokeWidth: 2,
                           ),
                         )
-                            : const Text(
-                          'Update Product',
+                            :  Text(
+                          LocaleKeys.updatproduct.tr(),
                           style: TextStyle(color: Colors.white),
                         ),
                       ),

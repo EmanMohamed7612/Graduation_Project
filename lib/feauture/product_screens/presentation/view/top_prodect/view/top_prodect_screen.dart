@@ -1,7 +1,9 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 
+import '../../../../../../generated/locale_keys.g.dart';
 import '../../../../../product/data/product_details_repo.dart';
 import '../../../../../product/manager/product_details_cubit.dart';
 import '../../../../../product/view/product_datails.dart';
@@ -43,8 +45,8 @@ class TopProductsScreen extends StatelessWidget {
           ),
           title: Column(
             children: [
-              const Text(
-                'Best Sellers',
+               Text(
+                 LocaleKeys.BestSellers.tr() ,
                 style: TextStyle(
                   color: Color(0xFF4E342E),
                   fontWeight: FontWeight.bold,
@@ -52,7 +54,7 @@ class TopProductsScreen extends StatelessWidget {
                 ),
               ),
               Text(
-                'Top-selling handmade products',
+                LocaleKeys.Topsellinghandmadeproducts.tr(),
                 style: TextStyle(
                   color: Colors.grey,
                   fontSize: 11,

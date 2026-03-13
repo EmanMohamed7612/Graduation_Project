@@ -446,11 +446,21 @@ class TopSellersList extends StatelessWidget {
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:graduation2/core/services/api_services.dart';
 
 
 import '../../../../../generated/locale_keys.g.dart';
+import '../../../../product_screens/manager/prodect_apiservice.dart';
+import '../../../../product_screens/manager/prodect_apiservice.dart';
 import '../../../../product_screens/presentation/view/top_seller/manager/best)seller_state.dart';
 import '../../../../product_screens/presentation/view/top_seller/manager/best_seller_cubit.dart';
+import '../../../../profile/manager/account.cubit.dart';
+import '../../../../profile/manager/number_product_cubit.dart';
+import '../../../../profile/views/accounts/account.dart';
+import '../../../../profile/views/accounts/supplier_account.dart';
+import '../../../../profile/views/myprofile/customer_profile.dart';
+import '../../../../profile/views/myprofile/expert_profile.dart';
+import '../../../../profile/views/myprofile/seller_profile.dart';
 
 class TopSellersList extends StatelessWidget {
   const TopSellersList({super.key});
@@ -482,108 +492,124 @@ class TopSellersList extends StatelessWidget {
               itemBuilder: (context, index) {
                 final seller = state.sellers[index];
 
-                return Container(
-                  width: 150,
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(25),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black.withOpacity(0.05),
-                        blurRadius: 10,
-                        offset: const Offset(0, 5),
+                return InkWell(
+                  onTap: () {
+
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (_) => BlocProvider(
+                          create: (_) => AccountCubit(UserProfileRepo())
+                            ..fetchAccount(seller.sellerId),
+                          child: const AccountScreen(),
+                        ),
                       ),
-                    ],
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                    );
 
-                    children: [
-                      Expanded(
-                        child: Stack(
-                          children: [
-                            // 1. حاوية الصورة بالحواف المستديرة
-                            Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  borderRadius: const BorderRadius.only(
-                                    topLeft: Radius.circular(25),
-                                    topRight: Radius.circular(25),
-                                    bottomRight: Radius.circular(25),
-                                    bottomLeft: Radius.circular(25)
-                                  ),
-                                  image: DecorationImage(
-                                    image: (seller.imageUrl != null && seller.imageUrl!.isNotEmpty)
-                                        ? NetworkImage(seller.imageUrl!)
-                                        : const AssetImage('assets/images/bestseller.png') as ImageProvider,
-                                    fit: BoxFit.cover,
-                                  ),
-                                ),
-                              ),
-                            ),
-
-                            // 2. البادج (Expert) - سيظهر دائماً الآن
-                            Positioned(
-                              top: 12,
-                              right: 12,
-                              child: Container(
-                                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                                decoration: BoxDecoration(
-                                  color: const Color(0xFFE4BC64), // لون ذهبي
-                                  borderRadius: BorderRadius.circular(10),
-                                ),
-                                child: Row(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    const Icon(Icons.star, size: 12, color: Colors.white),
-                                    const SizedBox(width: 4),
-                                    Text(
-                                      LocaleKeys.expert.tr(),
-                                      style: const TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 10,
-                                        fontWeight: FontWeight.bold,
-                                      ),
+                  },
+                  child: Container(
+                    width: 150,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(25),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withOpacity(0.05),
+                          blurRadius: 10,
+                          offset: const Offset(0, 5),
+                        ),
+                      ],
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                  
+                      children: [
+                        Expanded(
+                          child: Stack(
+                            children: [
+                              // 1. حاوية الصورة بالحواف المستديرة
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    borderRadius: const BorderRadius.only(
+                                      topLeft: Radius.circular(25),
+                                      topRight: Radius.circular(25),
+                                      bottomRight: Radius.circular(25),
+                                      bottomLeft: Radius.circular(25)
                                     ),
-                                  ],
+                                    image: DecorationImage(
+                                      image: (seller.imageUrl != null && seller.imageUrl!.isNotEmpty)
+                                          ? NetworkImage(seller.imageUrl!)
+                                          : const AssetImage('assets/images/bestseller.png') as ImageProvider,
+                                      fit: BoxFit.cover,
+                                    ),
+                                  ),
                                 ),
                               ),
-                            ),
-                          ],
-                        ),
-                      ),
-
-                      // 3. منطقة النصوص (الاسم والتخصص)
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 8,vertical: 8),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              seller.name,
-                              style: const TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 14,
-                                color: Color(0xFF2D2D2D),
+                  
+                              // 2. البادج (Expert) - سيظهر دائماً الآن
+                              Positioned(
+                                top: 12,
+                                right: 12,
+                                child: Container(
+                                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                                  decoration: BoxDecoration(
+                                    color: const Color(0xFFE4BC64), // لون ذهبي
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                  child: Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      const Icon(Icons.star, size: 12, color: Colors.white),
+                                      const SizedBox(width: 4),
+                                      Text(
+                                        LocaleKeys.expert.tr(),
+                                        style: const TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 10,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
                               ),
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                            const SizedBox(height: 4),
-                            Text(
-                              seller.speciality ?? "Artisan",
-                              style: const TextStyle(
-                                fontSize: 12,
-                                color: Colors.grey,
-                              ),
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
-                      ),
-                    ],
+                  
+                        // 3. منطقة النصوص (الاسم والتخصص)
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 8,vertical: 8),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                seller.name,
+                                style: const TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 14,
+                                  color: Color(0xFF2D2D2D),
+                                ),
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                              const SizedBox(height: 4),
+                              Text(
+                                seller.speciality ?? "Artisan",
+                                style: const TextStyle(
+                                  fontSize: 12,
+                                  color: Colors.grey,
+                                ),
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 );
               },

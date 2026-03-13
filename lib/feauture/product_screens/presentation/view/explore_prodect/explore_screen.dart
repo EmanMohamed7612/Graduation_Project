@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:graduation2/feauture/product/data/product_details_repo.dart';
@@ -6,6 +7,7 @@ import 'package:graduation2/feauture/product_screens/presentation/view/explore_p
 import 'package:graduation2/feauture/product_screens/presentation/view/explore_prodect/widget/search_filter_bar.dart';
 
 import '../../../../../core/services/api_services.dart';
+import '../../../../../generated/locale_keys.g.dart';
 import '../../../../product/view/product_datails.dart';
 import '../../../manager/prodect_apiservice.dart';
 import '../../../manager/product_cubit.dart';
@@ -29,8 +31,8 @@ class ExploreAllScreen extends StatelessWidget {
             color: Colors.brown,
             size: 20,
           ),
-          title: const Text(
-            'All Products',
+          title:  Text(
+            LocaleKeys.allproduct.tr(),
             style: TextStyle(color: Colors.brown, fontWeight: FontWeight.bold),
           ),
           centerTitle: true,

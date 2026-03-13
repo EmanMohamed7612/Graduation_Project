@@ -518,8 +518,10 @@
 
 
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:graduation2/generated/locale_keys.g.dart';
 import '../../../product_screens/data/model/create_product_model.dart';
 import '../../../product_screens/manager/product_cubit.dart';
 import '../../../product_screens/presentation/view/Editprodect_screen/editprodect.dart';
@@ -617,12 +619,12 @@ class _SellerDashboardScreenState extends State<SellerDashboardScreen> {
                                     _cubit.removeProduct(product.id);
                                     ScaffoldMessenger.of(context).showSnackBar(
                                       SnackBar(
-                                        content: const Row(
+                                        content: Row(
                                           children: [
-                                            Icon(Icons.check_circle, color: Colors.white),
-                                            SizedBox(width: 10),
-                                            Text('Product deleted successfully',
-                                                style: TextStyle(color: Colors.white)),
+                                            const Icon(Icons.check_circle, color: Colors.white),
+                                            const SizedBox(width: 10),
+                                            Text(LocaleKeys.Productaddedsuccessfull.tr(),
+                                                style: const TextStyle(color: Colors.white)),
                                           ],
                                         ),
                                         backgroundColor: const Color(0xFF6B4F46),
@@ -692,17 +694,17 @@ class _SellerDashboardScreenState extends State<SellerDashboardScreen> {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Text('Seller Dashboard',
-                      style: TextStyle(
+                  Text(LocaleKeys.seller_dashboard.tr(),
+                      style: const TextStyle(
                           color: Colors.white,
                           fontSize: 18,
                           fontWeight: FontWeight.bold)),
                   Row(
-                    children: const [
-                      Icon(Icons.stars, color: Colors.amber, size: 16),
-                      SizedBox(width: 4),
-                      Text('Expert Seller',
-                          style: TextStyle(color: Colors.white70, fontSize: 12)),
+                    children: [
+                      const Icon(Icons.stars, color: Colors.amber, size: 16),
+                      const SizedBox(width: 4),
+                      Text(LocaleKeys.expert_seller.tr(),
+                          style: const TextStyle(color: Colors.white70, fontSize: 12)),
                     ],
                   ),
                 ],
@@ -740,10 +742,10 @@ class _SellerDashboardScreenState extends State<SellerDashboardScreen> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              _buildStatCard('Products', '24', Icons.inventory_2_outlined),
-              _buildStatCard('Sales', '156', Icons.trending_up),
-              _buildStatCard('Revenue', 'EGP 42k', Icons.attach_money),
-              _buildStatCard('Sessions', '12', Icons.calendar_today, isSelected: true),
+              _buildStatCard(LocaleKeys.products.tr(), '24', Icons.inventory_2_outlined),
+              _buildStatCard(LocaleKeys.sales_count.tr(), '156', Icons.trending_up),
+              _buildStatCard(LocaleKeys.revenue.tr(), 'EGP 42k', Icons.attach_money),
+              _buildStatCard(LocaleKeys.sessions.tr(), '12', Icons.calendar_today, isSelected: true),
             ],
           ),
         ],
@@ -795,10 +797,10 @@ class _SellerDashboardScreenState extends State<SellerDashboardScreen> {
                   const SizedBox(width: 8),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
-                    children: const [
-                      Text('My Consultations',
+                    children:  [
+                      Text(LocaleKeys.my_consultations.tr(),
                           style: TextStyle(fontWeight: FontWeight.bold)),
-                      Text('2 new requests',
+                      Text(LocaleKeys.new_requests.tr(args: ['2'],) ,// هتظهر: 2 new requests,
                           style: TextStyle(color: Colors.grey, fontSize: 12)),
                     ],
                   ),
@@ -806,7 +808,7 @@ class _SellerDashboardScreenState extends State<SellerDashboardScreen> {
               ),
               TextButton(
                 onPressed: () {},
-                child: const Text('View All',
+                child:  Text(LocaleKeys.view_all.tr(),
                     style: TextStyle(color: Colors.brown)),
               ),
             ],
@@ -826,10 +828,10 @@ class _SellerDashboardScreenState extends State<SellerDashboardScreen> {
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
-                    children: const [
-                      Text('Sarah Martinez',
+                    children:  [
+                      Text(LocaleKeys.seller_dashboard.tr(),
                           style: TextStyle(fontWeight: FontWeight.bold)),
-                      Text('Pottery Basics',
+                      Text(LocaleKeys. PotteryBasics.tr(),
                           style: TextStyle(color: Colors.grey, fontSize: 12)),
                     ],
                   ),
@@ -840,7 +842,7 @@ class _SellerDashboardScreenState extends State<SellerDashboardScreen> {
                     color: Colors.amber.shade100,
                     borderRadius: BorderRadius.circular(10),
                   ),
-                  child: const Text('New',
+                  child:  Text(LocaleKeys.add_new.tr(),
                       style: TextStyle(
                           color: Colors.orange,
                           fontSize: 10,
@@ -858,7 +860,7 @@ class _SellerDashboardScreenState extends State<SellerDashboardScreen> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        const Text('My Products',
+         Text(LocaleKeys.my_products.tr(),
             style: TextStyle(
                 fontSize: 18, fontWeight: FontWeight.bold, color: Colors.brown)),
         ElevatedButton(
@@ -878,7 +880,7 @@ class _SellerDashboardScreenState extends State<SellerDashboardScreen> {
             side: const BorderSide(color: Colors.brown),
             shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
           ),
-          child: const Text('Add New'),
+          child:  Text(LocaleKeys.add_new.tr()),
         ),
       ],
     );
@@ -948,7 +950,7 @@ class _SellerDashboardScreenState extends State<SellerDashboardScreen> {
                   borderRadius: BorderRadius.circular(12)),
               side: const BorderSide(color: Colors.brown),
             ),
-            child: const Text('Edit',
+            child:  Text(LocaleKeys.edit.tr(),
                 style: TextStyle(color: Colors.brown, fontSize: 12)),
           ),
           const SizedBox(width: 8),
@@ -972,9 +974,9 @@ class _SellerDashboardScreenState extends State<SellerDashboardScreen> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text('Need Raw Materials?',
+           Text(LocaleKeys.need_raw_materials.tr(),
               style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
-          const Text('Browse supplies from verified suppliers',
+           Text(LocaleKeys.browse_supplies_desc.tr(),
               style: TextStyle(color: Colors.grey, fontSize: 13)),
           const SizedBox(height: 15),
           SizedBox(
@@ -987,7 +989,7 @@ class _SellerDashboardScreenState extends State<SellerDashboardScreen> {
                     borderRadius: BorderRadius.circular(15)),
                 padding: const EdgeInsets.symmetric(vertical: 12),
               ),
-              child: const Text('Browse Materials',
+              child:  Text(LocaleKeys.browse_materials.tr(),
                   style: TextStyle(color: Colors.white)),
             ),
           ),
