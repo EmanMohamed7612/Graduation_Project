@@ -1,9 +1,11 @@
 import 'dart:io';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:dio/dio.dart';
 import 'package:graduation2/feauture/auth/views/success_screen.dart';
+import 'package:graduation2/generated/locale_keys.g.dart';
 
 import '../manager/auth_cubit.dart';
 import '../manager/auth_state.dart';
@@ -120,9 +122,9 @@ class _ExpertVerificationScreenState extends State<ExpertVerificationScreen> {
                       icon: const Icon(Icons.arrow_back_ios, size: 20),
                       onPressed: () => Navigator.pop(context),
                     ),
-                    const Expanded(
-                      child: Text(
-                        'Expert Verification',
+                     Expanded(
+                      child: Text(LocaleKeys.expert_verification.tr()
+                        ,
                         textAlign: TextAlign.center,
                         style:
                         TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
@@ -153,17 +155,17 @@ class _ExpertVerificationScreenState extends State<ExpertVerificationScreen> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Center(
+                       Center(
                         child: Column(
                           children: [
                             Text(
-                              'Work Samples & Details',
+                              LocaleKeys.work_samples_details.tr(),
                               style: TextStyle(
                                   fontSize: 20, fontWeight: FontWeight.bold),
                             ),
                             SizedBox(height: 8),
                             Text(
-                              'Upload 2 work samples and complete your profile',
+                              LocaleKeys.Uploadworksamplesandcompleteyourprofile.tr(),
                               style:
                               TextStyle(fontSize: 14, color: Colors.grey),
                             ),
@@ -197,7 +199,7 @@ class _ExpertVerificationScreenState extends State<ExpertVerificationScreen> {
                                 ),
                                 const SizedBox(height: 12),
                                 Text(
-                                  'Tap to upload files',
+                                  LocaleKeys.tap_to_upload_files.tr(),
                                   style: TextStyle(
                                     fontSize: 16,
                                     fontWeight: FontWeight.w500,
@@ -229,7 +231,7 @@ class _ExpertVerificationScreenState extends State<ExpertVerificationScreen> {
 
                       const SizedBox(height: 20),
 
-                      const Text('Years of Experience *'),
+                       Text(LocaleKeys.years_experience_text.tr()),
                       const SizedBox(height: 8),
                       TextField(
                         controller: yearsController,
@@ -300,7 +302,7 @@ class _ExpertVerificationScreenState extends State<ExpertVerificationScreen> {
                               portfolioFiles: portfolioFiles,
                             );
                           },
-                          child: const Text('Review & Continue'),
+                          child:  Text(LocaleKeys.review_continue.tr()),
                         ),
                       ),
                     ],

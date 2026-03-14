@@ -106,10 +106,12 @@ class _categorySearch extends State<categorySearch> {
     );
   }
 }*/
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../../generated/locale_keys.g.dart';
 import '../../../manager/category_cubit.dart';
 import '../../../manager/category_state.dart';
 import '../../../manager/search_cubit.dart';
@@ -143,7 +145,7 @@ class _CategoryFilterBarState extends State<CategoryFilterBar> {
               children: [
                 // زر "All"
                 _buildTab(
-                  label: "All",
+                  label: LocaleKeys.all.tr(),
                   id: 'all',
                   onTap: () {
                     setState(() => selectedCategoryId = 'all');
@@ -166,7 +168,7 @@ class _CategoryFilterBarState extends State<CategoryFilterBar> {
             ),
           );
         } else if (state is CategoryFailure) {
-          return const Text("Failed to load categories", style: TextStyle(fontSize: 12, color: Colors.red));
+          return Text(LocaleKeys.Failedtoloadcategoriesuired.tr(), style: const TextStyle(fontSize: 12, color: Colors.red));
         }
         return const SizedBox();
       },

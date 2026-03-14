@@ -1,7 +1,9 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:graduation2/feauture/auth/views/enter_email.dart';
 
 import '../../../core/const/role_const.dart';
+import '../../../generated/locale_keys.g.dart';
 import '../../auth/views/register_screen.dart';
 
 
@@ -83,8 +85,8 @@ class SellerTypeScreen extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Text(
-                    "Features:",
+                   Text(
+                    LocaleKeys.features.tr(),
                     style: TextStyle(
                       fontWeight: FontWeight.w500,
                       color: Color(0xFF3E2723),
@@ -126,8 +128,8 @@ class SellerTypeScreen extends StatelessWidget {
       appBar: AppBar(
         automaticallyImplyLeading: false,
         backgroundColor: Colors.white,
-        title: const Text(
-          "Choose Seller Type",
+        title:  Text(LocaleKeys.choosesellertype.tr()
+          ,
           style: TextStyle(
             color: Color(0xFF3E2723),
             fontSize: 17.5,
@@ -140,8 +142,8 @@ class SellerTypeScreen extends StatelessWidget {
         padding: const EdgeInsets.all(24.0),
         child: Column(
           children: [
-            const Text(
-              "Choose your seller type to continue",
+             Text(
+               LocaleKeys.choosesellertypetocontinue.tr(),
               style: TextStyle(color: Color(0xFF8D6E63)),
             ),
             const SizedBox(height: 5),
@@ -150,10 +152,10 @@ class SellerTypeScreen extends StatelessWidget {
                 children: [
                   // 🟤 كارت Beginner
                   buildTypeCard(
-                    title: "Beginner (Junior)",
-                    desc: "Start your journey as a new seller",
+                    title: LocaleKeys.begginerjunior.tr(),
+                    desc: LocaleKeys.startyourjourneyasanewseller.tr(),
                     features: [
-                      "List and sell handmade products",
+                      LocaleKeys.listandsellhandmadeproducts.tr(),
                     ],
                     mainColor: const Color(0xFF8D6E63),
                     leadingWidget: Image.asset(
@@ -174,14 +176,14 @@ class SellerTypeScreen extends StatelessWidget {
 
                   // 🟡 كارت Expert
                   buildTypeCard(
-                    title: "Expert",
-                    desc: "Verified professional seller",
+                    title: LocaleKeys.expert.tr(),
+                    desc: LocaleKeys.verifiedprofessionalseller.tr(),
                     features: [
-                      "All Beginner features +",
-                      "Verified Expert badge",
-                      "Offer paid consultations",
-                      "Featured in Top Sellers",
-                      "Portfolio verification required",
+                      LocaleKeys.allbeginnerfeatures.tr(),
+                      LocaleKeys.verifiedexpertbadge.tr(),
+                      LocaleKeys.offerpaidconsultations.tr(),
+                      LocaleKeys.featuredinTopSellers.tr(),
+                      LocaleKeys.Portfolioverificationrequired.tr(),
                     ],
                     mainColor: const Color(0xFFC9A876),
                     leadingWidget: Image.asset(

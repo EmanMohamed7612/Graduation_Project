@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -6,6 +7,7 @@ import 'package:graduation2/feauture/auth/views/enter_email.dart';
 import 'package:graduation2/feauture/auth/views/register_screen.dart';
 
 import '../../../core/const/role_const.dart';
+import '../../../generated/locale_keys.g.dart';
 import 'Beginner_Expert.dart';
 
 class RoleSelectionScreen extends StatelessWidget {
@@ -99,7 +101,7 @@ class RoleSelectionScreen extends StatelessWidget {
               const SizedBox(height: 6),
               Center(
                 child: Text(
-                  "Select your role to continue",
+                  LocaleKeys.selectyourroletocontinue.tr(),
                   style: GoogleFonts.arimo(
                     fontSize: 13,
                     color: const Color(0xFF8D6E63),
@@ -109,8 +111,8 @@ class RoleSelectionScreen extends StatelessWidget {
               const SizedBox(height: 120),
               buildRoleCard(
                 context,
-                "Customer",
-                "Browse and buy unique\nhandmade items",
+                LocaleKeys.customer.tr(),
+                LocaleKeys.browesandbuyuniqeitem.tr(),
                 Image.asset(
                   'assets/images/supplier2.png',
                   width: 22,
@@ -126,8 +128,8 @@ class RoleSelectionScreen extends StatelessWidget {
               ),
               buildRoleCard(
                 context,
-                "Seller",
-                "Sell your handcrafted creations",
+                LocaleKeys.seller.tr(),
+                LocaleKeys.sellyourhandcraftedcreatorions.tr(),
                 Image.asset(
                   'assets/images/home.png',
                   width: 22,
@@ -143,8 +145,8 @@ class RoleSelectionScreen extends StatelessWidget {
               ),
               buildRoleCard(
                 context,
-                "Supplier",
-                "Provide materials and resources",
+                LocaleKeys.supplier.tr(),
+                LocaleKeys.providematerialandresources.tr(),
                 Image.asset(
                   'assets/images/Icon (5).png',
                   width: 22,

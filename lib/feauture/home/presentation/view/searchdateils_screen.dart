@@ -209,11 +209,16 @@ class SearchDetailsScreen extends StatelessWidget {
 
 
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:graduation2/feauture/home/presentation/view/widget/category_search.dart';
 
+import '../../../../generated/locale_keys.g.dart';
+import '../../../product/data/product_details_repo.dart';
+import '../../../product/manager/product_details_cubit.dart';
+import '../../../product/view/product_datails.dart';
 import '../../manager/search_cubit.dart';
 import '../../manager/search_state.dart';
 
@@ -243,14 +248,17 @@ class SearchDetailsScreen extends StatelessWidget {
             border: Border.all(color: Colors.grey.shade200),
           ),
           child: TextField(
-            readOnly: true, // للقراءة فقط لأن البحث تم فعلاً
+            controller: TextEditingController(text: searchQuery),
+            onChanged: (value) {
+              context.read<SearchCubit>().fetchSearchResults(value);
+            },
             decoration: InputDecoration(
               hintText: searchQuery,
               prefixIcon: const Icon(Icons.search, color: Colors.grey),
               border: InputBorder.none,
               contentPadding: const EdgeInsets.symmetric(vertical: 10),
             ),
-          ),
+          )
         ),
         actions: [
           IconButton(
@@ -264,35 +272,24 @@ class SearchDetailsScreen extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const SizedBox(height: 20),
+            //const SizedBox(height: 20),
             // قائمة التصنيفات العلوية (Horizontal Categories)
-            
-            
-            
-   
-            
-            
-             CategoryFilterBar(initialSearchQuery: searchQuery),
-            
-            
-            
+             //CategoryFilterBar(initialSearchQuery: searchQuery),
             const SizedBox(height: 20),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                BlocBuilder<SearchCubit, SearchState>(
-                  builder: (context, state) {
-                    int count = (state is SearchSuccess) ? state.products.length : 0;
-                    return Text("Showing $count products",
-                        style: const TextStyle(fontWeight: FontWeight.w500, color: Colors.brown));
-                  },
-                ),
-                TextButton.icon(
-                  onPressed: () {},
-                  icon: const Icon(Icons.sort, size: 16, color: Colors.orangeAccent),
-                  label: const Text("Sort by", style: TextStyle(color: Colors.orangeAccent)),
-                ),
-              ],
+            BlocBuilder<SearchCubit, SearchState>(
+              builder: (context, state) {
+                int count = (state is SearchSuccess) ? state.products.length : 0;
+                return Padding(
+                  padding:  EdgeInsets.only(bottom: 10),
+                  child: Text(
+                    LocaleKeys.showing_products.tr(args: [count.toString()]),
+                    style: const TextStyle(
+                      fontWeight: FontWeight.w500,
+                      color: Colors.brown,
+                    ),
+                  ),
+                );
+              },
             ),
             Expanded(
               child: BlocBuilder<SearchCubit, SearchState>(
@@ -310,7 +307,7 @@ class SearchDetailsScreen extends StatelessWidget {
                       ),
                       itemCount: state.products.length,
                       itemBuilder: (context, index) {
-                        return _buildProductCard(state.products[index]);
+                        return _buildProductCard(context,state.products[index]);
                       },
                     );
                   } else if (state is SearchFailure) {
@@ -327,7 +324,7 @@ class SearchDetailsScreen extends StatelessWidget {
   }
 
   // Widget لتصميم زر التصنيفات
-  Widget _buildCategoryChip(String label, bool isSelected) {
+  /*Widget _buildCategoryChip(String label, bool isSelected) {
     return Container(
       margin: const EdgeInsets.only(right: 8),
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
@@ -341,11 +338,25 @@ class SearchDetailsScreen extends StatelessWidget {
         style: TextStyle(color: isSelected ? Colors.white : Colors.grey, fontWeight: FontWeight.bold),
       ),
     );
-  }
+  }*/
 
   // Widget لتصميم الكارت الخاص بكل منتج (كما في الصورة)
-  Widget _buildProductCard(dynamic product) {
-    return Container(
+  Widget _buildProductCard(BuildContext context, dynamic product) {
+    return InkWell(
+        onTap: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (_) => BlocProvider(
+                create: (_) =>
+                ProductDetailsCubit(ProductDetailsRepo())
+                  ..fetchProductDetails(product.id),
+                child: ProductDetails(productId: product.id),
+              ),
+            ),
+          );
+        },
+    child:  Container(
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(16),
@@ -373,7 +384,7 @@ class SearchDetailsScreen extends StatelessWidget {
                 child: Container(
                   padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                   decoration: BoxDecoration(color: Colors.black54, borderRadius: BorderRadius.circular(10)),
-                  child: const Text("Handmade", style: TextStyle(color: Colors.white, fontSize: 10)),
+                  child:  Text(LocaleKeys.handmade_label.tr(), style: TextStyle(color: Colors.white, fontSize: 10)),
                 ),
               ),
               Positioned(
@@ -410,6 +421,7 @@ class SearchDetailsScreen extends StatelessWidget {
           ),
         ],
       ),
+            )
     );
   }
 }
