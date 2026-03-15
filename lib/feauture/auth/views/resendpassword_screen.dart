@@ -1,5 +1,7 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:graduation2/generated/locale_keys.g.dart';
 
 import '../manager/auth_cubit.dart';
 import '../manager/auth_state.dart';
@@ -39,8 +41,8 @@ class _ResetPasswordViewState extends State<ResetPasswordView> {
         listener: (context, state) {
           if (state is AuthInitialState) {
             ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(
-                content: Text("Password Reset Successfully! Login now."),
+               SnackBar(
+                content: Text(LocaleKeys.passwordResetSuccessfullyLoginnow.tr()),
                 backgroundColor: Colors.green,
               ),
             );
@@ -63,8 +65,8 @@ class _ResetPasswordViewState extends State<ResetPasswordView> {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Text(
-                  'Reset Password',
+                 Text(
+                LocaleKeys.reset_password.tr(),
                   style: TextStyle(
                     color: Color(0xFF3E2723),
                     fontSize: 24,
@@ -72,8 +74,8 @@ class _ResetPasswordViewState extends State<ResetPasswordView> {
                   ),
                 ),
                 const SizedBox(height: 10),
-                const Text(
-                  'Enter your new password.',
+                 Text(
+                  LocaleKeys.enter_new_password.tr(),
                   style: TextStyle(color: Color(0xFF8D6E63), fontSize: 16),
                 ),
                 const SizedBox(height: 30),
@@ -97,11 +99,11 @@ class _ResetPasswordViewState extends State<ResetPasswordView> {
                 //   ),
                 // ),
                 _buildTextField(
-                  hintText: 'Enter your password',
+                  hintText: LocaleKeys.enteryourpassword.tr(),
                   controller: passwordController,
                   icon: Icons.lock_outline,
                   //  obscureText: true,
-                  validator: (v) => v!.length < 6 ? 'Weak password' : null,
+                  validator: (v) => v!.length < 6 ? LocaleKeys.weak_password.tr() : null,
                   obscureText: _isPasswordHidden,
                   isHidden: _isPasswordHidden,
                   onToggleVisibility: () {
@@ -112,14 +114,14 @@ class _ResetPasswordViewState extends State<ResetPasswordView> {
                 ),
                 const SizedBox(height: 15),
                 _buildTextField(
-                  hintText: 'Confirm password',
+                  hintText:LocaleKeys.confirmpassword.tr(),
 
                   controller: confirmPasswordController,
                   icon: Icons.lock_outline,
 
                   //  obscureText: true,
                   validator: (v) =>
-                      v != passwordController.text ? 'Not match' : null,
+                      v != passwordController.text ? LocaleKeys.notmatch.tr() : null,
                   obscureText: _isConfirmPasswordHidden,
                   isHidden: _isConfirmPasswordHidden,
                   onToggleVisibility: () {
@@ -172,9 +174,9 @@ class _ResetPasswordViewState extends State<ResetPasswordView> {
                                 color: const Color(0xFF6D4C41),
                                 borderRadius: BorderRadius.circular(25),
                               ),
-                              child: const Center(
+                              child:  Center(
                                 child: Text(
-                                  'Change Password',
+                                  LocaleKeys.change_password.tr(),
                                   style: TextStyle(
                                     color: Colors.white,
                                     fontSize: 18,

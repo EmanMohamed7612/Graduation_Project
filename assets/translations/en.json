@@ -327,5 +327,19 @@
   "naav_ai": "AI",
   "naav_profile": "Profile",
   "community_title": "Community",
-  "ai_title": "AI"
+  "ai_title": "AI",
+  "passwordResetSuccessfullyLoginnow":"Password Reset Successfully! Login now.",
+  "notmatch":"Not match",
+  "wishList":"WishList",
+  "nofavouritesyet":"No favourites yet",
+  "removeFavourite":"Remove Favourite",
+  "areyousureyouwanttoremovethisproductfromwishlist":"Are you sure you want to remove this product from wishlist ?",
+  "bookConsultation":"Book Consultation",
+  "selectServiceType":"Select Service Type",
+  "confirmPay":"Confirm & Pay",
+  "pickDateTime":"Pick Date & Time",
+  "selectDate":"Select Date",
+  "selectTime":"Select Time"
+
+
 }

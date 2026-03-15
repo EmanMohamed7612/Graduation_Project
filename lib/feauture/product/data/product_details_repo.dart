@@ -38,10 +38,10 @@ class ProductDetailsRepo {
       '/api/Products/GetProductDetailsById',
       {'id': productId},
     );
-
+    print("API RESPONSE: $response");
     if (response is Map<String, dynamic>) {
       // الحالة 1: response مباشر
-      if (response.containsKey('id')) {
+      if (response.containsKey('id') || response.containsKey('Id')) {
         return ProductDetailsModel.fromJson(response);
       }
 
@@ -51,11 +51,10 @@ class ProductDetailsRepo {
       }
     }
 
-    throw ApiError(message: 'Product not found');
+    throw ApiError(message: 'Product not found   respone =$response');
   }
 
-
-    Future<ProductDetailsModel> getMaterialDetails(int productId) async {
+  Future<ProductDetailsModel> getMaterialDetails(int productId) async {
     final ApiService _apiService = ApiService();
     final response = await _apiService.get(
       '/api/RawMaterial/GetRawMaterialDetails',

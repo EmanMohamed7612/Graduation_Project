@@ -32,6 +32,18 @@ class ReviewCubit extends Cubit<ReviewState> {
     }
   }
 
+  Future<void> getRawMaterialReviews(int productId) async {
+    emit(ReviewLoading());
+
+    try {
+      final reviews = await reviewApiService.getRawMatrialReviews(productId);
+
+      emit(ReviewLoaded(reviews));
+    } catch (e) {
+      emit(ReviewError(e.toString()));
+    }
+  }
+
   Future<void> getCreatedReviews(String userId) async {
     emit(ReviewLoading());
 

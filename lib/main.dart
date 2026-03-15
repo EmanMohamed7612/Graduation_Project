@@ -15,6 +15,7 @@ import 'package:graduation2/feauture/profile/views/myprofile/seller_profile.dart
 import 'package:graduation2/feauture/product/view/product_datails.dart';
 import 'package:graduation2/feauture/review/view/cart/cart_screen.dart';
 import 'package:graduation2/feauture/review/view/write_review.dart';
+import 'package:graduation2/feauture/session/view/book_sconsultation_screen.dart';
 import 'package:graduation2/feauture/splash_screen/presentation/view/splash.dart';
 
 import 'core/utils/pref_helpers.dart';
@@ -45,7 +46,6 @@ void main() async {
       startLocale: Locale(savedLang),
       //child: const CratoriaApp(),
       child: CratoriaApp(userId: userId),
-
     ),
   );
 }
@@ -94,13 +94,15 @@ class CratoriaApp extends StatelessWidget {
             ),
           ),
         ),
-        BlocProvider<ProductDetailsCubit>(create: (_) => ProductDetailsCubit(ProductDetailsRepo())),
+        BlocProvider<ProductDetailsCubit>(
+          create: (_) => ProductDetailsCubit(ProductDetailsRepo()),
+        ),
         BlocProvider(
           create: (context) =>
-          CategoryCubit(ProductApiService())..fetchCategories(),
+              CategoryCubit(ProductApiService())..fetchCategories(),
         ),
-        // BlocProvider<CartCubit>(create: (_) => CartCubit(repo: CartRepo(), cartId: 0)),
 
+        // BlocProvider<CartCubit>(create: (_) => CartCubit(repo: CartRepo(), cartId: 0)),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
@@ -115,7 +117,7 @@ class CratoriaApp extends StatelessWidget {
             secondary: Color(0xFF8D6E63),
           ),
         ),
-        home: SplashView(),
+        home: LoginView(),
       ),
     );
   }

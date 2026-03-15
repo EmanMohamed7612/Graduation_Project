@@ -3,10 +3,10 @@ import 'package:graduation2/feauture/favourite/data/favourite_model.dart';
 import 'package:graduation2/feauture/favourite/manager/fav_state.dart';
 import 'package:graduation2/feauture/home/manager/fav_apiserves.dart';
 
-class FavoriteCubit extends Cubit<FavoriteState> {
+class MyFavoriteCubit extends Cubit<FavoriteState> {
   final FavoriteApiService api;
 
-  FavoriteCubit(this.api) : super(FavoriteLoading());
+  MyFavoriteCubit(this.api) : super(FavoriteLoading());
 
   List<FavouriteModel> products = [];
 

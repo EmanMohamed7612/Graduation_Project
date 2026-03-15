@@ -12,6 +12,29 @@ import '../../../core/services/dio_client.dart';
 class ReviewApiService {
   final DioClient _dioClient = DioClient();
 
+  // Future<ReviewResponse?> addOrUpdateReview(AddReviewRequest request) async {
+  //   try {
+  //     log('📤 Adding / Updating Review');
+
+  //     final response = await _dioClient.dio.post(
+  //       '/api/Reviews/AddOrUpdateReview',
+  //       data: request.toJson(),
+  //     );
+
+  //     if (response.statusCode == 200 && response.data != null) {
+  //       final data = response.data['data'];
+  //       return ReviewResponse.fromJson(data);
+  //     }
+
+  //     return null;
+  //   } on DioException catch (e) {
+  //     log('❌ Review Error: ${e.response?.data}');
+  //     throw ApiExceptions.handleError(e);
+  //   } catch (e) {
+  //     log('❌ Unexpected Review Error: $e');
+  //     rethrow;
+  //   }
+  // }
   Future<ReviewResponse?> addOrUpdateReview(AddReviewRequest request) async {
     try {
       log('📤 Adding / Updating Review');
@@ -23,6 +46,12 @@ class ReviewApiService {
 
       if (response.statusCode == 200 && response.data != null) {
         final data = response.data['data'];
+
+        if (data == null) {
+          log('❌ API returned null data');
+          return null;
+        }
+
         return ReviewResponse.fromJson(data);
       }
 
@@ -42,6 +71,58 @@ class ReviewApiService {
         '/api/Reviews/GetProductReviews',
         queryParameters: {
           'productId': productId,
+          't': DateTime.now().millisecondsSinceEpoch,
+        },
+        options: Options(headers: {'Cache-Control': 'no-cache'}),
+      );
+      print("RESPONSE = ${response.data}");
+      if (response.statusCode == 200 && response.data != null) {
+        List responseList = [];
+
+        // بنشيك لو الداتا راجعة List مباشرة
+        if (response.data is List) {
+          responseList = response.data;
+        }
+        // ولو راجعة جوه Object اسمه data
+        else if (response.data is Map) {
+          responseList = response.data['data'] ?? response.data['Data'] ?? [];
+        }
+
+        return responseList.map((e) => ProductReviewModel.fromJson(e)).toList();
+      }
+      return [];
+    } on DioException catch (e) {
+      throw ApiExceptions.handleError(e);
+    } catch (e) {
+      throw Exception(e.toString());
+    }
+    //   if (response.statusCode == 200 && response.data != null) {
+    //     //   final List list = response.data['data'];
+    //     //   return list.map((e) => ProductReviewModel.fromJson(e)).toList();
+    //     // }
+
+    //     // return [];
+    //     if (response.data['data'] == null) {
+    //       return [];
+    //     }
+
+    //     final List list = response.data['data'];
+
+    //     return list.map((e) => ProductReviewModel.fromJson(e)).toList();
+    //   }
+
+    //   return [];
+    // } on DioException catch (e) {
+    //   throw ApiExceptions.handleError(e);
+    // }
+  }
+
+  Future<List<ProductReviewModel>> getRawMatrialReviews(int productId) async {
+    try {
+      final response = await _dioClient.dio.get(
+        '/api/Reviews/GetRawMaterialReviews',
+        queryParameters: {
+          'materialId': productId,
           't': DateTime.now().millisecondsSinceEpoch,
         },
         options: Options(headers: {'Cache-Control': 'no-cache'}),

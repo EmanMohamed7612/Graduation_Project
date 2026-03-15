@@ -1,9 +1,11 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:graduation2/core/services/dio_client.dart';
 import 'package:graduation2/feauture/favourite/manager/fav_state.dart';
 import 'package:graduation2/feauture/favourite/manager/favourite_cubit.dart';
 import 'package:graduation2/feauture/home/manager/fav_apiserves.dart';
+import 'package:graduation2/generated/locale_keys.g.dart';
 
 class FavouriteScreen extends StatefulWidget {
   const FavouriteScreen({super.key, this.onGoHome});
@@ -17,7 +19,7 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
   @override
   void initState() {
     super.initState();
-    context.read<FavoriteCubit>().getFavorites();
+    context.read<MyFavoriteCubit>().getFavorites();
     // 👈 هنا
   }
 
@@ -35,7 +37,7 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
           ),
         ),
         title: Text(
-          'WishList',
+          LocaleKeys.wishList.tr(),
           style: TextStyle(
             color: const Color(0xFF3E2723),
             fontSize: 16,
@@ -52,7 +54,7 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
           ),
         ],
       ),
-      body: BlocBuilder<FavoriteCubit, FavoriteState>(
+      body: BlocBuilder<MyFavoriteCubit, FavoriteState>(
         builder: (context, state) {
           if (state is FavoriteLoading) {
             return const Center(child: CircularProgressIndicator());
@@ -62,7 +64,7 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
             final products = state.products;
 
             if (products.isEmpty) {
-              return const Center(child: Text("No favourites yet"));
+              return Center(child: Text(LocaleKeys.nofavouritesyet.tr()));
             }
 
             return GridView.builder(
@@ -116,24 +118,28 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
                             ),
                             IconButton(
                               onPressed: () {
-                                final cubit = context.read<FavoriteCubit>();
+                                final cubit = context.read<MyFavoriteCubit>();
                                 showDialog(
                                   context: context,
                                   builder: (context) {
                                     return AlertDialog(
-                                      title: const Text("Remove Favourite"),
-                                      content: const Text(
-                                        "Are you sure you want to remove this product from wishlist?",
+                                      title: Text(
+                                        LocaleKeys.removeFavourite.tr(),
+                                      ),
+                                      content: Text(
+                                        LocaleKeys
+                                            .areyousureyouwanttoremovethisproductfromwishlist
+                                            .tr(),
                                       ),
                                       actions: [
                                         TextButton(
-                                          child: const Text("Cancel"),
+                                          child: Text(LocaleKeys.cancel.tr()),
                                           onPressed: () {
                                             Navigator.pop(context);
                                           },
                                         ),
                                         TextButton(
-                                          child: const Text("OK"),
+                                          child: Text(LocaleKeys.ok.tr()),
                                           onPressed: () {
                                             cubit.removeFavorite(product.id);
                                             Navigator.pop(context);

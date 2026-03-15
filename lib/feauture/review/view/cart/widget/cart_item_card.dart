@@ -22,7 +22,7 @@ class CartItemCard extends StatelessWidget {
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
     return Container(
-      height: height * .14,
+      height: height * .15,
       width: double.infinity,
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(

@@ -1,6 +1,8 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:graduation2/feauture/auth/views/resendpassword_screen.dart';
+import 'package:graduation2/generated/locale_keys.g.dart';
 
 import '../manager/auth_cubit.dart';
 import '../manager/auth_state.dart';
@@ -53,8 +55,8 @@ class VerifyResetCodeScreen extends StatelessWidget {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    const Text(
-                      'Enter Code',
+                    Text(
+                      LocaleKeys.enter_code.tr(),
                       style: TextStyle(
                         color: Color(0xFF3E2723),
                         fontSize: 22,
@@ -63,7 +65,7 @@ class VerifyResetCodeScreen extends StatelessWidget {
                     ),
                     const SizedBox(height: 8),
                     Text(
-                      "We sent a code to $email",
+                      "${LocaleKeys.we_sent_code_to.tr()} $email",
                       textAlign: TextAlign.center,
                       style: const TextStyle(
                         color: Color(0xFF8D6E63),
@@ -113,8 +115,8 @@ class VerifyResetCodeScreen extends StatelessWidget {
                                 );
                               } else {
                                 ScaffoldMessenger.of(context).showSnackBar(
-                                  const SnackBar(
-                                    content: Text("Please enter complete code"),
+                                   SnackBar(
+                                    content: Text(LocaleKeys.please_enter_complete_code.tr()),
                                   ),
                                 );
                               }
@@ -126,9 +128,9 @@ class VerifyResetCodeScreen extends StatelessWidget {
                                 color: const Color(0xFF6D4C41),
                                 borderRadius: BorderRadius.circular(18),
                               ),
-                              child: const Center(
+                              child:  Center(
                                 child: Text(
-                                  'Verify',
+                                  LocaleKeys.verify.tr(),
                                   style: TextStyle(
                                     color: Colors.white,
                                     fontSize: 18,

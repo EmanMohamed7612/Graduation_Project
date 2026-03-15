@@ -13,6 +13,7 @@ import 'package:graduation2/feauture/review/data/review_service.dart';
 import 'package:graduation2/feauture/review/manager/cart_cubit.dart';
 import 'package:graduation2/feauture/review/manager/review_cubit.dart';
 import 'package:graduation2/feauture/review/view/cart/cart_screen.dart';
+import 'package:graduation2/feauture/review/view/rating_matrial_screen.dart';
 import 'package:graduation2/feauture/review/view/rating_screen.dart';
 
 class RawMaterialDetails extends StatefulWidget {
@@ -330,8 +331,10 @@ class _RawMaterialDetailsState extends State<RawMaterialDetails> {
                               builder: (_) => BlocProvider(
                                 create: (context) =>
                                     ReviewCubit(ReviewApiService())
-                                      ..getProductReviews(product.id),
-                                child: RatingScreen(idProduct: product.id),
+                                      ..getRawMaterialReviews(product.id),
+                                child: RatingMatrialScreen(
+                                  idProduct: product.id,
+                                ),
                               ),
                             ),
                           );

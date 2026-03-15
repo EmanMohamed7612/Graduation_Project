@@ -12,6 +12,7 @@ import 'package:graduation2/feauture/product_screens/manager/product_cubit.dart'
 import 'package:graduation2/feauture/review/data/review_service.dart';
 import 'package:graduation2/feauture/review/manager/review_cubit.dart';
 import 'package:graduation2/feauture/review/view/widgets/custom_star.dart';
+import 'package:graduation2/feauture/session/view/book_sconsultation_screen.dart';
 
 class ExpertAccount extends StatefulWidget {
   const ExpertAccount({super.key, required this.user});
@@ -316,7 +317,16 @@ class _ExpertAccountState extends State<ExpertAccount> {
                         ),
                       ),
                       child: GestureDetector(
-                        onTap: () {},
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) {
+                                return BookingConsultationScreen();
+                              },
+                            ),
+                          );
+                        },
                         child: Center(
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,

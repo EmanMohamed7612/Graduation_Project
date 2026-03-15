@@ -17,7 +17,7 @@ import 'package:graduation2/feauture/review/view/rating_screen.dart';
 
 class ProductDetails extends StatefulWidget {
   ProductDetails({super.key, required this.productId});
-  int productId;
+  final int productId;
   @override
   State<ProductDetails> createState() => _ProductDetailsState();
 }
@@ -330,7 +330,9 @@ class _ProductDetailsState extends State<ProductDetails> {
                                 create: (context) =>
                                     ReviewCubit(ReviewApiService())
                                       ..getProductReviews(product.id),
-                                child: RatingScreen(idProduct: product.id),
+                                child: RatingProductScreen(
+                                  idProduct: product.id,
+                                ),
                               ),
                             ),
                           );

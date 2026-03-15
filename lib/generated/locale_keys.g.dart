@@ -255,5 +255,17 @@ abstract class  LocaleKeys {
   static const naav_profile = 'naav_profile';
   static const community_title = 'community_title';
   static const ai_title = 'ai_title';
+  static const passwordResetSuccessfullyLoginnow = 'passwordResetSuccessfullyLoginnow';
+  static const notmatch = 'notmatch';
+  static const wishList = 'wishList';
+  static const nofavouritesyet = 'nofavouritesyet';
+  static const removeFavourite = 'removeFavourite';
+  static const areyousureyouwanttoremovethisproductfromwishlist = 'areyousureyouwanttoremovethisproductfromwishlist';
+  static const bookConsultation = 'bookConsultation';
+  static const selectServiceType = 'selectServiceType';
+  static const confirmPay = 'confirmPay';
+  static const pickDateTime = 'pickDateTime';
+  static const selectDate = 'selectDate';
+  static const selectTime = 'selectTime';
 
 }

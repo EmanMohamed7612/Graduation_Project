@@ -65,16 +65,16 @@ class ProductDetailsModel {
 
   factory ProductDetailsModel.fromJson(Map<String, dynamic> json) {
     return ProductDetailsModel(
-      id: json['id'],
-      name: json['name'],
-      price: json['price'],
-      quantity: json['quantity'] ?? 0,
-      description: json['description'],
-      imageUrl: json['imageUrl'], // ✅ String مباشرة
-      categoryId: json['categoryId'],
-      categoryName: json['categoryName'],
-      sellerId: json['sellerId'],
-      sellerName: json['sellerName'],
+      id: json['id'] ?? json['Id'],
+      name: json['name'] ?? json['Name'],
+      price: json['price'] ?? json['Price'],
+      quantity: json['quantity'] ?? json['Quantity'] ?? 0,
+      description: json['description'] ?? json['Description'],
+      imageUrl: json['imageUrl'] ?? json['ImageUrl'], // ✅ String مباشرة
+      categoryId: json['categoryId'] ?? json['CategoryId'],
+      categoryName: json['categoryName'] ?? json['CategoryName'],
+      sellerId: json['sellerId'] ?? json['SellerId'],
+      sellerName: json['sellerName'] ?? json['SellerName'],
     );
   }
 }

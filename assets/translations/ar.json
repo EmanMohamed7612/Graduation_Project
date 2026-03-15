@@ -259,8 +259,19 @@
   "naav_ai": "الذكاء الاصطناعي",
   "naav_profile": "الملف الشخصي",
   "community_title": "المجتمع",
-  "ai_title": "الذكاء الاصطناعي"
+  "ai_title": "الذكاء الاصطناعي",
 
-
+  "passwordResetSuccessfullyLoginnow":"تمت إعادة تعيين كلمة المرور بنجاح! سجل دخولك الآن.",
+  "notmatch":"غير متطابق",
+  "wishList":"قائمة الرغبات",
+  "nofavouritesyet":"لا يوجد مفضلة بعد",
+  "removeFavourite":"إزالة المفضلة",
+  "areyousureyouwanttoremovethisproductfromwishlist":"هل أنت متأكد من رغبتك في إزالة هذا المنتج من قائمة الأمنيات؟",
+  "bookConsultation": "استشارة حول حجز",
+  "selectServiceType":"حدد نوع الخدمة",
+  "confirmPay":"تأكيد والدفع",
+  "pickDateTime":"اختر التاريخ والوقت",
+  "selectDate":"حدد التاريخ",
+  "selectTime":"حدد الوقت"
 
 }

@@ -18,6 +18,8 @@ class FavoriteApiService {
   }
 }*/
 
+import 'package:graduation2/feauture/favourite/data/favourite_model.dart';
+
 import '../../../core/services/dio_client.dart';
 
 

@@ -10,15 +10,15 @@ import 'package:graduation2/feauture/review/view/widgets/custom_review_item.dart
 import 'package:graduation2/feauture/review/view/widgets/custom_star.dart';
 import 'package:graduation2/feauture/review/view/write_review.dart';
 
-class RatingProductScreen extends StatefulWidget {
-  const RatingProductScreen({super.key, required this.idProduct});
+class RatingMatrialScreen extends StatefulWidget {
+  const RatingMatrialScreen({super.key, required this.idProduct});
   final int idProduct;
 
   @override
-  State<RatingProductScreen> createState() => _RatingProductScreenState();
+  State<RatingMatrialScreen> createState() => _RatingMatrialScreenState();
 }
 
-class _RatingProductScreenState extends State<RatingProductScreen> {
+class _RatingMatrialScreenState extends State<RatingMatrialScreen> {
   bool isLoading = true;
   List<ProductReviewModel> reviews = [];
   final ReviewApiService _reviewApiService = ReviewApiService();
@@ -36,7 +36,7 @@ class _RatingProductScreenState extends State<RatingProductScreen> {
   bool isLoadingRating = true;
 
   Future<void> _loadProductStats() async {
-    final stats = await _reviewApiService.getProductStats(widget.idProduct);
+    final stats = await _reviewApiService.getRawMatrialState(widget.idProduct);
 
     if (stats != null) {
       setState(() {
@@ -49,7 +49,7 @@ class _RatingProductScreenState extends State<RatingProductScreen> {
 
   Future<void> fetchReviews() async {
     try {
-      final result = await _reviewApiService.getProductReviews(
+      final result = await _reviewApiService.getRawMatrialReviews(
         widget.idProduct,
       );
 
@@ -163,7 +163,7 @@ class _RatingProductScreenState extends State<RatingProductScreen> {
                             context,
                             MaterialPageRoute(
                               builder: (_) => WriteReviewScreen(
-                                productId: widget.idProduct,
+                                rawMaterialId: widget.idProduct,
                               ),
                             ),
                           )

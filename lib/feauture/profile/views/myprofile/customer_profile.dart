@@ -166,7 +166,7 @@ class _CustomerProfileState extends State<CustomerProfile> {
                           MaterialPageRoute(
                             builder: (_) {
                               return BlocProvider(
-                                create: (context) => FavoriteCubit(
+                                create: (context) => MyFavoriteCubit(
                                   FavoriteApiService(DioClient()),
                                 )..getFavorites(),
                                 child: FavouriteScreen(),
