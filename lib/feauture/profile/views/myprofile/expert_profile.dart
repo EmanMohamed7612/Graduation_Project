@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:graduation2/core/services/api_services.dart';
@@ -15,6 +16,8 @@ import 'package:graduation2/feauture/product_screens/manager/product_cubit.dart'
 import 'package:graduation2/feauture/review/data/review_service.dart';
 import 'package:graduation2/feauture/review/manager/review_cubit.dart';
 import 'package:graduation2/feauture/review/view/widgets/custom_star.dart';
+import 'package:graduation2/feauture/session/view/my_session.dart';
+import 'package:graduation2/generated/locale_keys.g.dart';
 
 class ExpertProfile extends StatefulWidget {
   const ExpertProfile({super.key, required this.user, this.onGoHome});
@@ -249,7 +252,16 @@ class _ExpertProfileState extends State<ExpertProfile> {
                         ),
 
                         child: GestureDetector(
-                          onTap: () {},
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) {
+                                  return MySessionsScreen();
+                                },
+                              ),
+                            );
+                          },
                           child: Center(
                             child: Row(
                               children: [
@@ -259,7 +271,7 @@ class _ExpertProfileState extends State<ExpertProfile> {
                                 ),
                                 const SizedBox(width: 7),
                                 Text(
-                                  'My sessions',
+                                  LocaleKeys.mySessions.tr(),
                                   style: TextStyle(
                                     color: Colors.white,
                                     fontSize: 14,

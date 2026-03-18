@@ -516,11 +516,12 @@
 //   }
 // }
 
-
-
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:graduation2/feauture/session/manager/expert_service_cubit.dart';
+import 'package:graduation2/feauture/session/view/add_service.dart';
+import 'package:graduation2/feauture/session/view/my_session.dart';
 import 'package:graduation2/generated/locale_keys.g.dart';
 import '../../../product_screens/data/model/create_product_model.dart';
 import '../../../product_screens/manager/product_cubit.dart';
@@ -575,17 +576,24 @@ class _SellerDashboardScreenState extends State<SellerDashboardScreen> {
                     const SizedBox(height: 24),
                     _buildProductsHeader(context),
                     const SizedBox(height: 12),
-                    BlocBuilder<ProductsellerCubit, ProductsellerdashboardState>(
+                    BlocBuilder<
+                      ProductsellerCubit,
+                      ProductsellerdashboardState
+                    >(
                       builder: (context, state) {
                         if (state is ProductsellerdLoading) {
-                          return const Center(child: CircularProgressIndicator());
+                          return const Center(
+                            child: CircularProgressIndicator(),
+                          );
                         }
 
                         if (state is ProductsellerdSuccess) {
                           if (state.products.isEmpty) {
                             return const Center(
-                              child: Text("No Products Yet",
-                                  style: TextStyle(color: Colors.grey)),
+                              child: Text(
+                                "No Products Yet",
+                                style: TextStyle(color: Colors.grey),
+                              ),
                             );
                           }
 
@@ -621,16 +629,29 @@ class _SellerDashboardScreenState extends State<SellerDashboardScreen> {
                                       SnackBar(
                                         content: Row(
                                           children: [
-                                            const Icon(Icons.check_circle, color: Colors.white),
+                                            const Icon(
+                                              Icons.check_circle,
+                                              color: Colors.white,
+                                            ),
                                             const SizedBox(width: 10),
-                                            Text(LocaleKeys.Productaddedsuccessfull.tr(),
-                                                style: const TextStyle(color: Colors.white)),
+                                            Text(
+                                              LocaleKeys
+                                                  .Productaddedsuccessfull.tr(),
+                                              style: const TextStyle(
+                                                color: Colors.white,
+                                              ),
+                                            ),
                                           ],
                                         ),
-                                        backgroundColor: const Color(0xFF6B4F46),
+                                        backgroundColor: const Color(
+                                          0xFF6B4F46,
+                                        ),
                                         behavior: SnackBarBehavior.floating,
                                         shape: RoundedRectangleBorder(
-                                            borderRadius: BorderRadius.circular(12)),
+                                          borderRadius: BorderRadius.circular(
+                                            12,
+                                          ),
+                                        ),
                                         margin: const EdgeInsets.all(16),
                                         duration: const Duration(seconds: 3),
                                       ),
@@ -644,8 +665,10 @@ class _SellerDashboardScreenState extends State<SellerDashboardScreen> {
 
                         if (state is ProductsellerdError) {
                           return Center(
-                            child: Text(state.message,
-                                style: const TextStyle(color: Colors.red)),
+                            child: Text(
+                              state.message,
+                              style: const TextStyle(color: Colors.red),
+                            ),
                           );
                         }
 
@@ -687,24 +710,36 @@ class _SellerDashboardScreenState extends State<SellerDashboardScreen> {
                 onTap: () => Navigator.pop(context),
                 child: const CircleAvatar(
                   backgroundColor: Colors.white24,
-                  child: Icon(Icons.arrow_back_ios_new, color: Colors.white, size: 18),
+                  child: Icon(
+                    Icons.arrow_back_ios_new,
+                    color: Colors.white,
+                    size: 18,
+                  ),
                 ),
               ),
               const SizedBox(width: 16),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(LocaleKeys.seller_dashboard.tr(),
-                      style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold)),
+                  Text(
+                    LocaleKeys.seller_dashboard.tr(),
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
                   Row(
                     children: [
                       const Icon(Icons.stars, color: Colors.amber, size: 16),
                       const SizedBox(width: 4),
-                      Text(LocaleKeys.expert_seller.tr(),
-                          style: const TextStyle(color: Colors.white70, fontSize: 12)),
+                      Text(
+                        LocaleKeys.expert_seller.tr(),
+                        style: const TextStyle(
+                          color: Colors.white70,
+                          fontSize: 12,
+                        ),
+                      ),
                     ],
                   ),
                 ],
@@ -715,14 +750,17 @@ class _SellerDashboardScreenState extends State<SellerDashboardScreen> {
                   Container(
                     margin: const EdgeInsets.only(right: 8),
                     decoration: const BoxDecoration(
-                        color: Colors.white24, shape: BoxShape.circle),
+                      color: Colors.white24,
+                      shape: BoxShape.circle,
+                    ),
                     child: IconButton(
                       icon: const Icon(Icons.add, color: Colors.white),
                       onPressed: () async {
                         final result = await Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (_) => const AddProductScreen()),
+                            builder: (_) => const AddProductScreen(),
+                          ),
                         );
                         if (result == true && mounted) {
                           _cubit.getProducts();
@@ -742,10 +780,27 @@ class _SellerDashboardScreenState extends State<SellerDashboardScreen> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              _buildStatCard(LocaleKeys.products.tr(), '24', Icons.inventory_2_outlined),
-              _buildStatCard(LocaleKeys.sales_count.tr(), '156', Icons.trending_up),
-              _buildStatCard(LocaleKeys.revenue.tr(), 'EGP 42k', Icons.attach_money),
-              _buildStatCard(LocaleKeys.sessions.tr(), '12', Icons.calendar_today, isSelected: true),
+              _buildStatCard(
+                LocaleKeys.products.tr(),
+                '24',
+                Icons.inventory_2_outlined,
+              ),
+              _buildStatCard(
+                LocaleKeys.sales_count.tr(),
+                '156',
+                Icons.trending_up,
+              ),
+              _buildStatCard(
+                LocaleKeys.revenue.tr(),
+                'EGP 42k',
+                Icons.attach_money,
+              ),
+              _buildStatCard(
+                LocaleKeys.sessions.tr(),
+                '12',
+                Icons.calendar_today,
+                isSelected: true,
+              ),
             ],
           ),
         ],
@@ -753,8 +808,12 @@ class _SellerDashboardScreenState extends State<SellerDashboardScreen> {
     );
   }
 
-  Widget _buildStatCard(String label, String value, IconData icon,
-      {bool isSelected = false}) {
+  Widget _buildStatCard(
+    String label,
+    String value,
+    IconData icon, {
+    bool isSelected = false,
+  }) {
     return Container(
       width: 75,
       padding: const EdgeInsets.symmetric(vertical: 12),
@@ -763,16 +822,26 @@ class _SellerDashboardScreenState extends State<SellerDashboardScreen> {
             ? Colors.white.withOpacity(0.2)
             : Colors.white.withOpacity(0.1),
         borderRadius: BorderRadius.circular(15),
-        border: isSelected ? Border.all(color: Colors.amber.withOpacity(0.5)) : null,
+        border: isSelected
+            ? Border.all(color: Colors.amber.withOpacity(0.5))
+            : null,
       ),
       child: Column(
         children: [
           Icon(icon, color: Colors.white70, size: 20),
           const SizedBox(height: 8),
-          Text(label, style: const TextStyle(color: Colors.white60, fontSize: 10)),
-          Text(value,
-              style: const TextStyle(
-                  color: Colors.white, fontSize: 14, fontWeight: FontWeight.bold)),
+          Text(
+            label,
+            style: const TextStyle(color: Colors.white60, fontSize: 10),
+          ),
+          Text(
+            value,
+            style: const TextStyle(
+              color: Colors.white,
+              fontSize: 14,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
         ],
       ),
     );
@@ -789,80 +858,191 @@ class _SellerDashboardScreenState extends State<SellerDashboardScreen> {
       child: Column(
         children: [
           Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Row(
-                children: [
-                  const Icon(Icons.calendar_month, color: Colors.amber),
-                  const SizedBox(width: 8),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children:  [
-                      Text(LocaleKeys.my_consultations.tr(),
-                          style: TextStyle(fontWeight: FontWeight.bold)),
-                      Text(LocaleKeys.new_requests.tr(args: ['2'],) ,// هتظهر: 2 new requests,
-                          style: TextStyle(color: Colors.grey, fontSize: 12)),
-                    ],
-                  ),
-                ],
+              CircleAvatar(
+                backgroundColor: Colors.amber,
+                child: const Icon(Icons.calendar_month, color: Colors.white),
               ),
+              const SizedBox(width: 12),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      LocaleKeys.my_consultations.tr(),
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                    Text(
+                      LocaleKeys.new_requests.tr(
+                        args: ['2'],
+                      ), // هتظهر: 2 new requests,
+                      style: TextStyle(color: Colors.grey, fontSize: 12),
+                    ),
+                  ],
+                ),
+              ),
+              // زر الإضافة المطلوب
+              GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (_) => BlocProvider(
+                        create: (context) => ExpertServiceCubit(),
+                        child: const AddServiceScreen(),
+                      ),
+                    ),
+                  );
+                },
+                child: Container(
+                  padding: const EdgeInsets.all(4),
+                  decoration: BoxDecoration(
+                    color: const Color(0xFF6B4F46),
+                    borderRadius: BorderRadius.circular(25),
+                  ),
+                  child: const Icon(Icons.add, color: Colors.white, size: 20),
+                ),
+              ),
+              const SizedBox(width: 8),
               TextButton(
-                onPressed: () {},
-                child:  Text(LocaleKeys.view_all.tr(),
-                    style: TextStyle(color: Colors.brown)),
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) {
+                        return MySessionsScreen();
+                      },
+                    ),
+                  );
+                },
+                style: TextButton.styleFrom(
+                  backgroundColor: const Color(0xFF6B4F46),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(25),
+                  ),
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                ),
+                child: Text(
+                  LocaleKeys.view_all.tr(),
+                  style: TextStyle(color: Colors.white),
+                ),
               ),
             ],
-          ),
-          const SizedBox(height: 12),
-          Container(
-            padding: const EdgeInsets.all(12),
-            decoration: BoxDecoration(
-                color: Colors.white, borderRadius: BorderRadius.circular(15)),
-            child: Row(
-              children: [
-                const CircleAvatar(
-                  backgroundColor: Color(0xFFF3EEE7),
-                  child: Icon(Icons.person, color: Colors.brown),
-                ),
-                const SizedBox(width: 12),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children:  [
-                      Text(LocaleKeys.seller_dashboard.tr(),
-                          style: TextStyle(fontWeight: FontWeight.bold)),
-                      Text(LocaleKeys. PotteryBasics.tr(),
-                          style: TextStyle(color: Colors.grey, fontSize: 12)),
-                    ],
-                  ),
-                ),
-                Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-                  decoration: BoxDecoration(
-                    color: Colors.amber.shade100,
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  child:  Text(LocaleKeys.add_new.tr(),
-                      style: TextStyle(
-                          color: Colors.orange,
-                          fontSize: 10,
-                          fontWeight: FontWeight.bold)),
-                ),
-              ],
-            ),
           ),
         ],
       ),
     );
   }
+  // Widget _buildConsultationsSection() {
+  //   return Container(
+  //     padding: const EdgeInsets.all(16),
+  //     decoration: BoxDecoration(
+  //       color: const Color(0xFFFDF8F1),
+  //       borderRadius: BorderRadius.circular(20),
+  //       border: Border.all(color: Colors.brown.withOpacity(0.1)),
+  //     ),
+  //     child: Column(
+  //       children: [
+  //         Row(
+  //           mainAxisAlignment: MainAxisAlignment.spaceBetween,
+  //           children: [
+  //             Row(
+  //               children: [
+  //                 const Icon(Icons.calendar_month, color: Colors.amber),
+  //                 const SizedBox(width: 8),
+  //                 Column(
+  //                   crossAxisAlignment: CrossAxisAlignment.start,
+  //                   children: [
+  //                     Text(
+  //                       LocaleKeys.my_consultations.tr(),
+  //                       style: TextStyle(fontWeight: FontWeight.bold),
+  //                     ),
+  //                     Text(
+  //                       LocaleKeys.new_requests.tr(
+  //                         args: ['2'],
+  //                       ), // هتظهر: 2 new requests,
+  //                       style: TextStyle(color: Colors.grey, fontSize: 12),
+  //                     ),
+  //                   ],
+  //                 ),
+  //               ],
+  //             ),
+  //             TextButton(
+  //               onPressed: () {},
+  //               child: Text(
+  //                 LocaleKeys.view_all.tr(),
+  //                 style: TextStyle(color: Colors.brown),
+  //               ),
+  //             ),
+  //           ],
+  //         ),
+  //         const SizedBox(height: 12),
+  //         Container(
+  //           padding: const EdgeInsets.all(12),
+  //           decoration: BoxDecoration(
+  //             color: Colors.white,
+  //             borderRadius: BorderRadius.circular(15),
+  //           ),
+  //           child: Row(
+  //             children: [
+  //               const CircleAvatar(
+  //                 backgroundColor: Color(0xFFF3EEE7),
+  //                 child: Icon(Icons.person, color: Colors.brown),
+  //               ),
+  //               const SizedBox(width: 12),
+  //               Expanded(
+  //                 child: Column(
+  //                   crossAxisAlignment: CrossAxisAlignment.start,
+  //                   children: [
+  //                     Text(
+  //                       LocaleKeys.seller_dashboard.tr(),
+  //                       style: TextStyle(fontWeight: FontWeight.bold),
+  //                     ),
+  //                     Text(
+  //                       LocaleKeys.PotteryBasics.tr(),
+  //                       style: TextStyle(color: Colors.grey, fontSize: 12),
+  //                     ),
+  //                   ],
+  //                 ),
+  //               ),
+  //               Container(
+  //                 padding: const EdgeInsets.symmetric(
+  //                   horizontal: 10,
+  //                   vertical: 4,
+  //                 ),
+  //                 decoration: BoxDecoration(
+  //                   color: Colors.amber.shade100,
+  //                   borderRadius: BorderRadius.circular(10),
+  //                 ),
+  //                 child: Text(
+  //                   LocaleKeys.add_new.tr(),
+  //                   style: TextStyle(
+  //                     color: Colors.orange,
+  //                     fontSize: 10,
+  //                     fontWeight: FontWeight.bold,
+  //                   ),
+  //                 ),
+  //               ),
+  //             ],
+  //           ),
+  //         ),
+  //       ],
+  //     ),
+  //   );
+  // }
 
   Widget _buildProductsHeader(BuildContext context) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-         Text(LocaleKeys.my_products.tr(),
-            style: TextStyle(
-                fontSize: 18, fontWeight: FontWeight.bold, color: Colors.brown)),
+        Text(
+          LocaleKeys.my_products.tr(),
+          style: TextStyle(
+            fontSize: 18,
+            fontWeight: FontWeight.bold,
+            color: Colors.brown,
+          ),
+        ),
         ElevatedButton(
           onPressed: () async {
             final result = await Navigator.push(
@@ -878,9 +1058,11 @@ class _SellerDashboardScreenState extends State<SellerDashboardScreen> {
             foregroundColor: Colors.brown,
             elevation: 0,
             side: const BorderSide(color: Colors.brown),
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(20),
+            ),
           ),
-          child:  Text(LocaleKeys.add_new.tr()),
+          child: Text(LocaleKeys.add_new.tr()),
         ),
       ],
     );
@@ -898,7 +1080,7 @@ class _SellerDashboardScreenState extends State<SellerDashboardScreen> {
         color: Colors.white,
         borderRadius: BorderRadius.circular(20),
         boxShadow: [
-          BoxShadow(color: Colors.black.withOpacity(0.02), blurRadius: 10)
+          BoxShadow(color: Colors.black.withOpacity(0.02), blurRadius: 10),
         ],
       ),
       child: Row(
@@ -923,14 +1105,24 @@ class _SellerDashboardScreenState extends State<SellerDashboardScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(product.name,
-                    style: const TextStyle(
-                        fontWeight: FontWeight.bold, fontSize: 14)),
-                Text('EGP ${product.price}',
-                    style: const TextStyle(
-                        color: Colors.brown, fontWeight: FontWeight.bold)),
-                Text('Stock: ${product.quantity}',
-                    style: const TextStyle(color: Colors.grey, fontSize: 12)),
+                Text(
+                  product.name,
+                  style: const TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 14,
+                  ),
+                ),
+                Text(
+                  'EGP ${product.price}',
+                  style: const TextStyle(
+                    color: Colors.brown,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                Text(
+                  'Stock: ${product.quantity}',
+                  style: const TextStyle(color: Colors.grey, fontSize: 12),
+                ),
               ],
             ),
           ),
@@ -939,7 +1131,8 @@ class _SellerDashboardScreenState extends State<SellerDashboardScreen> {
               final result = await Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (_) => EditProductScreen(product: product)),
+                  builder: (_) => EditProductScreen(product: product),
+                ),
               );
               if (result == true && mounted) {
                 _cubit.getProducts();
@@ -947,16 +1140,23 @@ class _SellerDashboardScreenState extends State<SellerDashboardScreen> {
             },
             style: OutlinedButton.styleFrom(
               shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12)),
+                borderRadius: BorderRadius.circular(12),
+              ),
               side: const BorderSide(color: Colors.brown),
             ),
-            child:  Text(LocaleKeys.edit.tr(),
-                style: TextStyle(color: Colors.brown, fontSize: 12)),
+            child: Text(
+              LocaleKeys.edit.tr(),
+              style: TextStyle(color: Colors.brown, fontSize: 12),
+            ),
           ),
           const SizedBox(width: 8),
           GestureDetector(
             onTap: onDelete,
-            child: const Icon(Icons.delete_outline, color: Colors.brown, size: 24),
+            child: const Icon(
+              Icons.delete_outline,
+              color: Colors.brown,
+              size: 24,
+            ),
           ),
         ],
       ),
@@ -974,10 +1174,14 @@ class _SellerDashboardScreenState extends State<SellerDashboardScreen> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-           Text(LocaleKeys.need_raw_materials.tr(),
-              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
-           Text(LocaleKeys.browse_supplies_desc.tr(),
-              style: TextStyle(color: Colors.grey, fontSize: 13)),
+          Text(
+            LocaleKeys.need_raw_materials.tr(),
+            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+          ),
+          Text(
+            LocaleKeys.browse_supplies_desc.tr(),
+            style: TextStyle(color: Colors.grey, fontSize: 13),
+          ),
           const SizedBox(height: 15),
           SizedBox(
             width: double.infinity,
@@ -986,11 +1190,14 @@ class _SellerDashboardScreenState extends State<SellerDashboardScreen> {
               style: ElevatedButton.styleFrom(
                 backgroundColor: const Color(0xFF8D6E63),
                 shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(15)),
+                  borderRadius: BorderRadius.circular(15),
+                ),
                 padding: const EdgeInsets.symmetric(vertical: 12),
               ),
-              child:  Text(LocaleKeys.browse_materials.tr(),
-                  style: TextStyle(color: Colors.white)),
+              child: Text(
+                LocaleKeys.browse_materials.tr(),
+                style: TextStyle(color: Colors.white),
+              ),
             ),
           ),
         ],

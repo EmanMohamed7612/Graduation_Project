@@ -267,5 +267,23 @@ abstract class  LocaleKeys {
   static const pickDateTime = 'pickDateTime';
   static const selectDate = 'selectDate';
   static const selectTime = 'selectTime';
+  static const paymentSummary = 'paymentSummary';
+  static const paymentMethod = 'paymentMethod';
+  static const creditCard = 'creditCard';
+  static const applePay = 'applePay';
+  static const consultationSetup = 'consultationSetup';
+  static const services = 'services';
+  static const timeslots = 'timeslots';
+  static const servicesPricing = 'servicesPricing';
+  static const availableTimeSlots = 'availableTimeSlots';
+  static const addNewService = 'addNewService';
+  static const serviceName = 'serviceName';
+  static const egPotteryBasicsCourse = 'egPotteryBasicsCourse';
+  static const durationmin = 'durationmin';
+  static const descriptionOptional = 'descriptionOptional';
+  static const briefdescription = 'briefdescription';
+  static const addService = 'addService';
+  static const addTimeSlot = 'addTimeSlot';
+  static const mySessions = 'mySessions';
 
 }

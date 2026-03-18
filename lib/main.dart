@@ -16,6 +16,7 @@ import 'package:graduation2/feauture/product/view/product_datails.dart';
 import 'package:graduation2/feauture/review/view/cart/cart_screen.dart';
 import 'package:graduation2/feauture/review/view/write_review.dart';
 import 'package:graduation2/feauture/session/view/book_sconsultation_screen.dart';
+import 'package:graduation2/feauture/session/view/my_consultation.dart';
 import 'package:graduation2/feauture/splash_screen/presentation/view/splash.dart';
 
 import 'core/utils/pref_helpers.dart';

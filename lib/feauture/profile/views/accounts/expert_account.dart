@@ -12,6 +12,8 @@ import 'package:graduation2/feauture/product_screens/manager/product_cubit.dart'
 import 'package:graduation2/feauture/review/data/review_service.dart';
 import 'package:graduation2/feauture/review/manager/review_cubit.dart';
 import 'package:graduation2/feauture/review/view/widgets/custom_star.dart';
+import 'package:graduation2/feauture/session/data/expert_repo.dart';
+import 'package:graduation2/feauture/session/manager/expert_service_cubit.dart';
 import 'package:graduation2/feauture/session/view/book_sconsultation_screen.dart';
 
 class ExpertAccount extends StatefulWidget {
@@ -222,7 +224,7 @@ class _ExpertAccountState extends State<ExpertAccount> {
                         ),
                         SizedBox(width: width * .03),
                         Container(
-                          width: 65,
+                          width: width * .13,
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(35),
                             gradient: LinearGradient(
@@ -319,13 +321,15 @@ class _ExpertAccountState extends State<ExpertAccount> {
                       child: GestureDetector(
                         onTap: () {
                           Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) {
-                                return BookingConsultationScreen();
-                              },
-                            ),
-                          );
+    context,
+    MaterialPageRoute(
+      builder: (context) => BlocProvider(
+        // تأكدي من إنشاء الـ Cubit هنا مع تمرير الـ Repo المناسب
+        create: (context) => ExpertServiceCubit(), 
+        child: BookingConsultationScreen(expertId: widget.user.id),
+      ),
+    ),
+  );
                         },
                         child: Center(
                           child: Row(

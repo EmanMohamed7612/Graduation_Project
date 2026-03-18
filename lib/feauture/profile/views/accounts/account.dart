@@ -244,7 +244,7 @@ class AccountScreen extends StatelessWidget {
               create: (_) =>
                   ProductCountCubit(ProductApiService())
                     ..fetchMyProductsCount(user.id),
-              child: SellerProfile(user: user),
+              child: JuniorAccount(user: user),
             );
           } else if (user.role == 'Expert') {
             return BlocProvider(
