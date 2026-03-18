@@ -19,7 +19,13 @@ class ExpertServiceError extends ExpertServiceState {
   ExpertServiceError(this.error);
 
 }
+// class ExpertServicesLoaded extends ExpertServiceState {
+//   final List<ServiceModel> services;
+//   ExpertServicesLoaded(this.services);
+// }
+
 class ExpertServicesLoaded extends ExpertServiceState {
   final List<ServiceModel> services;
-  ExpertServicesLoaded(this.services);
+  final List<TimeSlotModel> slots;
+  ExpertServicesLoaded({this.services = const [], this.slots = const []});
 }

@@ -25,8 +25,9 @@ class _BookingConsultationScreenState extends State<BookingConsultationScreen> {
   @override
   void initState() {
     super.initState();
-    context.read<ExpertServiceCubit>().fetchExpertServices(widget.expertId);
-    context.read<ExpertServiceCubit>().fetchTimeSlots(widget.expertId);
+    // context.read<ExpertServiceCubit>().fetchExpertServices(widget.expertId);
+    // context.read<ExpertServiceCubit>().fetchTimeSlots(widget.expertId);
+    context.read<ExpertServiceCubit>().fetchInitialData(widget.expertId);
   }
 
   @override
@@ -494,7 +495,7 @@ class _BookingConsultationScreenState extends State<BookingConsultationScreen> {
           return Center(child: Text(state.error));
         }
 
-        if (state is ExpertTimeSlotsLoaded) {
+        if (state is ExpertServicesLoaded) {
           // إذا لم توجد مواعيد فعلياً في الـ List
           if (state.slots.isEmpty) {
             return const Center(

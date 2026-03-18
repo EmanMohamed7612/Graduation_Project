@@ -137,7 +137,7 @@ class _ExpertAccountState extends State<ExpertAccount> {
               // SizedBox(height: height * .02),
               Container(
                 padding: const EdgeInsets.all(16),
-                height: height * .33,
+                height: height * .34,
                 color: Colors.white,
                 width: width,
                 child: Column(
@@ -224,7 +224,7 @@ class _ExpertAccountState extends State<ExpertAccount> {
                         ),
                         SizedBox(width: width * .03),
                         Container(
-                          width: width * .13,
+                          width: width * .14,
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(35),
                             gradient: LinearGradient(
@@ -305,7 +305,7 @@ class _ExpertAccountState extends State<ExpertAccount> {
                         ),
                       ),
                     ),
-                    SizedBox(height: height * .025),
+                    SizedBox(height: height * .026),
                     Container(
                       height: height * 0.04,
                       width: width,
@@ -321,15 +321,17 @@ class _ExpertAccountState extends State<ExpertAccount> {
                       child: GestureDetector(
                         onTap: () {
                           Navigator.push(
-    context,
-    MaterialPageRoute(
-      builder: (context) => BlocProvider(
-        // تأكدي من إنشاء الـ Cubit هنا مع تمرير الـ Repo المناسب
-        create: (context) => ExpertServiceCubit(), 
-        child: BookingConsultationScreen(expertId: widget.user.id),
-      ),
-    ),
-  );
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => BlocProvider(
+                                // تأكدي من إنشاء الـ Cubit هنا مع تمرير الـ Repo المناسب
+                                create: (context) => ExpertServiceCubit(),
+                                child: BookingConsultationScreen(
+                                  expertId: widget.user.id,
+                                ),
+                              ),
+                            ),
+                          );
                         },
                         child: Center(
                           child: Row(
