@@ -1,10 +1,15 @@
 
+
+// origin/book-session
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 
+
 import '../../../../category_screen/product_category.dart';
+
+//origin/book-session
 import '../../../manager/category_cubit.dart';
 import '../../../manager/category_state.dart';
 
@@ -26,6 +31,7 @@ class CategoriesList extends StatelessWidget {
               separatorBuilder: (_, __) => const SizedBox(width: 12),
               itemBuilder: (context, index) {
                 final category = state.categories[index];
+
                 return GestureDetector(
                   // ✅ إضافة خاصية الضغط للانتقال للصفحة
                     onTap: () {
@@ -38,6 +44,7 @@ class CategoriesList extends StatelessWidget {
                     },
 
                 child: Column(
+
                   children: [
                     // التصميم الجديد المربع مع زوايا مقوسة وظل
                     Container(
@@ -71,7 +78,9 @@ class CategoriesList extends StatelessWidget {
                       ),
                     ),
                   ],
-                )
+
+//origin/book-session
+)
                 );
               },
             ),

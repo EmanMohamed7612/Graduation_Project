@@ -1,4 +1,8 @@
+
 /*class materialsupplierdashboardModel {
+=======
+class materialsupplierdashboardModel {
+>>>>>>> origin/book-session
   final int id;
   final String name;
   final double price;
@@ -30,6 +34,7 @@
       categoryId: json['categoryId'] ?? 0,
       categoryName: json['categoryName'] ?? '',    );
   }
+
 }*/
 class materialsupplierdashboardModel {
   final int id;
@@ -77,4 +82,6 @@ class materialsupplierdashboardModel {
       categoryName: getValue(json, 'categoryName') ?? '',
     );
   }
+
+
 }

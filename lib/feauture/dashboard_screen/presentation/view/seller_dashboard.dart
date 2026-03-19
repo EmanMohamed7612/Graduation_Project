@@ -860,7 +860,7 @@ class _SellerDashboardScreenState extends State<SellerDashboardScreen> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-         Text(LocaleKeys.my_products.tr(),
+        Text(LocaleKeys.my_products.tr(),
             style: TextStyle(
                 fontSize: 18, fontWeight: FontWeight.bold, color: Colors.brown)),
         ElevatedButton(
@@ -974,9 +974,9 @@ class _SellerDashboardScreenState extends State<SellerDashboardScreen> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-           Text(LocaleKeys.need_raw_materials.tr(),
+          Text(LocaleKeys.need_raw_materials.tr(),
               style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
-           Text(LocaleKeys.browse_supplies_desc.tr(),
+          Text(LocaleKeys.browse_supplies_desc.tr(),
               style: TextStyle(color: Colors.grey, fontSize: 13)),
           const SizedBox(height: 15),
           SizedBox(

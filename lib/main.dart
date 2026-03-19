@@ -16,9 +16,13 @@ import 'package:graduation2/feauture/product/view/product_datails.dart';
 import 'package:graduation2/feauture/review/view/cart/cart_screen.dart';
 import 'package:graduation2/feauture/review/view/write_review.dart';
 import 'package:graduation2/feauture/session/view/book_sconsultation_screen.dart';
+
+import 'package:graduation2/feauture/session/view/my_consultation.dart';
+
 import 'package:graduation2/feauture/splash_screen/presentation/view/splash.dart';
 
 import 'core/utils/pref_helpers.dart';
+
 
 import 'feauture/favourite/manager/favourite_cubit.dart';
 import 'feauture/home/manager/category_cubit.dart';
@@ -29,6 +33,10 @@ import 'feauture/material_screen/manager/cubit_materialcategory.dart';
 import 'feauture/material_screen/manager/material_api_services.dart';
 import 'feauture/material_screen/manager/material_cubit.dart';
 import 'feauture/material_screen/manager/repo_material_imp.dart';
+import 'feauture/home/manager/category_cubit.dart';
+import 'feauture/home/manager/fav_apiserves.dart';
+import 'feauture/language/lnguage_view.dart';
+
 import 'feauture/product/data/product_details_repo.dart';
 import 'feauture/product/manager/product_details_cubit.dart';
 import 'feauture/product_screens/data/repo/repo_product.dart';
@@ -77,6 +85,7 @@ class CratoriaApp extends StatelessWidget {
             ),
           ),
         ),
+
         BlocProvider(
           create: (context) => DeletematerialCubit(
             repomaterial: RepomaterialImple(
@@ -84,6 +93,7 @@ class CratoriaApp extends StatelessWidget {
             ),
           ),
         ),
+
         BlocProvider(create: (_) => AuthCubit(ApiService())),
         BlocProvider(
           create: (context) =>
@@ -97,6 +107,7 @@ class CratoriaApp extends StatelessWidget {
           ),
         ),
         BlocProvider(
+
           create: (context) => CreatematerialCubit(
             repomaterial: RepomaterialImple(
               materialApiService: MaterialApiService(),
@@ -104,6 +115,7 @@ class CratoriaApp extends StatelessWidget {
           ),
         ),
         BlocProvider(
+
           create: (context) =>
               CategoryCubit(ProductApiService())..fetchCategories(),
         ),
@@ -114,6 +126,7 @@ class CratoriaApp extends StatelessWidget {
             ),
           ),
         ),
+
         BlocProvider(
           create: (context) => UpdatematerialCubit(
             repomaterial: RepomaterialImple(
@@ -121,6 +134,8 @@ class CratoriaApp extends StatelessWidget {
             ),
           ),
         ),
+
+
         BlocProvider<ProductDetailsCubit>(
           create: (_) => ProductDetailsCubit(ProductDetailsRepo()),
         ),
@@ -128,6 +143,7 @@ class CratoriaApp extends StatelessWidget {
           create: (context) =>
               CategoryCubit(ProductApiService())..fetchCategories(),
         ),
+
         BlocProvider(
           create: (context) =>
           CategorymaterialCubit(MaterialApiService())..fetchmaterialCategories(),
@@ -136,6 +152,10 @@ class CratoriaApp extends StatelessWidget {
         BlocProvider(
           create: (context) => FavoriteCubit(FavoriteApiService(DioClient())),
         ),
+        // BlocProvider<CartCubit>(create: (_) => CartCubit(repo: CartRepo(), cartId: 0)),
+
+
+
         // BlocProvider<CartCubit>(create: (_) => CartCubit(repo: CartRepo(), cartId: 0)),
 
       ],

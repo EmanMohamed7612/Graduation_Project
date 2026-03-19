@@ -1,7 +1,10 @@
+
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:graduation2/generated/locale_keys.g.dart';
+
+
 import 'package:image_picker/image_picker.dart';
 import 'package:graduation2/feauture/product_screens/presentation/view/addprodect_screen/widget/input_field.dart';
 import 'dart:io';
@@ -21,10 +24,12 @@ class AddmaterialScreen extends StatefulWidget {
   const AddmaterialScreen({super.key});
 
   @override
+
   State<AddmaterialScreen> createState() => _AddmaterialScreenState();
 }
 
 class _AddmaterialScreenState extends State<AddmaterialScreen> {
+
 
   final nameController = TextEditingController();
   final nameArController = TextEditingController();
@@ -32,12 +37,14 @@ class _AddmaterialScreenState extends State<AddmaterialScreen> {
   final stockController = TextEditingController();
   final descriptionController = TextEditingController();
   final tagController = TextEditingController();
+
   @override
   void initState() {
     super.initState();
     // هذا السطر هو المسؤول عن إرسال الأمر للـ API لجلب البيانات
     context.read<CategorymaterialCubit>().fetchmaterialCategories();
   }
+
 
   File? _selectedImage;
   final ImagePicker _picker = ImagePicker();
@@ -83,9 +90,13 @@ class _AddmaterialScreenState extends State<AddmaterialScreen> {
           icon: const Icon(Icons.arrow_back_ios, color: Colors.brown),
           onPressed: () => Navigator.pop(context),
         ),
+
         title: Text(
           "add material",
           style: const TextStyle(color: Colors.brown, fontWeight: FontWeight.w600),
+
+
+
         ),
         centerTitle: true,
       ),
@@ -120,7 +131,9 @@ class _AddmaterialScreenState extends State<AddmaterialScreen> {
                     controller: nameController,
                   ),
                   const SizedBox(height: 16),
+
                   _buildLabel(LocaleKeys.product_name_ar.tr()),
+
                   CustomTextField(
                     hint: 'مثال: خشب',
                     controller: nameArController,
@@ -130,7 +143,10 @@ class _AddmaterialScreenState extends State<AddmaterialScreen> {
                     children: [
                       Expanded(
                         child: _buildNumericField(
+
                           LocaleKeys.price_egp.tr(),
+
+
                           '0.00',
                           priceController,
                         ),
@@ -138,7 +154,10 @@ class _AddmaterialScreenState extends State<AddmaterialScreen> {
                       const SizedBox(width: 12),
                       Expanded(
                         child: _buildNumericField(
+
                           LocaleKeys.stock.tr(),
+
+
                           '0',
                           stockController,
                         ),
@@ -146,6 +165,7 @@ class _AddmaterialScreenState extends State<AddmaterialScreen> {
                     ],
                   ),
                   const SizedBox(height: 12),
+
                   _buildLabel(LocaleKeys.category.tr()),
                   const SizedBox(height: 6),
                   BlocBuilder<CategorymaterialCubit, CategorymaterialState>(
@@ -162,6 +182,8 @@ class _AddmaterialScreenState extends State<AddmaterialScreen> {
                       final categories =
                       CategorymaterialState is CategorymaterialSuccess
                           ? CategorymaterialState.categories
+
+
                           : <CategoriesModel>[];
 
                       return DropdownButtonFormField<int>(
@@ -193,13 +215,18 @@ class _AddmaterialScreenState extends State<AddmaterialScreen> {
                   _buildLabel(LocaleKeys.description.tr()),
                   CustomTextField(
                     hint: LocaleKeys.describeyourproduct.tr(),
+
+
                     maxLines: 4,
                     controller: descriptionController,
                   ),
                   const SizedBox(height: 12),
+
                   _buildLabel(LocaleKeys.tags.tr()),
                   const SizedBox(height: 8),
                   _buildLabel(LocaleKeys.suggested.tr()),
+
+
                   const SizedBox(height: 8),
                   Wrap(
                     spacing: 12,
@@ -233,7 +260,10 @@ class _AddmaterialScreenState extends State<AddmaterialScreen> {
                     children: [
                       Expanded(
                         child: CustomTextField(
+
                           hint: LocaleKeys.add_custom_tag.tr(),
+
+
                           controller: tagController,
                         ),
                       ),
@@ -353,7 +383,10 @@ class _AddmaterialScreenState extends State<AddmaterialScreen> {
               ),
               padding: const EdgeInsets.symmetric(vertical: 14),
             ),
+
             onPressed: () => Navigator.pop(context,true),
+
+
             child: const Text('Cancel', style: TextStyle(color: Colors.brown)),
           ),
         ),
@@ -798,6 +831,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
   }
 }*/
 
+
 /*import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
@@ -1195,5 +1229,6 @@ class _AddProductScreenState extends State<AddmaterialScreen> {
     );
   }
 }*/
+
 
 

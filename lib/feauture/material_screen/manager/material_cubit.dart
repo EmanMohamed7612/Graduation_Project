@@ -48,7 +48,11 @@ class UpdatematerialCubit extends Cubit<UpdatematerialState> {
 
   UpdatematerialCubit({required this.repomaterial}) : super(UpdatesupplierInitialState());
 
+
   Future<void> updatematerial(UpdatematerialRequestModel model) async {
+
+
+
     emit(UpdatesupplierLoadingState());
     final result = await repomaterial.updatematerial(model);
     result.fold(
@@ -65,7 +69,11 @@ class DeletematerialCubit extends Cubit<DeletematerialState> {
 
   DeletematerialCubit({required this.repomaterial}) : super(DeletesupplierInitialState());
 
+
   Future<void> deletematerial(int id) async {
+
+
+
     emit(DeletesupplierLoadingState());
     final result = await repomaterial.deletematerial(id);
     result.fold(

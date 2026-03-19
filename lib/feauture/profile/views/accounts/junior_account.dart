@@ -220,7 +220,8 @@ class _JuniorAccountState extends State<JuniorAccount> {
                         ),
                         SizedBox(width: width * .03),
                         Container(
-                          width: width * .12,
+
+                          width: width * .14,
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(35),
                             gradient: LinearGradient(

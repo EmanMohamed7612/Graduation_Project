@@ -340,7 +340,29 @@
   "pickDateTime":"Pick Date & Time",
   "selectDate":"Select Date",
   "selectTime":"Select Time",
+
   "Productdeletedsuccess": "Product deleted success"
+
+  "paymentSummary":"Payment Summary",
+  "paymentMethod":"Payment Method",
+  "creditCard":"Credit Card",
+  "applePay":"Apple Pay",
+  "consultationSetup":"Consultation Setup",
+  "services":"Services",
+  "timeslots":"time slots",
+  "servicesPricing":"Services & Pricing",
+  "availableTimeSlots":"Available Time Slots",
+  "addNewService":"Add New Service",
+  "serviceName":"Service Name",
+  "egPotteryBasicsCourse":"e.g., Pottery Basics Course",
+  "durationmin":"Duration (min)",
+  "descriptionOptional":"Description (Optional)",
+  "briefdescription":"Brief description...",
+  "addService":"Add Service",
+  "addTimeSlot":"Add Time Slot",
+  "mySessions":"My Sessions"
+
+
 
 
 }

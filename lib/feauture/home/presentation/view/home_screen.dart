@@ -140,9 +140,14 @@ import 'package:graduation2/feauture/home/presentation/view/widget/section_title
 import 'package:graduation2/feauture/home/presentation/view/widget/top_sellers_list.dart';
 
 
+
 import '../../../../core/rescources/colors.dart';
 import '../../../../generated/locale_keys.g.dart';
 import '../../../category_screen/product_category.dart';
+
+import '../../../../core/rescources/colors.dart';
+import '../../../../generated/locale_keys.g.dart';
+ //origin/book-session
 import '../../../product_screens/manager/prodect_apiservice.dart';
 import '../../../product_screens/manager/product_cubit.dart';
 import '../../../product_screens/presentation/view/getall_seller_screen.dart';
@@ -188,6 +193,12 @@ class _HomeScreenState extends State<HomeScreen> {
 
 
 
+
+        BlocProvider(
+          create: (_) => FavoriteCubit(FavoriteApiService(DioClient())),
+        ),
+//origin/book-session
+
         BlocProvider(
           create: (context) => CartCubit(
             repo: CartRepo(),
@@ -215,6 +226,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 const SearchBarWidget(),
                 const SizedBox(height: 20),
 
+
                 SectionTitle(
                   title: LocaleKeys.categories.tr(),
                   trailing: LocaleKeys.see_all.tr(), // ✅ أضفنا الكلمة اللي هتظهر (See All)
@@ -228,6 +240,9 @@ class _HomeScreenState extends State<HomeScreen> {
                     );
                   },
                 ),
+
+                 SectionTitle(title:LocaleKeys.categories.tr()),
+ //origin/book-session
                 const SizedBox(height: 12),
 
                 const CategoriesList(),

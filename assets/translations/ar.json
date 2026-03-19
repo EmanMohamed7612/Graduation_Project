@@ -273,6 +273,27 @@
   "pickDateTime":"اختر التاريخ والوقت",
   "selectDate":"حدد التاريخ",
   "selectTime":"حدد الوقت",
+
   "Productdeletedsuccess": "تم حذف المنتج بنجاح"
+
+  "paymentSummary":"ملخص الدفع",
+  "paymentMethod":"طريقة الدفع",
+  "creditCard":"بطاقة إئتمان",
+  "applePay":"أبل الدفع",
+  "consultationSetup":"إعداد التشاور",
+  "services":"خدمات",
+  "timeslots":"فتحات زمنية",
+  "servicesPricing":"الخدمات والتسعير",
+  "availableTimeSlots":"الفترات الزمنية المتاحة",
+  "addNewService":"إضافة خدمة جديدة",
+  "serviceName":"اسم الخدمة",
+  "egPotteryBasicsCourse":"مثال: دورة أساسيات صناعة الفخار",
+  "durationmin":"المدة (بالدقائق)",
+  "descriptionOptional":"الوصف (اختياري)",
+  "briefdescription":"وصف مختصر...",
+  "addService":"إضافة خدمة ",
+  "addTimeSlot":"إضافة فتحة زمنية",
+  "mySessions":"جلساتي"
+
 
 }

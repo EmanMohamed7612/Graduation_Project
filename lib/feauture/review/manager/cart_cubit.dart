@@ -23,7 +23,8 @@ class CartCubit extends Cubit<CartState> {
   }
 
   /// 🔹 Add Item
-  /*Future<void> addItem(int itemId) async {
+
+  Future<void> addItem(int itemId) async {
     try {
       final cart = await repo.addItem(
         cartId: cartId,
@@ -34,78 +35,51 @@ class CartCubit extends Cubit<CartState> {
     } catch (e) {
       emit(CartError(e.toString()));
     }
-  }*/
-  Future<void> addItem(int itemId) async {
-    try {
-      await repo.addItem(
-        cartId: cartId,
-        itemId: itemId,
-      );
-
-      await loadCart(); // 👈 ده بس
-    } catch (e) {
-      emit(CartError(e.toString()));
-    }
   }
 
-  /// 🔹 Increase / Decrease
-  /*Future<void> updateQuantity({
-    required int productId,
-    required bool isIncrement,
-    required String cartId,
-  }) async {
-    try {
-      final cart = await repo.updateQuantity(
-        cartId: cartId,
-        productId: productId,
-        isIncrement: isIncrement,
-      );
-      emit(CartLoaded(cart));
-    } catch (e) {
-      emit(CartError(e.toString()));
-    }
-  }*/
-  Future<void> updateQuantity({
-    required int productId,
-    required bool isIncrement,
-    required String cartId,
-  }) async {
-    try {
-      await repo.updateQuantity(
-        cartId: cartId,
-        productId: productId,
-        isIncrement: isIncrement,
-      );
+    /// 🔹 Increase / Decrease
+    Future<void> updateQuantity({
 
-      await loadCart(); // 👈 مهم
-    } catch (e) {
-      emit(CartError(e.toString()));
-    }
-  }
-
-  /// 🔹 Delete
-  Future<void> deleteItem(int itemId) async {
-    try {
-      final cart = await repo.deleteItem(
-        cartId: cartId,
-        itemId: itemId,
-      );
-
-      if (cart != null) {
-        //emit(CartLoaded(cart));
-        await loadCart();
+      required int productId,
+      required bool isIncrement,
+      required String cartId,
+    }) async {
+      try {
+        final cart = await repo.updateQuantity(
+          cartId: cartId,
+          productId: productId,
+          isIncrement: isIncrement,
+        );
+        emit(CartLoaded(cart));
+      } catch (e) {
+        emit(CartError(e.toString()));
       }
-    } catch (e) {
-      emit(CartError(e.toString()));
     }
-  }
-  bool isInCart(int productId) {
-    if (state is CartLoaded) {
-      final items = (state as CartLoaded).cart.cartItems;
-      return items.any((item) => item.id == productId);
+
+
+    /// 🔹 Delete
+    Future<void> deleteItem(int itemId) async {
+      try {
+        final cart = await repo.deleteItem(
+          cartId: cartId,
+          itemId: itemId,
+        );
+
+        if (cart != null) {
+          emit(CartLoaded(cart));
+        }
+      } catch (e) {
+        emit(CartError(e.toString()));
+      }
     }
-    return false;
-  }
+    bool isInCart(int productId) {
+      if (state is CartLoaded) {
+        final items = (state as CartLoaded).cart.cartItems;
+        return items.any((item) => item.id == productId);
+      }
+      return false;
+    }
+
   Future<void> toggleCartItem(int productId) async {
     try {
 

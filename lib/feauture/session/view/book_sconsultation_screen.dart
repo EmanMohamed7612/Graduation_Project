@@ -1,9 +1,19 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:graduation2/feauture/session/manager/expert_service_cubit.dart';
+import 'package:graduation2/feauture/session/manager/expert_service_state.dart';
+
 import 'package:graduation2/feauture/session/view/widgets/service_card.dart';
 import 'package:graduation2/generated/locale_keys.g.dart';
 
 class BookingConsultationScreen extends StatefulWidget {
+
+  final String expertId;
+
+  const BookingConsultationScreen({super.key, required this.expertId});
+
   @override
   _BookingConsultationScreenState createState() =>
       _BookingConsultationScreenState();
@@ -17,6 +27,16 @@ class _BookingConsultationScreenState extends State<BookingConsultationScreen> {
   String? selectedService;
   // القيمة null في البداية يعني مفيش اختيار// الوقت الافتراضي
   @override
+
+  void initState() {
+    super.initState();
+    // context.read<ExpertServiceCubit>().fetchExpertServices(widget.expertId);
+    // context.read<ExpertServiceCubit>().fetchTimeSlots(widget.expertId);
+    context.read<ExpertServiceCubit>().fetchInitialData(widget.expertId);
+  }
+
+  @override
+
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
     return Scaffold(
@@ -150,56 +170,85 @@ class _BookingConsultationScreenState extends State<BookingConsultationScreen> {
 
   // الصفحة 1
   Widget _buildServiceSelection() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          LocaleKeys.selectServiceType.tr(),
-          style: TextStyle(
-            color: const Color(0xFF3E2723),
-            fontSize: 15.75,
-            fontFamily: 'Arimo',
-            fontWeight: FontWeight.w400,
-          ),
-        ),
-        SizedBox(height: 20),
-        // نغلف كل كارت بـ GestureDetector أو نعدل الكارت نفسه
-        _buildSelectableServiceCard(
-          "Technique Consultation",
-          "60 min",
-          "50 EGP",
-        ),
-        SizedBox(height: 15),
-        _buildSelectableServiceCard("Portfolio Review", "45 min", "40 EGP"),
-        SizedBox(height: 15),
-        _buildSelectableServiceCard("Business Guidance", "30 min", "30 EGP"),
-      ],
-    );
-  }
 
-  // ميثود مساعدة لربط الكارت بالضغط
-  Widget _buildSelectableServiceCard(String title, String time, String price) {
-    double height = MediaQuery.of(context).size.height;
-    bool isThisSelected = selectedService == title;
-    return GestureDetector(
-      onTap: () {
-        setState(() {
-          selectedService = isThisSelected ? null : title;
-        });
+    return BlocBuilder<ExpertServiceCubit, ExpertServiceState>(
+      buildWhen: (previous, current) =>
+          current is ExpertServicesLoaded || current is ExpertServiceLoading,
+      builder: (context, state) {
+        if (state is ExpertServiceLoading) {
+          return const Center(child: CircularProgressIndicator());
+        } else if (state is ExpertServiceError) {
+          return Center(child: Text(state.error));
+        } else if (state is ExpertServicesLoaded) {
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                LocaleKeys.selectServiceType.tr(),
+                style: TextStyle(
+                  color: const Color(0xFF3E2723),
+                  fontSize: 15.75,
+                  fontFamily: 'Arimo',
+                  fontWeight: FontWeight.w400,
+                ),
+              ),
+              SizedBox(height: 20),
+
+              ListView.separated(
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                itemCount: state.services.length,
+                separatorBuilder: (_, __) => const SizedBox(height: 15),
+                itemBuilder: (context, index) {
+                  var service = state.services[index];
+                  bool isThisSelected = selectedService == service.title;
+
+                  return GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        selectedService = isThisSelected ? null : service.title;
+                        // نصيحة: يفضل تخزني الـ service.id مش الـ title بس عشان الحجز
+                      });
+                    },
+                    child: Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(15),
+                        border: Border.all(
+                          color: isThisSelected
+                              ? const Color(0xFF6D4C41)
+                              : Colors.transparent,
+                          width: 2,
+                        ),
+                      ),
+                      child: ServiceCard(
+                        title: service.title,
+                        time: "${service.durationInMinutes} min",
+                        price: "${service.price} EGP",
+                      ),
+                    ),
+                  );
+                },
+              ),
+              // نغلف كل كارت بـ GestureDetector أو نعدل الكارت نفسه
+              // _buildSelectableServiceCard(
+              //   "Technique Consultation",
+              //   "60 min",
+              //   "50 EGP",
+              // ),
+              // SizedBox(height: 15),
+              // _buildSelectableServiceCard("Portfolio Review", "45 min", "40 EGP"),
+              // SizedBox(height: 15),
+              // _buildSelectableServiceCard(
+              //   "Business Guidance",
+              //   "30 min",
+              //   "30 EGP",
+              // ),
+            ],
+          );
+        }
+        return SizedBox();
       },
-      child: Container(
-        height: 120,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(15),
-          border: Border.all(
-            color: isThisSelected
-                ? const Color(0xFF6D4C41)
-                : Colors.transparent,
-            //  width: 2,
-          ),
-        ),
-        child: ServiceCard(title: title, time: time, price: price),
-      ),
+
     );
   }
 
@@ -209,11 +258,14 @@ class _BookingConsultationScreenState extends State<BookingConsultationScreen> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          "Payment Summary",
+
+          LocaleKeys.paymentSummary.tr(),
           style: TextStyle(
-            fontSize: 20,
-            fontWeight: FontWeight.bold,
-            color: Colors.brown[900],
+            color: const Color(0xFF3E2723),
+            fontSize: 15.75,
+            fontFamily: 'Arimo',
+            fontWeight: FontWeight.w400,
+
           ),
         ),
         SizedBox(height: 20),
@@ -254,13 +306,23 @@ class _BookingConsultationScreenState extends State<BookingConsultationScreen> {
         ),
 
         SizedBox(height: 30),
-        Text("Payment Method", style: TextStyle(color: Colors.brown[400])),
+
+        Text(
+          LocaleKeys.paymentMethod.tr(),
+          style: TextStyle(
+            color: const Color(0xFF8D6E63),
+            fontSize: 12.25,
+            fontFamily: 'Arimo',
+            fontWeight: FontWeight.w400,
+          ),
+        ),
         SizedBox(height: 15),
 
         // اختيار وسيلة الدفع
-        _paymentOption("Credit Card", Icons.credit_card),
+        _paymentOption(LocaleKeys.creditCard.tr(), Icons.credit_card),
         SizedBox(height: 10),
-        _paymentOption("Apple Pay", Icons.apple),
+        _paymentOption(LocaleKeys.applePay.tr(), Icons.apple),
+
       ],
     );
   }
@@ -269,12 +331,24 @@ class _BookingConsultationScreenState extends State<BookingConsultationScreen> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Text(label, style: TextStyle(color: Colors.grey[600])),
+
+        Text(
+          label,
+          style: TextStyle(
+            color: const Color(0xFF8D6E63),
+            fontSize: 12.25,
+            fontFamily: 'Arimo',
+            fontWeight: FontWeight.w400,
+          ),
+        ),
         Text(
           value,
           style: TextStyle(
-            fontWeight: FontWeight.w500,
-            color: Colors.brown[900],
+            color: const Color(0xFF3E2723),
+            fontSize: 12.25,
+            fontFamily: 'Arimo',
+            fontWeight: FontWeight.w400,
+
           ),
         ),
       ],
@@ -307,7 +381,9 @@ class _BookingConsultationScreenState extends State<BookingConsultationScreen> {
           children: [
             Icon(
               icon,
-              color: isSelected ? const Color(0xFF6D4C41) : Colors.black,
+
+              color: isSelected ? const Color(0xff6D4C41) : Colors.black,
+
             ),
             SizedBox(width: 15),
             Text(
@@ -354,6 +430,9 @@ class _BookingConsultationScreenState extends State<BookingConsultationScreen> {
     } else if (currentStep == 2) {
       // الصفحة الثانية: لازم يختار تاريخ وكمان وقت
       isEnabled = selectedDate != null && selectedTime != null;
+
+      // context.read<ExpertServiceCubit>().fetchTimeSlots(widget.expertId);
+
     } else if (currentStep == 3) {
       // الزر لن يعمل في الصفحة الثالثة إلا إذا تم اختيار وسيلة دفع
       isEnabled = selectedPaymentMethod != null;
@@ -419,91 +498,240 @@ class _BookingConsultationScreenState extends State<BookingConsultationScreen> {
   }
 
   Widget _buildDateTimeSelection() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          LocaleKeys.pickDateTime.tr(),
-          style: TextStyle(
-            color: const Color(0xFF3E2723),
-            fontSize: 15.75,
-            fontFamily: 'Arimo',
-            fontWeight: FontWeight.w400,
-          ),
-        ),
-        SizedBox(height: 20),
-        Text(
-          LocaleKeys.selectDate.tr(),
-          style: TextStyle(
-            color: const Color(0xFF8D6E63),
-            fontSize: 12.25,
-            fontFamily: 'Arimo',
-            fontWeight: FontWeight.w400,
-          
-          ),
-        ),
-        SizedBox(height: 10),
 
-        // SingleChildScrollView(
-        //   scrollDirection: Axis.horizontal,
-        //   child: Row(
-        //     children: [
-        //       _dateCard("Mon", "12"),
-        //       _dateCard("Tue", "13"),
-        //       _dateCard("Wed", "14"),
-        //       _dateCard("Thu", "15"),
-        //       _dateCard("Fri", "16"),
-        //     ],
-        //   ),
-        // ),
-        Wrap(
-          spacing: 10,
-          runSpacing: 10,
-          children: [
-            _dateCard("Mon", "12"),
-            _dateCard("Tue", "13"),
-            _dateCard("Wed", "14"),
-            _dateCard("Thu", "15"),
-            _dateCard("Fri", "16"),
-          ],
-        ),
-        SizedBox(height: 25),
-        Text(
-          LocaleKeys.selectTime.tr(),
-          style: TextStyle(
-            color: const Color(0xFF8D6E63),
-            fontSize: 12.25,
-            fontFamily: 'Arimo',
-            fontWeight: FontWeight.w400,
-          ),
-        ),
-        SizedBox(height: 15),
+    return BlocBuilder<ExpertServiceCubit, ExpertServiceState>(
+      // نحدد امتى الـ UI ده يعيد بناء نفسه
+      buildWhen: (previous, current) =>
+          current is ExpertTimeSlotsLoaded ||
+          current is ExpertServiceLoading ||
+          current is ExpertServiceError,
+      builder: (context, state) {
+        if (state is ExpertServiceLoading) {
+          return const Center(child: CircularProgressIndicator());
+        }
 
-        Wrap(
-          spacing: 10,
-          runSpacing: 10,
-          children: [
-            _timeChip("9:00 AM"),
-            _timeChip("10:00 AM"),
-            _timeChip("11:00 AM"),
-            _timeChip("1:00 PM"),
-            _timeChip("2:00 PM"),
-            _timeChip("3:00 PM"),
-            _timeChip("4:00 PM"),
-          ],
-        ),
-      ],
+        if (state is ExpertServiceError) {
+          return Center(child: Text(state.error));
+        }
+
+        if (state is ExpertServicesLoaded) {
+          // إذا لم توجد مواعيد فعلياً في الـ List
+          if (state.slots.isEmpty) {
+            return const Center(
+              child: Text("No time slots available for this expert"),
+            );
+          }
+
+          final dates = state.slots.map((s) => s.date).toSet().toList();
+
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                LocaleKeys.pickDateTime.tr(),
+                style: TextStyle(
+                  color: const Color(0xFF3E2723),
+                  fontSize: 15.75,
+                  fontFamily: 'Arimo',
+                  fontWeight: FontWeight.w400,
+                ),
+              ),
+              const SizedBox(height: 20),
+              Text(
+                LocaleKeys.selectDate.tr(),
+                style: TextStyle(
+                  color: const Color(0xFF8D6E63),
+                  fontSize: 12.25,
+                  fontFamily: 'Arimo',
+                  fontWeight: FontWeight.w400,
+                ),
+              ),
+              const SizedBox(height: 10),
+              Wrap(
+                spacing: 10,
+                runSpacing: 10,
+                children: dates.map((d) {
+                  DateTime parsedDate = DateTime.parse(d);
+                  String dayName = DateFormat('E').format(parsedDate);
+                  String dayNumber = DateFormat('d').format(parsedDate);
+                  return _dateCard(dayName, dayNumber, fullDate: d);
+                }).toList(),
+              ),
+              const SizedBox(height: 25),
+              if (selectedDate != null) ...[
+                Text(
+                  LocaleKeys.selectTime.tr(),
+                  style: TextStyle(
+                    color: const Color(0xFF8D6E63),
+                    fontSize: 12.25,
+                    fontFamily: 'Arimo',
+                    fontWeight: FontWeight.w400,
+                  ),
+                ),
+                const SizedBox(height: 15),
+                Wrap(
+                  spacing: 10,
+                  runSpacing: 10,
+                  children: state.slots
+                      .where((s) => s.date == selectedDate)
+                      .map((s) => _timeChip(s.startTime))
+                      .toList(),
+                ),
+              ],
+            ],
+          );
+        }
+
+        // في حالة كانت الـ State هي ExpertServicesLoaded (بتاعة الخطوة الأولى)
+        // والبيانات لسه محملتش للخطوة دي:
+        return const Center(child: CircularProgressIndicator());
+      },
     );
   }
+  // Widget _buildDateTimeSelection() {
+  //   return BlocBuilder<ExpertServiceCubit, ExpertServiceState>(
+  //     builder: (context, state) {
+  //       if (state is ExpertServiceLoading) {
+  //         return const Center(child: CircularProgressIndicator());
+  //       } else if (state is ExpertTimeSlotsLoaded) {
+  //         // تجميع التواريخ الفريدة المتاحة
+  //         final dates = state.slots.map((s) => s.date).toSet().toList();
+  //         return Column(
+  //           crossAxisAlignment: CrossAxisAlignment.start,
+  //           children: [
+  //             Text(
+  //               LocaleKeys.pickDateTime.tr(),
+  //               style: TextStyle(
+  //                 color: const Color(0xFF3E2723),
+  //                 fontSize: 15.75,
+  //                 fontFamily: 'Arimo',
+  //                 fontWeight: FontWeight.w400,
+  //               ),
+  //             ),
+  //             SizedBox(height: 20),
+  //             Text(
+  //               LocaleKeys.selectDate.tr(),
+  //               style: TextStyle(
+  //                 color: const Color(0xFF8D6E63),
+  //                 fontSize: 12.25,
+  //                 fontFamily: 'Arimo',
+  //                 fontWeight: FontWeight.w400,
+  //               ),
+  //             ),
+  //             SizedBox(height: 10),
+
+  //             // SingleChildScrollView(
+  //             //   scrollDirection: Axis.horizontal,
+  //             //   child: Row(
+  //             //     children: [
+  //             //       _dateCard("Mon", "12"),
+  //             //       _dateCard("Tue", "13"),
+  //             //       _dateCard("Wed", "14"),
+  //             //       _dateCard("Thu", "15"),
+  //             //       _dateCard("Fri", "16"),
+  //             //     ],
+  //             //   ),
+  //             // ),
+  //             Wrap(
+  //               spacing: 10,
+  //               runSpacing: 10,
+  //               children: dates.map((d) {
+  //                 DateTime parsedDate = DateTime.parse(d);
+  //                 String dayName = DateFormat('E').format(parsedDate);
+  //                 String dayNumber = DateFormat('d').format(parsedDate);
+  //                 return _dateCard(dayName, dayNumber, fullDate: d);
+  //               }).toList(),
+  //             ),
+  //             // Wrap(
+  //             //   spacing: 10,
+  //             //   runSpacing: 10,
+  //             //   children: [
+  //             //     _dateCard("Mon", "12"),
+  //             //     _dateCard("Tue", "13"),
+  //             //     _dateCard("Wed", "14"),
+  //             //     _dateCard("Thu", "15"),
+  //             //     _dateCard("Fri", "16"),
+  //             //   ],
+  //             // ),
+  //             SizedBox(height: 25),
+
+  //             if (selectedDate != null) ...[
+  //               Text(
+  //                 LocaleKeys.selectTime.tr(),
+  //                 style: TextStyle(
+  //                   color: const Color(0xFF8D6E63),
+  //                   fontSize: 12.25,
+  //                   fontFamily: 'Arimo',
+  //                   fontWeight: FontWeight.w400,
+  //                 ),
+  //               ),
+  //               const SizedBox(height: 15),
+  //               Wrap(
+  //                 spacing: 10,
+  //                 runSpacing: 10,
+  //                 children: state.slots
+  //                     .where(
+  //                       (s) => s.date == selectedDate,
+  //                     ) // فلترة المواعيد بناءً على اليوم المختار
+  //                     .map((s) => _timeChip(s.startTime)) // عرض وقت البداية
+  //                     .toList(),
+  //               ),
+  //             ],
+  //             // Text(
+  //             //   LocaleKeys.selectTime.tr(),
+  //             //   style: TextStyle(
+  //             //     color: const Color(0xFF8D6E63),
+  //             //     fontSize: 12.25,
+  //             //     fontFamily: 'Arimo',
+  //             //     fontWeight: FontWeight.w400,
+  //             //   ),
+  //             // ),
+  //             // SizedBox(height: 15),
+
+  //             // Wrap(
+  //             //   spacing: 10,
+  //             //   runSpacing: 10,
+  //             //   children: [
+  //             //     _timeChip("9:00 AM"),
+  //             //     _timeChip("10:00 AM"),
+  //             //     _timeChip("11:00 AM"),
+  //             //     _timeChip("1:00 PM"),
+  //             //     _timeChip("2:00 PM"),
+  //             //     _timeChip("3:00 PM"),
+  //             //     _timeChip("4:00 PM"),
+  //             //   ],
+  //             // ),
+  //           ],
+  //         );
+  //       }
+  //       if (state is ExpertServiceError) {
+  //         return Center(child: Text(state.error));
+  //       }
+
+  //       return const Center(child: Text("No slots available"));
+  //     },
+  //   );
+  // }
 
   // Widget كارت التاريخ المحدث
-  Widget _dateCard(String day, String date) {
-    bool isSelected = selectedDate == date; // فحص هل هذا التاريخ هو المختار
+  Widget _dateCard(String day, String date, {required String fullDate}) {
+    bool isSelected = selectedDate == fullDate; // فحص هل هذا التاريخ هو المختار
+
 
     return GestureDetector(
       onTap: () {
         setState(() {
-          selectedDate = isSelected ? null : date;
+
+          // selectedDate = isSelected ? null : fullDate;
+          if (selectedDate != fullDate) {
+            selectedDate = fullDate; // اختار التاريخ الجديد
+            selectedTime = null; // صَفّر الوقت المختار عشان ميظهرش تظليل قديم
+          } else {
+            // 2. لو ضغطت على نفس التاريخ المختار حالياً (عشان تلغي الاختيار)
+            selectedDate = null;
+            selectedTime = null;
+          }
+
         }); // تحديث الحالة
       },
       child: Container(
@@ -587,12 +815,14 @@ class _BookingConsultationScreenState extends State<BookingConsultationScreen> {
         child: Text(
           time,
           style: TextStyle(
-color: const Color(0xFF3E2723),
-fontSize: 12.25,
-fontFamily: 'Arimo',
-fontWeight: FontWeight.w400,
-height: 1.43,
-),
+
+            color: const Color(0xFF3E2723),
+            fontSize: 12.25,
+            fontFamily: 'Arimo',
+            fontWeight: FontWeight.w400,
+            height: 1.43,
+          ),
+
           // style: TextStyle(
           //   color: isSelected ? Colors.brown[800] : Colors.brown[900],
           //   fontWeight: isSelected ? FontWeight.bold : FontWeight.w500,

@@ -27,7 +27,9 @@ class ProductsupplierCubit extends Cubit<ProductsupplierdashboardState> {
   }
 
   // ✅ ضيفي ده
+
   void removematerial(int id) {
+
     products.removeWhere((p) => p.id == id);
     emit(ProductsupplierSuccess(List.from(products)));
   }
