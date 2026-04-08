@@ -241,7 +241,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   },
                 ),
 
-                 SectionTitle(title:LocaleKeys.categories.tr()),
+               //  SectionTitle(title:LocaleKeys.categories.tr()),
  //origin/book-session
                 const SizedBox(height: 12),
 
