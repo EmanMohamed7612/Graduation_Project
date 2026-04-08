@@ -267,10 +267,7 @@ abstract class  LocaleKeys {
   static const pickDateTime = 'pickDateTime';
   static const selectDate = 'selectDate';
   static const selectTime = 'selectTime';
-
   static const Productdeletedsuccess = 'Productdeletedsuccess';
-
-
   static const paymentSummary = 'paymentSummary';
   static const paymentMethod = 'paymentMethod';
   static const creditCard = 'creditCard';
@@ -289,6 +286,5 @@ abstract class  LocaleKeys {
   static const addService = 'addService';
   static const addTimeSlot = 'addTimeSlot';
   static const mySessions = 'mySessions';
-
 
 }

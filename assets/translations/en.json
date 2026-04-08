@@ -291,11 +291,9 @@
   "Needproduct": "Need product?",
   "Browseproduct": "Browse product",
   "add_product_title": "Add Product",
-
   "product_name_en": "Product Name (English)",
   "product_name_ar": "Product Name (Arabic)",
   "price_egp": "Price (EGP)",
-
   "select_category": "Select category",
   "describe_product": "Describe your product...",
   "add_button": "Add",
@@ -310,7 +308,6 @@
   "Portfolioverificationrequired": "Portfolio verification required",
   "Failedtoloadcategoriesuired": "Failed to load categories",
   "all": "All",
-
   "upload_samples_text": "Upload 2 work samples and complete your profile",
   "tap_to_upload": "Tap to upload files",
   "file_needed": "1 file needed",
@@ -341,7 +338,7 @@
   "selectDate":"Select Date",
   "selectTime":"Select Time",
 
-  "Productdeletedsuccess": "Product deleted success"
+  "Productdeletedsuccess": "Product deleted success",
 
   "paymentSummary":"Payment Summary",
   "paymentMethod":"Payment Method",
