@@ -7,7 +7,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 
 
-import '../../../../category_screen/product_category.dart';
+import 'product_category.dart';
 
 //origin/book-session
 import '../../../manager/category_cubit.dart';
@@ -38,7 +38,7 @@ class CategoriesList extends StatelessWidget {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => const ProductCategoriesScreen(),
+                          builder: (context) => const CategoriesScreenfromhome(),
                         ),
                       );
                     },

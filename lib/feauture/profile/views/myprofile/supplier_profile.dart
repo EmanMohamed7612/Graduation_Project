@@ -18,6 +18,11 @@ import 'package:graduation2/feauture/review/data/review_service.dart';
 import 'package:graduation2/feauture/review/manager/review_cubit.dart';
 import 'package:graduation2/feauture/review/view/widgets/custom_star.dart';
 
+import '../../../../core/services/dio_client.dart';
+import '../../../order_screen/deliver_screen/deliver_address.dart';
+import '../../../order_screen/deliver_screen/manager/getuseraddress_apiserves.dart';
+import '../../../order_screen/deliver_screen/manager/getuseraddress_cubit.dart';
+
 class Supplierprofile extends StatefulWidget {
   const Supplierprofile({super.key, required this.user, this.onGoHome});
   final user;
@@ -256,7 +261,17 @@ class _SupplierprofileState extends State<Supplierprofile> {
                         ),
 
                         child: GestureDetector(
-                          onTap: () {},
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => BlocProvider(
+                                  create: (context) => AddressCubit(AddressApiService(DioClient())),
+                                  child: const DeliveryAddressScreen(),
+                                ),
+                              ),
+                            );
+                          },
                           child: Center(
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,

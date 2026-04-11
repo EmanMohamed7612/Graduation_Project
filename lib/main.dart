@@ -37,6 +37,10 @@ import 'feauture/home/manager/category_cubit.dart';
 import 'feauture/home/manager/fav_apiserves.dart';
 import 'feauture/language/lnguage_view.dart';
 
+import 'feauture/order_screen/add_address_screens/manager/add_address_apiservces.dart';
+import 'feauture/order_screen/add_address_screens/manager/add_address_cubit.dart';
+import 'feauture/order_screen/deliver_screen/manager/getuseraddress_apiserves.dart';
+import 'feauture/order_screen/deliver_screen/manager/getuseraddress_cubit.dart';
 import 'feauture/product/data/product_details_repo.dart';
 import 'feauture/product/manager/product_details_cubit.dart';
 import 'feauture/product_screens/data/repo/repo_product.dart';
@@ -135,14 +139,10 @@ class CratoriaApp extends StatelessWidget {
           ),
         ),
 
-
         BlocProvider<ProductDetailsCubit>(
           create: (_) => ProductDetailsCubit(ProductDetailsRepo()),
         ),
-        BlocProvider(
-          create: (context) =>
-              CategoryCubit(ProductApiService())..fetchCategories(),
-        ),
+
 
         BlocProvider(
           create: (context) =>
@@ -153,11 +153,19 @@ class CratoriaApp extends StatelessWidget {
           create: (context) => FavoriteCubit(FavoriteApiService(DioClient())),
         ),
         // BlocProvider<CartCubit>(create: (_) => CartCubit(repo: CartRepo(), cartId: 0)),
-
+        BlocProvider<AddAddressCubit>(
+          create: (context) => AddAddressCubit(
+            AddAddressApiService(DioClient()),
+          ),
+        ),
 
 
         // BlocProvider<CartCubit>(create: (_) => CartCubit(repo: CartRepo(), cartId: 0)),
-
+        BlocProvider<AddressCubit>(
+          create: (context) => AddressCubit(
+            AddressApiService(DioClient()),
+          )..fetchAddresses(), // ضيفي السطر ده عشان يحمل العناوين أول ما التطبيق يفتح
+        ),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

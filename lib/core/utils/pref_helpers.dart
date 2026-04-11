@@ -79,6 +79,7 @@ class PrefHelpers {
 
   static Future<void> clearUserId() async {
     final prefs = await SharedPreferences.getInstance();
-    await prefs.remove("userId");
+    //await prefs.remove("userId");
+    await prefs.remove(_userIdKey);
   }
 }

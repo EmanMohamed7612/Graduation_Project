@@ -25,7 +25,9 @@ class ApiEndpoint {
  static const String GetAllMaterialOfSpecificUser='/api/RawMaterial/GetRawMaterialOfSpecificUser';
 
   static const String CreatOrder = '/api/Orders/CreateOrder';
-  static const String GetAllAddressOfUser = '/api/Orders/GetAllAddressOfUser';
+  static const String GetUserAddress = '/api/Orders/GetUserAddresses';
+  static const String AddAddress='/api/Orders/AddAddress';
+
 
 
  
