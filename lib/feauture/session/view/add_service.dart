@@ -295,7 +295,7 @@ class _AddServiceScreenState extends State<AddServiceScreen> {
               controller: _serviceNameController,
             ),
             _buildTextField(
-              LocaleKeys.serviceName.tr(),
+              LocaleKeys.servesnamearabic.tr(),
               "مراجعه بورتفيليو",
               controller: _serviceNameArabicController,
             ),

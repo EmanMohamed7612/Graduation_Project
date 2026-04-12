@@ -577,8 +577,8 @@ class _SellerDashboardScreenState extends State<SellerDashboardScreen> {
                     _buildProductsHeader(context),
                     const SizedBox(height: 12),
                     BlocBuilder<
-                      ProductsellerCubit,
-                      ProductsellerdashboardState
+                        ProductsellerCubit,
+                        ProductsellerdashboardState
                     >(
                       builder: (context, state) {
                         if (state is ProductsellerdLoading) {
@@ -809,11 +809,11 @@ class _SellerDashboardScreenState extends State<SellerDashboardScreen> {
   }
 
   Widget _buildStatCard(
-    String label,
-    String value,
-    IconData icon, {
-    bool isSelected = false,
-  }) {
+      String label,
+      String value,
+      IconData icon, {
+        bool isSelected = false,
+      }) {
     return Container(
       width: 75,
       padding: const EdgeInsets.symmetric(vertical: 12),

@@ -7,10 +7,12 @@ import 'package:graduation2/feauture/session/data/time_slot_model.dart';
 import 'package:graduation2/feauture/session/manager/expert_service_cubit.dart';
 import 'package:graduation2/feauture/session/manager/expert_service_state.dart';
 import 'package:graduation2/feauture/session/view/my_consultation.dart';
+
 import 'package:graduation2/feauture/session/view/widgets/service_card.dart';
 import 'package:graduation2/generated/locale_keys.g.dart';
 
 class BookingConsultationScreen extends StatefulWidget {
+
   final String expertId;
 
   const BookingConsultationScreen({super.key, required this.expertId});
@@ -30,6 +32,7 @@ class _BookingConsultationScreenState extends State<BookingConsultationScreen> {
   TimeSlotModel? selectedSlot;
 
   @override
+
   void initState() {
     super.initState();
     // context.read<ExpertServiceCubit>().fetchExpertServices(widget.expertId);
@@ -37,6 +40,7 @@ class _BookingConsultationScreenState extends State<BookingConsultationScreen> {
   }
 
   @override
+
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
     print('expert id : ${widget.expertId}');
@@ -204,6 +208,7 @@ class _BookingConsultationScreenState extends State<BookingConsultationScreen> {
 
   // الصفحة 1
   Widget _buildServiceSelection() {
+
     return BlocBuilder<ExpertServiceCubit, ExpertServiceState>(
       buildWhen: (previous, current) =>
           current is ExpertServicesLoaded || current is ExpertServiceLoading,
@@ -285,6 +290,7 @@ class _BookingConsultationScreenState extends State<BookingConsultationScreen> {
         }
         return SizedBox();
       },
+
     );
   }
 
@@ -294,12 +300,14 @@ class _BookingConsultationScreenState extends State<BookingConsultationScreen> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
+
           LocaleKeys.paymentSummary.tr(),
           style: TextStyle(
             color: const Color(0xFF3E2723),
             fontSize: 15.75,
             fontFamily: 'Arimo',
             fontWeight: FontWeight.w400,
+
           ),
         ),
         SizedBox(height: 20),
@@ -362,6 +370,7 @@ class _BookingConsultationScreenState extends State<BookingConsultationScreen> {
         _paymentOption(LocaleKeys.creditCard.tr(), Icons.credit_card),
         SizedBox(height: 10),
         _paymentOption(LocaleKeys.applePay.tr(), Icons.apple),
+
       ],
     );
   }
@@ -370,6 +379,7 @@ class _BookingConsultationScreenState extends State<BookingConsultationScreen> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
+
         Text(
           label,
           style: TextStyle(
@@ -386,6 +396,7 @@ class _BookingConsultationScreenState extends State<BookingConsultationScreen> {
             fontSize: 12.25,
             fontFamily: 'Arimo',
             fontWeight: FontWeight.w400,
+
           ),
         ),
       ],
@@ -420,6 +431,7 @@ class _BookingConsultationScreenState extends State<BookingConsultationScreen> {
               icon,
 
               color: isSelected ? const Color(0xff6D4C41) : Colors.black,
+
             ),
             SizedBox(width: 15),
             Text(
@@ -468,6 +480,7 @@ class _BookingConsultationScreenState extends State<BookingConsultationScreen> {
       isEnabled = selectedDate != null && selectedTime != null;
 
       // context.read<ExpertServiceCubit>().fetchTimeSlots(widget.expertId);
+
     } else if (currentStep == 3) {
       // الزر لن يعمل في الصفحة الثالثة إلا إذا تم اختيار وسيلة دفع
       isEnabled = selectedPaymentMethod != null;
@@ -597,6 +610,7 @@ class _BookingConsultationScreenState extends State<BookingConsultationScreen> {
   }
 
   Widget _buildDateTimeSelection() {
+
     return BlocBuilder<ExpertServiceCubit, ExpertServiceState>(
       // نحدد امتى الـ UI ده يعيد بناء نفسه
       buildWhen: (previous, current) =>
@@ -691,9 +705,11 @@ class _BookingConsultationScreenState extends State<BookingConsultationScreen> {
   Widget _dateCard(String day, String date, {required String fullDate}) {
     bool isSelected = selectedDate == fullDate; // فحص هل هذا التاريخ هو المختار
 
+
     return GestureDetector(
       onTap: () {
         setState(() {
+
           // selectedDate = isSelected ? null : fullDate;
           if (selectedDate != fullDate) {
             selectedDate = fullDate; // اختار التاريخ الجديد
@@ -703,6 +719,7 @@ class _BookingConsultationScreenState extends State<BookingConsultationScreen> {
             selectedDate = null;
             selectedTime = null;
           }
+
         }); // تحديث الحالة
       },
       child: Container(
@@ -796,6 +813,7 @@ class _BookingConsultationScreenState extends State<BookingConsultationScreen> {
         child: Text(
           slot.startTime,
           style: TextStyle(
+
             color: const Color(0xFF3E2723),
             fontSize: 12.25,
             fontFamily: 'Arimo',

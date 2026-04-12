@@ -1,5 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:graduation2/feauture/review/data/cart_repo.dart';
+import '../../../core/utils/pref_helpers.dart';
 import 'cart_state.dart';
 
 class CartCubit extends Cubit<CartState> {
@@ -17,6 +18,21 @@ class CartCubit extends Cubit<CartState> {
     try {
       final cart = await repo.getCart(cartId);
       emit(CartLoaded(cart));
+    } catch (e) {
+      emit(CartError(e.toString()));
+    }
+  }
+  // جوه كلاس CartCubit
+  Future<void> loadCartFromPrefs() async {
+    emit(CartLoading());
+    try {
+      final savedCartId = await PrefHelpers.getCartId();
+      if (savedCartId != null && savedCartId.isNotEmpty) {
+        final cart = await repo.getCart(savedCartId);
+        emit(CartLoaded(cart));
+      } else {
+        emit(CartError("No Cart ID found"));
+      }
     } catch (e) {
       emit(CartError(e.toString()));
     }
