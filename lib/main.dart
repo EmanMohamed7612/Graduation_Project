@@ -18,14 +18,31 @@ import 'package:graduation2/feauture/review/view/cart/cart_screen.dart';
 import 'package:graduation2/feauture/review/view/write_review.dart';
 import 'package:graduation2/feauture/session/manager/expert_service_cubit.dart';
 import 'package:graduation2/feauture/session/view/book_sconsultation_screen.dart';
+
 import 'package:graduation2/feauture/session/view/my_consultation.dart';
+
 import 'package:graduation2/feauture/splash_screen/presentation/view/splash.dart';
 
 import 'core/utils/pref_helpers.dart';
 
+
+import 'feauture/favourite/manager/favourite_cubit.dart';
+import 'feauture/home/manager/category_cubit.dart';
+import 'feauture/home/manager/fav_apiserves.dart';
+import 'feauture/home/manager/fav_cubit.dart';
+import 'feauture/language/lnguage_view.dart';
+import 'feauture/material_screen/manager/cubit_materialcategory.dart';
+import 'feauture/material_screen/manager/material_api_services.dart';
+import 'feauture/material_screen/manager/material_cubit.dart';
+import 'feauture/material_screen/manager/repo_material_imp.dart';
 import 'feauture/home/manager/category_cubit.dart';
 import 'feauture/home/manager/fav_apiserves.dart';
 import 'feauture/language/lnguage_view.dart';
+
+import 'feauture/order_screen/add_address_screens/manager/add_address_apiservces.dart';
+import 'feauture/order_screen/add_address_screens/manager/add_address_cubit.dart';
+import 'feauture/order_screen/deliver_screen/manager/getuseraddress_apiserves.dart';
+import 'feauture/order_screen/deliver_screen/manager/getuseraddress_cubit.dart';
 import 'feauture/product/data/product_details_repo.dart';
 import 'feauture/product/manager/product_details_cubit.dart';
 import 'feauture/product_screens/data/repo/repo_product.dart';
@@ -76,7 +93,15 @@ class CratoriaApp extends StatelessWidget {
             ),
           ),
         ),
-        BlocProvider(create: (context) => ExpertServiceCubit()),
+
+        BlocProvider(
+          create: (context) => DeletematerialCubit(
+            repomaterial: RepomaterialImple(
+              materialApiService: MaterialApiService(),
+            ),
+          ),
+        ),
+
         BlocProvider(create: (_) => AuthCubit(ApiService())),
         BlocProvider<FavoriteCubit>(
           create: (context) => FavoriteCubit(favoriteApiService),
@@ -94,7 +119,17 @@ class CratoriaApp extends StatelessWidget {
             ),
           ),
         ),
+         BlocProvider(create: (context) => ExpertServiceCubit()),
         BlocProvider(
+
+          create: (context) => CreatematerialCubit(
+            repomaterial: RepomaterialImple(
+              materialApiService: MaterialApiService(),
+            ),
+          ),
+        ),
+        BlocProvider(
+
           create: (context) =>
               CategoryCubit(ProductApiService())..fetchCategories(),
         ),
@@ -105,15 +140,42 @@ class CratoriaApp extends StatelessWidget {
             ),
           ),
         ),
+
+        BlocProvider(
+          create: (context) => UpdatematerialCubit(
+            repomaterial: RepomaterialImple(
+              materialApiService: MaterialApiService(),
+            ),
+          ),
+        ),
+
         BlocProvider<ProductDetailsCubit>(
           create: (_) => ProductDetailsCubit(ProductDetailsRepo()),
         ),
+
+
         BlocProvider(
           create: (context) =>
-              CategoryCubit(ProductApiService())..fetchCategories(),
+          CategorymaterialCubit(MaterialApiService())..fetchmaterialCategories(),
         ),
 
+        BlocProvider(
+          create: (context) => FavoriteCubit(FavoriteApiService(DioClient())),
+        ),
         // BlocProvider<CartCubit>(create: (_) => CartCubit(repo: CartRepo(), cartId: 0)),
+        BlocProvider<AddAddressCubit>(
+          create: (context) => AddAddressCubit(
+            AddAddressApiService(DioClient()),
+          ),
+        ),
+
+
+        // BlocProvider<CartCubit>(create: (_) => CartCubit(repo: CartRepo(), cartId: 0)),
+        BlocProvider<AddressCubit>(
+          create: (context) => AddressCubit(
+            AddressApiService(DioClient()),
+          )..fetchAddresses(), // ضيفي السطر ده عشان يحمل العناوين أول ما التطبيق يفتح
+        ),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

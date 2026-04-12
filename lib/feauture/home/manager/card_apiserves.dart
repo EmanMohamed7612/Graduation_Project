@@ -1,4 +1,8 @@
+
+/*import 'package:dio/dio.dart';
+=======
 import 'package:dio/dio.dart';
+>>>>>>> origin/book-session
 import '../../../../core/services/dio_client.dart';
 
 class CartApiService {
@@ -23,4 +27,8 @@ class CartApiService {
       throw e;
     }
   }
-}
+<<<<<<< HEAD
+}*/
+
+
+

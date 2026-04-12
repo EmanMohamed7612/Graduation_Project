@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:graduation2/core/services/api_services.dart';
-import 'package:graduation2/feauture/dashboard_screen/presentation/view/seller_dashboard.dart';
+import 'package:graduation2/feauture/dashboard_screen/presentation/view/seller_dashboard.dart'as seller;
 import 'package:graduation2/feauture/dashboard_screen/presentation/view/supplier_dashboard.dart';
 import 'package:graduation2/feauture/profile/manager/number_product_cubit.dart';
 import 'package:graduation2/feauture/profile/manager/number_product_state.dart';
@@ -17,6 +17,11 @@ import 'package:graduation2/feauture/profile/views/sessions.dart';
 import 'package:graduation2/feauture/review/data/review_service.dart';
 import 'package:graduation2/feauture/review/manager/review_cubit.dart';
 import 'package:graduation2/feauture/review/view/widgets/custom_star.dart';
+
+import '../../../../core/services/dio_client.dart';
+import '../../../order_screen/deliver_screen/deliver_address.dart';
+import '../../../order_screen/deliver_screen/manager/getuseraddress_apiserves.dart';
+import '../../../order_screen/deliver_screen/manager/getuseraddress_cubit.dart';
 
 class Supplierprofile extends StatefulWidget {
   const Supplierprofile({super.key, required this.user, this.onGoHome});
@@ -256,7 +261,17 @@ class _SupplierprofileState extends State<Supplierprofile> {
                         ),
 
                         child: GestureDetector(
-                          onTap: () {},
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => BlocProvider(
+                                  create: (context) => AddressCubit(AddressApiService(DioClient())),
+                                  child: const DeliveryAddressScreen(),
+                                ),
+                              ),
+                            );
+                          },
                           child: Center(
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,

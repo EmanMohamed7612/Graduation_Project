@@ -11,6 +11,7 @@ import 'package:graduation2/feauture/profile/views/accounts/expert_account.dart'
 import 'package:graduation2/feauture/profile/views/accounts/junior_account.dart';
 import 'package:graduation2/feauture/profile/views/accounts/supplier_account.dart';
 import 'package:graduation2/feauture/profile/views/myprofile/customer_profile.dart';
+import 'package:graduation2/feauture/profile/views/myprofile/seller_profile.dart';
 
 
 class AccountScreen extends StatelessWidget {
@@ -72,7 +73,10 @@ class AccountScreen extends StatelessWidget {
               create: (_) =>
                   ProductCountCubit(ProductApiService())
                     ..fetchMyProductsCount(user.id),
-              child: JuniorAccount(user: user),
+
+              child: SellerProfile(user: user),
+
+
             );
           } else if (user.role == 'Expert') {
             return BlocProvider(

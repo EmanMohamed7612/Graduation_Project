@@ -48,7 +48,9 @@ class Profile extends StatelessWidget {
         actions: [
           IconButton(
             onPressed: () {
+
               Navigator.pop(context);
+
             },
             icon: Icon(Icons.settings_outlined, color: Color(0xff6D4C41)),
           ),

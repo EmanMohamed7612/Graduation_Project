@@ -23,6 +23,7 @@ class CartCubit extends Cubit<CartState> {
   }
 
   /// 🔹 Add Item
+
   Future<void> addItem(int itemId) async {
     try {
       final cart = await repo.addItem(
@@ -36,46 +37,49 @@ class CartCubit extends Cubit<CartState> {
     }
   }
 
-  /// 🔹 Increase / Decrease
-  Future<void> updateQuantity({
-    required int productId,
-    required bool isIncrement,
-    required String cartId,
-  }) async {
-    try {
-      final cart = await repo.updateQuantity(
-        cartId: cartId,
-        productId: productId,
-        isIncrement: isIncrement,
-      );
-      emit(CartLoaded(cart));
-    } catch (e) {
-      emit(CartError(e.toString()));
-    }
-  }
+    /// 🔹 Increase / Decrease
+    Future<void> updateQuantity({
 
-  /// 🔹 Delete
-  Future<void> deleteItem(int itemId) async {
-    try {
-      final cart = await repo.deleteItem(
-        cartId: cartId,
-        itemId: itemId,
-      );
-
-      if (cart != null) {
+      required int productId,
+      required bool isIncrement,
+      required String cartId,
+    }) async {
+      try {
+        final cart = await repo.updateQuantity(
+          cartId: cartId,
+          productId: productId,
+          isIncrement: isIncrement,
+        );
         emit(CartLoaded(cart));
+      } catch (e) {
+        emit(CartError(e.toString()));
       }
-    } catch (e) {
-      emit(CartError(e.toString()));
     }
-  }
-  bool isInCart(int productId) {
-    if (state is CartLoaded) {
-      final items = (state as CartLoaded).cart.cartItems;
-      return items.any((item) => item.id == productId);
+
+
+    /// 🔹 Delete
+    Future<void> deleteItem(int itemId) async {
+      try {
+        final cart = await repo.deleteItem(
+          cartId: cartId,
+          itemId: itemId,
+        );
+
+        if (cart != null) {
+          emit(CartLoaded(cart));
+        }
+      } catch (e) {
+        emit(CartError(e.toString()));
+      }
     }
-    return false;
-  }
+    bool isInCart(int productId) {
+      if (state is CartLoaded) {
+        final items = (state as CartLoaded).cart.cartItems;
+        return items.any((item) => item.id == productId);
+      }
+      return false;
+    }
+
   Future<void> toggleCartItem(int productId) async {
     try {
 

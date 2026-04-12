@@ -19,7 +19,7 @@ class PostsAccount extends StatelessWidget {
               child: Container(
                 padding: const EdgeInsets.all(8),
 
-                height: height * .42,
+                height: height * .45,
                 decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(16),

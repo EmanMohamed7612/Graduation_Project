@@ -78,9 +78,9 @@ class FavoriteCubit extends Cubit<List<int>> {
     } else {
       currentFavorites.add(productId);
     }
-
+    emit(List<int>.from(currentFavorites));
     // تحديث الحالة فوراً (UI)
-    emit(currentFavorites);
+    //emit(currentFavorites);
     // حفظ القائمة الجديدة في الجهاز
     await _saveToPrefs(currentFavorites);
 

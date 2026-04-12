@@ -1,3 +1,4 @@
+
 class ExpertServiceModel {
   final String titleAr;
   final String titleEn;
@@ -25,4 +26,5 @@ class ExpertServiceModel {
       "durationInMinutes": durationInMinutes,
     };
   }
+
 }

@@ -22,7 +22,7 @@ class CartItemCard extends StatelessWidget {
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
     return Container(
-      height: height * .15,
+      // height: height * .15,
       width: double.infinity,
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
@@ -35,60 +35,60 @@ class CartItemCard extends StatelessWidget {
           ClipRRect(
             borderRadius: BorderRadius.circular(15),
             child:
-            // Image.asset(
-            //   item.image,
-            //   width: 75,
-            //   height: height * .085,
-            //   fit: BoxFit.cover,
-            // ),
-            Image.network(
-  item.pictureURL ?? 'assets/images/no_phot.png',
-  width: 75,
-  height: height * .085,
-  fit: BoxFit.cover,
-)
-
+                // Image.asset(
+                //   item.image,
+                //   width: 75,
+                //   height: height * .085,
+                //   fit: BoxFit.cover,
+                // ),
+                Image.network(
+                  item.pictureURL ?? 'assets/images/no_phot.png',
+                  width: 75,
+                  height: height * .085,
+                  fit: BoxFit.cover,
+                ),
           ),
 
-          // const SizedBox(width: 12),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const SizedBox(height: 6),
-              Text(
-                item.itemName,
-                style: TextStyle(
-                  color: const Color(0xFF3E2723),
-                  fontSize: 14,
-                  fontFamily: 'Arimo',
-                  fontWeight: FontWeight.w700,
-                  height: 1.43,
+          const SizedBox(width: 12),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const SizedBox(height: 6),
+                Text(
+                  item.itemName,
+                  style: TextStyle(
+                    color: const Color(0xFF3E2723),
+                    fontSize: 14,
+                    fontFamily: 'Arimo',
+                    fontWeight: FontWeight.w700,
+                    height: 1.43,
+                  ),
                 ),
-              ),
-              const SizedBox(height: 4),
-              Text(
-                item.category ??"no category",
-                style: TextStyle(
-                  color: const Color(0xFF8D6E63),
-                  fontSize: 12.50,
-                  fontFamily: 'Arimo',
-                  fontWeight: FontWeight.w400,
-                  height: 1.33,
+                const SizedBox(height: 4),
+                Text(
+                  item.category ?? "no category",
+                  style: TextStyle(
+                    color: const Color(0xFF8D6E63),
+                    fontSize: 12.50,
+                    fontFamily: 'Arimo',
+                    fontWeight: FontWeight.w400,
+                    height: 1.33,
+                  ),
                 ),
-              ),
-              const SizedBox(height: 12),
-              Text(
-                "\$${item.price}"
-,
-                style: TextStyle(
-                  color: const Color(0xFFC9A875),
-                  fontSize: 14,
-                  fontFamily: 'Arimo',
-                  fontWeight: FontWeight.w700,
-                  height: 1.50,
+                const SizedBox(height: 12),
+                Text(
+                  "\$${item.price}",
+                  style: TextStyle(
+                    color: const Color(0xFFC9A875),
+                    fontSize: 14,
+                    fontFamily: 'Arimo',
+                    fontWeight: FontWeight.w700,
+                    height: 1.50,
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
 
           Column(
@@ -96,7 +96,52 @@ class CartItemCard extends StatelessWidget {
             children: [
               IconButton(
                 icon: const Icon(Icons.delete_outline, color: Colors.red),
-                onPressed: onDelete,
+                onPressed: () {
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return AlertDialog(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(15),
+                        ),
+                        title: const Text(
+                          "Confirm Delete",
+                          style: TextStyle(
+                            fontFamily: 'Arimo',
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        content: Text(
+                          "Are you sure you want to delete ${item.itemName} from your cart?",
+                        ),
+                        actions: [
+                          // Cancel Button
+                          TextButton(
+                            onPressed: () => Navigator.pop(context),
+                            child: const Text(
+                              "Cancel",
+                              style: TextStyle(color: Colors.grey),
+                            ),
+                          ),
+                          // Delete Button
+                          TextButton(
+                            onPressed: () {
+                              Navigator.pop(context); // Close dialog first
+                              onDelete(); // Execute delete function
+                            },
+                            child: const Text(
+                              "Delete",
+                              style: TextStyle(
+                                color: Colors.red,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                        ],
+                      );
+                    },
+                  );
+                },
               ),
               Row(
                 children: [

@@ -373,7 +373,7 @@ class _AddServiceScreenState extends State<AddServiceScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-             Text(
+            Text(
               LocaleKeys.addtimeslot.tr(),
               style: TextStyle(fontWeight: FontWeight.bold),
             ),
@@ -429,7 +429,7 @@ class _AddServiceScreenState extends State<AddServiceScreen> {
             ),
             const SizedBox(height: 20),
             _buildActionButton(
-             LocaleKeys.addtimeslot.tr(),
+              LocaleKeys.addtimeslot.tr(),
               _isTimeSlotValid
                   ? const Color(0xffD1AE4A)
                   : const Color(0xffD1AE4A).withOpacity(0.6),
@@ -479,7 +479,8 @@ class _AddServiceScreenState extends State<AddServiceScreen> {
           maxLines: maxLines,
           readOnly:
               (label == LocaleKeys.day.tr() ||
-              label == LocaleKeys.time.tr()), // منع الكتابة في حقول الوقت والتاريخ
+              label ==
+                  LocaleKeys.time.tr()), // منع الكتابة في حقول الوقت والتاريخ
           keyboardType: isNumeric ? TextInputType.number : TextInputType.text,
           validator: (value) {
             if (isRequired && (value == null || value.isEmpty)) {
@@ -525,7 +526,13 @@ class _AddServiceScreenState extends State<AddServiceScreen> {
     if (picked != null) {
       setState(() {
         // تحويل التاريخ لصيغة 2026-04-01
-        _dayController.text = DateFormat('yyyy-MM-dd').format(picked);
+        // _dayController.text = DateFormat('yyyy-MM-dd').format(picked);
+        // في دالة _selectDate
+        _dayController.text = DateFormat(
+          'yyyy-MM-dd',
+          'en',
+        ).format(picked); // ضيف 'en' هنا
+        // ضيف 'en' هنا
       });
     }
   }
@@ -547,7 +554,10 @@ class _AddServiceScreenState extends State<AddServiceScreen> {
           picked.hour,
           picked.minute,
         );
-        _timeController.text = DateFormat('HH:mm:ss').format(dt);
+
+        //_timeController.text = DateFormat('HH:mm:ss').format(dt);
+        // في دالة _selectTime
+        _timeController.text = DateFormat('HH:mm:ss', 'en').format(dt);
       });
     }
   }

@@ -522,20 +522,29 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../generated/locale_keys.g.dart';
+
+import '../../../material_screen/data/model/addmaterialmodel.dart';
+import '../../../material_screen/manager/material_api_services.dart';
+import '../../../material_screen/manager/material_api_services.dart';
+import '../../../material_screen/manager/material_cubit.dart' show CreatematerialCubit, DeletematerialCubit;
+import '../../../material_screen/manager/repo_material_imp.dart';
+import '../../../material_screen/presentation/views/addmaterial/add_materialscreen.dart';
+import '../../../material_screen/presentation/views/edit_material/edit_material.dart';
+import '../../../material_screen/presentation/views/edit_material/edit_material.dart';
+
 import '../../../material_screen/manager/material_api_services.dart';
 import '../../../material_screen/manager/material_api_services.dart';
 import '../../../material_screen/manager/material_cubit.dart' show CreatematerialCubit;
 import '../../../material_screen/manager/repo_material_imp.dart';
 import '../../../material_screen/presentation/views/addmaterial/add_materialscreen.dart';
+
 import '../../../product_screens/data/model/create_product_model.dart';
 import '../../../product_screens/manager/product_cubit.dart';
 import '../../../product_screens/presentation/view/Editprodect_screen/editprodect.dart';
 import '../../../product_screens/presentation/view/addprodect_screen/creatprodect.dart';
 import '../../data/repo/repo_dashboard_Imple.dart';
 import '../../data/repo/repo_supplierdashboard_imp.dart';
-import '../../manager/sellerdashboard_apiserves.dart';
-import '../../manager/sellerdashboard_cubit.dart';
-import '../../manager/sellerdashboard_state.dart';
+
 import '../../manager/supplierdashboard_apiserves.dart';
 import '../../manager/supplierdashboard_cubit.dart';
 import '../../manager/supplierdashboard_state.dart';
@@ -586,7 +595,9 @@ class _SupplierDashboardScreenState extends State<SupplierDashboardScreen> {
                     const SizedBox(height: 12),
                     BlocBuilder<ProductsupplierCubit, ProductsupplierdashboardState>(
                       builder: (context, state) {
-                        if (state is ProductsellerdLoading) {
+
+                        if (state is ProductsupplierLoading) {
+
                           return const Center(child: CircularProgressIndicator());
                         }
 
@@ -604,7 +615,9 @@ class _SupplierDashboardScreenState extends State<SupplierDashboardScreen> {
                             itemCount: state.products.length,
                             itemBuilder: (context, index) {
                               final p = state.products[index];
-                              final product = CreateProductResponseModel(
+
+                              final product = CreatematerialResponseModel(
+
                                 id: p.id,
                                 name: p.name,
                                 price: p.price,
@@ -621,11 +634,13 @@ class _SupplierDashboardScreenState extends State<SupplierDashboardScreen> {
                                 product: product,
                                 onDelete: () async {
                                   await context
-                                      .read<DeleteProductCubit>()
-                                      .deleteProduct(product.id);
+
+                                      .read<DeletematerialCubit>()
+                                      .deletematerial(product.id);
 
                                   if (mounted) {
-                                    _cubit.removeProduct(product.id);
+                                    _cubit.removematerial(product.id);
+
                                     ScaffoldMessenger.of(context).showSnackBar(
                                       SnackBar(
                                         content:  Row(
@@ -681,7 +696,9 @@ class _SupplierDashboardScreenState extends State<SupplierDashboardScreen> {
         gradient: LinearGradient(
           begin: Alignment.topLeft,
           end: Alignment.bottomCenter,
-          colors: [Color(0xFF6B4F46), Color(0xFFC6A684)],
+
+          colors: [Color(0xFF6d4c41), Color(0xFF8d6e63)],
+
         ),
         borderRadius: BorderRadius.only(
           bottomLeft: Radius.circular(30),
@@ -724,7 +741,9 @@ class _SupplierDashboardScreenState extends State<SupplierDashboardScreen> {
                         final result = await Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (_) => const AddProductScreen()),
+
+                              builder: (_) => const AddmaterialScreen()),
+
                         );
                         if (result == true && mounted) {
                           _cubit.getmaterial();
@@ -870,13 +889,9 @@ class _SupplierDashboardScreenState extends State<SupplierDashboardScreen> {
             final result = await Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => BlocProvider(
-                  // تأكدي من استبدال اسم الكيوبت والريبوزيتوري بأسماء الماتيريال
-                  create: (context) => CreatematerialCubit(
-                    repomaterial: RepomaterialImple(materialApiService: MaterialApiService()),
-                  ),
-                  child: const AddmaterialScreen(),
-                ),
+
+                builder: (context) => AddmaterialScreen()
+
               ),
             );
             if (result == true && mounted) {
@@ -898,7 +913,9 @@ class _SupplierDashboardScreenState extends State<SupplierDashboardScreen> {
 
   Widget _buildProductItem({
     required BuildContext context,
-    required CreateProductResponseModel product,
+
+    required CreatematerialResponseModel product,
+
     required VoidCallback onDelete,
   }) {
     return Container(
@@ -949,7 +966,10 @@ class _SupplierDashboardScreenState extends State<SupplierDashboardScreen> {
               final result = await Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (_) => EditProductScreen(product: product)),
+
+                    builder: (_) => EditmaterialScreen(product: product)
+              )
+
               );
               if (result == true && mounted) {
                 _cubit.getmaterial();

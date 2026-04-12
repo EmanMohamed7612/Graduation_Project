@@ -222,7 +222,9 @@ class _SupplierAccountState extends State<SupplierAccount> {
                         ),
                         SizedBox(width: width * .03),
                         Container(
+
                           width: width * .14,
+
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(35),
                             gradient: LinearGradient(

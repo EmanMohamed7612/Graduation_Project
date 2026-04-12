@@ -120,8 +120,13 @@ import 'package:graduation2/feauture/review/data/cart_repo.dart';
 import 'package:graduation2/feauture/review/manager/cart_cubit.dart';
 import 'package:graduation2/feauture/review/manager/cart_state.dart';
 import 'package:graduation2/feauture/review/view/cart/widget/cart_item_card.dart';
+import 'package:graduation2/feauture/review/view/cart/widget/cart_item_card.dart' as card;
 import 'package:graduation2/feauture/review/view/cart/widget/order_summary_card.dart';
 import 'package:graduation2/feauture/review/view/cart/widget/primary_button.dart';
+
+
+import '../../../order_screen/deliver_screen/deliver_address.dart';
+
 
 class CartScreen extends StatefulWidget {
   const CartScreen({super.key, required this.userId});
@@ -207,7 +212,7 @@ class _CartScreenState extends State<CartScreen> {
                                   itemBuilder: (context, index) {
                                     final item = items[index];
 
-                                    return CartItemCard(
+                                    return card.CartItemCard(
                                       item: item,
                                       onIncrease: () async {
                                         final userId =
@@ -263,7 +268,13 @@ class _CartScreenState extends State<CartScreen> {
               ),
 
               /// الزرار في آخر الصفحة
-              PrimaryButton(text: "Proceed to Checkout", onPressed: () {}),
+
+              PrimaryButton(text: "Proceed to Checkout", onPressed: () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder:
+                        (context)=>DeliveryAddressScreen()));
+              }),
+
             ],
           ),
         ),

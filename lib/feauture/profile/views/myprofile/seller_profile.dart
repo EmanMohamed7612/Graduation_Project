@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:graduation2/core/services/api_services.dart';
+import 'package:graduation2/feauture/dashboard_screen/presentation/view/begginer_dashboard.dart';
 import 'package:graduation2/feauture/dashboard_screen/presentation/view/seller_dashboard.dart';
 import 'package:graduation2/feauture/profile/manager/number_product_cubit.dart';
 import 'package:graduation2/feauture/profile/manager/number_product_state.dart';
@@ -304,7 +305,7 @@ class _SellerProfileState extends State<SellerProfile> {
                         context,
                         MaterialPageRoute(
                           builder: (context) {
-                            return SellerDashboardScreen();
+                            return SellerbeginerDashboardScreen();
                           },
                         ),
                       );

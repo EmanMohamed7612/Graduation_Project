@@ -1,4 +1,8 @@
+
+/*import 'dart:developer';
+=======
 import 'dart:developer';
+>>>>>>> origin/book-session
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../core/utils/pref_helpers.dart';
 import 'card_apiserves.dart';
@@ -47,4 +51,6 @@ class CartCubit extends Cubit<List<int>> {
 
   // ميثود عشان لما تحبي تمسحي كل اللي في الكارت (مثلاً عند الـ Logout)
   void clearCart() => emit([]);
-}
+<<<<<<< HEAD
+}*/
+

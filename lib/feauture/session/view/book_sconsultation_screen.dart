@@ -1,5 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:graduation2/feauture/session/data/service_model.dart';
 import 'package:graduation2/feauture/session/data/time_slot_model.dart';
@@ -13,6 +14,7 @@ class BookingConsultationScreen extends StatefulWidget {
   final String expertId;
 
   const BookingConsultationScreen({super.key, required this.expertId});
+
   @override
   _BookingConsultationScreenState createState() =>
       _BookingConsultationScreenState();
@@ -49,16 +51,17 @@ class _BookingConsultationScreenState extends State<BookingConsultationScreen> {
             ),
           );
           Navigator.pushAndRemoveUntil(
-    context,
-    MaterialPageRoute(
-      builder: (context) => BlocProvider(
-        // نقوم بإنشاء نسخة جديدة من الـ Cubit للشاشة الجديدة
-        create: (context) => ExpertServiceCubit(), 
-        child: MyConsultationScreen(), // تأكد من استخدام الاسم الصحيح للكلاس
-      ),
-    ),
-    (route) => route.isFirst,
-  );
+            context,
+            MaterialPageRoute(
+              builder: (context) => BlocProvider(
+                // نقوم بإنشاء نسخة جديدة من الـ Cubit للشاشة الجديدة
+                create: (context) => ExpertServiceCubit(),
+                child:
+                    MyConsultationScreen(), // تأكد من استخدام الاسم الصحيح للكلاس
+              ),
+            ),
+            (route) => route.isFirst,
+          );
           // يمكنك هنا العودة للصفحة الرئيسية أو صفحة الحجوزات
           // Navigator.pop(context);
         } else if (state is ExpertServiceError) {
@@ -210,6 +213,18 @@ class _BookingConsultationScreenState extends State<BookingConsultationScreen> {
         } else if (state is ExpertServiceError) {
           return Center(child: Text(state.error));
         } else if (state is ExpertServicesLoaded) {
+          if (state.services.isEmpty) {
+            return Center(
+              child: Column(
+                children: [
+                  const SizedBox(height: 40),
+                  const Icon(Icons.info_outline, size: 50, color: Colors.grey),
+                  const SizedBox(height: 10),
+                  const Text("No Services Yet"),
+                ],
+              ),
+            );
+          }
           return Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -331,6 +346,7 @@ class _BookingConsultationScreenState extends State<BookingConsultationScreen> {
         ),
 
         SizedBox(height: 30),
+
         Text(
           LocaleKeys.paymentMethod.tr(),
           style: TextStyle(
@@ -402,6 +418,7 @@ class _BookingConsultationScreenState extends State<BookingConsultationScreen> {
           children: [
             Icon(
               icon,
+
               color: isSelected ? const Color(0xff6D4C41) : Colors.black,
             ),
             SizedBox(width: 15),
@@ -449,6 +466,7 @@ class _BookingConsultationScreenState extends State<BookingConsultationScreen> {
     } else if (currentStep == 2) {
       // الصفحة الثانية: لازم يختار تاريخ وكمان وقت
       isEnabled = selectedDate != null && selectedTime != null;
+
       // context.read<ExpertServiceCubit>().fetchTimeSlots(widget.expertId);
     } else if (currentStep == 3) {
       // الزر لن يعمل في الصفحة الثالثة إلا إذا تم اختيار وسيلة دفع
@@ -515,7 +533,9 @@ class _BookingConsultationScreenState extends State<BookingConsultationScreen> {
                               ),
                               title: Text(LocaleKeys.confirmbooking.tr()),
                               content: Text(
-                                LocaleKeys.areyousureyouwanttocompletethisbooking.tr(),
+                                LocaleKeys
+                                    .areyousureyouwanttocompletethisbooking
+                                    .tr(),
                               ),
                               actions: [
                                 TextButton(
@@ -595,7 +615,7 @@ class _BookingConsultationScreenState extends State<BookingConsultationScreen> {
         if (state is ExpertServicesLoaded) {
           // إذا لم توجد مواعيد فعلياً في الـ List
           if (state.slots.isEmpty) {
-            return  Center(
+            return Center(
               child: Text(LocaleKeys.notimeslotsavailableforthisexpert.tr()),
             );
           }
@@ -782,6 +802,7 @@ class _BookingConsultationScreenState extends State<BookingConsultationScreen> {
             fontWeight: FontWeight.w400,
             height: 1.43,
           ),
+
           // style: TextStyle(
           //   color: isSelected ? Colors.brown[800] : Colors.brown[900],
           //   fontWeight: isSelected ? FontWeight.bold : FontWeight.w500,

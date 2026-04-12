@@ -1,4 +1,5 @@
 import 'package:easy_localization/easy_localization.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:graduation2/core/services/api_services.dart';
@@ -122,11 +123,14 @@ class _ExpertProfileState extends State<ExpertProfile> {
                             type: 'Products',
                           );
                         }
-                        return NumberOfType(number: 0, type: LocaleKeys.products.tr());
+                        return NumberOfType(
+                          number: 0,
+                          type: LocaleKeys.products.tr(),
+                        );
                       },
                     ),
 
-                    NumberOfType(number: 45, type:  LocaleKeys.orders.tr()),
+                    NumberOfType(number: 45, type: LocaleKeys.orders.tr()),
                     BlocBuilder<ExpertServiceCubit, ExpertServiceState>(
                       builder: (context, state) {
                         int sessionsCount = 0;
@@ -136,7 +140,7 @@ class _ExpertProfileState extends State<ExpertProfile> {
 
                         return NumberOfType(
                           number: sessionsCount,
-                          type:  LocaleKeys.sessions.tr(),
+                          type: LocaleKeys.sessions.tr(),
                         );
                       },
                     ),
@@ -219,7 +223,6 @@ class _ExpertProfileState extends State<ExpertProfile> {
                               height: 1.50,
                             ),
                           ),
-                  
                   ],
                 ),
                 SizedBox(height: height * .01),
@@ -266,6 +269,7 @@ class _ExpertProfileState extends State<ExpertProfile> {
                               ),
                             );
                           },
+
                           child: Center(
                             child: Row(
                               children: [
@@ -276,6 +280,7 @@ class _ExpertProfileState extends State<ExpertProfile> {
                                 const SizedBox(width: 7),
                                 Text(
                                   LocaleKeys.mySessions.tr(),
+
                                   style: TextStyle(
                                     color: Colors.white,
                                     fontSize: 14,
@@ -345,15 +350,15 @@ class _ExpertProfileState extends State<ExpertProfile> {
                     ),
                     color: Colors.white,
                   ),
-                  child:  TabBar(
+                  child: TabBar(
                     indicatorColor: Color(0xff7A4A32),
                     indicatorWeight: 2,
                     labelColor: Colors.black,
                     unselectedLabelColor: Colors.grey,
                     tabs: [
-                      Tab(text:  LocaleKeys.products.tr()),
-                      Tab(text:  LocaleKeys.sessions.tr()),
-                      Tab(text:  LocaleKeys.reviews.tr()),
+                      Tab(text: LocaleKeys.products.tr()),
+                      Tab(text: LocaleKeys.sessions.tr()),
+                      Tab(text: LocaleKeys.reviews.tr()),
                     ],
                   ),
                 ),

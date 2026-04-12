@@ -2,6 +2,7 @@ class UserAccountModel {
   final String id;
   final String firstName;
   final String secondName;
+
   // final String userName;
   // final String email;
   final String? picturUrl;
@@ -9,12 +10,15 @@ class UserAccountModel {
   final String? specialization;
   final String? role;
 
+
   UserAccountModel({
     required this.id,
     required this.firstName,
     required this.secondName,
+
     //  required this.userName,
     //  required this.email,
+
     this.picturUrl,
     required this.bio,
     this.specialization,
@@ -29,9 +33,11 @@ class UserAccountModel {
       id: json['userId'] ?? '',
       firstName: json['firstName'] ?? '',
       secondName: json['secondName'] ?? '',
+
       // userName: json['userName'] ?? '',
       //  email: json['email'] ?? '',
       picturUrl: json['picturUrl'] ?? '',
+
       bio: json['bio'] ?? '',
       role: json['role'] ?? '',
       specialization: json['specialization'],
@@ -43,7 +49,9 @@ class UserAccountModel {
       'id': id,
       'firstName': firstName,
       'secondName': secondName,
+
       // 'userName': userName,
+
       //'email': email,
       'picturUrl': picturUrl,
       'bio': bio,

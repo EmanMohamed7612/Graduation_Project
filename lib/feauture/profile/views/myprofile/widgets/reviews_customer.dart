@@ -33,7 +33,7 @@ class _ReviewCustomerState extends State<ReviewCustomer> {
           final reviews = state.reviews;
 
           if (reviews.isEmpty) {
-            return  Center(child: Text(LocaleKeys.no_reviews.tr()));
+            return Center(child: Text(LocaleKeys.no_reviews.tr()));
           }
           return GridView.builder(
             padding: const EdgeInsets.all(8),
@@ -151,6 +151,7 @@ class _ReviewCustomerState extends State<ReviewCustomer> {
                             Center(
                               child: Text(
                                 '${review.itemName}',
+                                maxLines: 4,
                                 style: const TextStyle(
                                   color: Color(0xff7A4A32),
                                 ),
