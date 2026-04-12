@@ -187,9 +187,9 @@ class ApiService {
       throw ApiExceptions.handleError(e);
     }
   }
-
+//Map<String, dynamic>
   /// PUT // UPDATE
-  Future<dynamic> put(String endPoint, Map<String, dynamic> body) async {
+  Future<dynamic> put(String endPoint, dynamic body) async {
     try {
       final response = await _dioClient.dio.put(endPoint, data: body);
       //   return response.data;

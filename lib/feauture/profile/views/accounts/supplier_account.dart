@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -6,13 +7,13 @@ import 'package:graduation2/feauture/profile/manager/number_product_cubit.dart';
 import 'package:graduation2/feauture/profile/manager/number_product_state.dart';
 import 'package:graduation2/feauture/profile/views/myprofile/widgets/materials.dart';
 import 'package:graduation2/feauture/profile/views/myprofile/widgets/numberandtype.dart';
-import 'package:graduation2/feauture/profile/views/myprofile/widgets/products.dart';
 import 'package:graduation2/feauture/profile/views/myprofile/widgets/reviews.dart';
 import 'package:graduation2/feauture/product_screens/manager/product_cubit.dart';
 
 import 'package:graduation2/feauture/review/data/review_service.dart';
 import 'package:graduation2/feauture/review/manager/review_cubit.dart';
 import 'package:graduation2/feauture/review/view/widgets/custom_star.dart';
+import 'package:graduation2/generated/locale_keys.g.dart';
 
 class SupplierAccount extends StatefulWidget {
   const SupplierAccount({super.key, required this.user});
@@ -196,13 +197,13 @@ class _SupplierAccountState extends State<SupplierAccount> {
                               count = state.count;
                               return NumberOfType(
                                 number: state.count,
-                                type: 'Matrials',
+                                type: LocaleKeys.materials.tr(),
                               );
                             }
-                            return NumberOfType(number: 0, type: 'Matrials');
+                            return NumberOfType(number: 0, type: LocaleKeys.materials.tr());
                           },
                         ),
-                        NumberOfType(number: totalReviews, type: 'Reviews'),
+                        NumberOfType(number: totalReviews, type: LocaleKeys.reviews.tr()),
                       ],
                     ),
                     SizedBox(height: height * .01),
@@ -328,7 +329,7 @@ class _SupplierAccountState extends State<SupplierAccount> {
                               ),
 
                               Text(
-                                ' Send Message',
+                                ' ${LocaleKeys.sendmessage.tr()}',
                                 style: TextStyle(
                                   color: Colors.white,
                                   fontFamily: 'Arimo',
@@ -355,15 +356,15 @@ class _SupplierAccountState extends State<SupplierAccount> {
                           bottom: BorderSide(color: Colors.grey.shade300),
                         ),
                       ),
-                      child: const TabBar(
+                      child:  TabBar(
                         indicatorColor: Color(0xff7A4A32),
                         indicatorWeight: 2,
                         labelColor: Colors.black,
                         unselectedLabelColor: Colors.grey,
                         tabs: [
-                          Tab(text: 'Matrials'),
+                          Tab(text: LocaleKeys.materials.tr()),
 
-                          Tab(text: 'Reviews'),
+                          Tab(text: LocaleKeys.reviews.tr()),
                         ],
                       ),
                     ),

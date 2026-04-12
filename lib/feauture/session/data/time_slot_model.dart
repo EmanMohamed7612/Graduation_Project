@@ -1,21 +1,20 @@
 class TimeSlotModel {
-  final String date; 
-  final String startTime; 
+  final String date;
+  final String startTime;
+  final int ?id;
 
-  TimeSlotModel({required this.date, required this.startTime});
+  TimeSlotModel( {required this.date, required this.startTime,  this.id});
 
   // إضافة الجزء ده
   factory TimeSlotModel.fromJson(Map<String, dynamic> json) {
     return TimeSlotModel(
-      date: json['date'] ??json['Date'] ?? '',
-      startTime: json['startTime'] ??json['StartTime']?? '',
+      id: json['id'] ?? 0,
+      date: json['date'] ?? json['Date'] ?? '',
+      startTime: json['startTime'] ?? json['StartTime'] ?? '',
     );
   }
 
   Map<String, dynamic> toJson() {
-    return {
-      "date": date,
-      "startTime": startTime,
-    };
+    return {"date": date, "startTime": startTime};
   }
 }

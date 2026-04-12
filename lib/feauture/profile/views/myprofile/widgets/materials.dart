@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:graduation2/feauture/product/data/product_details_repo.dart';
 import 'package:graduation2/feauture/product/manager/product_details_cubit.dart';
-import 'package:graduation2/feauture/product/view/product_datails.dart';
 import 'package:graduation2/feauture/product/view/raw_material_details.dart';
 import 'package:graduation2/feauture/product_screens/manager/product_cubit.dart';
 import 'package:graduation2/feauture/product_screens/manager/product_state.dart';

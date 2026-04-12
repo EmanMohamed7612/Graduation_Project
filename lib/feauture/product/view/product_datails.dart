@@ -1,12 +1,13 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:graduation2/core/services/api_services.dart' hide CartRepo;
 import 'package:graduation2/core/utils/pref_helpers.dart';
+import 'package:graduation2/feauture/home/manager/fav_cubit.dart';
 import 'package:graduation2/feauture/product/manager/product_details_cubit.dart';
 import 'package:graduation2/feauture/product/manager/product_details_state.dart';
 import 'package:graduation2/feauture/product/view/widgets/custom_icon.dart';
 import 'package:graduation2/feauture/profile/manager/account.cubit.dart';
-import 'package:graduation2/feauture/profile/manager/profile_cubit.dart';
 import 'package:graduation2/feauture/profile/views/accounts/account.dart';
 import 'package:graduation2/feauture/review/data/cart_repo.dart';
 import 'package:graduation2/feauture/review/data/review_service.dart';
@@ -14,6 +15,7 @@ import 'package:graduation2/feauture/review/manager/cart_cubit.dart';
 import 'package:graduation2/feauture/review/manager/review_cubit.dart';
 import 'package:graduation2/feauture/review/view/cart/cart_screen.dart';
 import 'package:graduation2/feauture/review/view/rating_screen.dart';
+import 'package:graduation2/generated/locale_keys.g.dart';
 
 class ProductDetails extends StatefulWidget {
   ProductDetails({super.key, required this.productId});
@@ -55,7 +57,7 @@ class _ProductDetailsState extends State<ProductDetails> {
         centerTitle: true,
         leading: CustomIcon(icon: Icons.arrow_back_ios_new_outlined),
         title: Text(
-          'Product Details',
+          LocaleKeys.productdetails.tr(),
           style: TextStyle(
             color: const Color(0xFF3E2723),
             fontSize: 18,
@@ -67,7 +69,26 @@ class _ProductDetailsState extends State<ProductDetails> {
         actions: [
           CustomIcon(icon: Icons.share_outlined),
           SizedBox(width: size.width * .02),
-          CustomIcon(icon: Icons.favorite_border_outlined),
+          // CustomIcon(icon: Icons.favorite_border_outlined),
+          BlocBuilder<FavoriteCubit, List<int>>(
+            builder: (context, favoriteIds) {
+              final isFav = context.read<FavoriteCubit>().isFavorite(
+                widget.productId,
+              );
+
+              return CustomIcon(
+                icon: isFav ? Icons.favorite : Icons.favorite_border_outlined,
+                color: isFav
+                    ? Colors.red
+                    : null, // هيقلب أحمر لو مفضل، غير كدة بني
+                onPressed: () {
+                  context.read<FavoriteCubit>().toggleFavorite(
+                    widget.productId,
+                  );
+                },
+              );
+            },
+          ),
         ],
       ),
       body: BlocBuilder<ProductDetailsCubit, ProductDetailsState>(
@@ -121,14 +142,17 @@ class _ProductDetailsState extends State<ProductDetails> {
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                Text(
-                                  product.name,
-                                  style: TextStyle(
-                                    color: const Color(0xFF3E2723),
-                                    fontSize: 18,
-                                    fontFamily: 'Arimo',
-                                    fontWeight: FontWeight.w400,
-                                    height: 1.43,
+                                Expanded(
+                                  child: Text(
+                                    product.name,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: TextStyle(
+                                      color: const Color(0xFF3E2723),
+                                      fontSize: 18,
+                                      fontFamily: 'Arimo',
+                                      fontWeight: FontWeight.w400,
+                                      height: 1.43,
+                                    ),
                                   ),
                                 ),
                                 Container(
@@ -209,7 +233,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                               child: Row(
                                 children: [
                                   Text(
-                                    'Seller :',
+                                    "  ${LocaleKeys.seller.tr()} : ",
                                     style: TextStyle(
                                       color: const Color(0xFF8D6E63),
                                       fontSize: 14,
@@ -236,16 +260,6 @@ class _ProductDetailsState extends State<ProductDetails> {
                                   //     ),
                                   GestureDetector(
                                     onTap: () {
-                                      //                                    Navigator.push(
-                                      //   context,
-                                      //   MaterialPageRoute(
-                                      //     builder: (_) => BlocProvider(
-                                      //       create: (_) => UserAccountCubit(UserProfileRepo())
-                                      //         ..fetchAccount(product.sellerId), // 👈 هنا بنجيب الاكونت حسب sellerId
-                                      //       child: const Account(),
-                                      //     ),
-                                      //   ),
-                                      // );
                                       Navigator.push(
                                         context,
                                         MaterialPageRoute(
@@ -299,7 +313,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                                   color: Colors.white,
                                 ),
                                 Text(
-                                  '  Chat with seller',
+                                  '  ${LocaleKeys.chatwithseller.tr()}',
                                   textAlign: TextAlign.center,
                                   style: TextStyle(
                                     color: Colors.white,
@@ -316,13 +330,6 @@ class _ProductDetailsState extends State<ProductDetails> {
                       SizedBox(height: size.height * .015),
                       GestureDetector(
                         onTap: () {
-                          // Navigator.push(
-                          //   context,
-                          //   MaterialPageRoute(
-                          //     builder: (_) =>
-                          //         RatingScreen(idProduct: product.id),
-                          //   ),
-                          // );
                           Navigator.push(
                             context,
                             MaterialPageRoute(
@@ -351,7 +358,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                               children: [
                                 Icon(Icons.star, color: Colors.yellow),
                                 Text(
-                                  '  View reviews  ',
+                                  '  ${LocaleKeys.viewreviews.tr()}  ',
                                   textAlign: TextAlign.center,
                                   style: TextStyle(
                                     color: Color(0xff6D4C41),
@@ -370,7 +377,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
-                            'You May Also Like',
+                            LocaleKeys.youmayalsolike.tr(),
                             style: TextStyle(
                               color: const Color(0xFF3E2723),
                               fontSize: 14,
@@ -382,7 +389,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                           GestureDetector(
                             onTap: () {},
                             child: Text(
-                              'See More →',
+                              LocaleKeys.seemore.tr(),
                               textAlign: TextAlign.center,
                               style: TextStyle(
                                 color: const Color(0xFFC9A875),
@@ -425,14 +432,6 @@ class _ProductDetailsState extends State<ProductDetails> {
                         children: [
                           GestureDetector(
                             onTap: () async {
-                              // Navigator.push(
-                              //   context,
-                              //   MaterialPageRoute(
-                              //     builder: (context) {
-                              //       return CartScreen(sellerId: product.sellerId,);
-                              //     },
-                              //   ),
-                              // );
                               final userId = await PrefHelpers.getUserId();
                               print('userId : $userId');
                               print("CartId value: $userId");
@@ -474,7 +473,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                                       color: Color(0xff6D4C41),
                                     ),
                                     Text(
-                                      '  Add to cart',
+                                      LocaleKeys.addtocart.tr(),
                                       textAlign: TextAlign.center,
                                       style: TextStyle(
                                         color: Color(0xff6D4C41),
@@ -510,7 +509,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
                                     Text(
-                                      '  Buy',
+                                      '  ${LocaleKeys.buy.tr()}',
                                       textAlign: TextAlign.center,
                                       style: TextStyle(
                                         color: Colors.white,

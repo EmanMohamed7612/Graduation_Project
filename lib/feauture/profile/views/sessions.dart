@@ -1,242 +1,377 @@
+// import 'package:flutter/material.dart';
+
+// class SessionsView extends StatelessWidget {
+//   const SessionsView({super.key});
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return ListView.builder(
+//       padding: const EdgeInsets.all(8),
+//       itemCount: 1,
+//       itemBuilder: (context, index) {
+//         return Container(
+//           width: double.infinity,
+//           height: 88,
+//           padding: const EdgeInsets.only(top: 12, left: 10.50, right: 12),
+//           decoration: ShapeDecoration(
+//             color: Colors.white,
+//             shape: RoundedRectangleBorder(
+//               borderRadius: BorderRadius.circular(18),
+//             ),
+//             shadows: [
+//               BoxShadow(
+//                 color: Color(0x19000000),
+//                 blurRadius: 2,
+//                 offset: Offset(0, 1),
+//                 spreadRadius: -1,
+//               ),
+//               BoxShadow(
+//                 color: Color(0x19000000),
+//                 blurRadius: 3,
+//                 offset: Offset(0, 1),
+//                 spreadRadius: 0,
+//               ),
+//             ],
+//           ),
+//           child: Column(
+//             mainAxisSize: MainAxisSize.min,
+//             mainAxisAlignment: MainAxisAlignment.start,
+//             crossAxisAlignment: CrossAxisAlignment.start,
+//             spacing: 7,
+//             children: [
+//               Container(
+//                 width: double.infinity,
+//                 height: 35,
+//                 child: Row(
+//                   mainAxisSize: MainAxisSize.min,
+//                   mainAxisAlignment: MainAxisAlignment.start,
+//                   crossAxisAlignment: CrossAxisAlignment.center,
+//                   spacing: 10.50,
+//                   children: [
+//                     Container(
+//                       width: 35,
+//                       height: 35,
+//                       clipBehavior: Clip.antiAlias,
+//                       decoration: ShapeDecoration(
+//                         shape: RoundedRectangleBorder(
+//                           borderRadius: BorderRadius.circular(44739200),
+//                         ),
+//                       ),
+//                       child: Column(
+//                         mainAxisSize: MainAxisSize.min,
+//                         mainAxisAlignment: MainAxisAlignment.start,
+//                         crossAxisAlignment: CrossAxisAlignment.start,
+//                         children: [
+//                           Container(
+//                             width: double.infinity,
+//                             height: 35,
+//                             clipBehavior: Clip.antiAlias,
+//                             decoration: BoxDecoration(
+//                               image: DecorationImage(
+//                                 image: AssetImage(
+//                                   "assets/images/ImageWithFallback-10.png",
+//                                 ),
+//                                 fit: BoxFit.cover,
+//                               ),
+//                             ),
+//                           ),
+//                         ],
+//                       ),
+//                     ),
+//                     Expanded(
+//                       child: Container(
+//                         height: 31.50,
+//                         child: Column(
+//                           mainAxisSize: MainAxisSize.min,
+//                           mainAxisAlignment: MainAxisAlignment.start,
+//                           crossAxisAlignment: CrossAxisAlignment.start,
+//                           children: [
+//                             Container(
+//                               width: double.infinity,
+//                               height: 17.50,
+//                               child: Row(
+//                                 mainAxisSize: MainAxisSize.min,
+//                                 mainAxisAlignment: MainAxisAlignment.start,
+//                                 crossAxisAlignment: CrossAxisAlignment.start,
+//                                 children: [
+//                                   SizedBox(
+//                                     width: 183.52,
+//                                     child: Text(
+//                                       'Sarah Martinez',
+//                                       style: TextStyle(
+//                                         color: const Color(0xFF3E2723),
+//                                         fontSize: 12.25,
+//                                         fontFamily: 'Arimo',
+//                                         fontWeight: FontWeight.w400,
+//                                         height: 1.43,
+//                                       ),
+//                                     ),
+//                                   ),
+//                                 ],
+//                               ),
+//                             ),
+//                             Container(
+//                               width: double.infinity,
+//                               height: 14,
+//                               child: Row(
+//                                 mainAxisSize: MainAxisSize.min,
+//                                 mainAxisAlignment: MainAxisAlignment.start,
+//                                 crossAxisAlignment: CrossAxisAlignment.start,
+//                                 children: [
+//                                   SizedBox(
+//                                     width: 183.52,
+//                                     child: Text(
+//                                       'Pottery Basics Workshop',
+//                                       style: TextStyle(
+//                                         color: const Color(0xFF8D6E63),
+//                                         fontSize: 10.50,
+//                                         fontFamily: 'Arimo',
+//                                         fontWeight: FontWeight.w400,
+//                                         height: 1.33,
+//                                       ),
+//                                     ),
+//                                   ),
+//                                 ],
+//                               ),
+//                             ),
+//                           ],
+//                         ),
+//                       ),
+//                     ),
+//                     Container(
+//                       width: 54.15,
+//                       height: 20.50,
+//                       padding: const EdgeInsets.symmetric(
+//                         horizontal: 7,
+//                         vertical: 3.50,
+//                       ),
+//                       decoration: ShapeDecoration(
+//                         color: const Color(0xFFDCFCE7),
+//                         shape: RoundedRectangleBorder(
+//                           borderRadius: BorderRadius.circular(44739200),
+//                         ),
+//                       ),
+//                       child: Row(
+//                         mainAxisSize: MainAxisSize.min,
+//                         mainAxisAlignment: MainAxisAlignment.start,
+//                         crossAxisAlignment: CrossAxisAlignment.start,
+//                         children: [
+//                           Text(
+//                             'upcoming',
+//                             style: TextStyle(
+//                               color: const Color(0xFF008235),
+//                               fontSize: 9,
+//                               fontFamily: 'Arimo',
+//                               fontWeight: FontWeight.w400,
+//                               height: 1.50,
+//                             ),
+//                           ),
+//                         ],
+//                       ),
+//                     ),
+//                   ],
+//                 ),
+//               ),
+//               Container(
+//                 width: double.infinity,
+//                 height: 14,
+//                 child: Row(
+//                   mainAxisSize: MainAxisSize.min,
+//                   mainAxisAlignment: MainAxisAlignment.start,
+//                   crossAxisAlignment: CrossAxisAlignment.center,
+//                   spacing: 14,
+//                   children: [
+//                     Container(
+//                       width: 73.56,
+//                       height: 14,
+//                       child: Stack(
+//                         children: [
+//                           Positioned(
+//                             left: 0,
+//                             top: -1,
+//                             child: SizedBox(
+//                               width: 74,
+//                               child: Text(
+//                                 '📅 Jan 15, 2025',
+//                                 style: TextStyle(
+//                                   color: const Color(0xFF8D6E63),
+//                                   fontSize: 10.50,
+//                                   fontFamily: 'Arimo',
+//                                   fontWeight: FontWeight.w400,
+//                                   height: 1.33,
+//                                 ),
+//                               ),
+//                             ),
+//                           ),
+//                         ],
+//                       ),
+//                     ),
+//                     Container(
+//                       width: 54.73,
+//                       height: 14,
+//                       child: Stack(
+//                         children: [
+//                           Positioned(
+//                             left: 0,
+//                             top: -1,
+//                             child: SizedBox(
+//                               width: 55,
+//                               child: Text(
+//                                 '🕐 2:00 PM',
+//                                 style: TextStyle(
+//                                   color: const Color(0xFF8D6E63),
+//                                   fontSize: 10.50,
+//                                   fontFamily: 'Arimo',
+//                                   fontWeight: FontWeight.w400,
+//                                   height: 1.33,
+//                                 ),
+//                               ),
+//                             ),
+//                           ),
+//                         ],
+//                       ),
+//                     ),
+//                   ],
+//                 ),
+//               ),
+//             ],
+//           ),
+//         );
+//       },
+//     );
+//   }
+// }
+
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:graduation2/feauture/session/manager/expert_service_cubit.dart';
+import 'package:graduation2/feauture/session/manager/expert_service_state.dart';
 
 class SessionsView extends StatelessWidget {
   const SessionsView({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
-      padding: const EdgeInsets.all(8),
-      itemCount: 1,
-      itemBuilder: (context, index) {
-        return Container(
-          width: double.infinity,
-          height: 88,
-          padding: const EdgeInsets.only(top: 12, left: 10.50, right: 12),
-          decoration: ShapeDecoration(
-            color: Colors.white,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(18),
-            ),
-            shadows: [
-              BoxShadow(
-                color: Color(0x19000000),
-                blurRadius: 2,
-                offset: Offset(0, 1),
-                spreadRadius: -1,
-              ),
-              BoxShadow(
-                color: Color(0x19000000),
-                blurRadius: 3,
-                offset: Offset(0, 1),
-                spreadRadius: 0,
-              ),
-            ],
-          ),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            spacing: 7,
-            children: [
-              Container(
+    // استدعاء البيانات عند بناء الشاشة
+    context.read<ExpertServiceCubit>().fetchUpcomingSessions();
+
+    return BlocBuilder<ExpertServiceCubit, ExpertServiceState>(
+      builder: (context, state) {
+        if (state is ExpertServiceLoading) {
+          return const Center(child: CircularProgressIndicator());
+        } else if (state is UpcomingSessionsLoaded) {
+          final sessions = state.sessions;
+
+          if (sessions.isEmpty) {
+            return const Center(child: Text("No upcoming sessions found."));
+          }
+
+          return ListView.builder(
+            padding: const EdgeInsets.all(8),
+            itemCount: sessions.length,
+            itemBuilder: (context, index) {
+              final session = sessions[index];
+              return Container(
+                margin: const EdgeInsets.only(bottom: 12),
                 width: double.infinity,
-                height: 35,
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  spacing: 10.50,
+                padding: const EdgeInsets.all(12),
+                decoration: ShapeDecoration(
+                  color: Colors.white,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(18),
+                  ),
+                  shadows: const [
+                    BoxShadow(
+                      color: Color(0x19000000),
+                      blurRadius: 3,
+                      offset: Offset(0, 1),
+                    ),
+                  ],
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Container(
-                      width: 35,
-                      height: 35,
-                      clipBehavior: Clip.antiAlias,
-                      decoration: ShapeDecoration(
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(44739200),
-                        ),
-                      ),
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Container(
-                            width: double.infinity,
-                            height: 35,
-                            clipBehavior: Clip.antiAlias,
-                            decoration: BoxDecoration(
-                              image: DecorationImage(
-                                image: AssetImage(
-                                  "assets/images/ImageWithFallback-10.png",
-                                ),
-                                fit: BoxFit.cover,
-                              ),
-                            ),
+                    Row(
+                      children: [
+                        // صورة افتراضية أو من الـ API لو توفرت
+                        CircleAvatar(
+                          radius: 17.5,
+                          backgroundImage: AssetImage(
+                            "assets/images/person.png",
                           ),
-                        ],
-                      ),
-                    ),
-                    Expanded(
-                      child: Container(
-                        height: 31.50,
-                        child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Container(
-                              width: double.infinity,
-                              height: 17.50,
-                              child: Row(
-                                mainAxisSize: MainAxisSize.min,
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  SizedBox(
-                                    width: 183.52,
-                                    child: Text(
-                                      'Sarah Martinez',
-                                      style: TextStyle(
-                                        color: const Color(0xFF3E2723),
-                                        fontSize: 12.25,
-                                        fontFamily: 'Arimo',
-                                        fontWeight: FontWeight.w400,
-                                        height: 1.43,
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            Container(
-                              width: double.infinity,
-                              height: 14,
-                              child: Row(
-                                mainAxisSize: MainAxisSize.min,
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  SizedBox(
-                                    width: 183.52,
-                                    child: Text(
-                                      'Pottery Basics Workshop',
-                                      style: TextStyle(
-                                        color: const Color(0xFF8D6E63),
-                                        fontSize: 10.50,
-                                        fontFamily: 'Arimo',
-                                        fontWeight: FontWeight.w400,
-                                        height: 1.33,
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ],
                         ),
-                      ),
-                    ),
-                    Container(
-                      width: 54.15,
-                      height: 20.50,
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 7,
-                        vertical: 3.50,
-                      ),
-                      decoration: ShapeDecoration(
-                        color: const Color(0xFFDCFCE7),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(44739200),
+                        const SizedBox(width: 10),
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                session.beginnerName, // اسم المبتدئ من الـ API
+                                style: const TextStyle(
+                                  color: Color(0xFF3E2723),
+                                  fontSize: 12.25,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              Text(
+                                session.serviceName, // اسم الخدمة من الـ API
+                                style: const TextStyle(
+                                  color: Color(0xFF8D6E63),
+                                  fontSize: 10.50,
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
-                      ),
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
+                        // عرض حالة الجلسة (Upcoming)
+                        Container(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 8,
+                            vertical: 4,
+                          ),
+                          decoration: BoxDecoration(
+                            color: const Color(0xFFDCFCE7),
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          child: const Text(
                             'upcoming',
                             style: TextStyle(
-                              color: const Color(0xFF008235),
+                              color: Color(0xFF008235),
                               fontSize: 9,
-                              fontFamily: 'Arimo',
-                              fontWeight: FontWeight.w400,
-                              height: 1.50,
                             ),
                           ),
-                        ],
-                      ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 10),
+                    Row(
+                      children: [
+                        Text(
+                          '📅 ${session.date.split('T')[0]}', // تنسيق التاريخ
+                          style: const TextStyle(
+                            color: Color(0xFF8D6E63),
+                            fontSize: 10.5,
+                          ),
+                        ),
+                        const SizedBox(width: 15),
+                        Text(
+                          '🕐 ${session.startTime} - ${session.endTime}', // عرض الوقت
+                          style: const TextStyle(
+                            color: Color(0xFF8D6E63),
+                            fontSize: 10.5,
+                          ),
+                        ),
+                      ],
                     ),
                   ],
                 ),
-              ),
-              Container(
-                width: double.infinity,
-                height: 14,
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  spacing: 14,
-                  children: [
-                    Container(
-                      width: 73.56,
-                      height: 14,
-                      child: Stack(
-                        children: [
-                          Positioned(
-                            left: 0,
-                            top: -1,
-                            child: SizedBox(
-                              width: 74,
-                              child: Text(
-                                '📅 Jan 15, 2025',
-                                style: TextStyle(
-                                  color: const Color(0xFF8D6E63),
-                                  fontSize: 10.50,
-                                  fontFamily: 'Arimo',
-                                  fontWeight: FontWeight.w400,
-                                  height: 1.33,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    Container(
-                      width: 54.73,
-                      height: 14,
-                      child: Stack(
-                        children: [
-                          Positioned(
-                            left: 0,
-                            top: -1,
-                            child: SizedBox(
-                              width: 55,
-                              child: Text(
-                                '🕐 2:00 PM',
-                                style: TextStyle(
-                                  color: const Color(0xFF8D6E63),
-                                  fontSize: 10.50,
-                                  fontFamily: 'Arimo',
-                                  fontWeight: FontWeight.w400,
-                                  height: 1.33,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          ),
-        );
+              );
+            },
+          );
+        } else if (state is ExpertServiceError) {
+          return Center(child: Text(state.error));
+        }
+        return const SizedBox.shrink();
       },
     );
   }

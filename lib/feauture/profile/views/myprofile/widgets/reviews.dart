@@ -1,9 +1,11 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:graduation2/feauture/review/manager/review_cubit.dart';
 import 'package:graduation2/feauture/review/manager/review_state.dart';
 import 'package:graduation2/feauture/review/view/widgets/custom_star.dart';
 import 'package:graduation2/feauture/review/view/write_review.dart';
+import 'package:graduation2/generated/locale_keys.g.dart';
 import 'package:intl/intl.dart';
 
 class ReviewsView extends StatefulWidget {
@@ -85,7 +87,7 @@ class _ReviewsViewState extends State<ReviewsView> {
             },
             child: Center(
               child: Text(
-                'Write Review',
+                LocaleKeys.write_review.tr(),
                 style: TextStyle(color: Colors.white, fontFamily: 'Arimo'),
               ),
             ),
@@ -105,7 +107,7 @@ class _ReviewsViewState extends State<ReviewsView> {
                 final reviews = state.reviews;
 
                 if (reviews.isEmpty) {
-                  return const Center(child: Text("No Reviews Yet"));
+                  return  Center(child: Text(LocaleKeys.no_reviews.tr()));
                 }
 
                 return ListView.builder(

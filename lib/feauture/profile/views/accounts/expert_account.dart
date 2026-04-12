@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -12,9 +13,9 @@ import 'package:graduation2/feauture/product_screens/manager/product_cubit.dart'
 import 'package:graduation2/feauture/review/data/review_service.dart';
 import 'package:graduation2/feauture/review/manager/review_cubit.dart';
 import 'package:graduation2/feauture/review/view/widgets/custom_star.dart';
-import 'package:graduation2/feauture/session/data/expert_repo.dart';
 import 'package:graduation2/feauture/session/manager/expert_service_cubit.dart';
 import 'package:graduation2/feauture/session/view/book_sconsultation_screen.dart';
+import 'package:graduation2/generated/locale_keys.g.dart';
 
 class ExpertAccount extends StatefulWidget {
   const ExpertAccount({super.key, required this.user});
@@ -201,11 +202,11 @@ class _ExpertAccountState extends State<ExpertAccount> {
                                 type: 'Products',
                               );
                             }
-                            return NumberOfType(number: 0, type: 'Products');
+                            return NumberOfType(number: 0, type: LocaleKeys.products.tr());
                           },
                         ),
-                        NumberOfType(number: 0, type: 'Sessions'),
-                        NumberOfType(number: totalReviews, type: 'Reviews'),
+                        NumberOfType(number: 0, type: LocaleKeys.sessions.tr()),
+                        NumberOfType(number: totalReviews, type: LocaleKeys.reviews.tr()),
                       ],
                     ),
                     SizedBox(height: height * .01),
@@ -344,7 +345,7 @@ class _ExpertAccountState extends State<ExpertAccount> {
                               ),
 
                               Text(
-                                ' Book Session',
+                                ' ${LocaleKeys.booksession.tr()}',
                                 style: TextStyle(
                                   color: Colors.white,
                                   fontFamily: 'Arimo',
@@ -371,15 +372,15 @@ class _ExpertAccountState extends State<ExpertAccount> {
                           bottom: BorderSide(color: Colors.grey.shade300),
                         ),
                       ),
-                      child: const TabBar(
+                      child:  TabBar(
                         indicatorColor: Color(0xff7A4A32),
                         indicatorWeight: 2,
                         labelColor: Colors.black,
                         unselectedLabelColor: Colors.grey,
                         tabs: [
-                          Tab(text: 'Products'),
+                          Tab(text: LocaleKeys.products.tr()),
 
-                          Tab(text: 'Reviews'),
+                          Tab(text: LocaleKeys.reviews.tr()),
                         ],
                       ),
                     ),

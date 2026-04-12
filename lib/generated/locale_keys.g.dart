@@ -285,5 +285,34 @@ abstract class  LocaleKeys {
   static const addService = 'addService';
   static const addTimeSlot = 'addTimeSlot';
   static const mySessions = 'mySessions';
+  static const startloadingsessions = 'startloadingsessions';
+  static const nopastsessionsfound = 'nopastsessionsfound';
+  static const noupcomingsessionsfound = 'noupcomingsessionsfound';
+  static const upcoming = 'upcoming';
+  static const past = 'past';
+  static const requests = 'requests';
+  static const confirmbooking = 'confirmbooking';
+  static const areyousureyouwanttocompletethisbooking = 'areyousureyouwanttocompletethisbooking';
+  static const notimeslotsavailableforthisexpert = 'notimeslotsavailableforthisexpert';
+  static const addtimeslot = 'addtimeslot';
+  static const day = 'day';
+  static const time = 'time';
+  static const requiredfield = 'requiredfield';
+  static const sorryyoursessionhasendedandyoucannotenternow = 'sorryyoursessionhasendedandyoucannotenternow';
+  static const sorrythemeetinglinkiscurrentlyunavailable = 'sorrythemeetinglinkiscurrentlyunavailable';
+  static const thesessionhasnotyetbegunpleasewaitforthescheduledtime = 'thesessionhasnotyetbegunpleasewaitforthescheduledtime';
+  static const joinsession = 'joinsession';
+  static const addmeetinglink = 'addmeetinglink';
+  static const productdetails = 'productdetails';
+  static const chatwithseller = 'chatwithseller';
+  static const viewreviews = 'viewreviews';
+  static const youmayalsolike = 'youmayalsolike';
+  static const seemore = 'seemore';
+  static const addtocart = 'addtocart';
+  static const buy = 'buy';
+  static const rawmaterialdetails = 'rawmaterialdetails';
+  static const sendmessage = 'sendmessage';
+  static const booksession = 'booksession';
+  static const messages = 'messages';
 
 }

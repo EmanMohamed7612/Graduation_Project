@@ -1,8 +1,11 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:graduation2/feauture/session/data/service_model.dart';
+import 'package:graduation2/feauture/session/data/time_slot_model.dart';
 import 'package:graduation2/feauture/session/manager/expert_service_cubit.dart';
 import 'package:graduation2/feauture/session/manager/expert_service_state.dart';
+import 'package:graduation2/feauture/session/view/my_consultation.dart';
 import 'package:graduation2/feauture/session/view/widgets/service_card.dart';
 import 'package:graduation2/generated/locale_keys.g.dart';
 
@@ -20,77 +23,111 @@ class _BookingConsultationScreenState extends State<BookingConsultationScreen> {
   String? selectedDate; // غيرنا القيمة من "14" لـ null
   String? selectedTime; // غيرنا القيمة من "9:00 AM" لـ null
   String? selectedPaymentMethod; // لحفظ وسيلة الدفع المختارة (null في البداية)
-  String? selectedService;
-  // القيمة null في البداية يعني مفيش اختيار// الوقت الافتراضي
+  // String? selectedService;
+  ServiceModel? selectedService;
+  TimeSlotModel? selectedSlot;
+
   @override
   void initState() {
     super.initState();
     // context.read<ExpertServiceCubit>().fetchExpertServices(widget.expertId);
-    // context.read<ExpertServiceCubit>().fetchTimeSlots(widget.expertId);
     context.read<ExpertServiceCubit>().fetchInitialData(widget.expertId);
   }
 
   @override
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
-    return Scaffold(
-      // backgroundColor: Colors.white,
-      appBar: AppBar(
-        leading: CircleAvatar(
-          backgroundColor: Color(0xffEFEBE9),
-          child: IconButton(
-            // استخدمنا IconButton ليكون شكل الضغط أفضل
-            icon: Icon(
-              Icons.arrow_back_ios,
-              color: Color(0xff6D4C41),
-              size: 18,
+    print('expert id : ${widget.expertId}');
+    return BlocListener<ExpertServiceCubit, ExpertServiceState>(
+      listener: (context, state) {
+        if (state is ExpertServiceSuccess) {
+          // إظهار رسالة نجاح
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(state.message),
+              backgroundColor: Colors.green,
             ),
-            onPressed: () {
-              setState(() {
-                if (currentStep > 1) {
-                  // لو هو في صفحة 2 أو 3 يرجع خطوة لورا
-                  currentStep--;
-                } else {
-                  // لو هو في أول صفحة يخرج من الشاشة خالص
-                  Navigator.pop(context);
-                }
-              });
-            },
-          ),
-        ),
-        title: Text(
-          LocaleKeys.bookConsultation.tr(),
-          style: TextStyle(
-            color: const Color(0xFF3E2723),
-            fontSize: 20,
-            fontFamily: 'Arimo',
-            fontWeight: FontWeight.w400,
-          ),
-        ),
-        centerTitle: true,
-        backgroundColor: Colors.white,
-        elevation: 0,
-        // الـ Indicator هنا هيفضل ثابت في الـ AppBar
-        bottom: PreferredSize(
-          preferredSize: Size.fromHeight(60.0),
-          child: Column(
-            children: [_buildStepIndicator(), SizedBox(height: 15)],
-          ),
-        ),
+          );
+          Navigator.pushAndRemoveUntil(
+    context,
+    MaterialPageRoute(
+      builder: (context) => BlocProvider(
+        // نقوم بإنشاء نسخة جديدة من الـ Cubit للشاشة الجديدة
+        create: (context) => ExpertServiceCubit(), 
+        child: MyConsultationScreen(), // تأكد من استخدام الاسم الصحيح للكلاس
       ),
-      body: Column(
-        children: [
-          // الجزء المتغير بناءً على الخطوة
-          Expanded(
-            child: SingleChildScrollView(
-              padding: const EdgeInsets.all(20),
-              child: _buildCurrentStepContent(),
+    ),
+    (route) => route.isFirst,
+  );
+          // يمكنك هنا العودة للصفحة الرئيسية أو صفحة الحجوزات
+          // Navigator.pop(context);
+        } else if (state is ExpertServiceError) {
+          // إظهار رسالة خطأ
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text(state.error), backgroundColor: Colors.red),
+          );
+        }
+      },
+      child: Scaffold(
+        // backgroundColor: Colors.white,
+        appBar: AppBar(
+          leading: CircleAvatar(
+            backgroundColor: Color(0xffEFEBE9),
+            child: IconButton(
+              // استخدمنا IconButton ليكون شكل الضغط أفضل
+              icon: Icon(
+                Icons.arrow_back_ios,
+                color: Color(0xff6D4C41),
+                size: 18,
+              ),
+              onPressed: () {
+                setState(() {
+                  if (currentStep > 1) {
+                    // لو هو في صفحة 2 أو 3 يرجع خطوة لورا
+                    currentStep--;
+                  } else {
+                    // لو هو في أول صفحة يخرج من الشاشة خالص
+                    Navigator.pop(context);
+                  }
+                });
+              },
             ),
           ),
+          title: Text(
+            LocaleKeys.bookConsultation.tr(),
+            style: TextStyle(
+              color: const Color(0xFF3E2723),
+              fontSize: 20,
+              fontFamily: 'Arimo',
+              fontWeight: FontWeight.w400,
+            ),
+          ),
+          centerTitle: true,
+          backgroundColor: Colors.white,
+          elevation: 0,
+          // الـ Indicator هنا هيفضل ثابت في الـ AppBar
+          bottom: PreferredSize(
+            preferredSize: Size.fromHeight(60.0),
+            child: Column(
+              children: [_buildStepIndicator(), SizedBox(height: 15)],
+            ),
+          ),
+        ),
 
-          // زرار الـ Action ثابت دائماً في أسفل الشاشة
-          _buildBottomButton(),
-        ],
+        body: Column(
+          children: [
+            // الجزء المتغير بناءً على الخطوة
+            Expanded(
+              child: SingleChildScrollView(
+                padding: const EdgeInsets.all(20),
+                child: _buildCurrentStepContent(),
+              ),
+            ),
+
+            // زرار الـ Action ثابت دائماً في أسفل الشاشة
+            _buildBottomButton(),
+          ],
+        ),
       ),
     );
   }
@@ -194,13 +231,19 @@ class _BookingConsultationScreenState extends State<BookingConsultationScreen> {
                 separatorBuilder: (_, __) => const SizedBox(height: 15),
                 itemBuilder: (context, index) {
                   var service = state.services[index];
-                  bool isThisSelected = selectedService == service.title;
-
+                  // bool isThisSelected = selectedService == service.title;
+                  bool isThisSelected = selectedService?.id == service.id;
                   return GestureDetector(
                     onTap: () {
+                      //   selectedService = isThisSelected ? null : service.title;
+                      //   // نصيحة: يفضل تخزني الـ service.id مش الـ title بس عشان الحجز
+                      // });
+                      // داخل itemBuilder بتاع الخدمات:
+
                       setState(() {
-                        selectedService = isThisSelected ? null : service.title;
-                        // نصيحة: يفضل تخزني الـ service.id مش الـ title بس عشان الحجز
+                        selectedService = (selectedService?.id == service.id)
+                            ? null
+                            : service;
                       });
                     },
                     child: Container(
@@ -222,20 +265,6 @@ class _BookingConsultationScreenState extends State<BookingConsultationScreen> {
                   );
                 },
               ),
-              // نغلف كل كارت بـ GestureDetector أو نعدل الكارت نفسه
-              // _buildSelectableServiceCard(
-              //   "Technique Consultation",
-              //   "60 min",
-              //   "50 EGP",
-              // ),
-              // SizedBox(height: 15),
-              // _buildSelectableServiceCard("Portfolio Review", "45 min", "40 EGP"),
-              // SizedBox(height: 15),
-              // _buildSelectableServiceCard(
-              //   "Business Guidance",
-              //   "30 min",
-              //   "30 EGP",
-              // ),
             ],
           );
         }
@@ -270,10 +299,16 @@ class _BookingConsultationScreenState extends State<BookingConsultationScreen> {
           ),
           child: Column(
             children: [
-              _summaryRow("Service", "Portfolio Review"),
-              Divider(height: 30),
-              _summaryRow("Date & Time", "Oct 13, 9:00 AM"),
-              Divider(height: 30),
+              // _summaryRow("Service", "Portfolio Review"),
+              // Divider(height: 30),
+              // _summaryRow("Date & Time", "Oct 13, 9:00 AM"),
+              // Divider(height: 30),
+              _summaryRow("Service", selectedService?.title ?? ""),
+              _summaryRow(
+                "Date & Time",
+                "${selectedSlot?.date} , ${selectedSlot?.startTime}",
+              ),
+              // السعر
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -282,7 +317,7 @@ class _BookingConsultationScreenState extends State<BookingConsultationScreen> {
                     style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                   ),
                   Text(
-                    "\$40",
+                    "${selectedService?.price ?? 0} EGP",
                     style: TextStyle(
                       fontSize: 22,
                       fontWeight: FontWeight.bold,
@@ -451,13 +486,75 @@ class _BookingConsultationScreenState extends State<BookingConsultationScreen> {
           ),
           child: InkWell(
             // استخدمت InkWell بدل GestureDetector عشان الـ Ripple effect
+            // onTap: isEnabled
+            //     ? () {
+            //         setState(() {
+            //           if (currentStep < 3) currentStep++;
+            //         });
+            //       }
+            //     : null, // لو false مش هيضغط
             onTap: isEnabled
                 ? () {
-                    setState(() {
-                      if (currentStep < 3) currentStep++;
-                    });
+                    if (currentStep < 3) {
+                      setState(() {
+                        currentStep++;
+                      });
+                    } else {
+                      final expertCubit = context.read<ExpertServiceCubit>();
+
+                      showDialog(
+                        context: context,
+                        builder: (dialogContext) {
+                          // سميناه dialogContext عشان منلخبطش
+                          // 2. استخدمي BlocProvider.value عشان تمرري الـ Cubit للـ Dialog
+                          return BlocProvider.value(
+                            value: expertCubit,
+                            child: AlertDialog(
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(15),
+                              ),
+                              title: Text(LocaleKeys.confirmbooking.tr()),
+                              content: Text(
+                                LocaleKeys.areyousureyouwanttocompletethisbooking.tr(),
+                              ),
+                              actions: [
+                                TextButton(
+                                  child: Text(
+                                    "Cancel",
+                                    style: TextStyle(color: Colors.grey),
+                                  ),
+                                  onPressed: () => Navigator.pop(dialogContext),
+                                ),
+                                TextButton(
+                                  child: Text(
+                                    "OK",
+                                    style: TextStyle(
+                                      color: Color(0xFF6D4C41),
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  onPressed: () {
+                                    Navigator.pop(dialogContext);
+
+                                    // 3. نادي على الـ Cubit من المتغير اللي حفظناه
+                                    if (selectedService != null &&
+                                        selectedSlot != null) {
+                                      expertCubit.bookConsultation(
+                                        expertId: widget.expertId,
+                                        serviceId: selectedService!.id,
+                                        availabilityId: selectedSlot!.id!,
+                                      );
+                                    }
+                                  },
+                                ),
+                              ],
+                            ),
+                          );
+                        },
+                      );
+                    }
                   }
-                : null, // لو false مش هيضغط
+                : null,
             child: Center(
               child: Text(
                 currentStep == 3
@@ -498,8 +595,8 @@ class _BookingConsultationScreenState extends State<BookingConsultationScreen> {
         if (state is ExpertServicesLoaded) {
           // إذا لم توجد مواعيد فعلياً في الـ List
           if (state.slots.isEmpty) {
-            return const Center(
-              child: Text("No time slots available for this expert"),
+            return  Center(
+              child: Text(LocaleKeys.notimeslotsavailableforthisexpert.tr()),
             );
           }
 
@@ -555,7 +652,7 @@ class _BookingConsultationScreenState extends State<BookingConsultationScreen> {
                   runSpacing: 10,
                   children: state.slots
                       .where((s) => s.date == selectedDate)
-                      .map((s) => _timeChip(s.startTime))
+                      .map((s) => _timeChip(s))
                       .toList(),
                 ),
               ],
@@ -569,130 +666,6 @@ class _BookingConsultationScreenState extends State<BookingConsultationScreen> {
       },
     );
   }
-  // Widget _buildDateTimeSelection() {
-  //   return BlocBuilder<ExpertServiceCubit, ExpertServiceState>(
-  //     builder: (context, state) {
-  //       if (state is ExpertServiceLoading) {
-  //         return const Center(child: CircularProgressIndicator());
-  //       } else if (state is ExpertTimeSlotsLoaded) {
-  //         // تجميع التواريخ الفريدة المتاحة
-  //         final dates = state.slots.map((s) => s.date).toSet().toList();
-  //         return Column(
-  //           crossAxisAlignment: CrossAxisAlignment.start,
-  //           children: [
-  //             Text(
-  //               LocaleKeys.pickDateTime.tr(),
-  //               style: TextStyle(
-  //                 color: const Color(0xFF3E2723),
-  //                 fontSize: 15.75,
-  //                 fontFamily: 'Arimo',
-  //                 fontWeight: FontWeight.w400,
-  //               ),
-  //             ),
-  //             SizedBox(height: 20),
-  //             Text(
-  //               LocaleKeys.selectDate.tr(),
-  //               style: TextStyle(
-  //                 color: const Color(0xFF8D6E63),
-  //                 fontSize: 12.25,
-  //                 fontFamily: 'Arimo',
-  //                 fontWeight: FontWeight.w400,
-  //               ),
-  //             ),
-  //             SizedBox(height: 10),
-
-  //             // SingleChildScrollView(
-  //             //   scrollDirection: Axis.horizontal,
-  //             //   child: Row(
-  //             //     children: [
-  //             //       _dateCard("Mon", "12"),
-  //             //       _dateCard("Tue", "13"),
-  //             //       _dateCard("Wed", "14"),
-  //             //       _dateCard("Thu", "15"),
-  //             //       _dateCard("Fri", "16"),
-  //             //     ],
-  //             //   ),
-  //             // ),
-  //             Wrap(
-  //               spacing: 10,
-  //               runSpacing: 10,
-  //               children: dates.map((d) {
-  //                 DateTime parsedDate = DateTime.parse(d);
-  //                 String dayName = DateFormat('E').format(parsedDate);
-  //                 String dayNumber = DateFormat('d').format(parsedDate);
-  //                 return _dateCard(dayName, dayNumber, fullDate: d);
-  //               }).toList(),
-  //             ),
-  //             // Wrap(
-  //             //   spacing: 10,
-  //             //   runSpacing: 10,
-  //             //   children: [
-  //             //     _dateCard("Mon", "12"),
-  //             //     _dateCard("Tue", "13"),
-  //             //     _dateCard("Wed", "14"),
-  //             //     _dateCard("Thu", "15"),
-  //             //     _dateCard("Fri", "16"),
-  //             //   ],
-  //             // ),
-  //             SizedBox(height: 25),
-
-  //             if (selectedDate != null) ...[
-  //               Text(
-  //                 LocaleKeys.selectTime.tr(),
-  //                 style: TextStyle(
-  //                   color: const Color(0xFF8D6E63),
-  //                   fontSize: 12.25,
-  //                   fontFamily: 'Arimo',
-  //                   fontWeight: FontWeight.w400,
-  //                 ),
-  //               ),
-  //               const SizedBox(height: 15),
-  //               Wrap(
-  //                 spacing: 10,
-  //                 runSpacing: 10,
-  //                 children: state.slots
-  //                     .where(
-  //                       (s) => s.date == selectedDate,
-  //                     ) // فلترة المواعيد بناءً على اليوم المختار
-  //                     .map((s) => _timeChip(s.startTime)) // عرض وقت البداية
-  //                     .toList(),
-  //               ),
-  //             ],
-  //             // Text(
-  //             //   LocaleKeys.selectTime.tr(),
-  //             //   style: TextStyle(
-  //             //     color: const Color(0xFF8D6E63),
-  //             //     fontSize: 12.25,
-  //             //     fontFamily: 'Arimo',
-  //             //     fontWeight: FontWeight.w400,
-  //             //   ),
-  //             // ),
-  //             // SizedBox(height: 15),
-
-  //             // Wrap(
-  //             //   spacing: 10,
-  //             //   runSpacing: 10,
-  //             //   children: [
-  //             //     _timeChip("9:00 AM"),
-  //             //     _timeChip("10:00 AM"),
-  //             //     _timeChip("11:00 AM"),
-  //             //     _timeChip("1:00 PM"),
-  //             //     _timeChip("2:00 PM"),
-  //             //     _timeChip("3:00 PM"),
-  //             //     _timeChip("4:00 PM"),
-  //             //   ],
-  //             // ),
-  //           ],
-  //         );
-  //       }
-  //       if (state is ExpertServiceError) {
-  //         return Center(child: Text(state.error));
-  //       }
-
-  //       return const Center(child: Text("No slots available"));
-  //     },
-  //   );
-  // }
 
   // Widget كارت التاريخ المحدث
   Widget _dateCard(String day, String date, {required String fullDate}) {
@@ -761,15 +734,25 @@ class _BookingConsultationScreenState extends State<BookingConsultationScreen> {
     );
   }
 
-  // Widget كبسولة الوقت المحدثة
-  Widget _timeChip(String time) {
-    bool isSelected = selectedTime == time; // فحص هل هذا الوقت هو المختار
-
+  Widget _timeChip(TimeSlotModel slot) {
+    // bool isSelected = selectedTime == time; // فحص هل هذا الوقت هو المختار
+    bool isSelected = selectedSlot?.id == slot.id;
     return GestureDetector(
       onTap: () {
+        // setState(() {
+        //   selectedTime = isSelected ? null : time;
+        // }); // تحديث الحالة
         setState(() {
-          selectedTime = isSelected ? null : time;
-        }); // تحديث الحالة
+          // لو ضغطنا على نفس الموعد نلغي الاختيار، غير كدة نختاره
+          if (isSelected) {
+            selectedSlot = null;
+            selectedTime = null;
+          } else {
+            selectedSlot = slot;
+            selectedTime =
+                slot.startTime; // عشان الـ UI اللي بيعتمد على String يفضل شغال
+          }
+        });
       },
       child: Container(
         padding: EdgeInsets.symmetric(horizontal: 20, vertical: 12),
@@ -791,7 +774,7 @@ class _BookingConsultationScreenState extends State<BookingConsultationScreen> {
                 ],
         ),
         child: Text(
-          time,
+          slot.startTime,
           style: TextStyle(
             color: const Color(0xFF3E2723),
             fontSize: 12.25,

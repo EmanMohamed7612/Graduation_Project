@@ -90,9 +90,9 @@ class _AddServiceScreenState extends State<AddServiceScreen> {
           _serviceNameController.clear();
           _priceController.clear();
           _durationController.clear();
-          ScaffoldMessenger.of(
-            context,
-          ).showSnackBar(SnackBar(content: Text(state.message)));
+          // ScaffoldMessenger.of(
+          //   context,
+          // ).showSnackBar(SnackBar(content: Text(state.message)));
           // مسح الحقول
           _dayController.clear();
           _timeController.clear();
@@ -373,8 +373,8 @@ class _AddServiceScreenState extends State<AddServiceScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text(
-              "Add Time Slot",
+             Text(
+              LocaleKeys.addtimeslot.tr(),
               style: TextStyle(fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 16),
@@ -405,7 +405,7 @@ class _AddServiceScreenState extends State<AddServiceScreen> {
                     child: AbsorbPointer(
                       // يمنع الكيبورد من الظهور
                       child: _buildTextField(
-                        "Day",
+                        LocaleKeys.day.tr(),
                         "YYYY-MM-DD",
                         controller: _dayController,
                       ),
@@ -418,7 +418,7 @@ class _AddServiceScreenState extends State<AddServiceScreen> {
                     onTap: () => _selectTime(context),
                     child: AbsorbPointer(
                       child: _buildTextField(
-                        "Time",
+                        LocaleKeys.time.tr(),
                         "HH:mm:ss",
                         controller: _timeController,
                       ),
@@ -429,7 +429,7 @@ class _AddServiceScreenState extends State<AddServiceScreen> {
             ),
             const SizedBox(height: 20),
             _buildActionButton(
-              "Add Time Slot",
+             LocaleKeys.addtimeslot.tr(),
               _isTimeSlotValid
                   ? const Color(0xffD1AE4A)
                   : const Color(0xffD1AE4A).withOpacity(0.6),
@@ -478,12 +478,12 @@ class _AddServiceScreenState extends State<AddServiceScreen> {
           controller: controller,
           maxLines: maxLines,
           readOnly:
-              (label == "Day" ||
-              label == "Time"), // منع الكتابة في حقول الوقت والتاريخ
+              (label == LocaleKeys.day.tr() ||
+              label == LocaleKeys.time.tr()), // منع الكتابة في حقول الوقت والتاريخ
           keyboardType: isNumeric ? TextInputType.number : TextInputType.text,
           validator: (value) {
             if (isRequired && (value == null || value.isEmpty)) {
-              return "Required field";
+              return LocaleKeys.requiredfield.tr();
             }
             return null;
           },
@@ -576,7 +576,7 @@ class _AddServiceScreenState extends State<AddServiceScreen> {
           backgroundColor: color,
           padding: const EdgeInsets.symmetric(vertical: 14),
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(12),
+            borderRadius: BorderRadius.circular(25),
           ),
           elevation: 0,
         ),

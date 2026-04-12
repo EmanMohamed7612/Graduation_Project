@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:graduation2/core/services/api_services.dart' hide CartRepo;
@@ -6,7 +7,6 @@ import 'package:graduation2/feauture/product/manager/product_details_cubit.dart'
 import 'package:graduation2/feauture/product/manager/product_details_state.dart';
 import 'package:graduation2/feauture/product/view/widgets/custom_icon.dart';
 import 'package:graduation2/feauture/profile/manager/account.cubit.dart';
-import 'package:graduation2/feauture/profile/manager/profile_cubit.dart';
 import 'package:graduation2/feauture/profile/views/accounts/account.dart';
 import 'package:graduation2/feauture/review/data/cart_repo.dart';
 import 'package:graduation2/feauture/review/data/review_service.dart';
@@ -14,7 +14,7 @@ import 'package:graduation2/feauture/review/manager/cart_cubit.dart';
 import 'package:graduation2/feauture/review/manager/review_cubit.dart';
 import 'package:graduation2/feauture/review/view/cart/cart_screen.dart';
 import 'package:graduation2/feauture/review/view/rating_matrial_screen.dart';
-import 'package:graduation2/feauture/review/view/rating_screen.dart';
+import 'package:graduation2/generated/locale_keys.g.dart';
 
 class RawMaterialDetails extends StatefulWidget {
   RawMaterialDetails({super.key, required this.productId});
@@ -57,7 +57,7 @@ class _RawMaterialDetailsState extends State<RawMaterialDetails> {
         centerTitle: true,
         leading: CustomIcon(icon: Icons.arrow_back_ios_new_outlined),
         title: Text(
-          'Product Details',
+          LocaleKeys.rawmaterialdetails.tr(),
           style: TextStyle(
             color: const Color(0xFF3E2723),
             fontSize: 18,
@@ -211,7 +211,7 @@ class _RawMaterialDetailsState extends State<RawMaterialDetails> {
                               child: Row(
                                 children: [
                                   Text(
-                                    'Seller :',
+                                    "  ${LocaleKeys.seller.tr()} : ",
                                     style: TextStyle(
                                       color: const Color(0xFF8D6E63),
                                       fontSize: 14,
@@ -301,7 +301,7 @@ class _RawMaterialDetailsState extends State<RawMaterialDetails> {
                                   color: Colors.white,
                                 ),
                                 Text(
-                                  '  Chat with seller',
+                                  '  ${LocaleKeys.chatwithseller.tr()}',
                                   textAlign: TextAlign.center,
                                   style: TextStyle(
                                     color: Colors.white,
@@ -353,7 +353,7 @@ class _RawMaterialDetailsState extends State<RawMaterialDetails> {
                               children: [
                                 Icon(Icons.star, color: Colors.yellow),
                                 Text(
-                                  '  View reviews  ',
+                                  '  ${LocaleKeys.viewreviews.tr()}  ',
                                   textAlign: TextAlign.center,
                                   style: TextStyle(
                                     color: Color(0xff6D4C41),
@@ -372,7 +372,7 @@ class _RawMaterialDetailsState extends State<RawMaterialDetails> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
-                            'You May Also Like',
+                            LocaleKeys.youmayalsolike.tr(),
                             style: TextStyle(
                               color: const Color(0xFF3E2723),
                               fontSize: 14,
@@ -384,7 +384,7 @@ class _RawMaterialDetailsState extends State<RawMaterialDetails> {
                           GestureDetector(
                             onTap: () {},
                             child: Text(
-                              'See More →',
+                              LocaleKeys.seemore.tr(),
                               textAlign: TextAlign.center,
                               style: TextStyle(
                                 color: const Color(0xFFC9A875),
@@ -476,7 +476,7 @@ class _RawMaterialDetailsState extends State<RawMaterialDetails> {
                                       color: Color(0xff6D4C41),
                                     ),
                                     Text(
-                                      '  Add to cart',
+                                      ' ${LocaleKeys.addtocart.tr()}',
                                       textAlign: TextAlign.center,
                                       style: TextStyle(
                                         color: Color(0xff6D4C41),
@@ -512,7 +512,7 @@ class _RawMaterialDetailsState extends State<RawMaterialDetails> {
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
                                     Text(
-                                      '  Buy',
+                                      '  ${LocaleKeys.buy.tr()}',
                                       textAlign: TextAlign.center,
                                       style: TextStyle(
                                         color: Colors.white,

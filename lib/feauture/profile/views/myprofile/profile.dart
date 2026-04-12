@@ -20,7 +20,15 @@ class Profile extends StatelessWidget {
       //  backgroundColor: Color(0xffEFEBE9),
       appBar: AppBar(
         leading: IconButton(
-          onPressed: onGoHome?.call,
+          onPressed: () {
+            if (onGoHome != null) {
+              onGoHome!();
+            } else {
+              // لو مش موجودة (زي لو فاتحين البروفايل من صفحة تانية بـ push)
+              Navigator.maybePop(context);
+            }
+          },
+          // onGoHome?.call,
           icon: Icon(
             Icons.arrow_back_ios_new_outlined,
             color: Color(0xff6D4C41),

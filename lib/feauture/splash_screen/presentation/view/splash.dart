@@ -2,7 +2,6 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:graduation2/core/rescources/colors.dart' show AppColors;
 import 'package:graduation2/feauture/language/lnguage_view.dart';
-import 'package:graduation2/feauture/splash_screen/presentation/view/onboarding.dart';
 import 'package:graduation2/generated/locale_keys.g.dart';
 
 class SplashView extends StatefulWidget {
@@ -12,23 +11,40 @@ class SplashView extends StatefulWidget {
   State<SplashView> createState() => _SplashViewState();
 }
 
-class _SplashViewState extends State<SplashView> {
+class _SplashViewState extends State<SplashView>
+    with SingleTickerProviderStateMixin {
+  late AnimationController _controller;
   @override
   void initState() {
     super.initState();
+    // 2. إعداد المتحكم (المدة هنا 3 ثوانٍ، ممكن تغيريها لـ 5 مثلاً)
+    _controller =
+        AnimationController(vsync: this, duration: const Duration(seconds: 3))
+          ..addListener(() {
+            setState(() {});
+          });
+
+    _controller.forward();
+    _startDelay();
+
     _startDelay();
   }
 
   void _startDelay() async {
-    await Future.delayed(const Duration(seconds: 5));
-    Navigator.pushReplacement(
-      context,
-      MaterialPageRoute(
-        builder: (context) {
-          return LanguageView();
-        },
-      ),
-    );
+    // ننتظر انتهاء الأنميشن قبل الانتقال
+    await Future.delayed(const Duration(seconds: 3));
+    if (mounted) {
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => const LanguageView()),
+      );
+    }
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose(); // تنظيف الذاكرة
+    super.dispose();
   }
 
   @override
@@ -157,7 +173,7 @@ class _SplashViewState extends State<SplashView> {
                     child: Align(
                       alignment: Alignment.centerLeft,
                       child: Container(
-                        width: 60,
+                        width: 140 * _controller.value,
                         height: 4,
                         decoration: BoxDecoration(
                           color: const Color(0xff5A3E36),

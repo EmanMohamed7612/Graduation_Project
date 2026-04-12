@@ -1,12 +1,12 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:graduation2/feauture/profile/views/accounts/widgets/posts_account.dart';
 import 'package:graduation2/feauture/profile/views/accounts/widgets/review_account.dart';
-import 'package:graduation2/feauture/profile/views/myprofile/widgets/posts_profile.dart';
-import 'package:graduation2/feauture/profile/views/myprofile/widgets/reviews_customer.dart';
+import 'package:graduation2/generated/locale_keys.g.dart';
 
 class CustomerAccount extends StatelessWidget {
-  const CustomerAccount({super.key});
-
+  const CustomerAccount({super.key,required this.user});
+  final user;
   // final VoidCallback onGoHome;
 
   @override
@@ -24,7 +24,7 @@ class CustomerAccount extends StatelessWidget {
           ),
         ),
         title: Text(
-          'Profile',
+          LocaleKeys.profile.tr(),
           style: TextStyle(
             color: const Color(0xFF3E2723),
             fontSize: 16,
@@ -52,14 +52,14 @@ class CustomerAccount extends StatelessWidget {
                     children: [
                       CircleAvatar(
                         radius: width * .08,
-                        //  backgroundImage: user.profileImage != null
-                        // ? NetworkImage(
-                        //     user.profileImage ?? 'assets/images/person.png',
-                        //   )
-                        // : AssetImage('assets/images/person.png'),
-                        backgroundImage: AssetImage(
-                          'assets/images/topseller.png',
-                        ),
+                         backgroundImage: user.profileImage != null
+                        ? NetworkImage(
+                            user.profileImage ?? 'assets/images/person.png',
+                          )
+                        : AssetImage('assets/images/person.png'),
+                        // backgroundImage: AssetImage(
+                        //   'assets/images/topseller.png',
+                        // ),
                       ),
                       const SizedBox(width: 16),
                       Expanded(
@@ -68,8 +68,8 @@ class CustomerAccount extends StatelessWidget {
                           children: [
                             Text(
                               textAlign: TextAlign.start,
-                              // '${user.firstName} ${user.secondName}',
-                              'eman mohamed',
+                               '${user.firstName} ${user.secondName}',
+                            //  'eman mohamed',
                               style: TextStyle(
                                 color: const Color(0xFF3E2723),
                                 fontSize: 16,
@@ -82,8 +82,8 @@ class CustomerAccount extends StatelessWidget {
                             Text(
                               softWrap: true,
                               overflow: TextOverflow.visible,
-                              // user.specialization ??
-                              'Handmade enthusiast | Love supporting localHandmade enthusiast | Love supporting local',
+                               user.specialization ??'',
+                              //'Handmade enthusiast | Love supporting localHandmade enthusiast | Love supporting local',
                               style: TextStyle(
                                 color: const Color(0xFF8D6E63),
                                 fontSize: 12,
@@ -161,7 +161,7 @@ class CustomerAccount extends StatelessWidget {
                             ),
 
                             Text(
-                              ' Send Message',
+                              ' ${LocaleKeys.sendmessage.tr()}',
                               style: TextStyle(
                                 color: Colors.white,
                                 fontFamily: 'Arimo',
@@ -187,15 +187,15 @@ class CustomerAccount extends StatelessWidget {
                       ),
                       color: Colors.white,
                     ),
-                    child: const TabBar(
+                    child:  TabBar(
                       indicatorColor: Color(0xff7A4A32),
                       indicatorWeight: 2,
                       labelColor: Colors.black,
                       unselectedLabelColor: Colors.grey,
                       tabs: [
-                        Tab(text: 'Posts'),
+                        Tab(text: LocaleKeys.posts.tr()),
 
-                        Tab(text: 'Reviews'),
+                        Tab(text: LocaleKeys.reviews.tr()),
                       ],
                     ),
                   ),

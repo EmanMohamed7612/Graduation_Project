@@ -909,9 +909,10 @@ class _SellerDashboardScreenState extends State<SellerDashboardScreen> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) {
-                        return MySessionsScreen();
-                      },
+                      builder: (_) => BlocProvider(
+                        create: (context) => ExpertServiceCubit(),
+                        child: MySessionsScreen(),
+                      ),
                     ),
                   );
                 },

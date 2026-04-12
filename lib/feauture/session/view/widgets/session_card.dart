@@ -1,4 +1,7 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:graduation2/generated/locale_keys.g.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class SessionCard extends StatelessWidget {
   final String name;
@@ -11,18 +14,25 @@ class SessionCard extends StatelessWidget {
   final String? review;
   final String? note;
   final int? rating;
-
+  final VoidCallback? onAddLinkTap;
+  final bool? isTimeActive;
+  final String? meetingLink;
+  final bool? isExpired;
   const SessionCard({
     required this.name,
     required this.date,
     required this.time,
     required this.image,
     required this.type,
+    this.isExpired,
     this.duration,
     this.workshop,
     this.review,
     this.note,
     this.rating,
+    this.onAddLinkTap,
+    this.isTimeActive,
+    this.meetingLink,
   });
 
   @override
@@ -142,15 +152,144 @@ class SessionCard extends StatelessWidget {
             SizedBox(
               width: double.infinity,
               child: ElevatedButton.icon(
-                onPressed: () {},
+                onPressed: () async {
+                  //   if (type == LocaleKeys.requests.tr()) {
+                  //     onAddLinkTap?.call();
+                  //   }
+                  //   // else if (type == LocaleKeys.upcoming.tr()) {
+                  //   //     // التحقق من الوقت قبل فتح اللينك
+                  //   //     if (isTimeActive == true) {
+                  //   //       if (meetingLink != null &&
+                  //   //           await canLaunchUrl(Uri.parse(meetingLink!))) {
+                  //   //         //await launchUrl(Uri.parse(meetingLink!));
+                  //   //         // داخل ElevatedButton.icon في SessionCard.dart
+                  //   //         await launchUrl(
+                  //   //           Uri.parse(meetingLink!),
+                  //   //           mode: LaunchMode
+                  //   //               .externalApplication, // يفتح في تطبيق Meet أو المتصفح مباشرة
+                  //   //         );
+                  //   //       } else {
+                  //   //         ScaffoldMessenger.of(context).showSnackBar(
+                  //   //           const SnackBar(
+                  //   //             content: Text(
+                  //   //               "عذراً، لينك الاجتماع غير متوفر حالياً",
+                  //   //             ),
+                  //   //           ),
+                  //   //         );
+                  //   //       }
+                  //   //     } else {
+                  //   //       // لو لسه الميعاد مجاش
+                  //   //       ScaffoldMessenger.of(context).showSnackBar(
+                  //   //         const SnackBar(
+                  //   //           content: Text(
+                  //   //             "لم يحن ميعاد الجلسة بعد، يرجى الانتظار للموعد المحدد",
+                  //   //           ),
+                  //   //           backgroundColor: Colors.brown,
+                  //   //         ),
+                  //   //       );
+                  //   //     }
+                  //   //   }
+                  //   // },
+
+                  //   // icon: Icon(
+                  //   //   type == "upcoming" ? Icons.videocam_outlined : Icons.link,
+                  //   //   color: Colors.white,
+                  //   //   size: 18,
+                  //   // ),
+                  //   // label: Text(
+                  //   //   type == "upcoming" ? "Join Session" : "Add Meeting Link",
+                  //   //   style: TextStyle(color: Colors.white),
+                  //   // ),
+                  //   if (isExpired == true) {
+                  //     // حالة انتهاء الوقت
+                  //     ScaffoldMessenger.of(context).showSnackBar(
+                  //       const SnackBar(
+                  //         content: Text(
+                  //           "عذراً، ميعاد الجلسة انتهى ولا يمكنك الدخول الآن",
+                  //         ),
+                  //         backgroundColor: Colors.red,
+                  //       ),
+                  //     );
+                  //   } else if (isTimeActive == true) {
+                  //     // حالة الموعد متاح (الكود القديم الخاص بفتح اللينك)
+                  //     if (meetingLink != null && meetingLink!.isNotEmpty) {
+                  //       await launchUrl(
+                  //         Uri.parse(meetingLink!),
+                  //         mode: LaunchMode.externalApplication,
+                  //       );
+                  //     } else {
+                  //       // SnackBar اللينك غير متوفر
+                  //     }
+                  //   } else {
+                  //     // حالة لم يحن الموعد بعد
+                  //     ScaffoldMessenger.of(context).showSnackBar(
+                  //       const SnackBar(content: Text("لم يحن ميعاد الجلسة بعد")),
+                  //     );
+                  //   }
+                  // },
+                  if (type == "request") {
+                    onAddLinkTap?.call();
+                    return; // توقف هنا ولا تكمل بقية الشروط
+                  }
+
+                  // 2. إذا كان النوع "قادم" (Upcoming) -> هنا فقط نفحص الوقت واللينك
+                  if (type == "upcoming") {
+                    if (isExpired == true) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text(
+                            LocaleKeys
+                                .sorryyoursessionhasendedandyoucannotenternow
+                                .tr(),
+                          ),
+                          backgroundColor: Colors.red,
+                        ),
+                      );
+                    } else if (isTimeActive == true) {
+                      if (meetingLink != null && meetingLink!.isNotEmpty) {
+                        await launchUrl(
+                          Uri.parse(meetingLink!),
+                          mode: LaunchMode.externalApplication,
+                        );
+                      } else {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text(
+                              LocaleKeys
+                                  .sorrythemeetinglinkiscurrentlyunavailable
+                                  .tr(),
+                            ),
+                          ),
+                        );
+                      }
+                    } else {
+                      // حالة لم يحن الموعد بعد
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text(
+                            LocaleKeys
+                                .thesessionhasnotyetbegunpleasewaitforthescheduledtime
+                                .tr(),
+                          ),
+                          backgroundColor: Colors.brown,
+                        ),
+                      );
+                    }
+                  }
+                },
+                // تغيير شكل الزرار لو الموعد انتهى
+                label: Text(
+                  isExpired == true
+                      ? "Session Ended"
+                      : (type == "upcoming"
+                            ? LocaleKeys.joinsession.tr()
+                            : LocaleKeys.addmeetinglink.tr()),
+                  style: TextStyle(color: Colors.white),
+                ),
                 icon: Icon(
                   type == "upcoming" ? Icons.videocam_outlined : Icons.link,
                   color: Colors.white,
                   size: 18,
-                ),
-                label: Text(
-                  type == "upcoming" ? "Join Session" : "Add Meeting Link",
-                  style: TextStyle(color: Colors.white),
                 ),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Color(0xFF7B5B4F),

@@ -492,7 +492,7 @@ class _MainWrapperState extends State<MainWrapper> {
             _buildNavigator(1, const ExploreAllScreen()),
             _buildNavigator(2, const ComingSoonScreen(title: "Community")),
             _buildNavigator(3, const ComingSoonScreen(title: "AI")),
-            _buildNavigator(4, Profile()),
+            _buildNavigator(4, Profile(onGoHome: () => _selectTab(0))),
           ],
         ),
         bottomNavigationBar: BottomNavigationBar(

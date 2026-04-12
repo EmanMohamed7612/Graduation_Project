@@ -1,8 +1,10 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:graduation2/feauture/review/manager/review_cubit.dart';
 import 'package:graduation2/feauture/review/manager/review_state.dart';
 import 'package:graduation2/feauture/review/view/widgets/custom_star.dart';
+import 'package:graduation2/generated/locale_keys.g.dart';
 
 class ReviewCustomer extends StatefulWidget {
   const ReviewCustomer({super.key, required this.userId});
@@ -31,7 +33,7 @@ class _ReviewCustomerState extends State<ReviewCustomer> {
           final reviews = state.reviews;
 
           if (reviews.isEmpty) {
-            return const Center(child: Text("No Reviews Yet"));
+            return  Center(child: Text(LocaleKeys.no_reviews.tr()));
           }
           return GridView.builder(
             padding: const EdgeInsets.all(8),

@@ -3,19 +3,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:graduation2/core/services/api_services.dart';
 import 'package:graduation2/feauture/dashboard_screen/presentation/view/seller_dashboard.dart';
-import 'package:graduation2/feauture/home/presentation/view/home_screen.dart';
 import 'package:graduation2/feauture/profile/manager/number_product_cubit.dart';
 import 'package:graduation2/feauture/profile/manager/number_product_state.dart';
 import 'package:graduation2/feauture/profile/views/myprofile/widgets/numberandtype.dart';
 import 'package:graduation2/feauture/profile/views/myprofile/widgets/products.dart';
-import 'package:graduation2/feauture/profile/views/myprofile/widgets/reviews.dart';
 import 'package:graduation2/feauture/profile/views/myprofile/widgets/reviews_profile.dart';
 import 'package:graduation2/feauture/profile/views/sessions.dart';
-
 import 'package:graduation2/feauture/product_screens/manager/product_cubit.dart';
 import 'package:graduation2/feauture/review/data/review_service.dart';
 import 'package:graduation2/feauture/review/manager/review_cubit.dart';
 import 'package:graduation2/feauture/review/view/widgets/custom_star.dart';
+import 'package:graduation2/feauture/session/manager/expert_service_cubit.dart';
+import 'package:graduation2/feauture/session/manager/expert_service_state.dart';
 import 'package:graduation2/feauture/session/view/my_session.dart';
 import 'package:graduation2/generated/locale_keys.g.dart';
 
@@ -35,6 +34,7 @@ class _ExpertProfileState extends State<ExpertProfile> {
   void initState() {
     super.initState();
     userstate();
+    context.read<ExpertServiceCubit>().fetchSessionsCount();
   }
 
   double averageRating = 0.0;
@@ -122,12 +122,24 @@ class _ExpertProfileState extends State<ExpertProfile> {
                             type: 'Products',
                           );
                         }
-                        return NumberOfType(number: 0, type: 'Products');
+                        return NumberOfType(number: 0, type: LocaleKeys.products.tr());
                       },
                     ),
 
-                    NumberOfType(number: 45, type: 'Orders'),
-                    NumberOfType(number: 45, type: 'Sessions'),
+                    NumberOfType(number: 45, type:  LocaleKeys.orders.tr()),
+                    BlocBuilder<ExpertServiceCubit, ExpertServiceState>(
+                      builder: (context, state) {
+                        int sessionsCount = 0;
+                        if (state is ExpertSessionsCountLoaded) {
+                          sessionsCount = state.count;
+                        }
+
+                        return NumberOfType(
+                          number: sessionsCount,
+                          type:  LocaleKeys.sessions.tr(),
+                        );
+                      },
+                    ),
                   ],
                 ),
                 SizedBox(height: height * .01),
@@ -207,16 +219,7 @@ class _ExpertProfileState extends State<ExpertProfile> {
                               height: 1.50,
                             ),
                           ),
-                    // Text(
-                    //   '4.9 (248 reviews)',
-                    //   style: TextStyle(
-                    //     color: const Color(0xFF8D6E63),
-                    //     fontSize: 11,
-                    //     fontFamily: 'Arimo',
-                    //     fontWeight: FontWeight.w400,
-                    //     height: 1.50,
-                    //   ),
-                    // ),
+                  
                   ],
                 ),
                 SizedBox(height: height * .01),
@@ -256,9 +259,10 @@ class _ExpertProfileState extends State<ExpertProfile> {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) {
-                                  return MySessionsScreen();
-                                },
+                                builder: (_) => BlocProvider(
+                                  create: (context) => ExpertServiceCubit(),
+                                  child: MySessionsScreen(),
+                                ),
                               ),
                             );
                           },
@@ -311,7 +315,7 @@ class _ExpertProfileState extends State<ExpertProfile> {
                           },
                           child: Center(
                             child: Text(
-                              'Dashboard',
+                              LocaleKeys.dashboard.tr(),
                               style: TextStyle(
                                 color: Color(0xff6D4C41),
                                 fontSize: 14,
@@ -341,15 +345,15 @@ class _ExpertProfileState extends State<ExpertProfile> {
                     ),
                     color: Colors.white,
                   ),
-                  child: const TabBar(
+                  child:  TabBar(
                     indicatorColor: Color(0xff7A4A32),
                     indicatorWeight: 2,
                     labelColor: Colors.black,
                     unselectedLabelColor: Colors.grey,
                     tabs: [
-                      Tab(text: 'Products'),
-                      Tab(text: 'Sessions'),
-                      Tab(text: 'Reviews'),
+                      Tab(text:  LocaleKeys.products.tr()),
+                      Tab(text:  LocaleKeys.sessions.tr()),
+                      Tab(text:  LocaleKeys.reviews.tr()),
                     ],
                   ),
                 ),

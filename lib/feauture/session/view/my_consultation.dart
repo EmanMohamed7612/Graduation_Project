@@ -1,9 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:graduation2/feauture/session/view/past_session.dart';
-import 'package:graduation2/feauture/session/view/request_session.dart';
-import 'package:graduation2/feauture/session/view/up_coming_session.dart';
-import 'package:graduation2/feauture/session/view/widgets/session_card.dart';
+import 'package:graduation2/feauture/session/view/my_upcoming_consultation.dart';
+import 'package:graduation2/feauture/session/view/past_consultation.dart';
 import 'package:graduation2/generated/locale_keys.g.dart';
 
 class MyConsultationScreen extends StatefulWidget {
@@ -122,9 +120,9 @@ class _MyConsultationScreenState extends State<MyConsultationScreen>
                     ),
 
                     indicatorSize: TabBarIndicatorSize.tab,
-                    tabs: const [
-                      Tab(text: "Upcoming"),
-                      Tab(text: "Past"),
+                    tabs:  [
+                      Tab(text: LocaleKeys.upcoming.tr()),
+                      Tab(text: LocaleKeys.past.tr()),
                     ],
                   ),
                 ),
@@ -136,7 +134,7 @@ class _MyConsultationScreenState extends State<MyConsultationScreen>
           Expanded(
             child: TabBarView(
               controller: _tabController,
-              children: [UpcomingSessionsPage(), PastSessionsPage()],
+              children: [UpcomingConsultationPage(), PastConsultation()],
             ),
           ),
         ],

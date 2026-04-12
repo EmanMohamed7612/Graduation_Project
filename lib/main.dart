@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:graduation2/feauture/home/manager/fav_cubit.dart';
 import 'package:graduation2/feauture/review/data/cart_repo.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -15,6 +16,7 @@ import 'package:graduation2/feauture/profile/views/myprofile/seller_profile.dart
 import 'package:graduation2/feauture/product/view/product_datails.dart';
 import 'package:graduation2/feauture/review/view/cart/cart_screen.dart';
 import 'package:graduation2/feauture/review/view/write_review.dart';
+import 'package:graduation2/feauture/session/manager/expert_service_cubit.dart';
 import 'package:graduation2/feauture/session/view/book_sconsultation_screen.dart';
 import 'package:graduation2/feauture/session/view/my_consultation.dart';
 import 'package:graduation2/feauture/splash_screen/presentation/view/splash.dart';
@@ -57,6 +59,8 @@ class CratoriaApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final dioClient = DioClient(); // أو حسب ما بتعرفيه عندك
+    final favoriteApiService = FavoriteApiService(dioClient);
     return MultiBlocProvider(
       providers: [
         BlocProvider(
@@ -72,7 +76,13 @@ class CratoriaApp extends StatelessWidget {
             ),
           ),
         ),
+        BlocProvider(create: (context) => ExpertServiceCubit()),
         BlocProvider(create: (_) => AuthCubit(ApiService())),
+        BlocProvider<FavoriteCubit>(
+          create: (context) => FavoriteCubit(favoriteApiService),
+          // الـ Cubit ده هينادي على loadFavorites() تلقائياً أول ما يفتح الأبلكيشن
+          // زي ما إنتِ كاتبة في الـ Constructor بتاعه.
+        ),
         BlocProvider(
           create: (context) =>
               UserProfileCubit(UserProfileRepo())..fetchProfile(),
@@ -118,7 +128,7 @@ class CratoriaApp extends StatelessWidget {
             secondary: Color(0xFF8D6E63),
           ),
         ),
-        home: LoginView(),
+        home: SplashView(),
       ),
     );
   }

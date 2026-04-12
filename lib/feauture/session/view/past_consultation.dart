@@ -1,7 +1,7 @@
 // import 'package:flutter/material.dart';
 // import 'package:graduation2/feauture/session/view/widgets/session_card.dart';
 
-// class PastSessionsPage extends StatelessWidget {
+// class PastConsultation extends StatelessWidget {
 //   @override
 //   Widget build(BuildContext context) {
 //     return ListView(
@@ -21,39 +21,42 @@
 //     );
 //   }
 // }
-
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:graduation2/core/utils/pref_helpers.dart';
 import 'package:graduation2/feauture/session/manager/expert_service_cubit.dart';
 import 'package:graduation2/feauture/session/manager/expert_service_state.dart';
 import 'package:graduation2/feauture/session/view/widgets/session_card.dart';
-import 'package:intl/intl.dart'; // هتحتاجي مكتبة intl لتنسيق التاريخ
+import 'package:graduation2/generated/locale_keys.g.dart';
 
-class PastSessionsPage extends StatefulWidget {
+class PastConsultation extends StatefulWidget {
   @override
-  State<PastSessionsPage> createState() => _PastSessionsPageState();
+  State<PastConsultation> createState() => _PastConsultationState();
 }
 
-class _PastSessionsPageState extends State<PastSessionsPage> {
+class _PastConsultationState extends State<PastConsultation> {
   @override
   void initState() {
     super.initState();
+
+    // هنا نطلب البيانات. ملاحظة: يجب توفير customerId الحقيقي (من الـ User Preferences أو Auth)
+    // سأفترض وجود customerId ثابت للتجربة أو استبدله بمتغير المستخدم الحالي
     _loadSessions();
   }
 
   void _loadSessions() async {
     // 1. نجيب الـ expertId من الـ PrefHelpers
-    String? expertId = await PrefHelpers.getUserId();
+    String? userId = await PrefHelpers.getUserId();
 
-    if (expertId != null) {
+    if (userId != null) {
       // 2. نمرر الـ ID الحقيقي للـ Cubit
       if (mounted) {
-        context.read<ExpertServiceCubit>().fetchPastSessions(expertId);
+        context.read<ExpertServiceCubit>().fetchBeginnerPastSessions(userId);
       }
     } else {
       // اختياري: لو مفيش ID ممكن تطلعي رسالة خطأ
-      print("Error: Expert ID not found in SharedPreferences");
+      print("Error: User ID not found in SharedPreferences");
     }
   }
 
@@ -62,38 +65,36 @@ class _PastSessionsPageState extends State<PastSessionsPage> {
     return BlocBuilder<ExpertServiceCubit, ExpertServiceState>(
       builder: (context, state) {
         if (state is ExpertServiceLoading) {
-          return const Center(child: CircularProgressIndicator());
-        } else if (state is PastSessionsLoaded) {
+          return const Center(
+            child: CircularProgressIndicator(color: Color(0xFF6D4C41)),
+          );
+        } else if (state is BeginnerPastSessionsLoaded) {
           if (state.sessions.isEmpty) {
-            return const Center(child: Text("No past sessions found"));
+            return  Center(child: Text(LocaleKeys.nopastsessionsfound.tr()));
           }
           return ListView.builder(
             padding: const EdgeInsets.all(20),
             itemCount: state.sessions.length,
             itemBuilder: (context, index) {
               final session = state.sessions[index];
-
-              // تنسيق التاريخ من الـ String اللي جاي
-              DateTime dateTime = DateTime.parse(session.date);
-              String formattedDate = DateFormat('MMM d, yyyy').format(dateTime);
-
               return SessionCard(
-                name: session.beginnerName,
-                workshop: session.serviceName,
-                date: formattedDate,
-                time: "", // الـ API باعت الـ duration فيه الوقت والمدة مع بعض
-                duration: session.duration,
-                image:
-                    "https://i.pravatar.cc/150?u=${session.sessionId}", // صورة عشوائية مؤقتاً
+                name: session.expertName,
+                // تنسيق التاريخ ليظهر بشكل جميل
+                date:
+                    "${session.date.day}/${session.date.month}/${session.date.year}",
+                time: session.timeAndDuration,
+                image:session.expertImageUrl.isNotEmpty ? session.expertImageUrl : "assests/images/person.png",
                 type: "past",
-                rating: 5, // لو الـ API مش باعت ريتنج حالياً
+                workshop: session.serviceName,
+                note:
+                    "Amount Paid: ${session.amountPaid}", // مثال لاستخدام حقل السعر
               );
             },
           );
         } else if (state is ExpertServiceError) {
           return Center(child: Text(state.error));
         }
-        return const SizedBox();
+        return  Center(child: Text(LocaleKeys.startloadingsessions.tr()));
       },
     );
   }

@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:graduation2/feauture/review/manager/review_cubit.dart';
 import 'package:graduation2/feauture/review/manager/review_state.dart';
 import 'package:graduation2/feauture/review/view/widgets/custom_star.dart';
-import 'package:graduation2/feauture/review/view/write_review.dart';
 import 'package:intl/intl.dart';
 
 class ReviewsProfile extends StatefulWidget {
