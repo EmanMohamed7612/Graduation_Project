@@ -7,9 +7,9 @@ class SearchcategoryModel {
 
   factory SearchcategoryModel.fromJson(Map<String, dynamic> json) {
     return SearchcategoryModel(
-      id: json['id'],
-      name: json['name'],
-      image: json['image'],
+      id: json['id'] ?? json['Id'] ?? 0,
+      name: json['name'] ?? json['Name'] ?? '',
+      image: json['image'] ?? json['Image'] ?? '',
     );
   }
 }

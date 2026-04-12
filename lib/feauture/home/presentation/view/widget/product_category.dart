@@ -179,9 +179,10 @@ class ProductCategoriesScreen extends StatelessWidget {
     );
   }
 }*/
-import 'package:flutter/material.dart';
+/*import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../product_of_categoryscreen/category_screen2.dart';
 import '../../../manager/category_cubit.dart';
 import '../../../manager/category_state.dart';
 
@@ -281,59 +282,71 @@ class CategoriesScreenfromhome extends StatelessWidget {
 
                           final category = state.categories[index];
 
-                          return Container(
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(18),
+                          return InkWell(
+                            onTap: () {
+                              print("تم الضغط على ${category.name}");
 
-                              image: DecorationImage(
-                                image: (category.imageUrl == null ||
-                                    category.imageUrl.isEmpty)
-                                    ? const AssetImage(
-                                    'assets/images/material.png')
-                                as ImageProvider
-                                    : NetworkImage(category.imageUrl),
-                                fit: BoxFit.cover,
-                              ),
-                            ),
-
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => ProductCategoriesScreen(),
+                                ),
+                              );
+                            },
                             child: Container(
-                              padding: const EdgeInsets.all(12),
-
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(18),
 
-                                gradient: LinearGradient(
-                                  begin: Alignment.bottomCenter,
-                                  end: Alignment.topCenter,
-
-                                  colors: [
-                                    Colors.black.withOpacity(.6),
-                                    Colors.transparent
-                                  ],
+                                image: DecorationImage(
+                                  image: (category.imageUrl == null ||
+                                      category.imageUrl.isEmpty)
+                                      ? const AssetImage(
+                                      'assets/images/material.png')
+                                  as ImageProvider
+                                      : NetworkImage(category.imageUrl),
+                                  fit: BoxFit.cover,
                                 ),
                               ),
 
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.end,
-                                crossAxisAlignment: CrossAxisAlignment.start,
+                              child: Container(
+                                padding: const EdgeInsets.all(12),
 
-                                children: [
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(18),
 
-                                  /// name
-                                  Text(
-                                    category.name,
-                                    style: const TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.w600,
-                                    ),
+                                  gradient: LinearGradient(
+                                    begin: Alignment.bottomCenter,
+                                    end: Alignment.topCenter,
+
+                                    colors: [
+                                      Colors.black.withOpacity(.6),
+                                      Colors.transparent
+                                    ],
                                   ),
+                                ),
 
-                                  const SizedBox(height: 4),
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
 
-                                  /// items count لو موجود
+                                  children: [
 
-                                ],
+                                    /// name
+                                    Text(
+                                      category.name,
+                                      style: const TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w600,
+                                      ),
+                                    ),
+
+                                    const SizedBox(height: 4),
+
+                                    /// items count لو موجود
+
+                                  ],
+                                ),
                               ),
                             ),
                           );
@@ -359,4 +372,4 @@ class CategoriesScreenfromhome extends StatelessWidget {
       ),
     );
   }
-}
+}*/

@@ -143,6 +143,7 @@ import 'package:graduation2/feauture/home/presentation/view/widget/top_sellers_l
 
 import '../../../../core/rescources/colors.dart';
 import '../../../../generated/locale_keys.g.dart';
+import '../../../product_of_categoryscreen/category_screen2.dart';
 import 'widget/product_category.dart';
 
 import '../../../../core/rescources/colors.dart';
@@ -235,7 +236,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => const CategoriesScreenfromhome(),
+                        builder: (context) => const ProductCategoriesScreen(),
                       ),
                     );
                   },
