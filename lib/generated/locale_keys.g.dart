@@ -286,7 +286,6 @@ abstract class  LocaleKeys {
   static const addService = 'addService';
   static const addTimeSlot = 'addTimeSlot';
   static const mySessions = 'mySessions';
-
   static const startloadingsessions = 'startloadingsessions';
   static const nopastsessionsfound = 'nopastsessionsfound';
   static const noupcomingsessionsfound = 'noupcomingsessionsfound';
@@ -363,6 +362,5 @@ abstract class  LocaleKeys {
   static const save_address_btn = 'save_address_btn';
   static const success_save_msg = 'success_save_msg';
   static const validation_error_msg = 'validation_error_msg';
-
 
 }
