@@ -111,6 +111,7 @@
 //     );
 //   }
 // }
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:graduation2/core/utils/pref_helpers.dart';
@@ -123,6 +124,7 @@ import 'package:graduation2/feauture/review/view/cart/widget/cart_item_card.dart
 import 'package:graduation2/feauture/review/view/cart/widget/cart_item_card.dart' as card;
 import 'package:graduation2/feauture/review/view/cart/widget/order_summary_card.dart';
 import 'package:graduation2/feauture/review/view/cart/widget/primary_button.dart';
+import 'package:graduation2/generated/locale_keys.g.dart';
 
 
 import '../../../order_screen/deliver_screen/deliver_address.dart';
@@ -157,7 +159,7 @@ class _CartScreenState extends State<CartScreen> {
         centerTitle: true,
         leading: CustomIcon(icon: Icons.arrow_back_ios_new_outlined),
         title: Text(
-          'My Cart',
+          LocaleKeys.mycart.tr(),
           style: TextStyle(
             color: const Color(0xFF3E2723),
             fontSize: 18,
@@ -192,7 +194,7 @@ class _CartScreenState extends State<CartScreen> {
                             final items = state.cart.cartItems;
 
                             if (items.isEmpty) {
-                              return Center(child: Text("Your cart is empty"));
+                              return Center(child: Text(LocaleKeys.yourcartisempty.tr()));
                             }
 
                             /// نحسب subtotal من المنتجات
@@ -269,7 +271,7 @@ class _CartScreenState extends State<CartScreen> {
 
               /// الزرار في آخر الصفحة
 
-              PrimaryButton(text: "Proceed to Checkout", onPressed: () {
+              PrimaryButton(text: LocaleKeys.proceedtocheckout.tr(), onPressed: () {
                 Navigator.push(context,
                     MaterialPageRoute(builder:
                         (context)=>DeliveryAddressScreen()));

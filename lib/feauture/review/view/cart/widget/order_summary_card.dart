@@ -1,4 +1,6 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:graduation2/generated/locale_keys.g.dart';
 
 class OrderSummaryCard extends StatelessWidget {
   final double subtotal;
@@ -26,7 +28,7 @@ class OrderSummaryCard extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'Order Summary',
+            LocaleKeys.ordersummary.tr(),
             style: TextStyle(
               color: const Color(0xFF3E2723),
               fontSize: 14,
@@ -36,15 +38,15 @@ class OrderSummaryCard extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 8),
-          _row("Subtotal", subtotal),
+          _row(LocaleKeys.subtotal.tr(), subtotal),
           const SizedBox(height: 8),
-          _row("Shipping", shipping),
+          _row(LocaleKeys.shipping.tr(), shipping),
           const Divider(),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                'Total',
+                LocaleKeys.total.tr(),
                 style: TextStyle(
                   color: const Color(0xFF3E2723),
                   fontSize: 16,

@@ -385,7 +385,34 @@
   "rawmaterialdetails":"Raw Material Details",
   "sendmessage":"Send Message",
   "booksession":"Book Session",
-  "messages":"Messages"
+  "messages":"Messages",
+
+  "meetinglink":"Meeting Link",
+  "clientwillreceivethemeetinglinkviaemail":"Client will receive the meeting link via email",
+  "confirm":"Confirm",
+  "noservicesyet":"No Services Yet",
+  "service":"Service",
+  "datandetime":"Date & Time",
+  "norequestsfound":"No requests found",
+  "noupcomingsessions":"No upcoming sessions",
+  "mycart":"My Cart",
+  "yourcartisempty":"Your cart is empty",
+  "proceedtocheckout":"Proceed to Checkout",
+  "confirmdelete":"Confirm Delete",
+  "areyousureyouwanttodelete":"Are you sure you want to delete",
+  "fromyourcart":"from your cart?",
+  "delete":"Delete",
+  "ordersummary":"Order Summary",
+  "reviewsandratings":"Reviews & Ratings",
+  "basedon":"Based on",
+  "writereview":"Write Review",
+  "noreviewsyet":"No reviews yet",
+  "pleaseselectrating":"Please select rating",
+  "reviewsubmittedsuccessfully":"Review submitted successfully",
+  "yourrating":"Your Rating",
+  "shareyourexperiencewiththisproduct":"Share your experience with this product...",
+  "submitreview":"Submit Review"
+
 
 
 

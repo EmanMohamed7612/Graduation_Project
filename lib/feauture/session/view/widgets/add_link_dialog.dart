@@ -1,6 +1,8 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:graduation2/feauture/session/manager/expert_service_cubit.dart';
+import 'package:graduation2/generated/locale_keys.g.dart';
 
 class AddLinkDialog extends StatefulWidget {
   final int sessionId;
@@ -25,11 +27,11 @@ class _AddLinkDialogState extends State<AddLinkDialog> {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Row(
+             Row(
               children: [
                 Icon(Icons.link, color: Color(0xff6D4C41)),
                 SizedBox(width: 8),
-                Text("Meeting Link", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
+                Text(LocaleKeys.meetinglink.tr(), style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
               ],
             ),
             const SizedBox(height: 15),
@@ -49,8 +51,8 @@ class _AddLinkDialogState extends State<AddLinkDialog> {
                 color: const Color(0xFFFDF5ED),
                 borderRadius: BorderRadius.circular(15),
               ),
-              child: const Text(
-                "Client will receive the meeting link via email",
+              child:  Text(
+                LocaleKeys.clientwillreceivethemeetinglinkviaemail.tr(),
                 textAlign: TextAlign.center,
                 style: TextStyle(color: Color(0xffB79770), fontSize: 12),
               ),
@@ -65,7 +67,7 @@ class _AddLinkDialogState extends State<AddLinkDialog> {
                       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(25)),
                       side: BorderSide(color: Colors.grey[300]!),
                     ),
-                    child: const Text("Cancel", style: TextStyle(color: Colors.black)),
+                    child:  Text(LocaleKeys.cancel.tr(), style: TextStyle(color: Colors.black)),
                   ),
                 ),
                 const SizedBox(width: 10),
@@ -85,7 +87,7 @@ class _AddLinkDialogState extends State<AddLinkDialog> {
                       backgroundColor: const Color(0xff7B5B4F),
                       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(25)),
                     ),
-                    child: const Text("Confirm", style: TextStyle(color: Colors.white)),
+                    child:  Text(LocaleKeys.confirm.tr(), style: TextStyle(color: Colors.white)),
                   ),
                 ),
               ],

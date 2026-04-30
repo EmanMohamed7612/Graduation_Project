@@ -13,8 +13,7 @@ class ServiceCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    double height = MediaQuery.of(context).size.height;
-    String? selectedService; // القيمة null في البداية يعني مفيش اختيار
+  //  double height = MediaQuery.of(context).size.height;
     return Container(
       height: 120,
       // margin: EdgeInsets.only(bottom: 10),

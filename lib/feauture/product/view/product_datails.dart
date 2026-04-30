@@ -6,6 +6,7 @@ import 'package:graduation2/core/utils/pref_helpers.dart';
 import 'package:graduation2/feauture/home/manager/fav_cubit.dart';
 import 'package:graduation2/feauture/product/manager/product_details_cubit.dart';
 import 'package:graduation2/feauture/product/manager/product_details_state.dart';
+import 'package:graduation2/feauture/product/view/recommendation_screen.dart';
 import 'package:graduation2/feauture/product/view/widgets/custom_icon.dart';
 import 'package:graduation2/feauture/profile/manager/account.cubit.dart';
 import 'package:graduation2/feauture/profile/views/accounts/account.dart';
@@ -387,7 +388,14 @@ class _ProductDetailsState extends State<ProductDetails> {
                             ),
                           ),
                           GestureDetector(
-                            onTap: () {},
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (_) => RecommendationScreen(),
+                                ),
+                              );
+                            },
                             child: Text(
                               LocaleKeys.seemore.tr(),
                               textAlign: TextAlign.center,

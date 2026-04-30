@@ -315,5 +315,30 @@ abstract class  LocaleKeys {
   static const sendmessage = 'sendmessage';
   static const booksession = 'booksession';
   static const messages = 'messages';
+  static const meetinglink = 'meetinglink';
+  static const clientwillreceivethemeetinglinkviaemail = 'clientwillreceivethemeetinglinkviaemail';
+  static const confirm = 'confirm';
+  static const noservicesyet = 'noservicesyet';
+  static const service = 'service';
+  static const datandetime = 'datandetime';
+  static const norequestsfound = 'norequestsfound';
+  static const noupcomingsessions = 'noupcomingsessions';
+  static const mycart = 'mycart';
+  static const yourcartisempty = 'yourcartisempty';
+  static const proceedtocheckout = 'proceedtocheckout';
+  static const confirmdelete = 'confirmdelete';
+  static const areyousureyouwanttodelete = 'areyousureyouwanttodelete';
+  static const fromyourcart = 'fromyourcart';
+  static const delete = 'delete';
+  static const ordersummary = 'ordersummary';
+  static const reviewsandratings = 'reviewsandratings';
+  static const basedon = 'basedon';
+  static const writereview = 'writereview';
+  static const noreviewsyet = 'noreviewsyet';
+  static const pleaseselectrating = 'pleaseselectrating';
+  static const reviewsubmittedsuccessfully = 'reviewsubmittedsuccessfully';
+  static const yourrating = 'yourrating';
+  static const shareyourexperiencewiththisproduct = 'shareyourexperiencewiththisproduct';
+  static const submitreview = 'submitreview';
 
 }

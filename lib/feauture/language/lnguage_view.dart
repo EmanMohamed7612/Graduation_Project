@@ -99,12 +99,26 @@ class _LanguageViewState extends State<LanguageView> {
                   onPressed: () async {
                     final selectedLanguage = selectedIndex == 0 ? 'en' : 'ar';
                     await _saveLanguage();
+                    // if (context.mounted) {
+                    //   await context.setLocale(Locale(selectedLanguage));
+                    //   Navigator.pushReplacement(
+                    //     context,
+                    //     MaterialPageRoute(builder: (_) => OnBoardingView()),
+                    //   );
+                    // }
                     if (context.mounted) {
                       await context.setLocale(Locale(selectedLanguage));
-                      Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(builder: (_) => OnBoardingView()),
-                      );
+
+                      // إذا كنتِ داخل شاشة الإعدادات، ببساطة ارجعي للخلف
+                      // أما إذا كنتِ في أول مرة تشغيل التطبيق (Onboarding) استخدمي الـ Navigator العادي
+                      if (Navigator.canPop(context)) {
+                        Navigator.pop(context);
+                      } else {
+                        Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(builder: (_) => OnBoardingView()),
+                        );
+                      }
                     }
                   },
                 ),

@@ -365,6 +365,7 @@ class AuthCubit extends Cubit<AuthState> {
 }
 */
 import 'dart:convert';
+import 'dart:developer';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:dio/dio.dart';
@@ -376,12 +377,15 @@ import '../../../core/services/api_services.dart';
 import '../../../core/utils/pref_helpers.dart';
 import '../data/user_model.dart';
 import 'auth_state.dart';
-import 'package:jwt_decoder/jwt_decoder.dart'; 
+import 'package:jwt_decoder/jwt_decoder.dart';
+
 class AuthCubit extends Cubit<AuthState> {
   final ApiService apiService;
 
   static const String webClientId =
-      '1052119802675-a4v4qpl2k3e51q2a6rckdg3ghvsbte1e.apps.googleusercontent.com';
+      // '1052119802675-a4v4qpl2k3e51q2a6rckdg3ghvsbte1e.apps.googleusercontent.com';
+      //  '809712865790-oaoo7i7uj0us6odg5eqckjokdr5q1req.apps.googleusercontent.com';
+      '809712865790-0oroqs9plru0mf8gmnts8h965lgc1tac.apps.googleusercontent.com';
 
   final GoogleSignIn _googleSignIn = GoogleSignIn(
     scopes: ['email', 'profile'],
@@ -551,68 +555,62 @@ class AuthCubit extends Cubit<AuthState> {
       emit(AuthFailureState('Unexpected error: $e'));
     }
   }
-///
-Future<void> login({
-  required String email,
-  required String password,
-}) async {
-  emit(AuthLoadingState());
 
-  try {
-    final response = await apiService.post(ApiEndpoint.login, {
-      'Email': email,
-      'Password': password,
-    });
+  ///
+  Future<void> login({required String email, required String password}) async {
+    emit(AuthLoadingState());
 
-    if (response is ApiError) {
-      emit(AuthFailureState(response.message));
-      return;
-    }
+    try {
+      final response = await apiService.post(ApiEndpoint.login, {
+        'Email': email,
+        'Password': password,
+      });
 
-    final jsonData = _parseResponse(response);
-    final errorMessage =
-        jsonData != null ? _extractErrorMessage(jsonData) : null;
+      if (response is ApiError) {
+        emit(AuthFailureState(response.message));
+        return;
+      }
 
-    if (errorMessage != null) {
-      emit(AuthFailureState(errorMessage));
-      return;
-    }
+      final jsonData = _parseResponse(response);
+      final errorMessage = jsonData != null
+          ? _extractErrorMessage(jsonData)
+          : null;
 
-    final userDataMap = _extractUserData(jsonData!);
+      if (errorMessage != null) {
+        emit(AuthFailureState(errorMessage));
+        return;
+      }
 
-    
-if (userDataMap != null) {
-  final token = userDataMap['token'];
+      final userDataMap = _extractUserData(jsonData!);
 
-  if (token != null) {
-    await PrefHelpers.saveToken(token);
+      if (userDataMap != null) {
+        final token = userDataMap['token'];
 
-    // ✅ نفك التوكن
-    final decodedToken = JwtDecoder.decode(token);
+        if (token != null) {
+          await PrefHelpers.saveToken(token);
 
-    print(decodedToken);  // شوفي المفتاح اسمه ايه
+          // ✅ نفك التوكن
+          final decodedToken = JwtDecoder.decode(token);
 
-    // غالباً هيبقى nameid
-    final userId = decodedToken[
-'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier'
-];
+          print(decodedToken); // شوفي المفتاح اسمه ايه
 
+          // غالباً هيبقى nameid
+          final userId =
+              decodedToken['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier'];
 
-    if (userId != null) {
-      await PrefHelpers.saveUserId(userId.toString());
+          if (userId != null) {
+            await PrefHelpers.saveUserId(userId.toString());
+          }
+        }
+
+        emit(AuthSuccessState(UserModel.fromJson(userDataMap)));
+      }
+    } catch (e) {
+      emit(AuthFailureState('Unexpected error: $e'));
     }
   }
 
-      emit(AuthSuccessState(UserModel.fromJson(userDataMap)));
-    }
-  } catch (e) {
-    emit(AuthFailureState('Unexpected error: $e'));
-  }
-}
-
-
-
-///الا صل لللللل
+  ///الا صل لللللل
   // ================= Login (FIXED) =================
 
   // Future<void> login({required String email, required String password}) async {
@@ -691,6 +689,53 @@ if (userDataMap != null) {
 
   // ================= Google Login =================
 
+  // Future<void> signInWithGoogle({required String role}) async {
+  //   emit(AuthLoadingState());
+
+  //   try {
+  //     await _googleSignIn.signOut();
+  //     final googleUser = await _googleSignIn.signIn();
+
+  //     if (googleUser == null) {
+  //       emit(AuthInitialState());
+  //       return;
+  //     }
+
+  //     final googleAuth = await googleUser.authentication;
+  //     final idToken = googleAuth.idToken;
+
+  //     if (idToken == null) {
+  //       emit(AuthFailureState('Failed to get Google ID Token'));
+  //       return;
+  //     }
+
+  //     final response = await apiService.post(ApiEndpoint.googleLogin, {
+  //       'idToken': idToken,
+  //       'role': role,
+  //     });
+
+  //     final jsonData = _parseResponse(response);
+  //     final errorMessage = jsonData != null
+  //         ? _extractErrorMessage(jsonData)
+  //         : null;
+
+  //     if (errorMessage != null) {
+  //       emit(AuthFailureState(errorMessage));
+  //       return;
+  //     }
+
+  //     // --- الجزء المضاف لحفظ التوكن ---
+  //     final userDataMap = _extractUserData(jsonData!);
+  //     if (userDataMap != null && userDataMap['token'] != null) {
+  //       await PrefHelpers.saveToken(userDataMap['token']);
+  //     }
+  //     // ----------------------------
+
+  //     emit(AuthSuccessState(UserModel.fromJson(userDataMap!)));
+  //   } catch (e) {
+  //     emit(AuthFailureState(e.toString()));
+  //   }
+  // }
   Future<void> signInWithGoogle({required String role}) async {
     emit(AuthLoadingState());
 
@@ -711,34 +756,52 @@ if (userDataMap != null) {
         return;
       }
 
+      // إرسال الطلب للـ API
       final response = await apiService.post(ApiEndpoint.googleLogin, {
         'idToken': idToken,
-        'role': role,
+        'role': role, // تأكدي إن القيمة دي (Customer أو User) صحيحة في السيرفر
       });
 
+      // 1. التعامل مع خطأ الـ API Service نفسه
+      if (response is ApiError) {
+        emit(AuthFailureState(response.message));
+        return;
+      }
+
       final jsonData = _parseResponse(response);
+
+      // 2. التحقق من وجود أخطاء راجعة من السيرفر (Success: false)
       final errorMessage = jsonData != null
           ? _extractErrorMessage(jsonData)
           : null;
-
       if (errorMessage != null) {
         emit(AuthFailureState(errorMessage));
         return;
       }
 
-      // --- الجزء المضاف لحفظ التوكن ---
-      final userDataMap = _extractUserData(jsonData!);
-      if (userDataMap != null && userDataMap['token'] != null) {
-        await PrefHelpers.saveToken(userDataMap['token']);
-      }
-      // ----------------------------
+      // 3. استخراج البيانات الصحيحة (محتوى الـ data field)
+      if (jsonData != null && jsonData['success'] == true) {
+        final userDataMap = jsonData['data'] as Map<String, dynamic>?;
 
-      emit(AuthSuccessState(UserModel.fromJson(userDataMap!)));
+        if (userDataMap != null) {
+          // حفظ التوكن
+          if (userDataMap['token'] != null) {
+            await PrefHelpers.saveToken(userDataMap['token']);
+          }
+
+          // تحويل البيانات لـ Model وإرسال حالة النجاح
+          emit(AuthSuccessState(UserModel.fromJson(userDataMap)));
+        } else {
+          emit(AuthFailureState("Response data is empty"));
+        }
+      } else {
+        emit(AuthFailureState("Invalid response format"));
+      }
     } catch (e) {
-      emit(AuthFailureState(e.toString()));
+      log("Google Login Error: $e");
+      emit(AuthFailureState("Something went wrong: ${e.toString()}"));
     }
   }
-
   // ================= OTP & Password =================
 
   // Future<void> verifyEmail({required String email}) async {
@@ -762,22 +825,19 @@ if (userDataMap != null) {
   //   }
   // }
 
-Future<void> verifyEmail({required String email}) async {
-  emit(AuthLoadingState());
+  Future<void> verifyEmail({required String email}) async {
+    emit(AuthLoadingState());
 
-  try {
-    await apiService.post(
-      ApiEndpoint.verifyEmail,
-      {'email': email},
-    );
+    try {
+      await apiService.post(ApiEndpoint.verifyEmail, {'email': email});
 
-    emit(VerifyEmailSuccessState(email));
-  } on ApiError catch (e) {
-    emit(AuthFailureState(e.message)); // ✅ هنا هتظهر رسالة الباك الصح
-  } catch (e) {
-    emit(AuthFailureState('Unexpected error: $e'));
+      emit(VerifyEmailSuccessState(email));
+    } on ApiError catch (e) {
+      emit(AuthFailureState(e.message)); // ✅ هنا هتظهر رسالة الباك الصح
+    } catch (e) {
+      emit(AuthFailureState('Unexpected error: $e'));
+    }
   }
-}
 
   Future<void> checkEmailOtp({
     required String email,
@@ -849,11 +909,10 @@ Future<void> verifyEmail({required String email}) async {
   // ================= Utils =================
 
   void logout() async {
-    await PrefHelpers.clearToken(); 
+    await PrefHelpers.clearToken();
     /////eman
-      await PrefHelpers.clearUserId();// مسح التوكن عند الخروج
+    await PrefHelpers.clearUserId(); // مسح التوكن عند الخروج
     emit(AuthInitialState());
-    
   }
 
   void resetState() => emit(AuthInitialState());

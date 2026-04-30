@@ -421,6 +421,8 @@
 // }
 
 import 'package:flutter/material.dart';
+import 'package:graduation2/feauture/chat_bot/views/chat_bot_screen.dart';
+import 'package:graduation2/feauture/community/view/community_screen.dart';
 import 'package:graduation2/feauture/home/presentation/view/home_screen.dart';
 import 'package:graduation2/feauture/product_screens/comming_soon_screen.dart';
 import 'package:graduation2/feauture/product_screens/presentation/view/explore_prodect/explore_screen.dart';
@@ -490,8 +492,8 @@ class _MainWrapperState extends State<MainWrapper> {
           children: [
             _buildNavigator(0, const HomeScreen()),
             _buildNavigator(1, const ExploreAllScreen()),
-            _buildNavigator(2, const ComingSoonScreen(title: "Community")),
-            _buildNavigator(3, const ComingSoonScreen(title: "AI")),
+            _buildNavigator(2, CommunityScreen(onGoHome: () => _selectTab(0))),
+            _buildNavigator(3, ChatBotScreen(onGoHome: () => _selectTab(0))),
             _buildNavigator(4, Profile(onGoHome: () => _selectTab(0))),
           ],
         ),

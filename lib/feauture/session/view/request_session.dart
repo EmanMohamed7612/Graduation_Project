@@ -21,6 +21,7 @@
 //     );
 //   }
 // }
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:graduation2/core/utils/pref_helpers.dart';
@@ -28,6 +29,7 @@ import 'package:graduation2/feauture/session/manager/expert_service_cubit.dart';
 import 'package:graduation2/feauture/session/manager/expert_service_state.dart';
 import 'package:graduation2/feauture/session/view/widgets/add_link_dialog.dart';
 import 'package:graduation2/feauture/session/view/widgets/session_card.dart';
+import 'package:graduation2/generated/locale_keys.g.dart';
 // عشان نجيب الـ expertId
 
 class RequestsSessionsPage extends StatelessWidget {
@@ -66,7 +68,7 @@ class RequestsSessionsPage extends StatelessWidget {
                 return const Center(child: CircularProgressIndicator());
               } else if (state is ExpertSessionRequestsLoaded) {
                 if (state.requests.isEmpty) {
-                  return const Center(child: Text("No requests found"));
+                  return  Center(child: Text(LocaleKeys.norequestsfound.tr()));
                 }
                 return ListView.builder(
                   padding: const EdgeInsets.all(20),

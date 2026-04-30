@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:graduation2/feauture/product/view/widgets/custom_icon.dart';
@@ -9,6 +10,7 @@ import 'package:graduation2/feauture/review/manager/review_state.dart';
 import 'package:graduation2/feauture/review/view/widgets/custom_review_item.dart';
 import 'package:graduation2/feauture/review/view/widgets/custom_star.dart';
 import 'package:graduation2/feauture/review/view/write_review.dart';
+import 'package:graduation2/generated/locale_keys.g.dart';
 
 class RatingMatrialScreen extends StatefulWidget {
   const RatingMatrialScreen({super.key, required this.idProduct});
@@ -70,7 +72,7 @@ class _RatingMatrialScreenState extends State<RatingMatrialScreen> {
       appBar: AppBar(
         leading: CustomIcon(icon: Icons.arrow_back_ios_new_outlined),
         title: Text(
-          'Reviews & Ratings',
+          LocaleKeys.reviewsandratings.tr(),
           style: TextStyle(color: Color(0xff3E2723)),
         ),
       ),
@@ -122,7 +124,7 @@ class _RatingMatrialScreenState extends State<RatingMatrialScreen> {
                         ),
                         SizedBox(height: height * .015),
                         Text(
-                          'Based on ${totalReviews} reviews',
+                          '${LocaleKeys.basedon.tr()} ${totalReviews} ${LocaleKeys.reviews.tr()}',
                           style: TextStyle(
                             color: const Color(0xFF8D6E63),
                             fontSize: 16,
@@ -149,7 +151,7 @@ class _RatingMatrialScreenState extends State<RatingMatrialScreen> {
                       child: GestureDetector(
                         child: Center(
                           child: Text(
-                            'Write Review',
+                            '${LocaleKeys.writereview.tr()}',
                             style: TextStyle(
                               color: const Color(0xFFFAF8F5),
                               fontSize: 16,
@@ -183,7 +185,7 @@ class _RatingMatrialScreenState extends State<RatingMatrialScreen> {
               isLoading
                   ? Center(child: CircularProgressIndicator())
                   : reviews.isEmpty
-                  ? Center(child: Text("No reviews yet"))
+                  ? Center(child: Text(LocaleKeys.noreviewsyet.tr()))
                   : ListView.builder(
                       shrinkWrap: true,
                       physics: NeverScrollableScrollPhysics(),

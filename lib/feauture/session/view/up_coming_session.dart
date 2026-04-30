@@ -1,8 +1,10 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:graduation2/feauture/session/manager/expert_service_cubit.dart';
 import 'package:graduation2/feauture/session/manager/expert_service_state.dart';
 import 'package:graduation2/feauture/session/view/widgets/session_card.dart';
+import 'package:graduation2/generated/locale_keys.g.dart';
 
 class UpcomingSessionsPage extends StatefulWidget {
   @override
@@ -31,7 +33,7 @@ class _UpcomingSessionsPageState extends State<UpcomingSessionsPage> {
 
         if (state is UpcomingSessionsLoaded) {
           if (state.sessions.isEmpty)
-           { return Center(child: Text("No upcoming sessions"));}
+           { return Center(child: Text(LocaleKeys.noupcomingsessions.tr()));}
 
           return ListView.builder(
             padding: const EdgeInsets.all(20),

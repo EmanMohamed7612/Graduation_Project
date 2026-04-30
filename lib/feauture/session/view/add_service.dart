@@ -291,7 +291,8 @@ class _AddServiceScreenState extends State<AddServiceScreen> {
             const SizedBox(height: 16),
             _buildTextField(
               LocaleKeys.serviceName.tr(),
-              LocaleKeys.egPotteryBasicsCourse.tr(),
+              "Portfolio Review",
+              // LocaleKeys.egPotteryBasicsCourse.tr(),
               controller: _serviceNameController,
             ),
             _buildTextField(

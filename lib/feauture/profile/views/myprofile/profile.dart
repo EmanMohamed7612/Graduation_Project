@@ -10,6 +10,7 @@ import 'package:graduation2/feauture/profile/views/myprofile/expert_profile.dart
 
 import 'package:graduation2/feauture/profile/views/myprofile/seller_profile.dart';
 import 'package:graduation2/feauture/profile/views/myprofile/supplier_profile.dart';
+import 'package:graduation2/feauture/settings/view/settings_screen.dart';
 
 class Profile extends StatelessWidget {
   const Profile({super.key, this.onGoHome});
@@ -48,9 +49,14 @@ class Profile extends StatelessWidget {
         actions: [
           IconButton(
             onPressed: () {
-
-              Navigator.pop(context);
-
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) {
+                    return SettingsScreen();
+                  },
+                ),
+              );
             },
             icon: Icon(Icons.settings_outlined, color: Color(0xff6D4C41)),
           ),

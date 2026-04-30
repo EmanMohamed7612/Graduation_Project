@@ -1,5 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:graduation2/feauture/chat_bot/data/chat_bot_repo.dart';
+import 'package:graduation2/feauture/chat_bot/manager/chat_bot_cubit.dart';
 import 'package:graduation2/feauture/home/manager/fav_cubit.dart';
 import 'package:graduation2/feauture/review/data/cart_repo.dart';
 import 'package:flutter/material.dart';
@@ -24,7 +26,6 @@ import 'package:graduation2/feauture/session/view/my_consultation.dart';
 import 'package:graduation2/feauture/splash_screen/presentation/view/splash.dart';
 
 import 'core/utils/pref_helpers.dart';
-
 
 import 'feauture/favourite/manager/favourite_cubit.dart';
 import 'feauture/home/manager/category_cubit.dart';
@@ -119,9 +120,9 @@ class CratoriaApp extends StatelessWidget {
             ),
           ),
         ),
-         BlocProvider(create: (context) => ExpertServiceCubit()),
+        BlocProvider(create: (context) => ExpertServiceCubit()),
+        BlocProvider(create: (context) => ChatBotCubit(ChatBotRepo())),
         BlocProvider(
-
           create: (context) => CreatematerialCubit(
             repomaterial: RepomaterialImple(
               materialApiService: MaterialApiService(),
@@ -129,7 +130,6 @@ class CratoriaApp extends StatelessWidget {
           ),
         ),
         BlocProvider(
-
           create: (context) =>
               CategoryCubit(ProductApiService())..fetchCategories(),
         ),
@@ -153,10 +153,10 @@ class CratoriaApp extends StatelessWidget {
           create: (_) => ProductDetailsCubit(ProductDetailsRepo()),
         ),
 
-
         BlocProvider(
           create: (context) =>
-          CategorymaterialCubit(MaterialApiService())..fetchmaterialCategories(),
+              CategorymaterialCubit(MaterialApiService())
+                ..fetchmaterialCategories(),
         ),
 
         BlocProvider(
@@ -164,11 +164,9 @@ class CratoriaApp extends StatelessWidget {
         ),
         // BlocProvider<CartCubit>(create: (_) => CartCubit(repo: CartRepo(), cartId: 0)),
         BlocProvider<AddAddressCubit>(
-          create: (context) => AddAddressCubit(
-            AddAddressApiService(DioClient()),
-          ),
+          create: (context) =>
+              AddAddressCubit(AddAddressApiService(DioClient())),
         ),
-
 
         // BlocProvider<CartCubit>(create: (_) => CartCubit(repo: CartRepo(), cartId: 0)),
         BlocProvider<AddressCubit>(

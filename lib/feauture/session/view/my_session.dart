@@ -284,9 +284,9 @@ class _MySessionsScreenState extends State<MySessionsScreen>
 
                     indicatorSize: TabBarIndicatorSize.tab,
                     tabs: [
-                      Tab(text: "Upcoming"),
-                      Tab(text: "Past"),
-                      Tab(text: "Requests"),
+                      Tab(text: LocaleKeys.upcoming.tr()),
+                      Tab(text: LocaleKeys.past.tr()),
+                      Tab(text: LocaleKeys.requests.tr()),
                     ],
                   ),
                 ),

@@ -220,7 +220,7 @@ class _BookingConsultationScreenState extends State<BookingConsultationScreen> {
                   const SizedBox(height: 40),
                   const Icon(Icons.info_outline, size: 50, color: Colors.grey),
                   const SizedBox(height: 10),
-                  const Text("No Services Yet"),
+                   Text(LocaleKeys.noservicesyet.tr()),
                 ],
               ),
             );
@@ -318,9 +318,9 @@ class _BookingConsultationScreenState extends State<BookingConsultationScreen> {
               // Divider(height: 30),
               // _summaryRow("Date & Time", "Oct 13, 9:00 AM"),
               // Divider(height: 30),
-              _summaryRow("Service", selectedService?.title ?? ""),
+              _summaryRow(LocaleKeys.service.tr(), selectedService?.title ?? ""),
               _summaryRow(
-                "Date & Time",
+                LocaleKeys.datandetime.tr(),
                 "${selectedSlot?.date} , ${selectedSlot?.startTime}",
               ),
               // السعر
@@ -328,7 +328,7 @@ class _BookingConsultationScreenState extends State<BookingConsultationScreen> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    "Total",
+                    LocaleKeys.total.tr(),
                     style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                   ),
                   Text(
@@ -540,14 +540,14 @@ class _BookingConsultationScreenState extends State<BookingConsultationScreen> {
                               actions: [
                                 TextButton(
                                   child: Text(
-                                    "Cancel",
+                                    LocaleKeys.cancel.tr(),
                                     style: TextStyle(color: Colors.grey),
                                   ),
                                   onPressed: () => Navigator.pop(dialogContext),
                                 ),
                                 TextButton(
                                   child: Text(
-                                    "OK",
+                                    LocaleKeys.ok.tr(),
                                     style: TextStyle(
                                       color: Color(0xFF6D4C41),
                                       fontWeight: FontWeight.bold,

@@ -1,5 +1,7 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:graduation2/feauture/review/data/cart_model.dart';
+import 'package:graduation2/generated/locale_keys.g.dart';
 import 'package:http/http.dart';
 
 class CartItemCard extends StatelessWidget {
@@ -104,22 +106,22 @@ class CartItemCard extends StatelessWidget {
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(15),
                         ),
-                        title: const Text(
-                          "Confirm Delete",
+                        title:  Text(
+                          LocaleKeys.confirmdelete.tr(),
                           style: TextStyle(
                             fontFamily: 'Arimo',
                             fontWeight: FontWeight.bold,
                           ),
                         ),
                         content: Text(
-                          "Are you sure you want to delete ${item.itemName} from your cart?",
+                          "${LocaleKeys.areyousureyouwanttodelete.tr()} ${item.itemName} ${LocaleKeys.fromyourcart.tr()}",
                         ),
                         actions: [
                           // Cancel Button
                           TextButton(
                             onPressed: () => Navigator.pop(context),
-                            child: const Text(
-                              "Cancel",
+                            child:  Text(
+                              LocaleKeys.cancel.tr(),
                               style: TextStyle(color: Colors.grey),
                             ),
                           ),
@@ -129,8 +131,8 @@ class CartItemCard extends StatelessWidget {
                               Navigator.pop(context); // Close dialog first
                               onDelete(); // Execute delete function
                             },
-                            child: const Text(
-                              "Delete",
+                            child:  Text(
+                              LocaleKeys.delete.tr(),
                               style: TextStyle(
                                 color: Colors.red,
                                 fontWeight: FontWeight.bold,

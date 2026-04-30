@@ -157,15 +157,22 @@ class CheckEmailScreen extends StatelessWidget {
                             height: 22,
                           ),
                           const SizedBox(width: 10),
-                          Text(
-                            LocaleKeys.loginwithgoogle.tr(),
-                            style: TextStyle(
-                              color: Color(0xFF6D4C41),
-                              fontSize: 18,
-                              fontFamily: 'Arimo',
-                              fontWeight: FontWeight.w700,
-                            ),
-                          ),
+                          // GestureDetector(
+                          //   onTap: () {
+                          //     context.read<AuthCubit>().signInWithGoogle(
+                          //       role: role,
+                          //     );
+                          //   },
+                          //   child: Text(
+                          //     LocaleKeys.loginwithgoogle.tr(),
+                          //     style: TextStyle(
+                          //       color: Color(0xFF6D4C41),
+                          //       fontSize: 18,
+                          //       fontFamily: 'Arimo',
+                          //       fontWeight: FontWeight.w700,
+                          //     ),
+                          //   ),
+                          // ),
                         ],
                       ),
                     ),

@@ -3,6 +3,7 @@ plugins {
     id("kotlin-android")
     // The Flutter Gradle Plugin must be applied after the Android and Kotlin Gradle plugins.
     id("dev.flutter.flutter-gradle-plugin")
+    id("com.google.gms.google-services")
 }
 
 android {
@@ -28,6 +29,12 @@ android {
         targetSdk = flutter.targetSdkVersion
         versionCode = flutter.versionCode
         versionName = flutter.versionName
+
+        manifestPlaceholders.putAll(
+            mapOf(
+                "appAuthRedirectScheme" to "com.googleusercontent.apps.809712865790-oaoo7i7uj0us6odg5eqckjokdr5q1req"
+            )
+        )
     }
 
     buildTypes {
@@ -41,4 +48,8 @@ android {
 
 flutter {
     source = "../.."
+}
+dependencies {
+    // لازم يكون فيه السطر ده عشان يربط المكتبات
+    implementation(platform("com.google.firebase:firebase-bom:32.8.0"))
 }

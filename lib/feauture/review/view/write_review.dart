@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:graduation2/core/services/api_error.dart';
 import 'package:graduation2/feauture/product/view/widgets/custom_icon.dart';
@@ -7,6 +8,7 @@ import 'package:graduation2/feauture/review/data/add_review_model.dart';
 import 'package:graduation2/feauture/review/data/review_service.dart';
 import 'package:graduation2/feauture/review/view/widgets/custom_star.dart';
 import 'package:graduation2/feauture/review/view/widgets/rating_star.dart';
+import 'package:graduation2/generated/locale_keys.g.dart';
 
 class WriteReviewScreen extends StatefulWidget {
   const WriteReviewScreen({
@@ -31,7 +33,7 @@ class _WriteReviewScreenState extends State<WriteReviewScreen> {
     if (selectedRating == 0) {
       ScaffoldMessenger.of(
         context,
-      ).showSnackBar(const SnackBar(content: Text('Please select rating')));
+      ).showSnackBar( SnackBar(content: Text(LocaleKeys.pleaseselectrating.tr())));
       return;
     }
 
@@ -52,7 +54,7 @@ class _WriteReviewScreenState extends State<WriteReviewScreen> {
       if (!mounted) return;
 
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('✅ Review submitted successfully')),
+         SnackBar(content: Text('✅ ${LocaleKeys.reviewsubmittedsuccessfully.tr()}')),
       );
 
       // 2. قفل الشاشة وإرجاع true
@@ -117,7 +119,7 @@ class _WriteReviewScreenState extends State<WriteReviewScreen> {
       appBar: AppBar(
         leading: CustomIcon(icon: Icons.arrow_back_ios_new_outlined),
         title: Text(
-          'Reviews & Ratings',
+          LocaleKeys.reviewsandratings.tr(),
           style: TextStyle(color: Color(0xff3E2723)),
         ),
       ),
@@ -134,8 +136,8 @@ class _WriteReviewScreenState extends State<WriteReviewScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Text(
-                  'Write Your Review',
+                 Text(
+                  LocaleKeys.write_your_review.tr(),
                   style: TextStyle(
                     color: Color(0xFF3E2723),
                     fontSize: 20,
@@ -145,8 +147,8 @@ class _WriteReviewScreenState extends State<WriteReviewScreen> {
                 ),
                 const SizedBox(height: 16),
 
-                const Text(
-                  'Your Rating',
+                 Text(
+                  LocaleKeys.yourrating.tr(),
                   style: TextStyle(
                     color: Color(0xFF3E2723),
                     fontSize: 18,
@@ -162,8 +164,8 @@ class _WriteReviewScreenState extends State<WriteReviewScreen> {
                 ),
 
                 const SizedBox(height: 16),
-                const Text(
-                  "Your Review",
+                 Text(
+                  LocaleKeys.your_review.tr(),
                   style: TextStyle(
                     color: const Color(0xFF3E2723),
                     fontSize: 18,
@@ -177,7 +179,7 @@ class _WriteReviewScreenState extends State<WriteReviewScreen> {
                   controller: _reviewController,
                   maxLines: 4,
                   decoration: InputDecoration(
-                    hintText: "Share your experience with this product...",
+                    hintText: LocaleKeys.shareyourexperiencewiththisproduct.tr(),
                     filled: true,
                     fillColor: Color(0xffFAF8F5),
                     border: OutlineInputBorder(
@@ -208,7 +210,7 @@ class _WriteReviewScreenState extends State<WriteReviewScreen> {
                         ),
                         onPressed: () => Navigator.pop(context),
                         child: Text(
-                          "Cancel",
+                          LocaleKeys.cancel.tr(),
                           style: TextStyle(color: Colors.brown),
                         ),
                       ),
@@ -254,7 +256,7 @@ class _WriteReviewScreenState extends State<WriteReviewScreen> {
                             ? CircularProgressIndicator(color: Colors.white)
                             : Center(
                                 child: Text(
-                                  "Submit Review",
+                                  LocaleKeys.submitreview.tr(),
                                   style: TextStyle(color: Colors.white),
                                 ),
                               ),
