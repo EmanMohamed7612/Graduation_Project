@@ -22,6 +22,7 @@ import 'package:graduation2/feauture/session/manager/expert_service_cubit.dart';
 import 'package:graduation2/feauture/session/view/book_sconsultation_screen.dart';
 
 import 'package:graduation2/feauture/session/view/my_consultation.dart';
+import 'package:graduation2/feauture/settings/manager/user_profile_cubit.dart';
 
 import 'package:graduation2/feauture/splash_screen/presentation/view/splash.dart';
 
@@ -94,6 +95,9 @@ class CratoriaApp extends StatelessWidget {
             ),
           ),
         ),
+        BlocProvider(
+  create: (context) => UpdateProfileCubit(UserProfileRepo()), 
+),
 
         BlocProvider(
           create: (context) => DeletematerialCubit(
@@ -175,20 +179,24 @@ class CratoriaApp extends StatelessWidget {
           )..fetchAddresses(), // ضيفي السطر ده عشان يحمل العناوين أول ما التطبيق يفتح
         ),
       ],
-      child: MaterialApp(
-        debugShowCheckedModeBanner: false,
-        localizationsDelegates: context.localizationDelegates,
-        supportedLocales: context.supportedLocales,
-        locale: context.locale,
-        theme: ThemeData(
-          scaffoldBackgroundColor: const Color(0xFFEFEBE9),
-          textTheme: GoogleFonts.arimoTextTheme(),
-          colorScheme: const ColorScheme.light(
-            primary: Color(0xFF3E2723),
-            secondary: Color(0xFF8D6E63),
-          ),
-        ),
-        home: SplashView(),
+      child: Builder(
+        builder: (context) {
+          return MaterialApp(
+            debugShowCheckedModeBanner: false,
+            localizationsDelegates: context.localizationDelegates,
+            supportedLocales: context.supportedLocales,
+            locale: context.locale,
+            theme: ThemeData(
+              scaffoldBackgroundColor: const Color(0xFFEFEBE9),
+              textTheme: GoogleFonts.arimoTextTheme(),
+              colorScheme: const ColorScheme.light(
+                primary: Color(0xFF3E2723),
+                secondary: Color(0xFF8D6E63),
+              ),
+            ),
+            home: SplashView(),
+          );
+        },
       ),
     );
   }

@@ -60,8 +60,8 @@ class _SellerbeginerDashboardScreenState
                     _buildProductsHeader(context),
                     //const SizedBox(height: 2),
                     BlocBuilder<
-                      ProductsellerCubit,
-                      ProductsellerdashboardState
+                        ProductsellerCubit,
+                        ProductsellerdashboardState
                     >(
                       builder: (context, state) {
                         if (state is ProductsellerdLoading) {
@@ -273,11 +273,11 @@ class _SellerbeginerDashboardScreenState
   }
 
   Widget _buildStatCard(
-    String label,
-    String value,
-    IconData icon, {
-    bool isSelected = false,
-  }) {
+      String label,
+      String value,
+      IconData icon, {
+        bool isSelected = false,
+      }) {
     return Container(
       width: 110,
       padding: const EdgeInsets.symmetric(vertical: 12),

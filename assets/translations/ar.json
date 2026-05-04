@@ -286,7 +286,7 @@
   "servicesPricing":"الخدمات والتسعير",
   "availableTimeSlots":"الفترات الزمنية المتاحة",
   "addNewService":"إضافة خدمة جديدة",
-  "serviceName":"اسم الخدمة",
+  "serviceName":"اسم الخدمة(الانجليزيه)",
   "egPotteryBasicsCourse":"مثال: دورة أساسيات صناعة الفخار",
   "durationmin":"المدة (بالدقائق)",
   "descriptionOptional":"الوصف (اختياري)",
@@ -294,6 +294,7 @@
   "addService":"إضافة خدمة ",
   "addTimeSlot":"إضافة فتحة زمنية",
   "mySessions":"جلساتي",
+
   "startloadingsessions":"بدء تحميل الجلسات...",
   "nopastsessionsfound":"لم يتم العثور على جلسات سابقه .",
   "noupcomingsessionsfound":"لم يتم العثور على جلسات قادمة.",
@@ -323,7 +324,10 @@
   "sendmessage":"أرسل رسالة",
   "booksession":"حجز جلسة",
   "messages":"رسائل",
+
+
   "meetinglink":"رابط الاجتماع",
+
   "clientwillreceivethemeetinglinkviaemail":"سيتلقى العميل رابط الاجتماع عبر البريد الإلكتروني",
   "confirm":"تأكيد",
   "noservicesyet":"لا توجد خدمة حتى الآن",
@@ -347,6 +351,60 @@
   "reviewsubmittedsuccessfully":"تم إرسال المراجعات بنجاح",
   "yourrating":"تقييمك",
   "shareyourexperiencewiththisproduct":"شاركنا تجربتك مع هذا المنتج",
-  "submitreview":"إرسال مراجعة"
+  "submitreview":"إرسال مراجعة",
+  "servesnamearabic": "اسم الخدمه (بالعربي)",
   
+
+  "delivery_address": "عنوان التوصيل",
+  "select_or_add_address": "اختر أو أضف عنواناً جديداً",
+  "choose_address": "اختر العنوان",
+  "add_new_address_btn": "إضافة عنوان جديد",
+  "address_note": "تأكد من صحة عنوانك لضمان سلاسة التوصيل",
+  "continue_to_review": "المتابعة للمراجعة",
+  "personal_information": "المعلومات الشخصية",
+  "address_details": "تفاصيل العنوان",
+  "full_name_hint": "الاسم الكامل",
+  "street_address_hint": "عنوان الشارع",
+  "city_hint": "المدينة",
+  "region_hint": "المنطقة",
+  "deliver_to": "التوصيل إلى",
+  "change_address": "تغيير",
+  "order_summary_title": "ملخص الطلب",
+  "No_address_found": "لا يوجد عنوان",
+  "defualt_key": "تلقائي",
+  "Makesureyouraddressiscorrecttoensuresmoothdelivery": "من فضلك تاكد ان العنولن الذي قمت باختياره صحيح لتضمن وصول سلس لمنتجاتك",
+
+  "review_order_subtitle": "راجع طلبك قبل إتمامه",
+  "order_items_count": "محتويات الطلب",
+  "item_qty": "الكمية",
+  "price_details_title": "تفاصيل السعر",
+  "subtotal_label": "المجموع الفرعي:",
+  "shipping_label": "الشحن:",
+  "total_label": "الإجمالي:",
+  "terms_text": "بإتمامك لهذا الطلب، أنت توافق على الشروط والأحكام الخاصة بنا",
+  "continue_to_payment_btn": "المتابعة لعملية الدفع",
+  "empty_cart_msg": "لا توجد منتجات في السلة للمراجعة",
+  "no_address_selected_msg": "لم يتم اختيار عنوان شحن",
+  "loading_card_details": "يتم تحميل تفاصيل السله",
+  "add_address_title": "إضافة عنوان جديد",
+  "delivery_details_subtitle": "أدخل تفاصيل التوصيل الخاصة بك",
+  "personal_info_label": "المعلومات الشخصية",
+  "full_name_field": "الاسم الكامل *",
+
+  "phone_number_field": "رقم الهاتف *",
+  "phone_number_hint": "+20 123 456 7890",
+  "address_details_label": "تفاصيل العنوان",
+  "street_address_field": "اسم الشارع *",
+  "streetaddresshint": "14 شارع الشهيد",
+  "city_field": "المدينة *",
+
+  "region_field": "المنطقة *",
+
+  "delivery_note": "ملاحظة: يرجى التأكد من دقة جميع المعلومات. سيتواصل فريق التوصيل معك باستخدام رقم الهاتف المقدم.",
+  "cancel_btn": "إلغاء",
+  "save_address_btn": "حفظ العنوان",
+  "success_save_msg": "تم حفظ العنوان بنجاح",
+  "validation_error_msg": "يرجى ملء جميع الحقول المطلوبة *"
+  
+
 }

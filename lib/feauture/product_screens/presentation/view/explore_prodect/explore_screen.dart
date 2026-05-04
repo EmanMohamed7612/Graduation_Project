@@ -14,8 +14,8 @@ import '../../../manager/product_cubit.dart';
 import '../../../manager/product_state.dart';
 
 class ExploreAllScreen extends StatelessWidget {
-  const ExploreAllScreen({super.key});
-
+  const ExploreAllScreen({super.key, this.onGoHome});
+  final VoidCallback? onGoHome;
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
@@ -26,12 +26,22 @@ class ExploreAllScreen extends StatelessWidget {
         appBar: AppBar(
           backgroundColor: Colors.transparent,
           elevation: 0,
-          leading: const Icon(
-            Icons.arrow_back_ios,
-            color: Colors.brown,
-            size: 20,
+          leading: IconButton(
+            icon: const Icon(
+              Icons.arrow_back_ios,
+              color: Colors.brown,
+              size: 20,
+            ),
+            onPressed: () {
+              if (onGoHome != null) {
+                onGoHome!();
+              } else {
+                // لو مش موجودة (زي لو فاتحين البروفايل من صفحة تانية بـ push)
+                Navigator.maybePop(context);
+              }
+            },
           ),
-          title:  Text(
+          title: Text(
             LocaleKeys.allproduct.tr(),
             style: TextStyle(color: Colors.brown, fontWeight: FontWeight.bold),
           ),
@@ -80,7 +90,8 @@ class ExploreAllScreen extends StatelessWidget {
                               context,
                               MaterialPageRoute(
                                 builder: (_) => BlocProvider(
-                                  create: (_) => ProductDetailsCubit(ProductDetailsRepo()),
+                                  create: (_) =>
+                                      ProductDetailsCubit(ProductDetailsRepo()),
                                   child: ProductDetails(productId: product.id),
                                 ),
                               ),

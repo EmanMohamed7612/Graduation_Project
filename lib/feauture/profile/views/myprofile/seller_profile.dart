@@ -19,7 +19,7 @@ import 'package:graduation2/feauture/review/view/widgets/custom_star.dart';
 
 class SellerProfile extends StatefulWidget {
   const SellerProfile({super.key, required this.user, this.onGoHome});
-  final user;
+  final dynamic user;
 
   final VoidCallback? onGoHome;
   @override
@@ -115,9 +115,9 @@ class _SellerProfileState extends State<SellerProfile> {
                       radius: width * .1,
                       backgroundImage: widget.user.profileImage != null
                           ? NetworkImage(
-                              widget.user.profileImage ??
-                                  'assets/images/person.png',
-                            )
+                        widget.user.profileImage ??
+                            'assets/images/person.png',
+                      )
                           : AssetImage('assets/images/person.png'),
                     ),
                   ),
@@ -211,21 +211,21 @@ class _SellerProfileState extends State<SellerProfile> {
               // Icon(Icons.star_border_outlined, size: 15),
               isLoadingRating
                   ? const SizedBox(
-                      width: 15,
-                      height: 15,
-                      child: CircularProgressIndicator(strokeWidth: 2),
-                    )
+                width: 15,
+                height: 15,
+                child: CircularProgressIndicator(strokeWidth: 2),
+              )
                   : Text(
-                      ' ${averageRating.toStringAsFixed(1)}   (${totalReviews}) ',
+                ' ${averageRating.toStringAsFixed(1)}   (${totalReviews}) ',
 
-                      style: TextStyle(
-                        color: const Color(0xFF8D6E63),
-                        fontSize: 11,
-                        fontFamily: 'Arimo',
-                        fontWeight: FontWeight.w400,
-                        height: 1.50,
-                      ),
-                    ),
+                style: TextStyle(
+                  color: const Color(0xFF8D6E63),
+                  fontSize: 11,
+                  fontFamily: 'Arimo',
+                  fontWeight: FontWeight.w400,
+                  height: 1.50,
+                ),
+              ),
               // Text(
               //   '4.9 (248 reviews)',
               //   style: TextStyle(
@@ -360,15 +360,15 @@ class _SellerProfileState extends State<SellerProfile> {
                     children: [
                       BlocProvider(
                         create: (context) =>
-                            ProductsCubit(ProductOwnerProfileRepo())
-                              ..getProducts(widget.user.id),
+                        ProductsCubit(ProductOwnerProfileRepo())
+                          ..getProducts(widget.user.id),
                         child: ProductsGrid(user: widget.user),
                       ),
                       // SessionsView(),
                       BlocProvider(
                         create: (context) =>
-                            ReviewCubit(ReviewApiService())
-                              ..getCreatedReviews(widget.user.id),
+                        ReviewCubit(ReviewApiService())
+                          ..getCreatedReviews(widget.user.id),
                         child: ReviewsProfile(userId: widget.user.id),
                       ),
                       //  ReviewsView(),

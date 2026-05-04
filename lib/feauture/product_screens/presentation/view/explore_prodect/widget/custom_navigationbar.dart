@@ -491,7 +491,7 @@ class _MainWrapperState extends State<MainWrapper> {
           index: _currentIndex,
           children: [
             _buildNavigator(0, const HomeScreen()),
-            _buildNavigator(1, const ExploreAllScreen()),
+            _buildNavigator(1, ExploreAllScreen(onGoHome: () => _selectTab(0))),
             _buildNavigator(2, CommunityScreen(onGoHome: () => _selectTab(0))),
             _buildNavigator(3, ChatBotScreen(onGoHome: () => _selectTab(0))),
             _buildNavigator(4, Profile(onGoHome: () => _selectTab(0))),

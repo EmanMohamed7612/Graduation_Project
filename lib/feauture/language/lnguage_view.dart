@@ -114,9 +114,16 @@ class _LanguageViewState extends State<LanguageView> {
                       if (Navigator.canPop(context)) {
                         Navigator.pop(context);
                       } else {
-                        Navigator.pushReplacement(
+                        // Navigator.pushReplacement(
+                        //   context,
+                        //   MaterialPageRoute(builder: (_) => OnBoardingView()),
+                        // );
+                        Navigator.pushAndRemoveUntil(
                           context,
-                          MaterialPageRoute(builder: (_) => OnBoardingView()),
+                          MaterialPageRoute(
+                            builder: (_) => const OnBoardingView(),
+                          ), // أو شاشة البداية الرئيسية عندك
+                          (route) => false,
                         );
                       }
                     }

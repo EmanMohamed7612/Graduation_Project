@@ -13,8 +13,13 @@ import 'package:graduation2/feauture/product_screens/manager/product_cubit.dart'
 import 'package:graduation2/feauture/review/data/review_service.dart';
 import 'package:graduation2/feauture/review/manager/review_cubit.dart';
 import 'package:graduation2/feauture/review/view/widgets/custom_star.dart';
+
 import 'package:graduation2/feauture/session/manager/expert_service_cubit.dart';
 import 'package:graduation2/feauture/session/manager/expert_service_state.dart';
+
+
+
+import 'package:graduation2/feauture/session/data/expert_repo.dart';
 
 import 'package:graduation2/feauture/session/view/book_sconsultation_screen.dart';
 import 'package:graduation2/generated/locale_keys.g.dart';
@@ -142,7 +147,6 @@ class _ExpertAccountState extends State<ExpertAccount> {
                 padding: const EdgeInsets.all(16),
 
                 height: height * .34,
-                // origin/book-session
                 color: Colors.white,
                 width: width,
                 child: Column(
@@ -247,7 +251,9 @@ class _ExpertAccountState extends State<ExpertAccount> {
                         ),
                         SizedBox(width: width * .035),
                         Container(
+
                           width: width * .15,
+
 
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(35),
@@ -349,6 +355,7 @@ class _ExpertAccountState extends State<ExpertAccount> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
+
                               builder: (context) => BlocProvider(
                                 // تأكدي من إنشاء الـ Cubit هنا مع تمرير الـ Repo المناسب
                                 create: (context) => ExpertServiceCubit(),
@@ -356,6 +363,7 @@ class _ExpertAccountState extends State<ExpertAccount> {
                                   expertId: widget.user.id,
                                 ),
                               ),
+
                             ),
                           );
                         },

@@ -192,6 +192,19 @@ class _SupplierprofileState extends State<Supplierprofile> {
                 ),
                 SizedBox(width: width * .03),
                 SizedBox(height: height * .01),
+                 Container(
+                  alignment: Alignment.topLeft,
+                  child: Text(
+                    widget.user.specialization,
+                    style: TextStyle(
+                      color: const Color(0xFF6D4C41),
+                      fontSize: 10.50,
+                      fontFamily: 'Arimo',
+                      fontWeight: FontWeight.w400,
+                      height: 1.33,
+                    ),
+                  ),
+                ),
                 Row(
                   children: [
                     RatingStars(rating: averageRating),
@@ -232,7 +245,7 @@ class _SupplierprofileState extends State<Supplierprofile> {
                 Container(
                   alignment: Alignment.topLeft,
                   child: Text(
-                    '12+ years creating wheel-thrown pottery ',
+                    widget.user.bio,
                     style: TextStyle(
                       color: const Color(0xFF8D6E63),
                       fontSize: 11,

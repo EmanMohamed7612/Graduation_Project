@@ -5,12 +5,13 @@ class CustomInputField extends StatelessWidget {
   final String initialValue;
   final IconData icon;
   final int maxLines;
-
+ final TextEditingController controller;
   const CustomInputField({
     super.key,
     required this.label,
     required this.initialValue,
     required this.icon,
+    required this.controller,
     this.maxLines = 1,
   });
 
@@ -23,24 +24,39 @@ class CustomInputField extends StatelessWidget {
         children: [
           Row(
             children: [
-              Icon(icon, size: 18, color: Colors.brown[700]),
+              Icon(icon, size: 18, color: Color(0xFF6D4C41)),
               const SizedBox(width: 8),
               Text(
                 label,
-                style: TextStyle(color: Colors.brown[700], fontWeight: FontWeight.w500),
+                style: TextStyle(
+                  color: const Color(0xFF6D4C41),
+                  fontSize: 10.50,
+                  fontFamily: 'Arimo',
+                  fontWeight: FontWeight.w400,
+                  height: 1.33,
+                ),
               ),
             ],
           ),
           const SizedBox(height: 8),
           TextFormField(
-            initialValue: initialValue,
+            //  hintText: initialValue,
+            controller: controller,
             maxLines: maxLines,
             decoration: InputDecoration(
-              fillColor: const Color(0xFFFDF8F5), // لون الخلفية الفاتح في الصورة
+              hintText: initialValue,
+              fillColor: const Color(
+                0xFFFDF8F5,
+              ), // لون الخلفية الفاتح في الصورة
               filled: true,
-              contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+
+              contentPadding: const EdgeInsets.symmetric(
+                horizontal: 16,
+                vertical: 12,
+              ),
               border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(15),
+                borderRadius: BorderRadius.circular(25),
+
                 borderSide: BorderSide.none,
               ),
             ),

@@ -350,7 +350,7 @@
   "servicesPricing":"Services & Pricing",
   "availableTimeSlots":"Available Time Slots",
   "addNewService":"Add New Service",
-  "serviceName":"Service Name",
+  "serviceName":"Service Name(English)",
   "egPotteryBasicsCourse":"e.g., Pottery Basics Course",
   "durationmin":"Duration (min)",
   "descriptionOptional":"Description (Optional)",
@@ -358,6 +358,7 @@
   "addService":"Add Service",
   "addTimeSlot":"Add Time Slot",
   "mySessions":"My Sessions",
+
   "startloadingsessions":"Start loading sessions...",
   "nopastsessionsfound":"No past sessions found.",
   "noupcomingsessionsfound":"No upcoming sessions found.",
@@ -386,7 +387,7 @@
   "sendmessage":"Send Message",
   "booksession":"Book Session",
   "messages":"Messages",
-
+  
   "meetinglink":"Meeting Link",
   "clientwillreceivethemeetinglinkviaemail":"Client will receive the meeting link via email",
   "confirm":"Confirm",
@@ -411,7 +412,60 @@
   "reviewsubmittedsuccessfully":"Review submitted successfully",
   "yourrating":"Your Rating",
   "shareyourexperiencewiththisproduct":"Share your experience with this product...",
-  "submitreview":"Submit Review"
+  "submitreview":"Submit Review",
+
+
+  "servesnamearabic": "service Name (Arabic)",
+  "delivery_address": "Delivery Address",
+  "select_or_add_address": "Select or add a new address",
+  "choose_address": "Choose Address",
+  "add_new_address_btn": "Add New Address",
+  "address_note": "Make sure your address is correct to ensure smooth delivery",
+  "continue_to_review": "Continue to Review",
+  "personal_information": "Personal Information",
+  "address_details": "Address Details",
+  "full_name_hint": "Full Name",
+  "street_address_hint": "Street Address",
+  "city_hint": "City",
+  "region_hint": "Region",
+  "deliver_to": "Deliver to",
+  "change_address": "Change",
+  "order_summary_title": "Order Summary",
+  "No_address_found": "No address found",
+  "default_key": "Default",
+  "Makesureyouraddressiscorrecttoensuresmoothdelivery": "Make sure your address is correct to ensure smooth delivery",
+
+  "review_order_subtitle": "Review before placing order",
+  "order_items_count": "Order Items",
+  "item_qty": "Qty",
+  "price_details_title": "Price Details",
+  "subtotal_label": "Subtotal:",
+  "shipping_label": "Shipping:",
+  "total_label": "Total:",
+  "terms_text": "By placing this order, you agree to our terms and conditions",
+  "continue_to_payment_btn": "Continue to Payment",
+  "empty_cart_msg": "No items in cart to review",
+  "no_address_selected_msg": "No address selected",
+  "loading_card_details": "loading card Details...",
+  "add_address_title": "Add New Address",
+  "delivery_details_subtitle": "Enter your delivery details",
+  "personal_info_label": "Personal Information",
+  "full_name_field": "Full Name *",
+
+  "phone_number_field": "Phone Number *",
+  "phone_number_hint": "+20 123 456 7890",
+  "address_details_label": "Address Details",
+  "street_address_field": "Street Address *",
+  "streetaddresshint": "14 El-Shaheed Street",
+  "city_field": "City *",
+
+  "region_field": "Region *",
+
+  "delivery_note": "Note: Please ensure all information is accurate. Our delivery team will contact you using the phone number provided.",
+  "cancel_btn": "Cancel",
+  "save_address_btn": "Save Address",
+  "success_save_msg": "Address saved successfully",
+  "validation_error_msg": "Please fill all required fields *"
 
 
 

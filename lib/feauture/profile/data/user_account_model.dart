@@ -43,7 +43,7 @@ class UserAccountModel {
       specialization: json['specialization'],
     );
   }
-
+String? get profileImage => picturUrl;
   Map<String, dynamic> toJson() {
     return {
       'id': id,

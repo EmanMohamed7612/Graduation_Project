@@ -122,6 +122,8 @@
 //     throw ApiError(message: 'Unexpected response');
 //   }
 // }
+import 'dart:io';
+
 import 'package:dio/dio.dart';
 import 'package:graduation2/core/services/api_error.dart';
 import 'package:graduation2/feauture/product_screens/data/model/prodect_model_explore.dart';
@@ -245,36 +247,102 @@ class ApiService {
   }
 }
 
-class UserProfileRepo {
+// class UserProfileRepo {
+//   final ApiService _apiService = ApiService();
+
+//   Future<UserProfileModel> getCurrentUser() async {
+//     final response = await _apiService.get('/api/UserProfile', null);
+
+//     if (response is ApiError) {
+//       throw response;
+//     }
+
+//     // ⚠️ FIX: Handle the nested "data" structure properly
+//     if (response is Map<String, dynamic>) {
+//       // Check if response has success = false
+//       if (response['success'] == false) {
+//         final errorMsg =
+//             response['errors']?['errorMessage'] ??
+//             response['message'] ??
+//             'Failed to fetch profile';
+//         throw ApiError;
+//       }
+
+//       // Extract the actual data from response['data']
+//       final data = response['data'];
+//       if (data != null) {
+//         return UserProfileModel.fromJson(data);
+//       }
+//     }
+
+//     throw ApiError;
+
+
+    
+//   }
+
+
+  class UserProfileRepo {
+  // تعريف الـ ApiService كمتغير داخل الكلاس
   final ApiService _apiService = ApiService();
 
+  // تأكدي إن مفيش سطر مكتوب فيه UserProfileRepo UserProfileRepo() بدون هدف
+
+  // 1. الميثود الجديدة للتحميل (Update)
+  Future<void> updateUserProfile({
+    String? firstName,
+    String? lastName,
+    String? bio,
+    int? gender,
+    String? specialization,
+    File? imageFile,
+  }) async {
+    try {
+      // تجهيز البيانات
+      Map<String, dynamic> data = {
+        "FirstName": firstName,
+        "LastName": lastName,
+        "Bio": bio,
+        "Gender": gender,
+        "Specialization": specialization,
+      };
+
+      // تحويل الصورة لـ MultipartFile إذا وجدت
+      if (imageFile != null) {
+        data["ProfileImage"] = await MultipartFile.fromFile(
+          imageFile.path,
+          filename: imageFile.path.split('/').last,
+        );
+      }
+
+      // تحويل الخريطة إلى FormData
+      FormData formData = FormData.fromMap(data);
+
+      // إرسال الطلب
+      final response = await _apiService.post('/api/UserProfile', formData);
+
+      // التحقق من النجاح
+      if (response != null && response['succeeded'] == true) {
+        return;
+      } else {
+        throw Exception(response['message'] ?? "Update failed");
+      }
+    } catch (e) {
+      rethrow; 
+    }
+  }
+
+  // 2. الميثود القديمة (تأكدي من وجود الأقواس بعد الاسم)
   Future<UserProfileModel> getCurrentUser() async {
     final response = await _apiService.get('/api/UserProfile', null);
-
-    if (response is ApiError) {
-      throw response;
-    }
-
-    // ⚠️ FIX: Handle the nested "data" structure properly
+    // ... باقي الكود
     if (response is Map<String, dynamic>) {
-      // Check if response has success = false
-      if (response['success'] == false) {
-        final errorMsg =
-            response['errors']?['errorMessage'] ??
-            response['message'] ??
-            'Failed to fetch profile';
-        throw ApiError;
-      }
-
-      // Extract the actual data from response['data']
-      final data = response['data'];
-      if (data != null) {
-        return UserProfileModel.fromJson(data);
-      }
+       final data = response['data'];
+       return UserProfileModel.fromJson(data);
     }
-
-    throw ApiError;
+    throw Exception("Failed to fetch profile");
   }
+
 
   Future<UserAccountModel> getAccountById(String userId) async {
     final response = await _apiService.get('/api/Accounts/GetAccount', {

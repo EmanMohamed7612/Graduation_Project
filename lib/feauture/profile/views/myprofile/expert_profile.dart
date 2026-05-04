@@ -1,9 +1,14 @@
+
 import 'package:easy_localization/easy_localization.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:graduation2/core/services/api_services.dart';
+
 import 'package:graduation2/feauture/dashboard_screen/presentation/view/seller_dashboard.dart';
+
+import 'package:graduation2/feauture/dashboard_screen/presentation/view/seller_dashboard.dart'as dashboard;
+import 'package:graduation2/feauture/home/presentation/view/home_screen.dart';
 import 'package:graduation2/feauture/profile/manager/number_product_cubit.dart';
 import 'package:graduation2/feauture/profile/manager/number_product_state.dart';
 import 'package:graduation2/feauture/profile/views/myprofile/widgets/numberandtype.dart';
@@ -14,10 +19,15 @@ import 'package:graduation2/feauture/product_screens/manager/product_cubit.dart'
 import 'package:graduation2/feauture/review/data/review_service.dart';
 import 'package:graduation2/feauture/review/manager/review_cubit.dart';
 import 'package:graduation2/feauture/review/view/widgets/custom_star.dart';
+
 import 'package:graduation2/feauture/session/manager/expert_service_cubit.dart';
 import 'package:graduation2/feauture/session/manager/expert_service_state.dart';
+
+
+
 import 'package:graduation2/feauture/session/view/my_session.dart';
 import 'package:graduation2/generated/locale_keys.g.dart';
+
 
 class ExpertProfile extends StatefulWidget {
   const ExpertProfile({super.key, required this.user, this.onGoHome});
@@ -186,10 +196,10 @@ class _ExpertProfileState extends State<ExpertProfile> {
                   ],
                 ),
                 SizedBox(height: height * .01),
-                Container(
+              Container(
                   alignment: Alignment.topLeft,
                   child: Text(
-                    'Master Ceramicist',
+                    widget.user.specialization,
                     style: TextStyle(
                       color: const Color(0xFF6D4C41),
                       fontSize: 10.50,
@@ -198,7 +208,7 @@ class _ExpertProfileState extends State<ExpertProfile> {
                       height: 1.33,
                     ),
                   ),
-                ),
+                ),  
                 SizedBox(height: height * .01),
                 Row(
                   children: [
@@ -229,7 +239,7 @@ class _ExpertProfileState extends State<ExpertProfile> {
                 Container(
                   alignment: Alignment.topLeft,
                   child: Text(
-                    '12+ years creating wheel-thrown pottery ',
+                    widget.user.bio,
                     style: TextStyle(
                       color: const Color(0xFF8D6E63),
                       fontSize: 11,
@@ -258,6 +268,7 @@ class _ExpertProfileState extends State<ExpertProfile> {
                         ),
 
                         child: GestureDetector(
+
                           onTap: () {
                             Navigator.push(
                               context,
@@ -279,6 +290,7 @@ class _ExpertProfileState extends State<ExpertProfile> {
                                 ),
                                 const SizedBox(width: 7),
                                 Text(
+
                                   LocaleKeys.mySessions.tr(),
 
                                   style: TextStyle(
@@ -313,7 +325,7 @@ class _ExpertProfileState extends State<ExpertProfile> {
                               context,
                               MaterialPageRoute(
                                 builder: (context) {
-                                  return SellerDashboardScreen();
+                                  return dashboard.SellerDashboardScreen();
                                 },
                               ),
                             );
