@@ -48,15 +48,25 @@ class Profile extends StatelessWidget {
         centerTitle: true,
         actions: [
           IconButton(
-            onPressed: () {
-              Navigator.push(
+            onPressed: () async {
+              // Navigator.push(
+              //   context,
+              //   MaterialPageRoute(
+              //     builder: (context) {
+              //       return SettingsScreen();
+              //     },
+              //   ),
+              // );
+
+              final result = await Navigator.push(
                 context,
-                MaterialPageRoute(
-                  builder: (context) {
-                    return SettingsScreen();
-                  },
-                ),
+                MaterialPageRoute(builder: (context) => const SettingsScreen()),
               );
+              print("Settings returned: $result"); // ← وده
+              if (result == true && context.mounted) {
+                print("Calling fetchProfile..."); // ← وده
+                context.read<UserProfileCubit>().fetchProfile();
+              }
             },
             icon: Icon(Icons.settings_outlined, color: Color(0xff6D4C41)),
           ),
@@ -67,6 +77,7 @@ class Profile extends StatelessWidget {
       body: SafeArea(
         child: BlocBuilder<UserProfileCubit, UserProfileState>(
           builder: (context, state) {
+            print("Profile state: $state");
             if (state is UserAccountLoading) {
               return const Center(child: CircularProgressIndicator());
             }

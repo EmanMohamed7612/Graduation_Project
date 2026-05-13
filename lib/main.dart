@@ -2,6 +2,9 @@ import 'package:dio/dio.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:graduation2/feauture/chat_bot/data/chat_bot_repo.dart';
 import 'package:graduation2/feauture/chat_bot/manager/chat_bot_cubit.dart';
+import 'package:graduation2/feauture/community/data/post_repo.dart';
+import 'package:graduation2/feauture/community/manager/community_cubit.dart';
+import 'package:graduation2/feauture/community/view/comments_page.dart';
 import 'package:graduation2/feauture/home/manager/fav_cubit.dart';
 import 'package:graduation2/feauture/review/data/cart_repo.dart';
 import 'package:flutter/material.dart';
@@ -83,6 +86,9 @@ class CratoriaApp extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(
+          create: (context) => CommunityCubit(PostsRepo())..fetchPosts(),
+        ),
+        BlocProvider(
           create: (_) => CartCubit(
             repo: CartRepo(),
             cartId: userId, // ⚡ استخدام userId
@@ -96,8 +102,8 @@ class CratoriaApp extends StatelessWidget {
           ),
         ),
         BlocProvider(
-  create: (context) => UpdateProfileCubit(UserProfileRepo()), 
-),
+          create: (context) => UpdateProfileCubit(UserProfileRepo()),
+        ),
 
         BlocProvider(
           create: (context) => DeletematerialCubit(

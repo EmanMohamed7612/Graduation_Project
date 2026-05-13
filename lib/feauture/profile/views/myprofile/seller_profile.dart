@@ -192,7 +192,7 @@ class _SellerProfileState extends State<SellerProfile> {
           Container(
             alignment: Alignment.topLeft,
             child: Text(
-              'Master Ceramicist',
+               widget.user.specialization??"",
               style: TextStyle(
                 color: const Color(0xFF6D4C41),
                 fontSize: 10.50,

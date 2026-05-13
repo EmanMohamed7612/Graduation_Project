@@ -2,12 +2,15 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:graduation2/core/services/dio_client.dart';
+import 'package:graduation2/feauture/community/data/post_repo.dart';
+import 'package:graduation2/feauture/community/manager/my_posts_cubit.dart';
 import 'package:graduation2/feauture/favourite/manager/favourite_cubit.dart';
 import 'package:graduation2/feauture/favourite/views/favourite_screen.dart';
 import 'package:graduation2/feauture/home/manager/fav_apiserves.dart';
 
 import 'package:graduation2/feauture/profile/views/accounts/widgets/posts_account.dart';
 import 'package:graduation2/feauture/profile/views/myprofile/widgets/custom_button.dart';
+import 'package:graduation2/feauture/profile/views/myprofile/widgets/posts_profile.dart';
 import 'package:graduation2/feauture/profile/views/myprofile/widgets/reviews_customer.dart';
 import 'package:graduation2/feauture/review/data/review_service.dart';
 import 'package:graduation2/feauture/review/manager/review_cubit.dart';
@@ -39,6 +42,12 @@ class _CustomerProfileState extends State<CustomerProfile> {
         isLoadingRating = false;
       });
     }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    userstate(); // استدعاء الدالة عند فتح الصفحة
   }
 
   @override
@@ -201,7 +210,7 @@ class _CustomerProfileState extends State<CustomerProfile> {
                     ),
                     color: Colors.white,
                   ),
-                  child:  TabBar(
+                  child: TabBar(
                     indicatorColor: Color(0xff7A4A32),
                     indicatorWeight: 2,
                     labelColor: Colors.black,
@@ -225,8 +234,13 @@ class _CustomerProfileState extends State<CustomerProfile> {
                   child: TabBarView(
                     children: [
                       //  PostsView(),
-                      //   MyPostsView(),
-                      PostsAccount(),
+                      BlocProvider(
+                        create: (context) =>
+                            MyPostsCubit(PostsRepo())
+                              ..fetchUserPosts(widget.user.id),
+                        child: MyPosts(),
+                      ),
+                      //  PostsAccount(),
                       // ReviewCustomer(userId:widget.user.id),
                       BlocProvider(
                         create: (context) =>

@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -12,7 +11,6 @@ import 'package:graduation2/feauture/profile/views/accounts/junior_account.dart'
 import 'package:graduation2/feauture/profile/views/accounts/supplier_account.dart';
 import 'package:graduation2/feauture/profile/views/myprofile/customer_profile.dart';
 import 'package:graduation2/feauture/profile/views/myprofile/seller_profile.dart';
-
 
 class AccountScreen extends StatelessWidget {
   const AccountScreen({super.key});
@@ -74,9 +72,7 @@ class AccountScreen extends StatelessWidget {
                   ProductCountCubit(ProductApiService())
                     ..fetchMyProductsCount(user.id),
 
-              child: SellerProfile(user: user),
-
-
+              child: JuniorAccount(user: user),
             );
           } else if (user.role == 'Expert') {
             return BlocProvider(

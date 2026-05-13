@@ -2,8 +2,8 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:graduation2/core/services/api_services.dart';
 import 'package:graduation2/feauture/profile/manager/profile_cubit.dart';
+import 'package:graduation2/feauture/profile/manager/profile_state.dart';
 import 'package:graduation2/feauture/review/view/cart/widget/primary_button.dart';
 import 'package:graduation2/feauture/settings/manager/user_profile_cubit.dart';
 import 'package:graduation2/feauture/settings/manager/user_profile_state.dart';
@@ -62,20 +62,46 @@ class _EditProfilePageState extends State<EditProfilePage> {
   //     setState(() => _isLoading = false);
   //   }
   // }
+  @override
+  void initState() {
+    super.initState();
+    // يجب جلب البيانات الحالية من الـ Cubit ووضعها في الـ Controllers
+    // final user = context.read<UserProfileCubit>().state;
+    // if (user is UserProfileSuccess) {
+    //   nameController.text =
+    //       "${user.profile.firstName} ${user.profile.secondName}";
+    //   bioController.text = user.profile.bio;
+    //   specController.text = user.profile.specialization ?? "";
+
+    //   // ... وهكذا
+    // }
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final userState = context.read<UserProfileCubit>().state;
+
+      if (userState is UserProfileSuccess) {
+        nameController.text =
+            "${userState.profile.firstName} ${userState.profile.secondName}";
+
+        bioController.text = userState.profile.bio;
+
+        specController.text = userState.profile.specialization ?? "";
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<UpdateProfileCubit, UpdateProfileState>(
-      listener: (context, state) {
+      listener: (context, state) async {
         if (state is UpdateProfileSuccess) {
+          context.read<UserProfileCubit>().fetchProfile();
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(content: Text("Profile Updated Successfully!")),
           );
-
-          // 🔥 أهم خطوة: تحديث البيانات في الـ Cubit الأساسي بتاع البروفايل
-          context.read<UserProfileCubit>().fetchProfile();
-
-          Navigator.pop(context); // الرجوع للخلف بعد النجاح
+          // بعدين الـ pop
+          Navigator.pop(context, true); // الرجوع للخلف بعد النجاح
+          //Navigator.of(context).pop(true);
         }
         if (state is UpdateProfileFailure) {
           ScaffoldMessenger.of(

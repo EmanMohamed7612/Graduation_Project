@@ -909,9 +909,11 @@ class AuthCubit extends Cubit<AuthState> {
   // ================= Utils =================
 
   void logout() async {
-    await PrefHelpers.clearToken();
-    /////eman
-    await PrefHelpers.clearUserId(); // مسح التوكن عند الخروج
+    // await PrefHelpers.clearToken();
+    // /////eman
+    // await PrefHelpers.clearUserId(); // مسح التوكن عند الخروج
+    // emit(AuthInitialState());
+    await PrefHelpers.clearAll(); // بيمسح الـ Token والـ UserId وأي داتا تانية
     emit(AuthInitialState());
   }
 

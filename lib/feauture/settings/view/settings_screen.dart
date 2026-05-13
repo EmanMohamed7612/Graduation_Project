@@ -1,12 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:graduation2/feauture/auth/manager/auth_cubit.dart';
+import 'package:graduation2/feauture/auth/views/login_screen.dart';
 import 'package:graduation2/feauture/language/lnguage_view.dart';
 import 'package:graduation2/feauture/settings/view/edit_profile_screen.dart';
 import 'package:graduation2/feauture/settings/view/widgets/setting.group.dart';
 import 'package:graduation2/feauture/settings/view/widgets/settings_item.dart';
 
-class SettingsScreen extends StatelessWidget {
+class SettingsScreen extends StatefulWidget {
   const SettingsScreen({super.key});
 
+  @override
+  State<SettingsScreen> createState() => _SettingsScreenState();
+}
+
+class _SettingsScreenState extends State<SettingsScreen> {
+  bool _profileUpdated = false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -26,7 +35,7 @@ class SettingsScreen extends StatelessWidget {
                 size: 16,
                 color: Color(0xff6D4C41),
               ),
-              onPressed: () => Navigator.pop(context),
+              onPressed: () => Navigator.pop(context, _profileUpdated),
             ),
           ),
         ),
@@ -68,13 +77,24 @@ class SettingsScreen extends StatelessWidget {
                 SettingItem(
                   icon: Icons.person_outline,
                   title: "Edit Profile",
-                  onTap: () {
-                    Navigator.push(
+                  onTap: () async {
+                    // Navigator.push(
+                    //   context,
+                    //   MaterialPageRoute(
+                    //     builder: (context) => EditProfilePage(),
+                    //   ),
+                    // );
+                    final result = await Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => EditProfilePage(),
+                        builder: (context) => const EditProfilePage(),
                       ),
                     );
+                    print("EditProfile returned: $result"); // ← ضيفي ده
+                    if (result == true) {
+                      setState(() => _profileUpdated = true);
+                      print("_profileUpdated set to true"); // ← وده
+                    }
                   },
                 ),
                 SettingItem(
@@ -100,7 +120,16 @@ class SettingsScreen extends StatelessWidget {
                   icon: Icons.logout,
                   title: "Logout",
                   textColor: Colors.redAccent,
-                  onTap: () {},
+                  onTap: () {
+                    // context.read<AuthCubit>().logout();
+
+                    // // 2. توجيه المستخدم لصفحة الـ Login ومسح كل الـ Routes السابقة
+                    // Navigator.pushAndRemoveUntil(
+                    //   context,
+                    //   MaterialPageRoute(builder: (context) => LoginView()),
+                    //   (route) => false,
+                    // );
+                  },
                 ),
               ],
             ),

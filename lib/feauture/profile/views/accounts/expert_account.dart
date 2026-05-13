@@ -16,11 +16,6 @@ import 'package:graduation2/feauture/review/view/widgets/custom_star.dart';
 
 import 'package:graduation2/feauture/session/manager/expert_service_cubit.dart';
 import 'package:graduation2/feauture/session/manager/expert_service_state.dart';
-
-
-
-import 'package:graduation2/feauture/session/data/expert_repo.dart';
-
 import 'package:graduation2/feauture/session/view/book_sconsultation_screen.dart';
 import 'package:graduation2/generated/locale_keys.g.dart';
 
@@ -283,7 +278,7 @@ class _ExpertAccountState extends State<ExpertAccount> {
                     Container(
                       alignment: Alignment.topLeft,
                       child: Text(
-                        'Master Ceramicist',
+                        widget.user.specialization??"",
                         style: TextStyle(
                           color: const Color(0xFF6D4C41),
                           fontSize: 10.50,

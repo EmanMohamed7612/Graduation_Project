@@ -199,7 +199,7 @@ class _ExpertProfileState extends State<ExpertProfile> {
               Container(
                   alignment: Alignment.topLeft,
                   child: Text(
-                    widget.user.specialization,
+                    widget.user.specialization??"",
                     style: TextStyle(
                       color: const Color(0xFF6D4C41),
                       fontSize: 10.50,

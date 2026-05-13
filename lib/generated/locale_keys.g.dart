@@ -387,5 +387,14 @@ abstract class  LocaleKeys {
   static const save_address_btn = 'save_address_btn';
   static const success_save_msg = 'success_save_msg';
   static const validation_error_msg = 'validation_error_msg';
+  static const settings = 'settings';
+  static const account = 'account';
+  static const language = 'language';
+  static const english = 'english';
+  static const editprofile = 'editprofile';
+  static const privacyandsecurity = 'privacyandsecurity';
+  static const support = 'support';
+  static const helpcenter = 'helpcenter';
+  static const logout = 'logout';
 
 }

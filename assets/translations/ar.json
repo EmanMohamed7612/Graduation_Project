@@ -404,7 +404,19 @@
   "cancel_btn": "إلغاء",
   "save_address_btn": "حفظ العنوان",
   "success_save_msg": "تم حفظ العنوان بنجاح",
-  "validation_error_msg": "يرجى ملء جميع الحقول المطلوبة *"
+  "validation_error_msg": "يرجى ملء جميع الحقول المطلوبة *",
+
+
+
+  "settings":"الإعدادات",
+  "account":"حساب",
+  "language":"اللغة",
+  "english":"الإنجليزية",
+  "editprofile":"تعديل  الملف الشخصي",
+  "privacyandsecurity":"الخصوصية والأمان",
+  "support":"دعم",
+  "helpcenter":"مركز المساعدة",
+  "logout":"تسجيل الخروج"
   
 
 }

@@ -1,7 +1,11 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:graduation2/feauture/community/data/post_repo.dart';
+import 'package:graduation2/feauture/community/manager/my_posts_cubit.dart';
 import 'package:graduation2/feauture/profile/views/accounts/widgets/posts_account.dart';
 import 'package:graduation2/feauture/profile/views/accounts/widgets/review_account.dart';
+import 'package:graduation2/feauture/profile/views/myprofile/widgets/posts_profile.dart';
 import 'package:graduation2/generated/locale_keys.g.dart';
 
 class CustomerAccount extends StatelessWidget {
@@ -16,7 +20,9 @@ class CustomerAccount extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
-          onPressed: () {},
+          onPressed: () {
+            Navigator.pop(context);
+          },
           // onGoHome?.call,
           icon: Icon(
             Icons.arrow_back_ios_new_outlined,
@@ -52,11 +58,12 @@ class CustomerAccount extends StatelessWidget {
                     children: [
                       CircleAvatar(
                         radius: width * .08,
-                         backgroundImage: user.profileImage != null
-                        ? NetworkImage(
-                            user.profileImage ?? 'assets/images/person.png',
-                          )
-                        : AssetImage('assets/images/person.png'),
+                         backgroundImage: user.picturUrl != null
+                                    ? NetworkImage(
+                                        user.picturUrl ??
+                                            'assets/images/person.png',
+                                      )
+                                    : AssetImage('assets/images/person.png'),
                         // backgroundImage: AssetImage(
                         //   'assets/images/topseller.png',
                         // ),
@@ -82,7 +89,7 @@ class CustomerAccount extends StatelessWidget {
                             Text(
                               softWrap: true,
                               overflow: TextOverflow.visible,
-                               user.specialization ??'',
+                               user.specialization??'',
                               //'Handmade enthusiast | Love supporting localHandmade enthusiast | Love supporting local',
                               style: TextStyle(
                                 color: const Color(0xFF8D6E63),
@@ -210,7 +217,13 @@ class CustomerAccount extends StatelessWidget {
                     // مهم ❗ عشان TabBarView
                     child: TabBarView(
                       children: [
-                        //  PostsView(),
+                      
+                      //    BlocProvider(
+                      //   create: (context) =>
+                      //       MyPostsCubit(PostsRepo())
+                      //         ..fetchUserPosts(widget.user.id),
+                      //   child: MyPosts(),
+                      // ),
                         PostsAccount(),
                         ReviewAccount(),
                       ],

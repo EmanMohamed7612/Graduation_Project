@@ -55,6 +55,7 @@ dependencies:
   easy_localization: ^3.0.8
   dartz: ^0.10.1
   flutter_markdown: ^0.7.3
+  dotted_border: ^3.1.0
 dev_dependencies:
   flutter_test:
     sdk: flutter

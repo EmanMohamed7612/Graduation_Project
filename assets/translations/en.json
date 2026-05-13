@@ -465,7 +465,19 @@
   "cancel_btn": "Cancel",
   "save_address_btn": "Save Address",
   "success_save_msg": "Address saved successfully",
-  "validation_error_msg": "Please fill all required fields *"
+  "validation_error_msg": "Please fill all required fields *",
+
+
+
+  "settings":"Settings",
+  "account":"Account",
+  "language":"Language",
+  "english":"English",
+  "editprofile":"Edit Profile",
+  "privacyandsecurity":"Privacy & Security",
+  "support":"Support",
+  "helpcenter":"Help Center",
+  "logout":"Logout"
 
 
 
