@@ -1,9 +1,12 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:graduation2/core/services/api_services.dart';
-import 'package:graduation2/feauture/dashboard_screen/presentation/view/seller_dashboard.dart'as seller;
+import 'package:graduation2/feauture/dashboard_screen/presentation/view/seller_dashboard.dart'
+    as seller;
 import 'package:graduation2/feauture/dashboard_screen/presentation/view/supplier_dashboard.dart';
+import 'package:graduation2/feauture/product/data/product_owner_profile.dart';
 import 'package:graduation2/feauture/profile/manager/number_product_cubit.dart';
 import 'package:graduation2/feauture/profile/manager/number_product_state.dart';
 import 'package:graduation2/feauture/profile/views/myprofile/widgets/materials.dart';
@@ -17,6 +20,7 @@ import 'package:graduation2/feauture/profile/views/sessions.dart';
 import 'package:graduation2/feauture/review/data/review_service.dart';
 import 'package:graduation2/feauture/review/manager/review_cubit.dart';
 import 'package:graduation2/feauture/review/view/widgets/custom_star.dart';
+import 'package:graduation2/generated/locale_keys.g.dart';
 
 import '../../../../core/services/dio_client.dart';
 import '../../../order_screen/deliver_screen/deliver_address.dart';
@@ -168,15 +172,21 @@ class _SupplierprofileState extends State<Supplierprofile> {
                           count = state.count;
                           return NumberOfType(
                             number: state.count,
-                            type: 'Matrials',
+                            type: LocaleKeys.materials.tr(),
                           );
                         }
-                        return NumberOfType(number: 0, type: 'Matrials');
+                        return NumberOfType(
+                          number: 0,
+                          type: LocaleKeys.materials.tr(),
+                        );
                       },
                     ),
 
-                    NumberOfType(number: 0, type: 'Orders'),
-                    NumberOfType(number: totalReviews, type: 'Reviews'),
+                    NumberOfType(number: 0, type: LocaleKeys.orders.tr()),
+                    NumberOfType(
+                      number: totalReviews,
+                      type: LocaleKeys.reviews.tr(),
+                    ),
                   ],
                 ),
                 SizedBox(height: height * .01),
@@ -192,10 +202,10 @@ class _SupplierprofileState extends State<Supplierprofile> {
                 ),
                 SizedBox(width: width * .03),
                 SizedBox(height: height * .01),
-                 Container(
+                Container(
                   alignment: Alignment.topLeft,
                   child: Text(
-                    widget.user.specialization??"",
+                    widget.user.specialization ?? "",
                     style: TextStyle(
                       color: const Color(0xFF6D4C41),
                       fontSize: 10.50,
@@ -279,7 +289,9 @@ class _SupplierprofileState extends State<Supplierprofile> {
                               context,
                               MaterialPageRoute(
                                 builder: (context) => BlocProvider(
-                                  create: (context) => AddressCubit(AddressApiService(DioClient())),
+                                  create: (context) => AddressCubit(
+                                    AddressApiService(DioClient()),
+                                  ),
                                   child: const DeliveryAddressScreen(),
                                 ),
                               ),
@@ -295,7 +307,7 @@ class _SupplierprofileState extends State<Supplierprofile> {
                                 ),
                                 const SizedBox(width: 7),
                                 Text(
-                                  'Orders',
+                                  LocaleKeys.orders.tr(),
                                   style: TextStyle(
                                     color: Colors.white,
                                     fontSize: 14,
@@ -333,7 +345,7 @@ class _SupplierprofileState extends State<Supplierprofile> {
                           },
                           child: Center(
                             child: Text(
-                              'Dashboard',
+                              LocaleKeys.dashboard.tr(),
                               style: TextStyle(
                                 color: Color(0xff6D4C41),
                                 fontSize: 14,
@@ -363,15 +375,15 @@ class _SupplierprofileState extends State<Supplierprofile> {
                       bottom: BorderSide(color: Colors.grey.shade300),
                     ),
                   ),
-                  child: const TabBar(
+                  child:  TabBar(
                     indicatorColor: Color(0xff7A4A32),
                     indicatorWeight: 2,
                     labelColor: Colors.black,
                     unselectedLabelColor: Colors.grey,
                     tabs: [
-                      Tab(text: 'Matrials'),
+                      Tab(text: LocaleKeys.materials.tr()),
 
-                      Tab(text: 'Reviews'),
+                      Tab(text: LocaleKeys.reviews.tr()),
                     ],
                   ),
                 ),

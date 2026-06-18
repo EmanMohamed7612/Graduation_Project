@@ -30,6 +30,7 @@ Future<void> toggleLike(int postId) async {
       final updatedPosts = oldPosts.map((post) {
         if (post.id == postId) {
           return PostModel(
+            userId: post.userId,
             id: post.id,
             content: post.content,
             imageUrl: post.imageUrl,

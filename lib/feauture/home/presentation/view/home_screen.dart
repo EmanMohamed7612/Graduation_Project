@@ -132,14 +132,15 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:graduation2/core/services/api_services.dart';
 import 'package:graduation2/feauture/home/presentation/view/widget/categories_list.dart';
 import 'package:graduation2/feauture/home/presentation/view/widget/home_app_bar.dart';
 import 'package:graduation2/feauture/home/presentation/view/widget/home_top_product.dart';
 import 'package:graduation2/feauture/home/presentation/view/widget/search_bar_widget.dart';
 import 'package:graduation2/feauture/home/presentation/view/widget/section_title.dart';
 import 'package:graduation2/feauture/home/presentation/view/widget/top_sellers_list.dart';
-
-
+import 'package:graduation2/feauture/profile/data/user_profile_repo.dart';
+import 'package:graduation2/feauture/profile/manager/profile_cubit.dart';
 
 import '../../../../core/rescources/colors.dart';
 import '../../../../generated/locale_keys.g.dart';
@@ -150,7 +151,7 @@ import 'widget/product_category.dart';
 
 import '../../../../core/rescources/colors.dart';
 import '../../../../generated/locale_keys.g.dart';
- //origin/book-session
+//origin/book-session
 import '../../../product_screens/manager/prodect_apiservice.dart';
 import '../../../product_screens/manager/product_cubit.dart';
 import '../../../product_screens/presentation/view/getall_seller_screen.dart';
@@ -166,53 +167,52 @@ import '../../manager/search_apiservice.dart';
 import '../../manager/search_cubit.dart';
 
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key});
+  final VoidCallback onGoProfile; // أضيفي هذا السطر
+  const HomeScreen({super.key, required this.onGoProfile});
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-
         BlocProvider(
           create: (context) =>
-          CategoryCubit(ProductApiService())..fetchCategories(),
+              UserProfileCubit(UserProfileRepo())..fetchProfile(),
+        ),
+        BlocProvider(
+          create: (context) =>
+              CategoryCubit(ProductApiService())..fetchCategories(),
         ),
 
         BlocProvider(
           create: (context) =>
-          ProductCubit(ProductApiService())..fetchTopProducts(),
+              ProductCubit(ProductApiService())..fetchTopProducts(),
         ),
 
         BlocProvider(
           create: (context) =>
-          BestSellerCubit(ProductApiService())..fetchBestSellers(),
+              BestSellerCubit(ProductApiService())..fetchBestSellers(),
         ),
-
-
-
 
         BlocProvider(
           create: (_) => FavoriteCubit(FavoriteApiService(DioClient())),
         ),
-//origin/book-session
 
+        //origin/book-session
         BlocProvider(
-          create: (context) => CartCubit(
-            repo: CartRepo(),
-            cartId: "1",
-          )..loadCart(),
+          create: (context) =>
+              CartCubit(repo: CartRepo(), cartId: "1")..loadCart(),
         ),
         // أضف هذا داخل قائمة providers في HomeScreen
         BlocProvider(
-          create: (context) => SearchCubit(SearchApiService(DioClient().dio)), // تأكد من تمرير Dio بشكل صحيح
+          create: (context) => SearchCubit(
+            SearchApiService(DioClient().dio),
+          ), // تأكد من تمرير Dio بشكل صحيح
         ),
-
       ],
       child: Scaffold(
         backgroundColor: AppColors.kBgColor,
@@ -222,31 +222,29 @@ class _HomeScreenState extends State<HomeScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-
-                const HomeAppBar(),
+                HomeAppBar(onGoProfile: widget.onGoProfile),
                 const SizedBox(height: 16),
 
                 const SearchBarWidget(),
                 const SizedBox(height: 20),
 
-
                 SectionTitle(
                   title: LocaleKeys.categories.tr(),
-                  trailing: LocaleKeys.see_all.tr(), // ✅ أضفنا الكلمة اللي هتظهر (See All)
+                  trailing: LocaleKeys.see_all
+                      .tr(), // ✅ أضفنا الكلمة اللي هتظهر (See All)
                   onTap: () {
                     // ✅ أضفنا الحركة اللي هتحصل لما ندوس عليها
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-
                         builder: (context) => const ProductCategoriesScreen(),
                       ),
                     );
                   },
                 ),
 
-               //  SectionTitle(title:LocaleKeys.categories.tr()),
- //origin/book-session
+                //  SectionTitle(title:LocaleKeys.categories.tr()),
+                //origin/book-session
                 const SizedBox(height: 12),
 
                 const CategoriesList(),
@@ -261,8 +259,8 @@ class _HomeScreenState extends State<HomeScreen> {
                       MaterialPageRoute(
                         builder: (_) => BlocProvider(
                           create: (context) =>
-                          BestSellerCubit(ProductApiService())
-                            ..fetchBestSellers(),
+                              BestSellerCubit(ProductApiService())
+                                ..fetchBestSellers(),
                           child: const AllSellersScreen(),
                         ),
                       ),
@@ -276,7 +274,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 const SizedBox(height: 20),
 
                 SectionTitle(
-                  title:LocaleKeys.top_products.tr(),
+                  title: LocaleKeys.top_products.tr(),
                   trailing: LocaleKeys.view_all.tr(),
                   onTap: () {
                     Navigator.of(context).push(
@@ -292,7 +290,6 @@ class _HomeScreenState extends State<HomeScreen> {
                 const HomeTopProductsSection(),
 
                 const SizedBox(height: 24),
-
               ],
             ),
           ),

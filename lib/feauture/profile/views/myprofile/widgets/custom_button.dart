@@ -52,24 +52,24 @@ class CustomButtonprofile extends StatelessWidget {
             ),
           ),
         ),
-        if (message)
-          Container(
-            width: width * .045,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(25),
-              color: const Color(0xFFFF4081),
-            ),
-            child: Center(
-              child: Text(
-                '3',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontFamily: 'Arimo',
-                  fontSize: 12,
-                ),
-              ),
-            ),
-          ),
+        //if (message)
+        // Container(
+        //   width: width * .045,
+        //   decoration: BoxDecoration(
+        //     borderRadius: BorderRadius.circular(25),
+        //     color: const Color(0xFFFF4081),
+        //   ),
+        //   child: Center(
+        //     child: Text(
+        //       '3',
+        //       style: TextStyle(
+        //         color: Colors.white,
+        //         fontFamily: 'Arimo',
+        //         fontSize: 12,
+        //       ),
+        //     ),
+        //   ),
+        // ),
       ],
     );
   }

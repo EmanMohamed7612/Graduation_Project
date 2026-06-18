@@ -22,7 +22,6 @@ import 'package:graduation2/feauture/favourite/data/favourite_model.dart';
 
 import '../../../core/services/dio_client.dart';
 
-
 class FavoriteApiService {
   final DioClient _dioClient;
 
@@ -34,6 +33,18 @@ class FavoriteApiService {
       await _dioClient.dio.post(
         '/api/Favourites/Toggle',
         queryParameters: {'productId': productId},
+      );
+    } catch (e) {
+      rethrow; // عشان الـ Cubit يعرف إن فيه مشكلة حصلت
+    }
+  }
+
+  Future<void> toggleFavoriteForMaterial(int materialId) async {
+    try {
+      // الـ Endpoint بتاخد الـ productId كـ Query Parameter
+      await _dioClient.dio.post(
+        '/api/Favourites/ToggleForMaterials',
+        queryParameters: {'materialId': materialId},
       );
     } catch (e) {
       rethrow; // عشان الـ Cubit يعرف إن فيه مشكلة حصلت

@@ -1,11 +1,14 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:graduation2/feauture/auth/manager/auth_cubit.dart';
 import 'package:graduation2/feauture/auth/views/login_screen.dart';
 import 'package:graduation2/feauture/language/lnguage_view.dart';
 import 'package:graduation2/feauture/settings/view/edit_profile_screen.dart';
+import 'package:graduation2/feauture/settings/view/widgets/restart_wodget.dart';
 import 'package:graduation2/feauture/settings/view/widgets/setting.group.dart';
 import 'package:graduation2/feauture/settings/view/widgets/settings_item.dart';
+import 'package:graduation2/generated/locale_keys.g.dart';
 
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({super.key});
@@ -39,8 +42,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
             ),
           ),
         ),
-        title: const Text(
-          "Settings",
+        title: Text(
+          LocaleKeys.settings.tr(),
           style: TextStyle(
             color: Color(0xFF3E2723),
             fontSize: 16,
@@ -58,12 +61,12 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
             // مجموعة الحساب - Account Section
             SettingsGroup(
-              header: "Account",
+              header: LocaleKeys.account.tr(),
               items: [
                 SettingItem(
                   icon: Icons.language,
-                  title: "Language",
-                  subtitle: "English",
+                  title: LocaleKeys.language.tr(),
+                  subtitle: LocaleKeys.english.tr(),
                   onTap: () {
                     Navigator.push(
                       context,
@@ -76,12 +79,12 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 ),
                 SettingItem(
                   icon: Icons.person_outline,
-                  title: "Edit Profile",
+                  title: LocaleKeys.editprofile.tr(),
                   onTap: () async {
                     // Navigator.push(
                     //   context,
                     //   MaterialPageRoute(
-                    //     builder: (context) => EditProfilePage(),
+                    //     builder: (context) => const EditProfilePage(),
                     //   ),
                     // );
                     final result = await Navigator.push(
@@ -90,16 +93,27 @@ class _SettingsScreenState extends State<SettingsScreen> {
                         builder: (context) => const EditProfilePage(),
                       ),
                     );
-                    print("EditProfile returned: $result"); // ← ضيفي ده
+
+                    // إذا رجعت بـ true، نغير حالة المتغير في الـ Settings
                     if (result == true) {
                       setState(() => _profileUpdated = true);
-                      print("_profileUpdated set to true"); // ← وده
                     }
+                    // final result = await Navigator.push(
+                    //   context,
+                    //   MaterialPageRoute(
+                    //     builder: (context) => const EditProfilePage(),
+                    //   ),
+                    // );
+                    // print("EditProfile returned: $result"); // ← ضيفي ده
+                    // if (result == true) {
+                    //   setState(() => _profileUpdated = true);
+                    //   print("_profileUpdated set to true"); // ← وده
+                    // }
                   },
                 ),
                 SettingItem(
                   icon: Icons.lock_outline,
-                  title: "Privacy & Security",
+                  title: LocaleKeys.privacyandsecurity.tr(),
                   onTap: () {},
                 ),
               ],
@@ -109,16 +123,16 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
             // مجموعة الدعم - Support Section
             SettingsGroup(
-              header: "Support",
+              header: LocaleKeys.support.tr(),
               items: [
                 SettingItem(
                   icon: Icons.help_outline,
-                  title: "Help Center",
+                  title: LocaleKeys.helpcenter.tr(),
                   onTap: () {},
                 ),
                 SettingItem(
                   icon: Icons.logout,
-                  title: "Logout",
+                  title: LocaleKeys.logout.tr(),
                   textColor: Colors.redAccent,
                   onTap: () {
                     // context.read<AuthCubit>().logout();
@@ -129,6 +143,25 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     //   MaterialPageRoute(builder: (context) => LoginView()),
                     //   (route) => false,
                     // );
+                    context.read<AuthCubit>().logout();
+
+                    // 2. التوجيه لصفحة الـ LoginScreen باستخدام الـ rootNavigator لتفريغ الـ Stack بالكامل
+                    if (context.mounted) {
+                      Navigator.of(
+                        context,
+                        rootNavigator: true,
+                      ).pushAndRemoveUntil(
+                        MaterialPageRoute(
+                          builder: (context) =>
+                              LoginView(), // تأكدي من اسم شاشة تسجيل الدخول عندك
+                        ),
+                        (route) =>
+                            false, // يمسح الـ Wrapper وكل الشاشات السابقة من الذاكرة
+                      );
+                    }
+                    // if (context.mounted) {
+                    //   RestartWidget.restartApp(context);
+                    // }
                   },
                 ),
               ],

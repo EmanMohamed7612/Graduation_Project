@@ -1,7 +1,10 @@
-
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:graduation2/feauture/profile/manager/profile_cubit.dart';
+import 'package:graduation2/feauture/profile/manager/profile_state.dart';
+import 'package:graduation2/feauture/profile/views/myprofile/profile.dart';
+import 'package:graduation2/feauture/review/data/cart_repo.dart';
 
 import '../../../../../core/rescources/colors.dart';
 import '../../../../../core/services/dio_client.dart';
@@ -16,12 +19,10 @@ import '../../../manager/fav_apiserves.dart';
 import '../../../manager/fav_cubit.dart';
 
 class HomeAppBar extends StatelessWidget {
-  const HomeAppBar({super.key});
-
-  Widget buildIcon({
-    required IconData icon,
-    required int count,
-  }) {
+  // const HomeAppBar({super.key});
+  final VoidCallback onGoProfile; // أضيفي السطر ده
+  const HomeAppBar({super.key, required this.onGoProfile});
+  Widget buildIcon({required IconData icon, int count = 0}) {
     return Stack(
       children: [
         Container(
@@ -44,13 +45,10 @@ class HomeAppBar extends StatelessWidget {
               ),
               child: Text(
                 count.toString(),
-                style: const TextStyle(
-                  color: Colors.white,
-                  fontSize: 10,
-                ),
+                style: const TextStyle(color: Colors.white, fontSize: 10),
               ),
             ),
-          )
+          ),
       ],
     );
   }
@@ -75,26 +73,52 @@ class HomeAppBar extends StatelessWidget {
               builder: (context, state) {
                 int count = 0;
                 if (state is CartLoaded) {
-                  count = state.cart.cartItems.length;
+                  //count = state.cart.cartItems.length;
+                  count = state.cart.cartItems.fold(
+                    0,
+                    (sum, item) => sum + item.quantity,
+                  );
                 }
 
                 return GestureDetector(
                   onTap: () async {
                     final userId = await PrefHelpers.getUserId();
+                    print('userId : $userId');
+                    print("CartId value: $userId");
+                    print("CartId type: ${userId.runtimeType}");
+                    final cartCubit = CartCubit(
+                      repo: CartRepo(),
+                      cartId: userId!,
+                      // userId!,
+                    );
+
+                    // ✅ ضيف المنتج الأول
 
                     Navigator.push(
                       context,
                       MaterialPageRoute(
                         builder: (_) => BlocProvider.value(
-                          value: context.read<CartCubit>(), // 🔹 استخدم نفس الـ Cubit
-                          child: CartScreen(userId: userId!),
+                          value: cartCubit, // ✅ نستخدم نفس الكيوبت
+                          child: CartScreen(userId: userId),
                         ),
                       ),
                     );
+                    // final userId = await PrefHelpers.getUserId();
+
+                    // Navigator.push(
+                    //   context,
+                    //   MaterialPageRoute(
+                    //     builder: (_) => BlocProvider.value(
+                    //       value: context
+                    //           .read<CartCubit>(), // 🔹 استخدم نفس الـ Cubit
+                    //       child: CartScreen(userId: userId!),
+                    //     ),
+                    //   ),
+                    // );
                   },
                   child: buildIcon(
                     icon: Icons.shopping_cart_outlined,
-                    count: count,
+                    count: 0,
                   ),
                 );
               },
@@ -112,7 +136,8 @@ class HomeAppBar extends StatelessWidget {
                       MaterialPageRoute(
                         builder: (_) => BlocProvider(
                           // بنكريت نسخة جديدة من الـ Cubit مخصوص للصفحة دي
-                          create: (context) => MyFavoriteCubit(FavoriteApiService(DioClient())),
+                          create: (context) =>
+                              MyFavoriteCubit(FavoriteApiService(DioClient())),
                           child: const FavouriteScreen(),
                         ),
                       ),
@@ -127,18 +152,61 @@ class HomeAppBar extends StatelessWidget {
             ),
             const SizedBox(width: 10),
 
-            buildIcon(
-              icon: Icons.notifications_none,
-              count: 3,
-            ),
+           // buildIcon(icon: Icons.notifications_none, count: 3),
             const SizedBox(width: 10),
+            GestureDetector(
+              onTap:
+                  // الانتقال لصفحة البروفايل مع تمرير الـ Cubit الحالي لتجنب الـ ProviderNotFoundException
+                  // Navigator.push(
+                  //   context,
+                  //   MaterialPageRoute(
+                  //     builder: (_) => BlocProvider.value(
+                  //       value: context.read<UserProfileCubit>(),
+                  //       child: const Profile(),
+                  //     ),
+                  //   ),
+                  // );
+                  onGoProfile,
+              child: BlocBuilder<UserProfileCubit, UserProfileState>(
+                builder: (context, state) {
+                  String? profileImageUrl;
 
-            const CircleAvatar(
-              radius: 16,
-              backgroundImage: AssetImage("assets/images/profile.png"),
+                  // إذا نجح تحميل البيانات، نأخذ رابط الصورة من الموديل
+                  if (state is UserProfileSuccess) {
+                    profileImageUrl = state
+                        .profile
+                        .profileImage; // ⚠️ تأكدي من مسمى المتغير عندك في الـ Model
+                  }
+
+                  return CircleAvatar(
+                    radius: 16,
+                    backgroundColor: Colors.grey[200],
+                    backgroundImage:
+                        (profileImageUrl != null && profileImageUrl.isNotEmpty)
+                        ? NetworkImage(profileImageUrl) as ImageProvider
+                        : const AssetImage(
+                            "assets/images/person.png",
+                          ), // الصورة الافتراضية في حال عدم وجود صورة أو أثناء التحميل
+                    child: state is UserAccountLoading
+                        ? const SizedBox(
+                            width: 12,
+                            height: 12,
+                            child: CircularProgressIndicator(
+                              strokeWidth: 1.5,
+                              color: Colors.brown,
+                            ),
+                          )
+                        : null,
+                  );
+                },
+              ),
             ),
+            // const CircleAvatar(
+            //   radius: 16,
+            //   backgroundImage: AssetImage("assets/images/profile.png"),
+            // ),
           ],
-        )
+        ),
       ],
     );
   }

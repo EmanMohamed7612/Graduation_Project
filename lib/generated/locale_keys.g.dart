@@ -396,5 +396,6 @@ abstract class  LocaleKeys {
   static const support = 'support';
   static const helpcenter = 'helpcenter';
   static const logout = 'logout';
+  static const myprofile = 'myprofile';
 
 }

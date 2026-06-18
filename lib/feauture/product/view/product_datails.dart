@@ -4,10 +4,14 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:graduation2/core/services/api_services.dart' hide CartRepo;
 import 'package:graduation2/core/utils/pref_helpers.dart';
 import 'package:graduation2/feauture/home/manager/fav_cubit.dart';
+import 'package:graduation2/feauture/product/data/recommendation_repo.dart';
 import 'package:graduation2/feauture/product/manager/product_details_cubit.dart';
 import 'package:graduation2/feauture/product/manager/product_details_state.dart';
+import 'package:graduation2/feauture/product/manager/recommendation_cubit.dart';
+import 'package:graduation2/feauture/product/manager/recommendtion_state.dart';
 import 'package:graduation2/feauture/product/view/recommendation_screen.dart';
 import 'package:graduation2/feauture/product/view/widgets/custom_icon.dart';
+import 'package:graduation2/feauture/profile/data/user_profile_repo.dart';
 import 'package:graduation2/feauture/profile/manager/account.cubit.dart';
 import 'package:graduation2/feauture/profile/views/accounts/account.dart';
 import 'package:graduation2/feauture/review/data/cart_repo.dart';
@@ -68,7 +72,7 @@ class _ProductDetailsState extends State<ProductDetails> {
           ),
         ),
         actions: [
-          CustomIcon(icon: Icons.share_outlined),
+          //CustomIcon(icon: Icons.share_outlined),
           SizedBox(width: size.width * .02),
           // CustomIcon(icon: Icons.favorite_border_outlined),
           BlocBuilder<FavoriteCubit, List<int>>(
@@ -392,45 +396,121 @@ class _ProductDetailsState extends State<ProductDetails> {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (_) => RecommendationScreen(),
+                                  builder: (_) => BlocProvider(
+                                    create: (_) =>
+                                        RecommendationCubit(
+                                          RecommendationRepo(),
+                                        )..fetchRecommendations(
+                                          product.id,
+                                        ), // ضعي الـ id المطلوب هنا
+                                    child: RecommendationScreen(
+                                      productId: product.id,
+                                    ),
+                                  ),
                                 ),
                               );
                             },
-                            child: Text(
-                              LocaleKeys.seemore.tr(),
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                color: const Color(0xFFC9A875),
-                                fontSize: 14,
-                                fontFamily: 'Arimo',
-                                fontWeight: FontWeight.w400,
-                                height: 1.50,
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Text(
+                                LocaleKeys.seemore.tr(),
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  color: const Color(0xFFC9A875),
+                                  fontSize: 14,
+                                  fontFamily: 'Arimo',
+                                  fontWeight: FontWeight.w400,
+                                  height: 1.50,
+                                ),
                               ),
                             ),
                           ),
                         ],
                       ),
                       SizedBox(height: size.height * .01),
-                      SizedBox(
-                        height: size.height * .12,
-                        child: ListView.builder(
-                          shrinkWrap: true,
-                          physics: const NeverScrollableScrollPhysics(),
-                          scrollDirection: Axis.horizontal,
-                          itemCount: 3,
-                          itemBuilder: (context, index) {
-                            return Container(
-                              clipBehavior: Clip.antiAlias,
-                              width: size.width * .3,
-                              padding: EdgeInsets.symmetric(horizontal: 5),
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(25),
-                              ),
-                              child: Image.asset(
-                                'assets/images/ImageWithFallback.png',
-                                fit: BoxFit.cover,
-                              ),
-                            );
+                      // SizedBox(
+                      //   height: size.height * .12,
+                      //   child:
+
+                      // ),
+                      BlocProvider(
+                        create: (context) =>
+                            RecommendationCubit(RecommendationRepo())
+                              ..fetchRecommendations(product.id),
+                        child: BlocBuilder<RecommendationCubit, RecommendationState>(
+                          builder: (context, recState) {
+                            if (recState is RecommendationLoading) {
+                              return const Center(
+                                child: CircularProgressIndicator(),
+                              );
+                            }
+                            if (recState is RecommendationFailure) {
+                              return Center(child: Text(recState.errorMessage));
+                            }
+                            if (recState is RecommendationSuccess) {
+                              // أخذ أول 3 منتجات فقط من القائمة القادمة من السيرفر
+                              final recommendedProducts = recState.products
+                                  .take(3)
+                                  .toList();
+
+                              if (recommendedProducts.isEmpty) {
+                                return const Center(
+                                  child: Text("No recommendations available"),
+                                );
+                              }
+
+                              return SizedBox(
+                                height: size.height * .12,
+                                child: ListView.builder(
+                                  scrollDirection: Axis.horizontal,
+                                  itemCount: recommendedProducts.length,
+                                  itemBuilder: (context, index) {
+                                    final recProduct =
+                                        recommendedProducts[index];
+                                    return GestureDetector(
+                                      onTap: () {
+                                        // عند الضغط على المنتج المرشح يفتح صفحته الخاصة بالـ id بتاعه
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (_) => ProductDetails(
+                                              productId: recProduct.id,
+                                            ),
+                                          ),
+                                        );
+                                      },
+                                      child: Container(
+                                        clipBehavior: Clip.antiAlias,
+                                        width: size.width * .3,
+                                        margin: const EdgeInsets.symmetric(
+                                          horizontal: 5,
+                                        ),
+                                        decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.circular(
+                                            25,
+                                          ),
+                                        ),
+                                        child: Image.network(
+                                          recProduct.imageUrl ??
+                                              'assets/images/no_photo.png',
+                                          fit: BoxFit.cover,
+                                          errorBuilder:
+                                              (
+                                                context,
+                                                error,
+                                                stackTrace,
+                                              ) => Image.asset(
+                                                'assets/images/no_photo.png',
+                                                fit: BoxFit.cover,
+                                              ),
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                ),
+                              );
+                            }
+                            return const SizedBox();
                           },
                         ),
                       ),

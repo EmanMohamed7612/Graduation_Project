@@ -1,11 +1,20 @@
 import 'package:dio/dio.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'package:graduation2/feauture/chat_bot/data/chat_bot_repo.dart';
 import 'package:graduation2/feauture/chat_bot/manager/chat_bot_cubit.dart';
 import 'package:graduation2/feauture/community/data/post_repo.dart';
 import 'package:graduation2/feauture/community/manager/community_cubit.dart';
 import 'package:graduation2/feauture/community/view/comments_page.dart';
 import 'package:graduation2/feauture/home/manager/fav_cubit.dart';
+import 'package:graduation2/feauture/message/manager/inboxmessage_cubit.dart';
+import 'package:graduation2/feauture/message/manager/inboxmessage_repo.dart';
+import 'package:graduation2/feauture/message/manager/message_cubit.dart';
+import 'package:graduation2/feauture/message/manager/message_repo.dart';
+import 'package:graduation2/feauture/message/manager/message_singlerR.dart';
+import 'package:graduation2/feauture/product/data/recommendation_repo.dart';
+import 'package:graduation2/feauture/product/manager/recommendation_cubit.dart';
+import 'package:graduation2/feauture/profile/data/user_profile_repo.dart';
 import 'package:graduation2/feauture/review/data/cart_repo.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -26,6 +35,7 @@ import 'package:graduation2/feauture/session/view/book_sconsultation_screen.dart
 
 import 'package:graduation2/feauture/session/view/my_consultation.dart';
 import 'package:graduation2/feauture/settings/manager/user_profile_cubit.dart';
+import 'package:graduation2/feauture/settings/view/widgets/restart_wodget.dart';
 
 import 'package:graduation2/feauture/splash_screen/presentation/view/splash.dart';
 
@@ -94,6 +104,17 @@ class CratoriaApp extends StatelessWidget {
             cartId: userId, // ⚡ استخدام userId
           )..loadCart(), // 🔹 نحمّل الكارت فورًا
         ),
+
+        BlocProvider(
+          create: (context) => MessagesCubit(
+            MessagesRepo(),
+            SignalRService(), // يجب تمرير الـ Service هنا
+          ), // استدعاء الميثود بعد التهيئة
+          // value: context.read<MessagesCubit>()..loadMessages(widget.user.id),
+        ),
+        BlocProvider(
+          create: (context) => InboxCubit(InboxRepo())..startInboxUpdates(),
+        ),
         BlocProvider(
           create: (context) => DeleteProductCubit(
             repoProduct: RepoProductImple(
@@ -123,6 +144,7 @@ class CratoriaApp extends StatelessWidget {
           create: (context) =>
               UserProfileCubit(UserProfileRepo())..fetchProfile(),
         ),
+
         BlocProvider(
           create: (context) => CreateProductCubit(
             repoProduct: RepoProductImple(
@@ -167,6 +189,9 @@ class CratoriaApp extends StatelessWidget {
           create: (context) =>
               CategorymaterialCubit(MaterialApiService())
                 ..fetchmaterialCategories(),
+        ),
+        BlocProvider(
+          create: (context) => RecommendationCubit(RecommendationRepo()),
         ),
 
         BlocProvider(

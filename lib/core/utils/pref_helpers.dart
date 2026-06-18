@@ -19,6 +19,7 @@ class PrefHelpers {
   static Future<void> saveUserId(String userId) async {
     final prefs = await SharedPreferences.getInstance();
     prefs.setString(_userIdKey, userId);
+    
   }
 
   static Future<String?> getUserId() async {

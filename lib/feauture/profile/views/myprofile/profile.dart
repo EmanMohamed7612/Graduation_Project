@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -11,6 +12,7 @@ import 'package:graduation2/feauture/profile/views/myprofile/expert_profile.dart
 import 'package:graduation2/feauture/profile/views/myprofile/seller_profile.dart';
 import 'package:graduation2/feauture/profile/views/myprofile/supplier_profile.dart';
 import 'package:graduation2/feauture/settings/view/settings_screen.dart';
+import 'package:graduation2/generated/locale_keys.g.dart';
 
 class Profile extends StatelessWidget {
   const Profile({super.key, this.onGoHome});
@@ -36,7 +38,7 @@ class Profile extends StatelessWidget {
           ),
         ),
         title: Text(
-          'My Profile',
+          LocaleKeys.myprofile.tr(),
           style: TextStyle(
             color: const Color(0xFF3E2723),
             fontSize: 16,
@@ -49,24 +51,17 @@ class Profile extends StatelessWidget {
         actions: [
           IconButton(
             onPressed: () async {
-              // Navigator.push(
-              //   context,
-              //   MaterialPageRoute(
-              //     builder: (context) {
-              //       return SettingsScreen();
-              //     },
-              //   ),
-              // );
-
               final result = await Navigator.push(
                 context,
                 MaterialPageRoute(builder: (context) => const SettingsScreen()),
               );
-              print("Settings returned: $result"); // ← وده
-              if (result == true && context.mounted) {
-                print("Calling fetchProfile..."); // ← وده
-                context.read<UserProfileCubit>().fetchProfile();
-              }
+
+              // إذا عادت شاشة الإعدادات بـ true، يتم تحديث البيانات فوراً
+               // ✅ هنا المشكلة: لازم تتأكد إن الـ cubit نفسه بيتحدث
+      if (context.mounted) {
+        // ✅ اعمل fetch دايماً لما ترجع من Settings، مش بس لو result == true
+        context.read<UserProfileCubit>().fetchProfile();
+      }
             },
             icon: Icon(Icons.settings_outlined, color: Color(0xff6D4C41)),
           ),

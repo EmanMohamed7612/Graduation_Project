@@ -3,6 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:graduation2/core/services/api_services.dart';
+import 'package:graduation2/feauture/message/manager/message_cubit.dart';
+import 'package:graduation2/feauture/message/manager/message_repo.dart';
+import 'package:graduation2/feauture/message/manager/message_singlerR.dart';
+import 'package:graduation2/feauture/message/view/messagechatpage.dart';
+import 'package:graduation2/feauture/product/data/product_owner_profile.dart';
 import 'package:graduation2/feauture/profile/manager/number_product_cubit.dart';
 import 'package:graduation2/feauture/profile/manager/number_product_state.dart';
 import 'package:graduation2/feauture/profile/views/myprofile/widgets/materials.dart';
@@ -77,14 +82,14 @@ class _SupplierAccountState extends State<SupplierAccount> {
           ),
         ),
         centerTitle: true,
-        actions: [
-          IconButton(
-            onPressed: () {
-              // Navigator.pop(context);
-            },
-            icon: Icon(Icons.share_outlined, color: Color(0xff6D4C41)),
-          ),
-        ],
+        // actions: [
+        //   IconButton(
+        //     onPressed: () {
+        //       // Navigator.pop(context);
+        //     },
+        //     icon: Icon(Icons.share_outlined, color: Color(0xff6D4C41)),
+        //   ),
+        // ],
       ),
       // backgroundColor: Colors.white,
       body: SafeArea(
@@ -200,10 +205,16 @@ class _SupplierAccountState extends State<SupplierAccount> {
                                 type: LocaleKeys.materials.tr(),
                               );
                             }
-                            return NumberOfType(number: 0, type: LocaleKeys.materials.tr());
+                            return NumberOfType(
+                              number: 0,
+                              type: LocaleKeys.materials.tr(),
+                            );
                           },
                         ),
-                        NumberOfType(number: totalReviews, type: LocaleKeys.reviews.tr()),
+                        NumberOfType(
+                          number: totalReviews,
+                          type: LocaleKeys.reviews.tr(),
+                        ),
                       ],
                     ),
                     SizedBox(height: height * .01),
@@ -222,7 +233,6 @@ class _SupplierAccountState extends State<SupplierAccount> {
                         ),
                         SizedBox(width: width * .03),
                         Container(
-
                           width: width * .14,
 
                           decoration: BoxDecoration(
@@ -250,7 +260,7 @@ class _SupplierAccountState extends State<SupplierAccount> {
                     Container(
                       alignment: Alignment.topLeft,
                       child: Text(
-                         widget.user.specialization??"",
+                        widget.user.specialization ?? "",
                         style: TextStyle(
                           color: const Color(0xFF6D4C41),
                           fontSize: 10.50,
@@ -319,7 +329,27 @@ class _SupplierAccountState extends State<SupplierAccount> {
                         ),
                       ),
                       child: GestureDetector(
-                        onTap: () {},
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) {
+                                return BlocProvider(
+                                  create: (context) => MessagesCubit(
+                                    MessagesRepo(),
+                                    SignalRService(), // يجب تمرير الـ Service هنا
+                                  )..loadMessages(widget.user.id), // استدعاء الميثود بعد التهيئة
+                                  // value: context.read<MessagesCubit>()
+                                  //   ..loadMessages(widget.user.id),
+                                  child: ChatScreen(
+                                    otherUserId: widget.user.id,
+                                    otherUserName: widget.user.fullName,
+                                  ),
+                                );
+                              },
+                            ),
+                          );
+                        },
                         child: Center(
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
@@ -358,7 +388,7 @@ class _SupplierAccountState extends State<SupplierAccount> {
                           bottom: BorderSide(color: Colors.grey.shade300),
                         ),
                       ),
-                      child:  TabBar(
+                      child: TabBar(
                         indicatorColor: Color(0xff7A4A32),
                         indicatorWeight: 2,
                         labelColor: Colors.black,

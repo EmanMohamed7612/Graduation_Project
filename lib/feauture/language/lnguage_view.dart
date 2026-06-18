@@ -2,9 +2,11 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:graduation2/core/utils/pref_helpers.dart';
 import 'package:graduation2/feauture/auth/views/login_screen.dart';
+import 'package:graduation2/feauture/home/presentation/view/home_screen.dart';
 import 'package:graduation2/feauture/language/widget/continue_button.dart';
 import 'package:graduation2/feauture/language/widget/language_Icon.dart';
 import 'package:graduation2/feauture/language/widget/language_card.dart';
+import 'package:graduation2/feauture/product_screens/presentation/view/explore_prodect/widget/custom_navigationbar.dart';
 import 'package:graduation2/feauture/splash_screen/presentation/view/onboarding.dart';
 
 // flutter pub run easy_localization:generate -S assets/translations -f keys -o locale_keys.g.dart
@@ -112,7 +114,17 @@ class _LanguageViewState extends State<LanguageView> {
                       // إذا كنتِ داخل شاشة الإعدادات، ببساطة ارجعي للخلف
                       // أما إذا كنتِ في أول مرة تشغيل التطبيق (Onboarding) استخدمي الـ Navigator العادي
                       if (Navigator.canPop(context)) {
-                        Navigator.pop(context);
+                        // Navigator.pop(context);
+                        Navigator.of(
+                          context,
+                          rootNavigator: true,
+                        ).pushAndRemoveUntil(
+                          MaterialPageRoute(
+                            builder: (_) =>
+                                const MainWrapper(), // تأكدي إنكِ بتفتحي الـ Wrapper وليس الـ HomeScreen لوحده
+                          ),
+                          (route) => false, // يمسح كل الـ Stack الرئيسي
+                        );
                       } else {
                         // Navigator.pushReplacement(
                         //   context,

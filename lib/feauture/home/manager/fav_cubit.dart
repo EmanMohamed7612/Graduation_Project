@@ -92,4 +92,28 @@ class FavoriteCubit extends Cubit<List<int>> {
       log("حدث خطأ أثناء تحديث المفضلة في السيرفر: $e");
     }
   }
+
+
+  Future<void> toggleFavoriteForMaterial(int materialId) async {
+    final currentFavorites = List<int>.from(state);
+
+    if (currentFavorites.contains(materialId)) {
+      currentFavorites.remove(materialId);
+    } else {
+      currentFavorites.add(materialId);
+    }
+    emit(List<int>.from(currentFavorites));
+    // تحديث الحالة فوراً (UI)
+    //emit(currentFavorites);
+    // حفظ القائمة الجديدة في الجهاز
+    await _saveToPrefs(currentFavorites);
+
+    try {
+      await _apiService.toggleFavoriteForMaterial(materialId);
+    } catch (e) {
+      // في حالة الفشل، نعود للحالة القديمة (اختياري حسب رغبتك)
+      // لكن يجب أيضاً إعادة حفظ الحالة القديمة في الـ Prefs هنا إذا تراجعتِ
+      log("حدث خطأ أثناء تحديث المفضلة في السيرفر: $e");
+    }
+  }
 }

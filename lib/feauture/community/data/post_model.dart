@@ -1,5 +1,6 @@
 class PostModel {
   final int id;
+  final String userId;
   final String content;
   final String? imageUrl;
   final String createdAt;
@@ -10,6 +11,7 @@ class PostModel {
   final String? userImage;
   PostModel({
     required this.id,
+    required this.userId,
     required this.content,
     this.imageUrl,
     required this.createdAt,
@@ -23,6 +25,7 @@ class PostModel {
   factory PostModel.fromJson(Map<String, dynamic> json) {
     return PostModel(
       id: json['id'],
+      userId: json['userId'] ?? json['UserId'] ?? "",
       content: json['content'] ?? json['Content'] ?? "",
       imageUrl: json['imageUrl'] ?? json['ImageUrl'],
       createdAt: json['createdAt'] ?? json['CreatedAt'],
@@ -44,9 +47,11 @@ class PostModel {
     int? commentsCount,
     bool? isLikedByMe,
     String? userImage,
+    String? userId,
   }) {
     return PostModel(
       id: id ?? this.id,
+      userId: userId ?? this.userId,
       content: content ?? this.content,
       imageUrl: imageUrl ?? this.imageUrl,
       createdAt: createdAt ?? this.createdAt,

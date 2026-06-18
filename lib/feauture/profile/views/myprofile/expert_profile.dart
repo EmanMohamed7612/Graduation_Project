@@ -9,6 +9,7 @@ import 'package:graduation2/feauture/dashboard_screen/presentation/view/seller_d
 
 import 'package:graduation2/feauture/dashboard_screen/presentation/view/seller_dashboard.dart'as dashboard;
 import 'package:graduation2/feauture/home/presentation/view/home_screen.dart';
+import 'package:graduation2/feauture/product/data/product_owner_profile.dart';
 import 'package:graduation2/feauture/profile/manager/number_product_cubit.dart';
 import 'package:graduation2/feauture/profile/manager/number_product_state.dart';
 import 'package:graduation2/feauture/profile/views/myprofile/widgets/numberandtype.dart';

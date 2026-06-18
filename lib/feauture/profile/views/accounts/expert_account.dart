@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:graduation2/core/services/api_services.dart';
+import 'package:graduation2/feauture/product/data/product_owner_profile.dart';
 import 'package:graduation2/feauture/profile/manager/number_product_cubit.dart';
 import 'package:graduation2/feauture/profile/manager/number_product_state.dart';
 import 'package:graduation2/feauture/profile/views/myprofile/widgets/numberandtype.dart';
@@ -81,14 +82,14 @@ class _ExpertAccountState extends State<ExpertAccount> {
           ),
         ),
         centerTitle: true,
-        actions: [
-          IconButton(
-            onPressed: () {
-              // Navigator.pop(context);
-            },
-            icon: Icon(Icons.share_outlined, color: Color(0xff6D4C41)),
-          ),
-        ],
+        // actions: [
+        //   IconButton(
+        //     onPressed: () {
+        //       // Navigator.pop(context);
+        //     },
+        //     icon: Icon(Icons.share_outlined, color: Color(0xff6D4C41)),
+        //   ),
+        // ],
       ),
       // backgroundColor: Colors.white,
       body: SafeArea(

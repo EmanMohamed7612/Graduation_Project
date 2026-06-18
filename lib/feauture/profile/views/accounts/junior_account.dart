@@ -3,6 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:graduation2/core/services/api_services.dart';
+import 'package:graduation2/feauture/message/manager/message_cubit.dart';
+import 'package:graduation2/feauture/message/manager/message_repo.dart';
+import 'package:graduation2/feauture/message/manager/message_singlerR.dart';
+import 'package:graduation2/feauture/message/view/messagechatpage.dart';
+import 'package:graduation2/feauture/product/data/product_owner_profile.dart';
 import 'package:graduation2/feauture/profile/manager/number_product_cubit.dart';
 import 'package:graduation2/feauture/profile/manager/number_product_state.dart';
 import 'package:graduation2/feauture/profile/views/myprofile/widgets/numberandtype.dart';
@@ -77,14 +82,14 @@ class _JuniorAccountState extends State<JuniorAccount> {
           ),
         ),
         centerTitle: true,
-        actions: [
-          IconButton(
-            onPressed: () {
-              // Navigator.pop(context);
-            },
-            icon: Icon(Icons.share_outlined, color: Color(0xff6D4C41)),
-          ),
-        ],
+        // actions: [
+        //   IconButton(
+        //     onPressed: () {
+        //       // Navigator.pop(context);
+        //     },
+        //     icon: Icon(Icons.share_outlined, color: Color(0xff6D4C41)),
+        //   ),
+        // ],
       ),
       // backgroundColor: Colors.white,
       body: SafeArea(
@@ -318,7 +323,24 @@ class _JuniorAccountState extends State<JuniorAccount> {
                         ),
                       ),
                       child: GestureDetector(
-                        onTap: () {},
+                        onTap: () {
+                          Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) {
+                              return BlocProvider(
+            create: (context) => MessagesCubit(
+              MessagesRepo(),
+              SignalRService(), // يجب تمرير الـ Service هنا
+            )..loadMessages(widget.user.id), // استدعاء الميثود بعد التهيئة
+             // value: context.read<MessagesCubit>()..loadMessages(widget.user.id),
+            child: ChatScreen(otherUserId:widget.user.id,
+              otherUserName: widget.user.fullName,),
+          );
+                            },
+                          ),
+                        );
+                        },
                         child: Center(
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,

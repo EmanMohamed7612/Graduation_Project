@@ -610,132 +610,7 @@ class AuthCubit extends Cubit<AuthState> {
     }
   }
 
-  ///الا صل لللللل
-  // ================= Login (FIXED) =================
 
-  // Future<void> login({required String email, required String password}) async {
-  //   emit(AuthLoadingState());
-
-  //   try {
-  //     final response = await apiService.post(ApiEndpoint.login, {
-  //       'Email': email,
-  //       'Password': password,
-  //     });
-
-  //     if (response is ApiError) {
-  //       emit(AuthFailureState(response.message));
-  //       return;
-  //     }
-
-  //     final jsonData = _parseResponse(response);
-  //     final errorMessage = jsonData != null
-  //         ? _extractErrorMessage(jsonData)
-  //         : null;
-
-  //     if (errorMessage != null) {
-  //       emit(AuthFailureState(errorMessage));
-  //       return;
-  //     }
-
-  //     // --- الجزء المضاف لحفظ التوكن ---
-  //     final userDataMap = _extractUserData(jsonData!);
-  //     if (userDataMap != null && userDataMap['token'] != null) {
-  //       await PrefHelpers.saveToken(userDataMap['token']);
-  //     }
-  //     // ----------------------------
-
-  //     emit(AuthSuccessState(UserModel.fromJson(userDataMap!)));
-  //   } catch (e) {
-  //     emit(AuthFailureState('Unexpected error: $e'));
-  //   }
-  // }
-
-  // // ================= Login =================
-
-  // Future<void> login({
-  //   required String email,
-  //   required String password,
-  // }) async {
-  //   emit(AuthLoadingState());
-
-  //   try {
-  //     final response = await apiService.post(ApiEndpoint.login, {
-  //       'Email': email,
-  //       'Password': password,
-  //     });
-
-  //     if (response is ApiError) {
-  //       emit(AuthFailureState(response.message));
-  //       return;
-  //     }
-
-  //     final jsonData = _parseResponse(response);
-  //     final errorMessage =
-  //     jsonData != null ? _extractErrorMessage(jsonData) : null;
-
-  //     if (errorMessage != null) {
-  //       emit(AuthFailureState(errorMessage));
-  //       return;
-  //     }
-  //     /////
-  //     final token = response['data']['token'];
-  // await PrefHelpers.saveToken(token);
-  //     emit(AuthSuccessState(
-  //         UserModel.fromJson(_extractUserData(jsonData!)!)));
-  //   } catch (e) {
-  //     emit(AuthFailureState('Unexpected error: $e'));
-  //   }
-  // }
-
-  // ================= Google Login =================
-
-  // Future<void> signInWithGoogle({required String role}) async {
-  //   emit(AuthLoadingState());
-
-  //   try {
-  //     await _googleSignIn.signOut();
-  //     final googleUser = await _googleSignIn.signIn();
-
-  //     if (googleUser == null) {
-  //       emit(AuthInitialState());
-  //       return;
-  //     }
-
-  //     final googleAuth = await googleUser.authentication;
-  //     final idToken = googleAuth.idToken;
-
-  //     if (idToken == null) {
-  //       emit(AuthFailureState('Failed to get Google ID Token'));
-  //       return;
-  //     }
-
-  //     final response = await apiService.post(ApiEndpoint.googleLogin, {
-  //       'idToken': idToken,
-  //       'role': role,
-  //     });
-
-  //     final jsonData = _parseResponse(response);
-  //     final errorMessage = jsonData != null
-  //         ? _extractErrorMessage(jsonData)
-  //         : null;
-
-  //     if (errorMessage != null) {
-  //       emit(AuthFailureState(errorMessage));
-  //       return;
-  //     }
-
-  //     // --- الجزء المضاف لحفظ التوكن ---
-  //     final userDataMap = _extractUserData(jsonData!);
-  //     if (userDataMap != null && userDataMap['token'] != null) {
-  //       await PrefHelpers.saveToken(userDataMap['token']);
-  //     }
-  //     // ----------------------------
-
-  //     emit(AuthSuccessState(UserModel.fromJson(userDataMap!)));
-  //   } catch (e) {
-  //     emit(AuthFailureState(e.toString()));
-  //   }
-  // }
   Future<void> signInWithGoogle({required String role}) async {
     emit(AuthLoadingState());
 
@@ -913,9 +788,22 @@ class AuthCubit extends Cubit<AuthState> {
     // /////eman
     // await PrefHelpers.clearUserId(); // مسح التوكن عند الخروج
     // emit(AuthInitialState());
-    await PrefHelpers.clearAll(); // بيمسح الـ Token والـ UserId وأي داتا تانية
+    //   await PrefHelpers.clearAll(); // بيمسح الـ Token والـ UserId وأي داتا تانية
+    //   emit(AuthInitialState());
+    // }
+
+    // void resetState() => emit(AuthInitialState());
+    // 1. جلب اللغة الحالية قبل مسح الـ SharedPreferences
+    final currentLang = await PrefHelpers.getLanguage();
+
+    // 2. مسح كل البيانات (التوكن، الـ userId، الـ cartId)
+    await PrefHelpers.clearAll();
+
+    // 3. إعادة حفظ اللغة المفضلة للمستخدم حتى لا تضيع
+    if (currentLang != null) {
+      await PrefHelpers.setLanguage(currentLang);
+    }
+
     emit(AuthInitialState());
   }
-
-  void resetState() => emit(AuthInitialState());
 }

@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:graduation2/core/services/api_services.dart';
 import 'package:graduation2/feauture/community/data/post_model.dart';
 import 'package:graduation2/feauture/community/manager/community_cubit.dart';
 import 'package:graduation2/feauture/community/view/comments_page.dart';
+import 'package:graduation2/feauture/profile/data/user_profile_repo.dart';
+import 'package:graduation2/feauture/profile/manager/account.cubit.dart';
+import 'package:graduation2/feauture/profile/views/accounts/account.dart';
 
 class PostCard extends StatelessWidget {
   final PostModel post; // إضافة الـ Model
@@ -70,14 +74,29 @@ class PostCard extends StatelessWidget {
             //         : Image.asset("assets/images/no_photo.png"),
             //   ),
             // ),
-            title: Text(
-              post.userName,
-              style: TextStyle(
-                color: const Color(0xFF3E2723),
-                fontSize: 14,
-                fontFamily: 'Arimo',
-                fontWeight: FontWeight.w400,
-                height: 1.50,
+            title: GestureDetector(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (_) => BlocProvider(
+                      create: (_) =>
+                          AccountCubit(UserProfileRepo())
+                            ..fetchAccount(post.userId),
+                      child: const AccountScreen(),
+                    ),
+                  ),
+                );
+              },
+              child: Text(
+                post.userName,
+                style: TextStyle(
+                  color: const Color(0xFF3E2723),
+                  fontSize: 14,
+                  fontFamily: 'Arimo',
+                  fontWeight: FontWeight.w400,
+                  height: 1.50,
+                ),
               ),
             ),
             subtitle: Text(
@@ -207,7 +226,7 @@ class PostCard extends StatelessWidget {
                   // },
                 ),
                 const Spacer(),
-                const Icon(Icons.share_outlined, color: Color(0xFF8D6E63)),
+                // const Icon(Icons.share_outlined, color: Color(0xFF8D6E63)),
               ],
             ),
           ),

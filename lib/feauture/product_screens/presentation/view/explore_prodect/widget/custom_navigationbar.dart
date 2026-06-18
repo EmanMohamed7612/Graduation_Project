@@ -490,7 +490,8 @@ class _MainWrapperState extends State<MainWrapper> {
         body: IndexedStack(
           index: _currentIndex,
           children: [
-            _buildNavigator(0, const HomeScreen()),
+            _buildNavigator(0, HomeScreen(onGoProfile: () => _selectTab(4))),
+           // _buildNavigator(0, const HomeScreen()),
             _buildNavigator(1, ExploreAllScreen(onGoHome: () => _selectTab(0))),
             _buildNavigator(2, CommunityScreen(onGoHome: () => _selectTab(0))),
             _buildNavigator(3, ChatBotScreen(onGoHome: () => _selectTab(0))),

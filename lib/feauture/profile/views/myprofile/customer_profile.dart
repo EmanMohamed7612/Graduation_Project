@@ -7,6 +7,10 @@ import 'package:graduation2/feauture/community/manager/my_posts_cubit.dart';
 import 'package:graduation2/feauture/favourite/manager/favourite_cubit.dart';
 import 'package:graduation2/feauture/favourite/views/favourite_screen.dart';
 import 'package:graduation2/feauture/home/manager/fav_apiserves.dart';
+import 'package:graduation2/feauture/message/manager/inboxmessage_cubit.dart';
+import 'package:graduation2/feauture/message/manager/inboxmessage_repo.dart';
+import 'package:graduation2/feauture/message/view/message_view.dart';
+import 'package:graduation2/feauture/order_screen/deliver_screen/deliver_address.dart';
 
 import 'package:graduation2/feauture/profile/views/accounts/widgets/posts_account.dart';
 import 'package:graduation2/feauture/profile/views/myprofile/widgets/custom_button.dart';
@@ -31,17 +35,29 @@ class _CustomerProfileState extends State<CustomerProfile> {
   double averageRating = 0.0;
   int totalReviews = 0;
   bool isLoadingRating = true;
+  int postsCount = 0;
 
   Future<void> userstate() async {
     final stats = await _reviewApiService.getUserState(widget.user.id);
-
-    if (stats != null) {
+    final count = await PostsRepo().getUserPostsCount(widget.user.id);
+    if (mounted) {
+      // للتأكد أن الـ widget لسه موجودة
       setState(() {
-        averageRating = stats.averageRating;
-        totalReviews = stats.totalReviews;
+        postsCount = count; // 3. تحديث العدد
+        if (stats != null) {
+          averageRating = stats.averageRating;
+          totalReviews = stats.totalReviews;
+        }
         isLoadingRating = false;
       });
     }
+    // if (stats != null) {
+    //   setState(() {
+    //     averageRating = stats.averageRating;
+    //     totalReviews = stats.totalReviews;
+    //     isLoadingRating = false;
+    //   });
+    // }
   }
 
   @override
@@ -114,7 +130,7 @@ class _CustomerProfileState extends State<CustomerProfile> {
                                 size: 14,
                               ),
                               Text(
-                                '0 Posts  .',
+                                '$postsCount ${LocaleKeys.posts.tr()} .',
                                 style: TextStyle(
                                   color: const Color(0xFF8D6E63),
                                   fontSize: 12,
@@ -154,6 +170,14 @@ class _CustomerProfileState extends State<CustomerProfile> {
                       icon: Icons.shopping_bag_outlined,
                       color1: const Color(0xFF6D4C41),
                       color2: const Color(0xFF8D6E63),
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => DeliveryAddressScreen(),
+                          ),
+                        );
+                      },
                     ),
 
                     CustomButtonprofile(
@@ -191,6 +215,28 @@ class _CustomerProfileState extends State<CustomerProfile> {
                       color1: const Color(0xFFC9A875),
                       color2: const Color(0xFFD4AF37),
                       message: true,
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) {
+                              return BlocProvider(
+                                create: (context) =>
+                                    InboxCubit(InboxRepo())
+                                      ..startInboxUpdates(),
+                                child: const MessagesScreen(),
+                              );
+                              // BlocProvider(
+                              //   // 1. إنشاء الـ Cubit مع الـ Repo وتمرير أمر جلب الـ Inbox فوراً
+                              //   create: (context) =>
+                              //       InboxCubit(InboxRepo())..fetchInbox(),
+                              //   // 2. فتح صفحة قائمة المحادثات
+                              //   child: const MessagesScreen(),
+                              // );
+                            },
+                          ),
+                        );
+                      },
                     ),
                   ],
                 ),

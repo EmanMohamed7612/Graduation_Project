@@ -9,6 +9,7 @@ class ReviewLoading extends ReviewState {}
 class ReviewLoaded extends ReviewState {
   final List<ProductReviewModel> reviews;
 
+
   ReviewLoaded(this.reviews);
 }
 

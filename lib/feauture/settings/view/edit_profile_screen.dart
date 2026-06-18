@@ -95,13 +95,25 @@ class _EditProfilePageState extends State<EditProfilePage> {
     return BlocConsumer<UpdateProfileCubit, UpdateProfileState>(
       listener: (context, state) async {
         if (state is UpdateProfileSuccess) {
-          context.read<UserProfileCubit>().fetchProfile();
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text("Profile Updated Successfully!")),
-          );
-          // بعدين الـ pop
-          Navigator.pop(context, true); // الرجوع للخلف بعد النجاح
-          //Navigator.of(context).pop(true);
+          // context.read<UserProfileCubit>().fetchProfile();
+          // ScaffoldMessenger.of(context).showSnackBar(
+          //   const SnackBar(content: Text("Profile Updated Successfully!")),
+          // );
+          // // بعدين الـ pop
+          // Navigator.pop(context,true); // الرجوع للخلف بعد النجاح
+          // //Navigator.of(context).pop(true);
+           context.read<UserProfileCubit>().fetchProfile();
+    
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(content: Text("Profile Updated Successfully!")),
+    );
+    
+    // ✅ استنى الـ fetch يخلص قبل ما ترجع
+    await Future.delayed(const Duration(milliseconds: 300));
+    
+    if (context.mounted) {
+      Navigator.pop(context, true);
+    }
         }
         if (state is UpdateProfileFailure) {
           ScaffoldMessenger.of(
@@ -214,25 +226,25 @@ class _EditProfilePageState extends State<EditProfilePage> {
                           // الحقول (Widgets جاهزة للاستخدام)
                           CustomInputField(
                             label: "Full Name",
-                            initialValue: "Sarah Johnson",
+                           // initialValue: "Sarah Johnson",
                             icon: Icons.person_outline,
                             controller: nameController,
                           ),
                           CustomInputField(
                             label: "Specialization",
-                            initialValue: "Sales Associate",
+                          //  initialValue: "Sales Associate",
                             icon: Icons.work_outline,
                             controller: specController,
                           ),
                           CustomInputField(
                             label: "Gender",
-                            initialValue: "Female",
+                           // initialValue: "Female",
                             icon: Icons.wc_outlined,
                             controller: genderController,
                           ),
                           CustomInputField(
                             label: "Bio",
-                            initialValue: "",
+                           // initialValue: "",
                             icon: Icons.info_outline,
                             maxLines: 4,
                             controller: bioController,

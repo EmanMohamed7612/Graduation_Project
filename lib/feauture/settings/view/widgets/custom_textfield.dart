@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 
 class CustomInputField extends StatelessWidget {
   final String label;
-  final String initialValue;
+  // final String initialValue;
   final IconData icon;
   final int maxLines;
- final TextEditingController controller;
+  final TextEditingController controller;
   const CustomInputField({
     super.key,
     required this.label,
-    required this.initialValue,
+    //  required this.initialValue,
     required this.icon,
     required this.controller,
     this.maxLines = 1,
@@ -44,7 +44,7 @@ class CustomInputField extends StatelessWidget {
             controller: controller,
             maxLines: maxLines,
             decoration: InputDecoration(
-              hintText: initialValue,
+              //  hintText: initialValue,
               fillColor: const Color(
                 0xFFFDF8F5,
               ), // لون الخلفية الفاتح في الصورة
