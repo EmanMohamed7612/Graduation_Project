@@ -1,0 +1,38 @@
+{
+  "project_info": {
+    "project_number": "809712865790",
+    "project_id": "craftoria-494211",
+    "storage_bucket": "craftoria-494211.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:809712865790:android:598a2a578df8a156e530af",
+        "android_client_info": {
+          "package_name": "com.example.graduation2"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "809712865790-oaoo7i7uj0us6odg5eqckjokdr5q1req.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.graduation2",
+            "certificate_hash": "2c0680866232fed37878eb193263ba6a04896870"
+          }
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBYz16Qj1OdCXQOxt-5i4pIPIhVb_5YfOk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

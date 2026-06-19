@@ -1,0 +1,38 @@
+class ApiEndpoint {
+  static const String Register = '/api/Authentication/Register';
+  static const String login = '/api/Authentication/Login';
+  static const String verifyEmail = '/api/Authentication/VerifyEmail';
+  // static const String verifyotp = '/api/Authentication/verify-otp';
+  static const String checkEmailOtp = '/api/Authentication/CheckEmailOtp';
+  static const String forgetPassword = '/api/Authentication/forget-password';
+
+  static const String resetPassword = '/api/Authentication/reset-password';
+  static const String googleLogin = '/api/Authentication/google-login';
+  static const String createProduct = '/api/Products/CreateProduct';
+  static String updateProduct = '/api/Products/UpdateProduct';
+  static const String DeleteProdect = '/api/Products/UpdateProduct';
+  static const String GetAllProdecCategories =
+      '/api/Products/GetAllProductCategories';
+  static const String GetAllProdets = '/api/Products/GetAllProducts';
+  static const String GetAllCategoriesById =
+      '/api/Products/GetAllProductCategoriesById?id';
+  static const String get_top_prodects = '/api/Home/top-products';
+  static const String get_top_sellers = '/api/Home/top-sellers';
+  static const String delete = '/api/Products/DeleteProduct';
+  static const String CreateRawMaterial = '/api/RawMaterial/CreateRawMaterial';
+  static const String UpdateRowMaterial = '/api/RawMaterial/UpdateRawMaterial';
+  static const String GetAllRawMaterialCategories =
+      '/api/RawMaterial/GetAllRawMaterialCategories';
+  static const String DeleteRowMaterial = '/api/RawMaterial/DeleteRawMaterial';
+  static const String GetAllMaterialOfSpecificUser =
+      '/api/RawMaterial/GetRawMaterialOfSpecificUser';
+
+  static const String CreatOrder = '/api/Orders/CreateOrder';
+  static const String GetUserAddress = '/api/Orders/GetUserAddresses';
+  static const String AddAddress = '/api/Orders/AddAddress';
+  static const String userProfile = '/api/UserProfile';
+  static const String getUserAccount = '/api/Accounts/GetAccount';
+  static const String getProductOfSpecificUser =
+      '/api/Products/GetProductsOfSpecificUser';
+  static const String getRawMaterialOfSpecificUser = '/api/RawMaterial/GetRawMaterialOfSpecificUser';
+}
