@@ -10,13 +10,13 @@ import '../../../../../core/rescources/colors.dart';
 import '../../../../../core/services/dio_client.dart';
 import '../../../../../core/utils/pref_helpers.dart';
 import '../../../../../generated/locale_keys.g.dart';
+import '../../../../favourite/manager/fav_state.dart';
 import '../../../../favourite/manager/favourite_cubit.dart';
 import '../../../../favourite/views/favourite_screen.dart';
 import '../../../../review/manager/cart_cubit.dart';
 import '../../../../review/manager/cart_state.dart';
 import '../../../../review/view/cart/cart_screen.dart';
 import '../../../manager/fav_apiserves.dart';
-import '../../../manager/fav_cubit.dart';
 
 class HomeAppBar extends StatelessWidget {
   // const HomeAppBar({super.key});
@@ -127,25 +127,26 @@ class HomeAppBar extends StatelessWidget {
             const SizedBox(width: 10),
 
             /// Fav count
-            BlocBuilder<FavoriteCubit, List<int>>(
-              builder: (context, favorites) {
+            BlocBuilder<FavoriteCubit, FavoriteState>(
+              builder: (context, state) {
+                // جلب عدد العناصر المفضلة من الـ products اللي جوه الـ state الجديدة
+                int favoriteCount = state.products.length;
+
                 return GestureDetector(
                   onTap: () {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (_) => BlocProvider(
-                          // بنكريت نسخة جديدة من الـ Cubit مخصوص للصفحة دي
-                          create: (context) =>
-                              MyFavoriteCubit(FavoriteApiService(DioClient())),
-                          child: const FavouriteScreen(),
-                        ),
+                        // مش محتاجين نكريت كيوبيت جديد هنا خالص، بننقل لصفحة المفضلة علطول
+                        // لأنها هتشوف الكيوبيت الأساسي المفتوح للتطبيق كله
+                        builder: (_) => const FavouriteScreen(),
                       ),
                     );
                   },
                   child: buildIcon(
-                    icon: Icons.favorite_border,
-                    count: favorites.length,
+                    // تقدري تغيري شكل الأيقونة لو القائمة مش فاضية مثلاً
+                    icon: favoriteCount > 0 ? Icons.favorite : Icons.favorite_border,
+                    count: favoriteCount, // العداد هيتحدث تلقائياً هنا
                   ),
                 );
               },

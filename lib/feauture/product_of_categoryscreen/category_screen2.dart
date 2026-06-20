@@ -412,9 +412,10 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../favourite/manager/favourite_cubit.dart';
 import '../home/manager/category_cubit.dart';
 import '../home/manager/category_state.dart';
-import '../home/manager/fav_cubit.dart';
+
 import 'manager/productofcategory_apiservices.dart';
 import 'manager/productofcategory_cubit.dart';
 import 'search_detailsof category.dart';

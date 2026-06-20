@@ -8,7 +8,6 @@ import 'package:graduation2/feauture/profile/data/user_account_model.dart';
 import 'package:graduation2/feauture/profile/data/user_profile_model.dart';
 
 class UserProfileRepo {
-
   final ApiService _apiService = ApiService();
   Future<void> updateUserProfile({
     String? firstName,
@@ -40,16 +39,19 @@ class UserProfileRepo {
       FormData formData = FormData.fromMap(data);
 
       // إرسال الطلب
-      final response = await _apiService.post(ApiEndpoint.userProfile, formData);
+      final response = await _apiService.post(
+        ApiEndpoint.userProfile,
+        formData,
+      );
 
       // التحقق من النجاح
-      if (response != null && response['succeeded'] == true) {
+      if (response != null && response['success'] == true) {
         return;
       } else {
         throw Exception(response['message'] ?? "Update failed");
       }
     } catch (e) {
-      rethrow; 
+      rethrow;
     }
   }
 
@@ -58,12 +60,11 @@ class UserProfileRepo {
     final response = await _apiService.get(ApiEndpoint.userProfile, null);
     // ... باقي الكود
     if (response is Map<String, dynamic>) {
-       final data = response['data'];
-       return UserProfileModel.fromJson(data);
+      final data = response['data'];
+      return UserProfileModel.fromJson(data);
     }
     throw Exception("Failed to fetch profile");
   }
-
 
   Future<UserAccountModel> getAccountById(String userId) async {
     final response = await _apiService.get(ApiEndpoint.getUserAccount, {

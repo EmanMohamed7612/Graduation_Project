@@ -313,38 +313,38 @@ class _LoginViewState extends State<LoginView> {
                             ),
                           ),
 
-                          SizedBox(height: 16),
+                          // SizedBox(height: 16),
 
-                          GestureDetector(
-                            onTap: () {
-                              // Continue as guest
-                            },
-                            child: Container(
-                              decoration: ShapeDecoration(
-                                shape: RoundedRectangleBorder(
-                                  side: const BorderSide(
-                                    width: 1.5,
-                                    color: Color(0xFFD7CCC8),
-                                  ),
-                                  borderRadius: BorderRadius.circular(18),
-                                ),
-                              ),
-                              width: double.infinity,
-                              height: heightScreen * .05,
-                              child: Center(
-                                child: Text(
-                                  LocaleKeys.continueasgust.tr(),
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                    color: Color(0xFF6D4C41),
-                                    fontSize: 18,
-                                    fontFamily: 'Arimo',
-                                    fontWeight: FontWeight.w700,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
+                          // GestureDetector(
+                          //   onTap: () {
+                          //     // Continue as guest
+                          //   },
+                          //   child: Container(
+                          //     decoration: ShapeDecoration(
+                          //       shape: RoundedRectangleBorder(
+                          //         side: const BorderSide(
+                          //           width: 1.5,
+                          //           color: Color(0xFFD7CCC8),
+                          //         ),
+                          //         borderRadius: BorderRadius.circular(18),
+                          //       ),
+                          //     ),
+                          //     width: double.infinity,
+                          //     height: heightScreen * .05,
+                          //     child: Center(
+                          //       child: Text(
+                          //         LocaleKeys.continueasgust.tr(),
+                          //         textAlign: TextAlign.center,
+                          //         style: TextStyle(
+                          //           color: Color(0xFF6D4C41),
+                          //           fontSize: 18,
+                          //           fontFamily: 'Arimo',
+                          //           fontWeight: FontWeight.w700,
+                          //         ),
+                          //       ),
+                          //     ),
+                          //   ),
+                          // ),
                           SizedBox(height: 14),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,

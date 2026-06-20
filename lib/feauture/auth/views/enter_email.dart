@@ -14,7 +14,7 @@ class CheckEmailScreen extends StatelessWidget {
   CheckEmailScreen({super.key, required this.role});
   final String role;
   final TextEditingController emailController = TextEditingController();
-
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
     double heightScreen = MediaQuery.of(context).size.height;
@@ -49,160 +49,181 @@ class CheckEmailScreen extends StatelessWidget {
           child: Padding(
             padding: const EdgeInsets.all(24),
             child: SingleChildScrollView(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const CircleAvatar(
-                    radius: 45,
-                    backgroundColor: Color(0xffBBDEFB),
-                    child: Icon(
-                      Icons.email_outlined,
-                      color: Color(0xff1976D2),
-                      size: 40,
+              child: Form(
+                key: _formKey,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const CircleAvatar(
+                      radius: 45,
+                      backgroundColor: Color(0xffBBDEFB),
+                      child: Icon(
+                        Icons.email_outlined,
+                        color: Color(0xff1976D2),
+                        size: 40,
+                      ),
                     ),
-                  ),
-                  const SizedBox(height: 24),
+                    const SizedBox(height: 24),
 
-                  Text(
-                    LocaleKeys.welcome.tr(),
-                    style: TextStyle(
-                      color: Color(0xFF3E2723),
-                      fontSize: 22,
-                      fontWeight: FontWeight.w700,
+                    Text(
+                      LocaleKeys.welcome.tr(),
+                      style: TextStyle(
+                        color: Color(0xFF3E2723),
+                        fontSize: 22,
+                        fontWeight: FontWeight.w700,
+                      ),
                     ),
-                  ),
-                  const SizedBox(height: 8),
-                  Text(
-                    LocaleKeys.enterEmailToStart.tr(),
-                    style: TextStyle(
-                      color: const Color(0xFF8D6E63),
-                      fontSize: 16,
-                      fontFamily: 'Arimo',
-                      fontWeight: FontWeight.w400,
-                      height: 1.43,
+                    const SizedBox(height: 8),
+                    Text(
+                      LocaleKeys.enterEmailToStart.tr(),
+                      style: TextStyle(
+                        color: const Color(0xFF8D6E63),
+                        fontSize: 16,
+                        fontFamily: 'Arimo',
+                        fontWeight: FontWeight.w400,
+                        height: 1.43,
+                      ),
                     ),
-                  ),
-                  const SizedBox(height: 32),
+                    const SizedBox(height: 32),
 
-                  _buildLabel(LocaleKeys.emailaddress.tr()),
-                  const SizedBox(height: 8),
+                    _buildLabel(LocaleKeys.emailaddress.tr()),
+                    const SizedBox(height: 8),
 
-                  _buildTextField(
-                    hintText: LocaleKeys.enteryouremailtogetstarted.tr(),
-                    controller: emailController,
-                    icon: Icons.email_outlined,
-                  ),
-                  const SizedBox(height: 24),
-                  CustomButton(
-                    buttonText: LocaleKeys.continue_text.tr(),
-                    onTap: () {
-                      context.read<AuthCubit>().verifyEmail(
-                        email: emailController.text.trim(),
-                      );
-                    },
-                  ),
-                  const SizedBox(height: 16),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 12),
-                    child: Row(
-                      children: [
-                        Expanded(
-                          child: Divider(
-                            color: Color(0xFFD7CCC8),
-                            thickness: 1,
-                          ),
-                        ),
-                        Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 8),
-                          child: Text(
-                            LocaleKeys.or.tr(),
-                            style: TextStyle(
-                              color: Color(0xFF6C4D41),
-                              fontWeight: FontWeight.w600,
+                    _buildTextField(
+                      hintText: LocaleKeys.enteryouremailtogetstarted.tr(),
+                      controller: emailController,
+                      icon: Icons.email_outlined,
+                      validator: (value) {
+                        if (value == null || value.trim().isEmpty) {
+                          return 'Please enter your email address'; // تقدري تستخدمي LocaleKeys هنا للترجمة
+                        }
+                        // دالة Regex بسيطة للتأكد من صيغة الإيميل
+                        final emailRegex = RegExp(
+                          r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$',
+                        );
+                        if (!emailRegex.hasMatch(value.trim())) {
+                          return 'Invalid email address';
+                        }
+                        return null;
+                      },
+                    ),
+                    const SizedBox(height: 24),
+                    CustomButton(
+                      buttonText: LocaleKeys.continue_text.tr(),
+                      onTap: () {
+                        // context.read<AuthCubit>().verifyEmail(
+                        //   email: emailController.text.trim(),
+                        // );
+                        if (_formKey.currentState!.validate()) {
+                          context.read<AuthCubit>().verifyEmail(
+                            email: emailController.text.trim(),
+                          );
+                        }
+                      },
+                    ),
+                    const SizedBox(height: 16),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 12),
+                      child: Row(
+                        children: [
+                          Expanded(
+                            child: Divider(
+                              color: Color(0xFFD7CCC8),
+                              thickness: 1,
                             ),
                           ),
-                        ),
-                        Expanded(
-                          child: Divider(
-                            color: Color(0xFFD7CCC8),
-                            thickness: 1,
+                          Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 8),
+                            child: Text(
+                              LocaleKeys.or.tr(),
+                              style: TextStyle(
+                                color: Color(0xFF6C4D41),
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                          ),
+                          Expanded(
+                            child: Divider(
+                              color: Color(0xFFD7CCC8),
+                              thickness: 1,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+
+                    const SizedBox(height: 16),
+
+                    // GestureDetector(
+                    //   onTap: () {
+                    //     // TODO: Google Login Logic
+                    //   },
+                    //   child: Container(
+                    //     width: double.infinity,
+                    //     height: heightScreen * .05,
+                    //     decoration: ShapeDecoration(
+                    //       shape: RoundedRectangleBorder(
+                    //         side: const BorderSide(
+                    //           width: 1.5,
+                    //           color: Color(0xFFD7CCC8),
+                    //         ),
+                    //         borderRadius: BorderRadius.circular(18),
+                    //       ),
+                    //     ),
+                    //     child: Row(
+                    //       mainAxisAlignment: MainAxisAlignment.center,
+                    //       children: [
+                    //         Image.asset(
+                    //           'assets/images/LoginScreen.png', // حطي لوجو جوجل
+                    //           height: 22,
+                    //         ),
+                    //         const SizedBox(width: 10),
+                    //         // GestureDetector(
+                    //         //   onTap: () {
+                    //         //     context.read<AuthCubit>().signInWithGoogle(
+                    //         //       role: role,
+                    //         //     );
+                    //         //   },
+                    //         //   child: Text(
+                    //         //     LocaleKeys.loginwithgoogle.tr(),
+                    //         //     style: TextStyle(
+                    //         //       color: Color(0xFF6D4C41),
+                    //         //       fontSize: 18,
+                    //         //       fontFamily: 'Arimo',
+                    //         //       fontWeight: FontWeight.w700,
+                    //         //     ),
+                    //         //   ),
+                    //         // ),
+                    //       ],
+                    //     ),
+                    //   ),
+                    // ),
+                    const SizedBox(height: 12),
+
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(LocaleKeys.already_have_account.tr()),
+                        GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) {
+                                  return LoginView();
+                                },
+                              ),
+                            );
+                          },
+                          child: Text(
+                            LocaleKeys.login.tr(),
+                            style: TextStyle(fontWeight: FontWeight.bold),
                           ),
                         ),
                       ],
                     ),
-                  ),
-
-                  const SizedBox(height: 16),
-                  GestureDetector(
-                    onTap: () {
-                      // TODO: Google Login Logic
-                    },
-                    child: Container(
-                      width: double.infinity,
-                      height: heightScreen * .05,
-                      decoration: ShapeDecoration(
-                        shape: RoundedRectangleBorder(
-                          side: const BorderSide(
-                            width: 1.5,
-                            color: Color(0xFFD7CCC8),
-                          ),
-                          borderRadius: BorderRadius.circular(18),
-                        ),
-                      ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Image.asset(
-                            'assets/images/LoginScreen.png', // حطي لوجو جوجل
-                            height: 22,
-                          ),
-                          const SizedBox(width: 10),
-                          // GestureDetector(
-                          //   onTap: () {
-                          //     context.read<AuthCubit>().signInWithGoogle(
-                          //       role: role,
-                          //     );
-                          //   },
-                          //   child: Text(
-                          //     LocaleKeys.loginwithgoogle.tr(),
-                          //     style: TextStyle(
-                          //       color: Color(0xFF6D4C41),
-                          //       fontSize: 18,
-                          //       fontFamily: 'Arimo',
-                          //       fontWeight: FontWeight.w700,
-                          //     ),
-                          //   ),
-                          // ),
-                        ],
-                      ),
-                    ),
-                  ),
-
-                  const SizedBox(height: 12),
-
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(LocaleKeys.already_have_account.tr()),
-                      GestureDetector(
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) {
-                                return LoginView();
-                              },
-                            ),
-                          );
-                        },
-                        child: Text(
-                          LocaleKeys.login.tr(),
-                          style: TextStyle(fontWeight: FontWeight.bold),
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
           ),
@@ -234,6 +255,7 @@ class CheckEmailScreen extends StatelessWidget {
         controller: controller,
         obscureText: obscureText,
         validator: validator,
+
         decoration: _inputDecoration(hintText, icon),
       ),
     );

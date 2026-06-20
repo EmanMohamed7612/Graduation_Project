@@ -24,11 +24,16 @@ class UpdateProfileCubit extends Cubit<UpdateProfileState> {
         specialization: specialization,
         bio: bio,
         imageFile: imageFile,
-        gender: 1, 
+        gender: 1,
       );
       emit(UpdateProfileSuccess());
     } catch (e) {
-      emit(UpdateProfileFailure(e.toString()));
+      // emit(UpdateProfileFailure(e.toString()));
+      String errorMessage = e.toString();
+      if (errorMessage.startsWith("Exception: ")) {
+        errorMessage = errorMessage.replaceFirst("Exception: ", "");
+      }
+      emit(UpdateProfileFailure(errorMessage));
     }
   }
 }

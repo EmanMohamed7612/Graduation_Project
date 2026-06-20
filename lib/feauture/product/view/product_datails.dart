@@ -3,7 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:graduation2/core/services/api_services.dart' hide CartRepo;
 import 'package:graduation2/core/utils/pref_helpers.dart';
-import 'package:graduation2/feauture/home/manager/fav_cubit.dart';
+import 'package:graduation2/feauture/message/manager/message_cubit.dart';
+import 'package:graduation2/feauture/message/manager/message_repo.dart';
+import 'package:graduation2/feauture/message/manager/message_singlerR.dart';
+import 'package:graduation2/feauture/message/view/messagechatpage.dart';
+import 'package:graduation2/feauture/order_screen/deliver_screen/deliver_address.dart';
 import 'package:graduation2/feauture/product/data/recommendation_repo.dart';
 import 'package:graduation2/feauture/product/manager/product_details_cubit.dart';
 import 'package:graduation2/feauture/product/manager/product_details_state.dart';
@@ -21,6 +25,9 @@ import 'package:graduation2/feauture/review/manager/review_cubit.dart';
 import 'package:graduation2/feauture/review/view/cart/cart_screen.dart';
 import 'package:graduation2/feauture/review/view/rating_screen.dart';
 import 'package:graduation2/generated/locale_keys.g.dart';
+
+import '../../favourite/manager/fav_state.dart';
+import '../../favourite/manager/favourite_cubit.dart';
 
 class ProductDetails extends StatefulWidget {
   ProductDetails({super.key, required this.productId});
@@ -75,8 +82,10 @@ class _ProductDetailsState extends State<ProductDetails> {
           //CustomIcon(icon: Icons.share_outlined),
           SizedBox(width: size.width * .02),
           // CustomIcon(icon: Icons.favorite_border_outlined),
-          BlocBuilder<FavoriteCubit, List<int>>(
-            builder: (context, favoriteIds) {
+
+          // التعديل هنا: تم تغيير الكيوبيت لـ FavoriteState الجديدة
+          BlocBuilder<FavoriteCubit, FavoriteState>(
+            builder: (context, favoriteState) {
               final isFav = context.read<FavoriteCubit>().isFavorite(
                 widget.productId,
               );
@@ -296,7 +305,29 @@ class _ProductDetailsState extends State<ProductDetails> {
                       ),
                       SizedBox(height: size.height * .015),
                       GestureDetector(
-                        onTap: () {},
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) {
+                                return BlocProvider(
+                                  create: (context) =>
+                                      MessagesCubit(
+                                        MessagesRepo(),
+                                        SignalRService(), // يجب تمرير الـ Service هنا
+                                      )..loadMessages(
+                                        product.sellerId,
+                                      ), // استدعاء الميثود بعد التهيئة
+                                  // value: context.read<MessagesCubit>()..loadMessages(widget.user.id),
+                                  child: ChatScreen(
+                                    otherUserId: product.sellerId,
+                                    otherUserName: product.sellerName,
+                                  ),
+                                );
+                              },
+                            ),
+                          );
+                        },
                         child: Container(
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(25),
@@ -576,7 +607,14 @@ class _ProductDetailsState extends State<ProductDetails> {
                             ),
                           ),
                           GestureDetector(
-                            onTap: () {},
+                            onTap: () {
+                               Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => DeliveryAddressScreen(),
+                    ),
+                  );
+                            },
                             child: Container(
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(25),

@@ -4,9 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:graduation2/core/services/dio_client.dart';
 import 'package:graduation2/feauture/community/data/post_repo.dart';
 import 'package:graduation2/feauture/community/manager/my_posts_cubit.dart';
-import 'package:graduation2/feauture/favourite/manager/favourite_cubit.dart';
 import 'package:graduation2/feauture/favourite/views/favourite_screen.dart';
-import 'package:graduation2/feauture/home/manager/fav_apiserves.dart';
 import 'package:graduation2/feauture/message/manager/inboxmessage_cubit.dart';
 import 'package:graduation2/feauture/message/manager/inboxmessage_repo.dart';
 import 'package:graduation2/feauture/message/view/message_view.dart';
@@ -41,9 +39,8 @@ class _CustomerProfileState extends State<CustomerProfile> {
     final stats = await _reviewApiService.getUserState(widget.user.id);
     final count = await PostsRepo().getUserPostsCount(widget.user.id);
     if (mounted) {
-      // للتأكد أن الـ widget لسه موجودة
       setState(() {
-        postsCount = count; // 3. تحديث العدد
+        postsCount = count;
         if (stats != null) {
           averageRating = stats.averageRating;
           totalReviews = stats.totalReviews;
@@ -51,19 +48,12 @@ class _CustomerProfileState extends State<CustomerProfile> {
         isLoadingRating = false;
       });
     }
-    // if (stats != null) {
-    //   setState(() {
-    //     averageRating = stats.averageRating;
-    //     totalReviews = stats.totalReviews;
-    //     isLoadingRating = false;
-    //   });
-    // }
   }
 
   @override
   void initState() {
     super.initState();
-    userstate(); // استدعاء الدالة عند فتح الصفحة
+    userstate();
   }
 
   @override
@@ -71,7 +61,6 @@ class _CustomerProfileState extends State<CustomerProfile> {
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
     return SingleChildScrollView(
-      //  padding: const EdgeInsets.all(16),
       child: Column(
         children: [
           Container(
@@ -85,11 +74,10 @@ class _CustomerProfileState extends State<CustomerProfile> {
                       radius: width * .08,
                       backgroundImage: widget.user.profileImage != null
                           ? NetworkImage(
-                              widget.user.profileImage ??
-                                  'assets/images/person.png',
-                            )
-                          : AssetImage('assets/images/person.png'),
-                      // backgroundImage: AssetImage('assets/images/topseller.png'),
+                        widget.user.profileImage ??
+                            'assets/images/person.png',
+                      )
+                          : const AssetImage('assets/images/person.png') as ImageProvider,
                     ),
                     const SizedBox(width: 16),
                     Expanded(
@@ -99,8 +87,8 @@ class _CustomerProfileState extends State<CustomerProfile> {
                           Text(
                             textAlign: TextAlign.start,
                             '${widget.user.firstName} ${widget.user.secondName}',
-                            style: TextStyle(
-                              color: const Color(0xFF3E2723),
+                            style: const TextStyle(
+                              color: Color(0xFF3E2723),
                               fontSize: 16,
                               fontFamily: 'Arimo',
                               fontWeight: FontWeight.w400,
@@ -113,8 +101,8 @@ class _CustomerProfileState extends State<CustomerProfile> {
                             overflow: TextOverflow.visible,
                             widget.user.specialization ??
                                 'Handmade enthusiast | Love supporting local',
-                            style: TextStyle(
-                              color: const Color(0xFF8D6E63),
+                            style: const TextStyle(
+                              color: Color(0xFF8D6E63),
                               fontSize: 12,
                               fontFamily: 'Arimo',
                               fontWeight: FontWeight.w400,
@@ -124,30 +112,30 @@ class _CustomerProfileState extends State<CustomerProfile> {
                           const SizedBox(height: 2),
                           Row(
                             children: [
-                              Icon(
+                              const Icon(
                                 Icons.description_outlined,
-                                color: const Color(0xFF8D6E63),
+                                color: Color(0xFF8D6E63),
                                 size: 14,
                               ),
                               Text(
                                 '$postsCount ${LocaleKeys.posts.tr()} .',
-                                style: TextStyle(
-                                  color: const Color(0xFF8D6E63),
+                                style: const TextStyle(
+                                  color: Color(0xFF8D6E63),
                                   fontSize: 12,
                                   fontFamily: 'Arimo',
                                   fontWeight: FontWeight.w400,
                                   height: 1.50,
                                 ),
                               ),
-                              Icon(
+                              const Icon(
                                 Icons.star_outline_outlined,
-                                color: const Color(0xFF8D6E63),
+                                color: Color(0xFF8D6E63),
                                 size: 14,
                               ),
                               Text(
-                                '${totalReviews}  ${LocaleKeys.reviews.tr()}',
-                                style: TextStyle(
-                                  color: const Color(0xFF8D6E63),
+                                '$totalReviews  ${LocaleKeys.reviews.tr()}',
+                                style: const TextStyle(
+                                  color: Color(0xFF8D6E63),
                                   fontSize: 12,
                                   fontFamily: 'Arimo',
                                   fontWeight: FontWeight.w400,
@@ -174,7 +162,7 @@ class _CustomerProfileState extends State<CustomerProfile> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => DeliveryAddressScreen(),
+                            builder: (context) => const DeliveryAddressScreen(),
                           ),
                         );
                       },
@@ -186,25 +174,11 @@ class _CustomerProfileState extends State<CustomerProfile> {
                       color1: const Color(0xFFC9A875),
                       color2: const Color(0xFFD4AF37),
                       onTap: () {
-                        // Navigator.push(
-                        //   context,
-                        //   MaterialPageRoute(
-                        //     builder: (context) {
-                        //       return FavouriteScreen();
-                        //     },
-                        //   ),
-                        // );
+                        // ✅ التعديل هنا: تم إزالة الكيوبيت القديم والتنقل مباشرة لصفحة المفضلة
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (_) {
-                              return BlocProvider(
-                                create: (context) => MyFavoriteCubit(
-                                  FavoriteApiService(DioClient()),
-                                )..getFavorites(),
-                                child: FavouriteScreen(),
-                              );
-                            },
+                            builder: (_) => const FavouriteScreen(),
                           ),
                         );
                       },
@@ -222,17 +196,10 @@ class _CustomerProfileState extends State<CustomerProfile> {
                             builder: (context) {
                               return BlocProvider(
                                 create: (context) =>
-                                    InboxCubit(InboxRepo())
-                                      ..startInboxUpdates(),
+                                InboxCubit(InboxRepo())
+                                  ..startInboxUpdates(),
                                 child: const MessagesScreen(),
                               );
-                              // BlocProvider(
-                              //   // 1. إنشاء الـ Cubit مع الـ Repo وتمرير أمر جلب الـ Inbox فوراً
-                              //   create: (context) =>
-                              //       InboxCubit(InboxRepo())..fetchInbox(),
-                              //   // 2. فتح صفحة قائمة المحادثات
-                              //   child: const MessagesScreen(),
-                              // );
                             },
                           ),
                         );
@@ -243,12 +210,10 @@ class _CustomerProfileState extends State<CustomerProfile> {
               ],
             ),
           ),
-          // const SizedBox(height: 20),
           DefaultTabController(
             length: 2,
             child: Column(
               children: [
-                // Tabs
                 Container(
                   decoration: BoxDecoration(
                     border: Border(
@@ -257,13 +222,12 @@ class _CustomerProfileState extends State<CustomerProfile> {
                     color: Colors.white,
                   ),
                   child: TabBar(
-                    indicatorColor: Color(0xff7A4A32),
+                    indicatorColor: const Color(0xff7A4A32),
                     indicatorWeight: 2,
                     labelColor: Colors.black,
                     unselectedLabelColor: Colors.grey,
                     tabs: [
                       Tab(text: LocaleKeys.posts.tr()),
-
                       Tab(text: LocaleKeys.reviews.tr()),
                     ],
                   ),
@@ -271,27 +235,21 @@ class _CustomerProfileState extends State<CustomerProfile> {
 
                 const SizedBox(height: 16),
 
-                // Content
                 SizedBox(
                   height: height * .55,
                   width: double.infinity,
-
-                  // مهم ❗ عشان TabBarView
                   child: TabBarView(
                     children: [
-                      //  PostsView(),
                       BlocProvider(
                         create: (context) =>
-                            MyPostsCubit(PostsRepo())
-                              ..fetchUserPosts(widget.user.id),
+                        MyPostsCubit(PostsRepo())
+                          ..fetchUserPosts(widget.user.id),
                         child: MyPosts(),
                       ),
-                      //  PostsAccount(),
-                      // ReviewCustomer(userId:widget.user.id),
                       BlocProvider(
                         create: (context) =>
-                            ReviewCubit(ReviewApiService())
-                              ..getCreatedReviews(widget.user.id),
+                        ReviewCubit(ReviewApiService())
+                          ..getCreatedReviews(widget.user.id),
                         child: ReviewCustomer(userId: widget.user.id),
                       ),
                     ],

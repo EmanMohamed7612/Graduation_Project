@@ -130,40 +130,40 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   title: LocaleKeys.helpcenter.tr(),
                   onTap: () {},
                 ),
-                SettingItem(
-                  icon: Icons.logout,
-                  title: LocaleKeys.logout.tr(),
-                  textColor: Colors.redAccent,
-                  onTap: () {
-                    // context.read<AuthCubit>().logout();
+                // SettingItem(
+                //   icon: Icons.logout,
+                //   title: LocaleKeys.logout.tr(),
+                //   textColor: Colors.redAccent,
+                //   onTap: () {
+                //     // context.read<AuthCubit>().logout();
 
-                    // // 2. توجيه المستخدم لصفحة الـ Login ومسح كل الـ Routes السابقة
-                    // Navigator.pushAndRemoveUntil(
-                    //   context,
-                    //   MaterialPageRoute(builder: (context) => LoginView()),
-                    //   (route) => false,
-                    // );
-                    context.read<AuthCubit>().logout();
+                //     // // 2. توجيه المستخدم لصفحة الـ Login ومسح كل الـ Routes السابقة
+                //     // Navigator.pushAndRemoveUntil(
+                //     //   context,
+                //     //   MaterialPageRoute(builder: (context) => LoginView()),
+                //     //   (route) => false,
+                //     // );
+                //     context.read<AuthCubit>().logout();
 
-                    // 2. التوجيه لصفحة الـ LoginScreen باستخدام الـ rootNavigator لتفريغ الـ Stack بالكامل
-                    if (context.mounted) {
-                      Navigator.of(
-                        context,
-                        rootNavigator: true,
-                      ).pushAndRemoveUntil(
-                        MaterialPageRoute(
-                          builder: (context) =>
-                              LoginView(), // تأكدي من اسم شاشة تسجيل الدخول عندك
-                        ),
-                        (route) =>
-                            false, // يمسح الـ Wrapper وكل الشاشات السابقة من الذاكرة
-                      );
-                    }
-                    // if (context.mounted) {
-                    //   RestartWidget.restartApp(context);
-                    // }
-                  },
-                ),
+                //     // 2. التوجيه لصفحة الـ LoginScreen باستخدام الـ rootNavigator لتفريغ الـ Stack بالكامل
+                //     if (context.mounted) {
+                //       Navigator.of(
+                //         context,
+                //         rootNavigator: true,
+                //       ).pushAndRemoveUntil(
+                //         MaterialPageRoute(
+                //           builder: (context) =>
+                //               LoginView(), // تأكدي من اسم شاشة تسجيل الدخول عندك
+                //         ),
+                //         (route) =>
+                //             false, // يمسح الـ Wrapper وكل الشاشات السابقة من الذاكرة
+                //       );
+                //     }
+                //     // if (context.mounted) {
+                //     //   RestartWidget.restartApp(context);
+                //     // }
+                //   },
+                // ),
               ],
             ),
 
