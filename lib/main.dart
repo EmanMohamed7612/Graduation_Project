@@ -1,11 +1,9 @@
-import 'package:dio/dio.dart';
+
 import 'package:easy_localization/easy_localization.dart';
-import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'package:graduation2/feauture/chat_bot/data/chat_bot_repo.dart';
 import 'package:graduation2/feauture/chat_bot/manager/chat_bot_cubit.dart';
 import 'package:graduation2/feauture/community/data/post_repo.dart';
 import 'package:graduation2/feauture/community/manager/community_cubit.dart';
-import 'package:graduation2/feauture/community/view/comments_page.dart';
 import 'package:graduation2/feauture/home/manager/fav_cubit.dart';
 import 'package:graduation2/feauture/message/manager/inboxmessage_cubit.dart';
 import 'package:graduation2/feauture/message/manager/inboxmessage_repo.dart';
@@ -22,49 +20,27 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:graduation2/core/services/api_services.dart';
 import 'package:graduation2/core/services/dio_client.dart';
 import 'package:graduation2/feauture/auth/manager/auth_cubit.dart';
-import 'package:graduation2/feauture/auth/views/check_email.dart';
-import 'package:graduation2/feauture/auth/views/login_screen.dart';
 import 'package:graduation2/feauture/profile/manager/profile_cubit.dart';
-import 'package:graduation2/feauture/profile/views/myprofile/profile.dart';
-import 'package:graduation2/feauture/profile/views/myprofile/seller_profile.dart';
-import 'package:graduation2/feauture/product/view/product_datails.dart';
-import 'package:graduation2/feauture/review/view/cart/cart_screen.dart';
-import 'package:graduation2/feauture/review/view/write_review.dart';
 import 'package:graduation2/feauture/session/manager/expert_service_cubit.dart';
-import 'package:graduation2/feauture/session/view/book_sconsultation_screen.dart';
-
-import 'package:graduation2/feauture/session/view/my_consultation.dart';
 import 'package:graduation2/feauture/settings/manager/user_profile_cubit.dart';
-import 'package:graduation2/feauture/settings/view/widgets/restart_wodget.dart';
-
 import 'package:graduation2/feauture/splash_screen/presentation/view/splash.dart';
 
 import 'core/utils/pref_helpers.dart';
-
-import 'feauture/favourite/manager/favourite_cubit.dart';
 import 'feauture/home/manager/category_cubit.dart';
 import 'feauture/home/manager/fav_apiserves.dart';
-import 'feauture/home/manager/fav_cubit.dart';
-import 'feauture/language/lnguage_view.dart';
 import 'feauture/material_screen/manager/cubit_materialcategory.dart';
 import 'feauture/material_screen/manager/material_api_services.dart';
 import 'feauture/material_screen/manager/material_cubit.dart';
 import 'feauture/material_screen/manager/repo_material_imp.dart';
-import 'feauture/home/manager/category_cubit.dart';
-import 'feauture/home/manager/fav_apiserves.dart';
-import 'feauture/language/lnguage_view.dart';
-
 import 'feauture/order_screen/add_address_screens/manager/add_address_apiservces.dart';
 import 'feauture/order_screen/add_address_screens/manager/add_address_cubit.dart';
 import 'feauture/order_screen/deliver_screen/manager/getuseraddress_apiserves.dart';
 import 'feauture/order_screen/deliver_screen/manager/getuseraddress_cubit.dart';
 import 'feauture/product/data/product_details_repo.dart';
 import 'feauture/product/manager/product_details_cubit.dart';
-import 'feauture/product_screens/data/repo/repo_product.dart';
 import 'feauture/product_screens/data/repo/repo_product_imple.dart';
 import 'feauture/product_screens/manager/prodect_apiservice.dart';
 import 'feauture/product_screens/manager/product_cubit.dart';
-import 'feauture/product_screens/presentation/view/addprodect_screen/creatprodect.dart';
 import 'feauture/review/manager/cart_cubit.dart';
 
 void main() async {
